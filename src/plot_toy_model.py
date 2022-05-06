@@ -14,17 +14,31 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+from matplotlib.colors import LinearSegmentedColormap
+
+# %% set colors
+
+color_sensory = '#D76A03'
+color_prediction = '#19535F'
+
+cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_prediction', 
+                                                            colors=['#19535F','#fefee3','#D76A03'])
+
 # %%
 
 
-def plot_fraction_sensory_comparsion(fraction_sensory, cmap, label_text):
+def plot_fraction_sensory_comparsion(fraction_sensory, fraction_sensory_std, n_repeats, label_text, cmap='rocket_r'):
     
     plt.figure()
     ax = plt.subplot(1,1,1)
-    cmap_stim_duraations = sns.dark_palette(cmap, n_colors=np.size(fraction_sensory,0),reverse=True)
+    cmap_stim_duraations = sns.color_palette(cmap, n_colors=np.size(fraction_sensory,0))
+    #sns.light_palette(cmap, n_colors=np.size(fraction_sensory,0),reverse=True)
     
     for i in range(np.size(fraction_sensory,0)):
-        ax.plot(fraction_sensory[i,:], color=cmap_stim_duraations[i], label=str(label_text[i]))
+        ax.plot(fraction_sensory[i,:], color=cmap_stim_duraations[i], label=str(label_text[i]), lw=2)
+        ax.fill_between(np.arange(len(fraction_sensory[i,:])), fraction_sensory[i,:]-fraction_sensory_std[i,:]/np.sqrt(n_repeats), 
+                        fraction_sensory[i,:]+fraction_sensory_std[i,:]/np.sqrt(n_repeats), 
+                        color=cmap_stim_duraations[i], alpha=0.5)
         
     ax.legend(loc=0)
     ax.set_ylabel('Fraction')
@@ -33,22 +47,29 @@ def plot_fraction_sensory_comparsion(fraction_sensory, cmap, label_text):
 
 
 def plot_alpha_para_exploration_ratios(fraction_sensory_median, para_tested_first, para_tested_second, para_first_denominator,
-                                       para_second_denominator, every_n_ticks, xlabel='', ylabel='', vmin=0, vmax=1):
+                                       para_second_denominator, every_n_ticks, xlabel='', ylabel='', vmin=0, vmax=1, decimal=1e5):
     
     plt.figure(tight_layout=True)
-    data = pd.DataFrame(fraction_sensory_median, columns=para_tested_second/para_second_denominator, index=para_tested_first/para_first_denominator)
-    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, xticklabels=every_n_ticks, yticklabels=every_n_ticks)
+    index = np.round(decimal*para_tested_first/para_first_denominator)/decimal
+    columns = np.round(decimal*para_tested_second/para_second_denominator)/decimal
+    data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
+    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap_sensory_prediction, 
+                     xticklabels=every_n_ticks, yticklabels=every_n_ticks)
     ax.invert_yaxis()
     
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     
 
-def plot_alpha_para_exploration(fraction_sensory_median, para_tested_first, para_tested_second, every_n_ticks, xlabel='', ylabel='', vmin=0, vmax=1):
+def plot_alpha_para_exploration(fraction_sensory_median, para_tested_first, para_tested_second, every_n_ticks, xlabel='', 
+                                ylabel='', vmin=0, vmax=1, decimal = 1e2):
     
     plt.figure(tight_layout=True)
-    data = pd.DataFrame(fraction_sensory_median, columns=para_tested_second, index=para_tested_first)
-    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, xticklabels=every_n_ticks, yticklabels=every_n_ticks)
+    index = np.round(decimal*para_tested_first)/decimal
+    columns = np.round(decimal*para_tested_second)/decimal
+    data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
+    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap_sensory_prediction,
+                     xticklabels=every_n_ticks, yticklabels=every_n_ticks)
     ax.invert_yaxis()
     
     ax.set_xlabel(xlabel)

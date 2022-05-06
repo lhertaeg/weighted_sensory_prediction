@@ -31,12 +31,11 @@ dtype = np.float32
 
 # %% Test different std for mean and std of stimuli (exploration between limit cases)
 
-# improve plotting
 # show examples from different corners
 # run several seeds and average over seeds
 # maybe show this plot for several distribution types?
 
-flag = 1
+flag = 0
 
 if flag==1:
     
@@ -49,35 +48,43 @@ if flag==1:
     last_n = 10
     n_stimuli = 20
     stimulus_duration = 1000
+    n_repeats = 5
     
     ### means and std's to be tested
     std_mean_arr = np.linspace(0,5,10)
     std_std_arr = np.linspace(0,5,10)
     
     ### initialise
-    fraction_sensory_median = np.zeros((len(std_std_arr),len(std_mean_arr)))
-
-    for col, std_mean in enumerate(std_mean_arr):
-        
-        for row, std_std in enumerate(std_std_arr):
+    fraction_sensory_median = np.zeros((len(std_std_arr),len(std_mean_arr), n_repeats))
     
-            ### define stimuli
-            stimuli = stimuli_moments_from_uniform(n_stimuli, stimulus_duration, mean_mean - np.sqrt(3)*std_mean, 
-                                                   mean_mean + np.sqrt(3)*std_mean, min_std, min_std + 2*np.sqrt(3)*std_std)
+    for seed in range(n_repeats):
+
+        for col, std_mean in enumerate(std_mean_arr):
             
-            ### run model
-            [_, _, _, _, alpha, _, _] = run_toy_model(tc_var_per_stim, eta_prediction, eta_mean_prediction, tc_var_pred, stimuli)
-            
-            ### median of fraction of sensory inputs over the last n stimuli
-            fraction_sensory_median[row, col] = np.median(alpha[(n_stimuli - last_n) * stimulus_duration:])
+            for row, std_std in enumerate(std_std_arr):
+        
+                ### define stimuli
+                stimuli = stimuli_moments_from_uniform(n_stimuli, stimulus_duration, mean_mean - np.sqrt(3)*std_mean, 
+                                                       mean_mean + np.sqrt(3)*std_mean, min_std, min_std + 2*np.sqrt(3)*std_std)
+                
+                ### run model
+                [_, _, _, _, alpha, _, _] = run_toy_model(tc_var_per_stim, eta_prediction, eta_mean_prediction, tc_var_pred, stimuli)
+                
+                ### median of fraction of sensory inputs over the last n stimuli
+                fraction_sensory_median[row, col, seed] = np.median(alpha[(n_stimuli - last_n) * stimulus_duration:])
   
+    fraction_sensory_median_averaged_over_seeds = np.mean(fraction_sensory_median,2)
     
     ### plot results
-    plot_alpha_para_exploration(fraction_sensory_median, std_std_arr, std_mean_arr, 2, xlabel='SD mean', ylabel='SD std')
+    plot_alpha_para_exploration(fraction_sensory_median_averaged_over_seeds, std_std_arr, std_mean_arr, 2, 
+                                xlabel='variability across stimuli', ylabel='variability per stimulus')
     
 
 # %% Impact of different distributions for the stimuli std
 # stimuli mean taken from uniform distribution
+
+# flg = 0 ... I would hope to see a difference
+# flg = 1 ... it should not make a difference
 
 flag = 0
 flg = 0
@@ -86,8 +93,8 @@ if flag==1:
     
     ### parameters
     stimulus_duration = 1000
-    n_stimuli = 15
-    n_repeats = 50
+    n_stimuli = 50
+    n_repeats = 20
     
     ### define mean and std of distributions
     if flg==0:
@@ -135,13 +142,18 @@ if flag==1:
             fraction_sensory[flg_dist, :, seed] = alpha
             
         fraction_sensory_averaged_over_seeds = np.mean(fraction_sensory,2)
+        fraction_sensory_std_over_seeds = np.std(fraction_sensory,2)
     
     ### plot results
-    plot_fraction_sensory_comparsion(fraction_sensory_averaged_over_seeds, cmap='#a30015', label_text=distribution_names)
+    plot_fraction_sensory_comparsion(fraction_sensory_averaged_over_seeds, fraction_sensory_std_over_seeds, 
+                                     n_repeats, cmap='hls', label_text=distribution_names)
  
 
 # %% Impact of different distributions for the stimuli mean
 # stimuli std taken from uniform distribution
+
+# flg = 0 ... it should not make a difference because mean is always the same!
+# flg = 1 ... I would hope to see a difference
 
 flag = 0
 flg = 0
@@ -150,16 +162,16 @@ if flag==1:
     
     ### parameters
     stimulus_duration = 1000
-    n_stimuli = 15
-    n_repeats = 50
+    n_stimuli = 50
+    n_repeats = 20
     
     ### define mean and std of distributions
-    if flg==0:
+    if flg==0: # prediction-driven
         mean_mean = 5
         sd_mean = 1e-10
         mean_sd = 3
         sd_sd = 1
-    elif flg==1:
+    elif flg==1: # sensory driven
         mean_mean = 3
         sd_mean = 1
         mean_sd = 0
@@ -167,6 +179,7 @@ if flag==1:
         
     ### initialise array
     fraction_sensory = np.zeros((4, np.int32(n_stimuli*stimulus_duration), n_repeats))
+    alpha_median_per_stimulus = np.zeros((4, n_stimuli))
     distribution_names = ['normal', 'uniform', 'log-normal', 'gamma']
     
     ### run for different seeds and distribution types
@@ -196,25 +209,28 @@ if flag==1:
             
             ### fraction of sensory input in weighted output stored in array
             fraction_sensory[flg_dist, :, seed] = alpha
+            alpha_median_per_stimulus[flg_dist,:] = np.median(np.split(alpha,n_stimuli),1)
             
         fraction_sensory_averaged_over_seeds = np.mean(fraction_sensory,2)
+        fraction_sensory_std_over_seeds = np.std(fraction_sensory,2)
     
     ### plot results
-    plot_fraction_sensory_comparsion(fraction_sensory_averaged_over_seeds, cmap='#a30015', label_text=distribution_names)
-    
+    plot_fraction_sensory_comparsion(fraction_sensory_averaged_over_seeds, fraction_sensory_std_over_seeds, 
+                                      n_repeats, cmap='hls', label_text=distribution_names)
+
     
 # %% Impact of stimulus duration
 
-flag = 0
-flg = 0
+flag = 1
+flg = 1
 
 if flag==1:
     
     ### stimuli durations to be tested and number of stimuli & repetitions
     # n_stim_durations = 5
     stim_durations = np.int32(np.array([5,20,100,1000]))
-    n_stimuli = 50
-    n_repeats = 20
+    n_stimuli = 200
+    n_repeats = 50
     
     ### initialise array
     fraction_sensory = np.zeros((len(stim_durations), n_stimuli, n_repeats))
@@ -240,9 +256,11 @@ if flag==1:
             fraction_sensory[id_stim, :, seed] = np.mean(np.split(alpha,n_stimuli),1)
             
     fraction_sensory_averaged_over_seeds = np.mean(fraction_sensory,2)
+    fraction_sensory_std_over_seeds = np.std(fraction_sensory,2)
     
     ### plot results
-    plot_fraction_sensory_comparsion(fraction_sensory_averaged_over_seeds, cmap='#a30015', label_text=stim_durations)
+    plot_fraction_sensory_comparsion(fraction_sensory_averaged_over_seeds, fraction_sensory_std_over_seeds, n_repeats,
+                                     label_text=stim_durations)
     
 
 # %% Parameter exploration - time constants (or its ratio) vs. eta_P/eta_PP
@@ -250,10 +268,12 @@ if flag==1:
 # I used the median, not the mean because I don't want the results to be biased by the initial period of a stimulus 
 # (I am rather intersted in the steady state) --> this can of course be improved or changed in later stages
 
+# Important: for proper figure, take the mean over several seeds!
+
 flag = 0
 
-flg_para = 124
-flg = 1
+flg_para = 12
+flg = 0
 
 if flag==1:
     
@@ -271,26 +291,22 @@ if flag==1:
     tc_var_stim, eta_prediction, eta_mean_prediction, tc_var_pred = default_para()
     
     if flg_para==12:
-        para_tested_first = np.round(np.linspace(1,1400,5),0)
-        para_tested_second = np.round(np.linspace(0.01,5,12) * eta_mean_prediction,6)
-        ylabel = 'tc_var_stim'
+        #para_tested_first = np.round(np.linspace(1,1400,5),0)
+        #para_tested_second = np.round(np.linspace(0.01,5,12) * eta_mean_prediction,6)
+        para_tested_first = 2**np.arange(3,12)
+        para_tested_second = np.round(2**np.array([-1,0,1,2,3,4,5,6,7,8], dtype=dtype) * eta_mean_prediction,6)
+        ylabel = 'tau of input variance'
         xlabel = 'eta_P/eta_PP'  
         para_first_denominator = 1
         para_second_denominator = eta_mean_prediction
     elif flg_para==42:
-        para_tested_first = np.round(np.linspace(1,1400,5),0)
-        para_tested_second = np.round(np.linspace(0.01,5,12) * eta_mean_prediction,6)
-        ylabel = 'tc_var_pred'
+        # para_tested_first = np.round(np.linspace(1,1400,5),0)
+        # para_tested_second = np.round(np.linspace(0.01,5,12) * eta_mean_prediction,6)
+        para_tested_first = 2**np.arange(3,12)
+        para_tested_second = np.round(2**np.array([-1,0,1,2,3,4,5,6,7,8], dtype=dtype) * eta_mean_prediction,6)
+        ylabel = 'tau of prediction variance'
         xlabel = 'eta_P/eta_PP'
         para_first_denominator = 1
-        para_second_denominator = eta_mean_prediction
-    elif flg_para==124:
-        tc_var_pred = dtype(5)
-        para_tested_first = np.round(np.linspace(0.01,10,5) * tc_var_pred,6)
-        para_tested_second = np.round(np.linspace(0.01,5,12) * eta_mean_prediction,6)
-        ylabel = 'tc_var_stim/tc_var_pred'
-        xlabel = 'eta+P/eta_PP'
-        para_first_denominator = tc_var_pred
         para_second_denominator = eta_mean_prediction
 
         
@@ -301,74 +317,8 @@ if flag==1:
       
     ### plot
     plot_alpha_para_exploration_ratios(fraction_sensory_median, para_tested_first, para_tested_second, para_first_denominator, 
-                                       para_second_denominator, 2, xlabel=xlabel, ylabel=ylabel)
+                                       para_second_denominator, 2, xlabel=xlabel, ylabel=ylabel, decimal=100)#, vmax=None)
 
-
-# %% Parameter exploration - time constants for variances & eta's
-
-# I used the median, not the mean because I don't want the results to be biased by the initial period of a stimulus 
-# (I am rather intersted in the steady state) --> this can of course be improved or changed in later stages
-
-flag = 0
-
-flg_para = 24
-flg = 1
-
-if flag==1:
-    
-    ### stimuli
-    last_n = 10
-    n_stimuli = 30
-    stimulus_duration = 1000
-    
-    if flg==0:
-        stimuli = stimuli_moments_from_uniform(n_stimuli, stimulus_duration, 5, 5, 1, 5) # mean 5, SD between 1 and 5
-    else:
-        stimuli = stimuli_moments_from_uniform(n_stimuli, stimulus_duration, 1, 5, 0, 0) # mean between 1 and 5, SD 0
-       
-    ### default parameters and paramter ranges to be tested
-    tc_var_stim, eta_prediction, eta_mean_prediction, tc_var_pred = default_para()
-    
-    if flg_para==12:
-        para_tested_first = np.array([1,500,1000,1500,2000])
-        para_tested_second = np.round(np.linspace(1e-4,7e-3, 6),4)
-        ylabel = 'tc_var_stim'
-        xlabel = 'eta_prediction'
-    elif flg_para==13:
-        para_tested_first = np.array([1,500,1000,1500,2000])
-        para_tested_second = np.round(np.linspace(1e-4,1e-2, 6),4)
-        ylabel = 'tc_var_stim'
-        xlabel = 'eta_mean_prediction'    
-    elif flg_para==14:
-        para_tested_first = np.array([1,500,1000,1500,2000])
-        para_tested_second = np.array([1,500,1000,1500,2000])
-        ylabel = 'tc_var_stim'
-        xlabel = 'tc_var_pred'
-    elif flg_para==23:
-        para_tested_first = np.round(np.linspace(1e-4,7e-3, 6),4)
-        para_tested_second = np.round(np.linspace(1e-4,1e-2, 6),4)
-        ylabel = 'eta_prediction'
-        xlabel = 'eta_mean_prediction'  
-    elif flg_para==24:
-        para_tested_first = np.round(np.linspace(1e-4,7e-3, 6),4)
-        para_tested_second = np.array([1,500,1000,1500,2000])
-        ylabel = 'eta_prediction'
-        xlabel = 'tc_var_pred'
-    elif flg_para==34:
-        para_tested_first = np.round(np.linspace(1e-4,1e-2, 6),4)
-        para_tested_second = np.array([1,500,1000,1500,2000])
-        ylabel = 'eta_mean_prediction'
-        xlabel = 'tc_var_pred'
-        
-        
-    ### run parameter exploration
-    fraction_sensory_median = alpha_parameter_exploration(stimuli, stimulus_duration, last_n, para_tested_first, para_tested_second, 
-                                                          tc_var_stim, eta_prediction, eta_mean_prediction, tc_var_pred, flg_para)
-            
-      
-    ### plot
-    plot_alpha_para_exploration(fraction_sensory_median, para_tested_first, para_tested_second, 2, xlabel=xlabel, ylabel=ylabel)
-    
 
 # %% Toy model - limit cases
 
@@ -380,6 +330,7 @@ if flag==1:
     ### stimuli
     n_stimuli = 20
     stimulus_duration = 1000
+    
     
     if flg==0:
         stimuli = stimuli_moments_from_uniform(n_stimuli, stimulus_duration, 5, 5, 1, 5) # mean 5, SD between 1 and 5
@@ -400,4 +351,3 @@ if flag==1:
     ### plot results
     plot_limit_case(n_stimuli, stimulus_duration, stimuli, prediction, mean_of_prediction, variance_per_stimulus, 
                     variance_prediction, alpha, beta, weighted_output)
-    
