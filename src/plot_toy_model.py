@@ -15,6 +15,9 @@ import seaborn as sns
 import pandas as pd
 
 from matplotlib.colors import LinearSegmentedColormap
+import matplotlib.ticker as ticker
+
+dtype = np.float32
 
 # %% set colors
 
@@ -46,34 +49,43 @@ def plot_fraction_sensory_comparsion(fraction_sensory, fraction_sensory_std, n_r
     sns.despine(ax=ax)
 
 
-def plot_alpha_para_exploration_ratios(fraction_sensory_median, para_tested_first, para_tested_second, para_first_denominator,
-                                       para_second_denominator, every_n_ticks, xlabel='', ylabel='', vmin=0, vmax=1, decimal=1e5):
+def plot_alpha_para_exploration_ratios(fraction_sensory, para_tested_first, para_tested_second, para_first_denominator, para_second_denominator, 
+                                       every_n_ticks, xlabel='', ylabel='', vmin=0, vmax=1, decimal=dtype(1e5), title='', cmap=cmap_sensory_prediction):
     
     plt.figure(tight_layout=True)
+    
     index = np.round(decimal*para_tested_first/para_first_denominator)/decimal
     columns = np.round(decimal*para_tested_second/para_second_denominator)/decimal
-    data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
-    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap_sensory_prediction, 
-                     xticklabels=every_n_ticks, yticklabels=every_n_ticks)
-    ax.invert_yaxis()
     
+    ax = sns.heatmap(fraction_sensory, vmin=vmin, vmax=vmax, cmap=cmap, 
+                      xticklabels=columns, yticklabels=index)
+    
+    ax.set_xticks(np.arange(0.5,len(columns),every_n_ticks))
+    ax.set_xticklabels(columns[0::every_n_ticks])
+    
+    ax.set_yticks(np.arange(0.5,len(index),every_n_ticks))
+    ax.set_yticklabels(index[0::every_n_ticks])
+    
+    ax.invert_yaxis()
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
+    ax.set_title(title)
     
 
 def plot_alpha_para_exploration(fraction_sensory_median, para_tested_first, para_tested_second, every_n_ticks, xlabel='', 
-                                ylabel='', vmin=0, vmax=1, decimal = 1e2):
+                                ylabel='', vmin=0, vmax=1, decimal = 1e2, title='', cmap = cmap_sensory_prediction):
     
     plt.figure(tight_layout=True)
     index = np.round(decimal*para_tested_first)/decimal
     columns = np.round(decimal*para_tested_second)/decimal
-    data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
-    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap_sensory_prediction,
-                     xticklabels=every_n_ticks, yticklabels=every_n_ticks)
-    ax.invert_yaxis()
     
+    data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
+    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap, xticklabels=every_n_ticks, yticklabels=every_n_ticks)
+    
+    ax.invert_yaxis()
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
+    ax.set_title(title)
     
     
 
