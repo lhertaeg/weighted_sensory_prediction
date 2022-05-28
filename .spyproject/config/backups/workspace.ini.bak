@@ -8,5 +8,5 @@ recent_files = ['scripts/run_weighting.py', 'src/toy_model.py', 'src/plot_toy_mo
 
 [main]
 version = 0.2.0
-recent_files = ['src/plot_toy_model.py', 'scripts/run_weighting_mean_field.py', 'scripts/run_weighting_toy.py', 'src/mean_field_model.py', 'src/toy_model.py']
+recent_files = ['scripts/run_weighting_mean_field.py', 'scripts/run_weighting_toy.py']
 

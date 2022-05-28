@@ -31,7 +31,7 @@ dtype = np.float32
 
 # %% Toy model - limit cases
 
-flag = 0
+flag = 1
 flg = 0
 
 if flag==1:
@@ -121,7 +121,7 @@ if flag==1:
 
 # %% Impact of stimulus duration
 
-flag = 1
+flag = 0
 flg = 1
 
 if flag==1:

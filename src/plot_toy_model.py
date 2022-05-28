@@ -21,6 +21,16 @@ dtype = np.float32
 
 # %% set colors
 
+Col_Rate_E = '#9E3039'
+Col_Rate_nE = '#955F89'
+Col_Rate_nD = '#BF9BB8' 
+Col_Rate_pE = '#CB9173' 
+Col_Rate_pD = '#DEB8A6' 
+Col_Rate_PVv = '#508FCE' 
+Col_Rate_PVm = '#2B6299' 
+Col_Rate_SOM = '#79AFB9' 
+Col_Rate_VIP = '#39656D' 
+
 color_sensory = '#D76A03'
 color_prediction = '#19535F'
 
@@ -28,6 +38,29 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
                                                             colors=['#19535F','#fefee3','#D76A03'])
 
 # %%
+
+
+def plot_manipulation_results(manipulations, fraction_of_sensory_input_in_output, flg_limit_case):
+
+    plt.figure()
+    ax = plt.subplot(1,1,1)    
+
+    label_text = ['nE', 'pE', 'nD', 'pD', 'PVv', 'PVm', 'SOM', 'VIP']
+    colors_cells = [Col_Rate_nE, Col_Rate_pE, Col_Rate_nD, Col_Rate_pD, Col_Rate_PVv, Col_Rate_PVm, Col_Rate_SOM, Col_Rate_VIP]
+    linestyles = ['-', '-', '--', '--', '-', '-', '-', '-']
+
+    for  id_cell in range(8):
+        ax.plot(manipulations, fraction_of_sensory_input_in_output[:,id_cell], label=label_text[id_cell], 
+                color=colors_cells[id_cell], ls = linestyles[id_cell])
+    
+    ax.legend(loc=0)
+    ax.set_ylabel('Fraction sensory')
+    ax.set_xlabel('manipulation strength')
+    if flg_limit_case==0:
+        ax.set_title('Sensory input uncertain (noiy), prediction reliable')
+    elif flg_limit_case==1:
+        ax.set_title('Sensory input highly reliable, prediction uncertain (noiy)')
+    sns.despine(ax=ax)
 
 
 def plot_fraction_sensory_comparsion(fraction_sensory, fraction_sensory_std, n_repeats, label_text, cmap='rocket_r'):
