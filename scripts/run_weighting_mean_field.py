@@ -33,7 +33,7 @@ import matplotlib.pyplot as plt
 
 # Note: To make sure that PE activity reaches "quasi" steady state, I showed each stimulus  "num_repeats_per_value" times
 
-flag = 0
+flag = 1
 flg = 0
 
 if flag==1:
@@ -273,7 +273,7 @@ if flag==1:
 # in the end, it would also be interesting to show MSE between the weighted output and the ground truth 
 # (which would be the stimulus but without noise) ... do this later
 
-flag = 1
+flag = 0
 flg = 0
 
 if flag==1:
@@ -329,4 +329,3 @@ if flag==1:
 
     ### plot results
     plot_manipulation_results(manipulations, fraction_of_sensory_input_in_output, flg)
-    
