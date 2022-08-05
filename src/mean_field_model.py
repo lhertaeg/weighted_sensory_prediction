@@ -20,10 +20,10 @@ dtype = np.float32
 
 # %% functions
 
-def default_para(filename, baseline_activity = dtype([0, 0, 0, 0, 4, 4, 4, 4])):
+def default_para(filename, baseline_activity = dtype([0, 0, 0, 0, 4, 4, 4, 4]), VS=1, VV=0):
     
     ### time constants
-    tc_var_per_stim = dtype(250) #dtype(100)
+    tc_var_per_stim = dtype(20000) #dtype(100)
     tc_var_pred = dtype(200) #dtype(100)
     tau_pe = [dtype(60), dtype(2)]
     
@@ -46,13 +46,14 @@ def default_para(filename, baseline_activity = dtype([0, 0, 0, 0, 4, 4, 4, 4])):
     
     ## Define connectivity between PE circuit and P
     w_PE_to_P = np.zeros((1,8), dtype=dtype)     
-    w_PE_to_P[0,0] = -0.05          # nPE onto P
-    w_PE_to_P[0,1] =  0.05          # pPE onto P
+    w_PE_to_P[0,0] = -0.003          # nPE onto P
+    w_PE_to_P[0,1] =  0.003          # pPE onto P
     
     w_P_to_PE = np.zeros((8,1), dtype=dtype)     
     w_P_to_PE[2:4,0] = dtype(1)     # onto dendrites
     w_P_to_PE[5,0] = dtype(1)       # onto PV neuron receiving prediction
-    w_P_to_PE[7,0] = dtype(1)       # onto V neuron
+    w_P_to_PE[6,0] = dtype(1-VS)    # onto SOM neuron
+    w_P_to_PE[7,0] = dtype(1-VV)    # onto VIP neuron
     
     v_PE_to_P = np.zeros((1,8), dtype=dtype)     
     v_PE_to_P[0,0] = -1e-3          # nPE onto P
@@ -61,7 +62,8 @@ def default_para(filename, baseline_activity = dtype([0, 0, 0, 0, 4, 4, 4, 4])):
     v_P_to_PE = np.zeros((8,1), dtype=dtype)     
     v_P_to_PE[2:4,0] = dtype(1)     # onto dendrites
     v_P_to_PE[5,0] = dtype(1)       # onto PV neuron receiving prediction
-    v_P_to_PE[7,0] = dtype(1)       # onto V neuron
+    v_P_to_PE[6,0] = dtype(1-VS)    # onto SOM neuron
+    v_P_to_PE[7,0] = dtype(1-VV)    # onto VIP neuron
     
         
     return w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, tc_var_per_stim, tc_var_pred, tau_pe, fixed_input
@@ -119,7 +121,8 @@ def rate_dynamics_mfn(tau_E, tau_I, U, V, W, rates_pe_circuit, rate_memory_neuro
 
 
 def run_mean_field_model_one_column(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, 
-                                    stimuli, VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False):
+                                    stimuli, VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False, 
+                                    set_initial_prediction_to_value = np.nan, w_PE_to_V = dtype([1,1])):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -131,25 +134,35 @@ def run_mean_field_model_one_column(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per
     
     if set_initial_prediction_to_mean:
         prediction[-1] = np.mean(stimuli)
-    
+        
+    if set_initial_prediction_to_value is not np.nan:
+        prediction[-1] = set_initial_prediction_to_value
+        
     rates_pe_circuit_sens = np.zeros((len(stimuli), 8), dtype=dtype)
     
-    ### compute prediction-errors, prediction, mean of prediction, variance of sensory onput, variance of prediction
+    if fixed_input.ndim==1:
+        n_stimuli = len(stimuli)
+        fixed_input = np.tile(fixed_input,(n_stimuli,1))
+    
+    ### compute prediction-errors, prediction, mean of prediction, variance of sensory input, variance of prediction
     for id_stim, stim in enumerate(stimuli):
               
         ## mean-field network, PE circuit (feedforward = sensory, fedback = prediction)
-        feedforward_input = fixed_input + stim * neurons_feedforward
+        feedforward_input = fixed_input[id_stim,:] + stim * neurons_feedforward
         rates_pe_circuit_sens[id_stim,:], prediction[id_stim] = rate_dynamics_mfn(tau_E, tau_I, w_PE_to_P, w_P_to_PE, w_PE_to_PE, 
                                                                                   rates_pe_circuit_sens[id_stim-1,:], prediction[id_stim-1], 
                                                                                   feedforward_input, dt)
 
+
         ## compute variance of sensory input and prediction
-        nPE_sensory, pPE_sensory = rates_pe_circuit_sens[id_stim, :2]**2    
-        # !!! (in later versions: mean and variance must be computed by PE**2, or for var it must be first directed through other neuron?)
-        # if I assume, however, that nPE and pPE neurons have zero baseline activity, then I could put f(x) = x^2 in variance neuron though ...
-        variance_per_stimulus[id_stim] = (1-1/tc_var_per_stim) * variance_per_stimulus[id_stim-1] + (nPE_sensory + pPE_sensory)/tc_var_per_stim
+        nPE_sensory, pPE_sensory = (w_PE_to_V * rates_pe_circuit_sens[id_stim, :2]) 
+        variance_per_stimulus[id_stim] = (1-1/tc_var_per_stim) * variance_per_stimulus[id_stim-1] + (nPE_sensory + pPE_sensory)**2/tc_var_per_stim
+        # Note: 
+            # as I assume that nPE and pPE neurons have zero BL activity, I can put the x**2 into the V neuron
+            # please note that this might have to change for a large-scale network
+            # as I need to make sure that nPE and pPE neurons have the same effect and represent S-P and P-S, respectively, I might need to add some scaling
     
-    return prediction, variance_per_stimulus
+    return prediction, variance_per_stimulus, rates_pe_circuit_sens[:,:2]
 
 
 def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, tc_var_per_stim, tc_var_pred,

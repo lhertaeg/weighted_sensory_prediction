@@ -93,6 +93,22 @@ def default_para():
     return tc_var_per_stim, eta_prediction, eta_mean_prediction, tc_var_pred
 
 
+def random_binary_from_moments(mean, sd, n_stimuli):
+    
+    # here I assume that both states are equally likely, p=0.5
+    # a = mean + sqrt(pb/pa) * sd = mean + sd
+    # b = mean - sqrt(pa/pb) * sd = mean - sd
+    
+    if ((sd!=0) & (mean!=0)):
+        a = mean + sd
+        b = mean - sd
+        rnd = np.random.choice([a,b],size=n_stimuli,p=[0.5,0.5])
+    else:
+        rnd = np.zeros(n_stimuli)
+        
+    return rnd
+
+
 def random_gamma_from_moments(mean, sd, n_stimuli):
     
     if ((sd!=0) & (mean!=0)):

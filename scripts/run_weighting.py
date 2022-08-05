@@ -27,6 +27,14 @@ dtype = np.float32
 
 # Note: To make sure that PE activity reaches "quasi" steady state, I showed each stimulus  "num_repeats_per_value" times
 
+# Stimuli:
+    # there are n trials (n_trials), each consists of n stimuli (n_stimuli_per_trial), 
+    # each stimulus is repeated (n_repeats_per_stim)
+    # I assume a time step of 1 here
+    # ... this mimicks a noisy stimulus per trail
+    # ... this setup is only necessray for the weighting later (not here actually)
+
+
 flag = 0
 flg_trans = 4
 
