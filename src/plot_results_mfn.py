@@ -42,6 +42,41 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 
 # %% functions
 
+def plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, variance_per_stimulus, 
+                            variance_prediction, alpha, beta, weighted_output):
+    
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12,3), sharex=True, tight_layout=True)
+    # plt.locator_params(nbins=3)
+    
+    time = np.arange(len(stimuli))/trial_duration
+    
+    ax1.plot(time, stimuli, color='#D76A03', label='stimulus')
+    ax1.plot(time, prediction, color='#19535F', label='prediction')
+    ax1.plot(time, mean_of_prediction, color='#70A9A1', label='mean of prediction')
+    ax1.set_ylabel('Activity')
+    ax1.set_xlabel('Time (#trials)')
+    #ax1.set_title('Sensory inputs and predictions')
+    #ax1.legend(loc=0, ncol=3)
+    ax1.set_xlim([time[0],time[-1]])
+    sns.despine(ax=ax1)
+    
+    ax2.plot(time,stimuli, color='#D76A03', label='stimulus')
+    ax2.plot(time,weighted_output, color='#5E0035', label='weighted output')
+    ax2.set_xlabel('Time (#trials)')
+    #ax2.set_title('Weighted output compared to sensory inputs & predictions')
+    #ax2.legend(loc=0, ncol=3)
+    ax2.set_xlim([time[0],time[-1]])
+    sns.despine(ax=ax2)
+    
+    ax3.plot(time,alpha, color='#D76A03', label='stimulus')
+    ax3.plot(time,beta, color='#19535F', label='prediction')
+    ax3.set_ylabel('Fraction')
+    ax3.set_xlabel('Time (#trials)')
+    ax3.set_xlim([time[0],time[-1]])
+    ax3.set_ylim(bottom=0)
+    #ax3.set_title('Fraction of sensory input & prediction in weighted output')
+    sns.despine(ax=ax3)
+    
 
 def plot_limit_case_pred(n_stimuli, stimulus_duration, stimuli, trial_mean, prediction, mean_of_prediction, 
                          variance_per_stimulus, variance_prediction, alpha, beta, weighted_prediction):

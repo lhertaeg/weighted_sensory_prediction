@@ -93,13 +93,13 @@ if flag==1:
 
 # Note: To make sure that PE activity reaches "quasi" steady state, I showed each stimulus  "num_repeats_per_value" times
 
-flag = 0
+flag = 1
 flg_trans = 4
 
 if flag==1:
     
     ### parameters
-    filename = '../results/data/Prediction/Data_Optimal_Parameters_MFN_10.pickle'
+    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
     
     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
@@ -227,12 +227,12 @@ if flag==1:
 # Note: To make sure that PE activity reaches "quasi" steady state, I showed each stimulus  "num_repeats_per_value" times
 
 flag = 1
-flg_trans = 3
+flg_trans = 4
 
 if flag==1:
     
     ### parameters
-    filename = '../results/data/Prediction/Data_Optimal_Parameters_MFN_10.pickle'
+    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
     
     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)

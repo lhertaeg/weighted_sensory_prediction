@@ -113,7 +113,8 @@ def plot_alpha_para_exploration(fraction_sensory_median, para_tested_first, para
     columns = np.round(decimal*para_tested_second)/decimal
     
     data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
-    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap, xticklabels=every_n_ticks, yticklabels=every_n_ticks)
+    ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap, xticklabels=every_n_ticks, 
+                     yticklabels=every_n_ticks, cbar_kws={'label': 'fraction sensory input'})
     
     ax.invert_yaxis()
     ax.set_xlabel(xlabel)

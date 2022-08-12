@@ -86,6 +86,57 @@ def stimuli_moments_from_uniform(n_stimuli, stimulus_duration, min_mean, max_mea
     return stimuli
 
 
+
+def pe_circuit_dynamics(tau_E, tau_I, W, rates_pe_circuit, feedback_input, feedforward_input, dt):
+    
+    # Initialise
+    rates_pe_circuit_initial = rates_pe_circuit.copy() 
+    dr_pe_1 = np.zeros(len(rates_pe_circuit), dtype=dtype)
+    dr_pe_2 = np.zeros(len(rates_pe_circuit), dtype=dtype)
+    
+    # RK 2nd order
+    dr_pe_1 = -rates_pe_circuit_initial + W @ rates_pe_circuit_initial + feedback_input + feedforward_input
+    dr_pe_1[:4] /= tau_E 
+    dr_pe_1[4:] /= tau_I 
+
+    rates_pe_circuit_initial[:] += dt * dr_pe_1
+    
+    dr_pe_2 = -rates_pe_circuit_initial + W @ rates_pe_circuit_initial + feedback_input + feedforward_input
+    dr_pe_2[:4] /= tau_E 
+    dr_pe_2[4:] /= tau_I
+    
+    rates_pe_circuit += dt/2 * (dr_pe_1 + dr_pe_2)
+    
+    # Rectify
+    rates_pe_circuit[rates_pe_circuit<0] = 0
+
+    return rates_pe_circuit
+
+
+
+def run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input, stimuli, prediction, VS = 1, VV = 0, dt = dtype(1)):
+    
+    ### neuron and network parameters
+    tau_E, tau_I  = tau_pe
+    neurons_feedforward = np.array([1, 1, 0, 0, 1, 0, VS, VV], dtype=dtype)
+    neurons_feedback = 1 - neurons_feedforward
+    
+    ### initialise
+    rates_pe_circuit = np.zeros((len(stimuli), 8), dtype=dtype)
+    
+    ### run network
+    for id_stim, stim in enumerate(stimuli):
+              
+        ## mean-field network, PE circuit (feedforward = sensory, fedback = prediction)
+        feedforward_input = fixed_input + stim * neurons_feedforward
+        feedback_input = prediction[id_stim] * neurons_feedback
+        
+        rates_pe_circuit[id_stim,:] = pe_circuit_dynamics(tau_E, tau_I, w_PE_to_PE, rates_pe_circuit[id_stim-1,:], 
+                                                          feedback_input, feedforward_input, dt)
+    return rates_pe_circuit
+
+
+
 def rate_dynamics_mfn(tau_E, tau_I, U, V, W, rates_pe_circuit, rate_memory_neuron, feedforward_input, dt):
     
     # Initialise
@@ -165,8 +216,10 @@ def run_mean_field_model_one_column(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per
     return prediction, variance_per_stimulus, rates_pe_circuit_sens[:,:2]
 
 
-def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, tc_var_per_stim, tc_var_pred,
-                         tau_pe, fixed_input, stimuli, VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False):
+def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+                         tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli, 
+                         VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False,
+                         w_PE_to_V = dtype([1,1]), v_PE_to_V = dtype([1,1])):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -201,11 +254,11 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
                                                                                  feedforward_input, dt)
 
         ## compute variance of sensory input and prediction
-        nPE_sensory, pPE_sensory = rates_pe_circuit_sens[id_stim, :2]**2        # !!!!!!!!!!!!
-        variance_per_stimulus[id_stim] = (1-1/tc_var_per_stim) * variance_per_stimulus[id_stim-1] + (nPE_sensory + pPE_sensory)/tc_var_per_stim
+        nPE_sensory, pPE_sensory = (w_PE_to_V * rates_pe_circuit_sens[id_stim, :2]) 
+        variance_per_stimulus[id_stim] = (1-1/tc_var_per_stim) * variance_per_stimulus[id_stim-1] + (nPE_sensory + pPE_sensory)**2/tc_var_per_stim
 
-        nPE_prediction, pPE_prediction = rates_pe_circuit_pred[id_stim, :2]**2  # !!!!!!!!!!!!
-        variance_prediction[id_stim] = (1-1/tc_var_pred) * variance_prediction[id_stim-1] + (nPE_prediction + pPE_prediction)/tc_var_pred
+        nPE_prediction, pPE_prediction = (v_PE_to_V * rates_pe_circuit_pred[id_stim, :2]) 
+        variance_prediction[id_stim] = (1-1/tc_var_pred) * variance_prediction[id_stim-1] + (nPE_prediction + pPE_prediction)**2/tc_var_pred
 
     ### compute weighted output
     alpha = (1/variance_per_stimulus) / ((1/variance_per_stimulus) + (1/variance_prediction))
@@ -217,7 +270,8 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
 
 def run_mean_field_model_pred(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
                               tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli, 
-                              VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False):
+                              VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False,
+                              w_PE_to_V = dtype([1,1]), v_PE_to_V = dtype([1,1])):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -252,11 +306,11 @@ def run_mean_field_model_pred(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_t
                                                                                  feedforward_input, dt)
 
         ## compute variance of sensory input and prediction
-        nPE_sensory, pPE_sensory = rates_pe_circuit_sens[id_stim, :2]**2        # !!!!!!!!!!!!
-        variance_per_stimulus[id_stim] = (1-1/tc_var_per_stim) * variance_per_stimulus[id_stim-1] + (nPE_sensory + pPE_sensory)/tc_var_per_stim
+        nPE_sensory, pPE_sensory = (w_PE_to_V * rates_pe_circuit_sens[id_stim, :2]) 
+        variance_per_stimulus[id_stim] = (1-1/tc_var_per_stim) * variance_per_stimulus[id_stim-1] + (nPE_sensory + pPE_sensory)**2/tc_var_per_stim
 
-        nPE_prediction, pPE_prediction = rates_pe_circuit_pred[id_stim, :2]**2  # !!!!!!!!!!!!
-        variance_prediction[id_stim] = (1-1/tc_var_pred) * variance_prediction[id_stim-1] + (nPE_prediction + pPE_prediction)/tc_var_pred
+        nPE_prediction, pPE_prediction = (v_PE_to_V * rates_pe_circuit_pred[id_stim, :2]) 
+        variance_prediction[id_stim] = (1-1/tc_var_pred) * variance_prediction[id_stim-1] + (nPE_prediction + pPE_prediction)**2/tc_var_pred
 
     ### compute weighted output
     alpha = (1/variance_per_stimulus) / ((1/variance_per_stimulus) + (1/variance_prediction))
