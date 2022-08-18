@@ -121,6 +121,10 @@ def run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input, stimuli, prediction, VS 
     neurons_feedforward = np.array([1, 1, 0, 0, 1, 0, VS, VV], dtype=dtype)
     neurons_feedback = 1 - neurons_feedforward
     
+    if fixed_input.ndim==1:
+        n_stimuli = len(stimuli)
+        fixed_input = np.tile(fixed_input,(n_stimuli,1))
+    
     ### initialise
     rates_pe_circuit = np.zeros((len(stimuli), 8), dtype=dtype)
     
@@ -128,7 +132,7 @@ def run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input, stimuli, prediction, VS 
     for id_stim, stim in enumerate(stimuli):
               
         ## mean-field network, PE circuit (feedforward = sensory, fedback = prediction)
-        feedforward_input = fixed_input + stim * neurons_feedforward
+        feedforward_input = fixed_input[id_stim,:] + stim * neurons_feedforward
         feedback_input = prediction[id_stim] * neurons_feedback
         
         rates_pe_circuit[id_stim,:] = pe_circuit_dynamics(tau_E, tau_I, w_PE_to_PE, rates_pe_circuit[id_stim-1,:], 

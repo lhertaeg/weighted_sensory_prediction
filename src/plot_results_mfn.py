@@ -17,6 +17,8 @@ import matplotlib
 
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap
 import matplotlib.ticker as ticker
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from matplotlib.legend import Legend
 
 from src.toy_model import random_uniform_from_moments, random_lognormal_from_moments, random_gamma_from_moments, random_binary_from_moments
 
@@ -42,39 +44,360 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 
 # %% functions
 
-def plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, variance_per_stimulus, 
-                            variance_prediction, alpha, beta, weighted_output):
+
+def plot_transition_course(file_data4plot):
     
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12,3), sharex=True, tight_layout=True)
-    # plt.locator_params(nbins=3)
+    ### load data
+    with open(file_data4plot,'rb') as f:
+        [n_trials, trial_duration, stimuli, states, window_size, fraction] = pickle.load(f) 
+    
+    ### universal setting
+    marker = ['^', 's', 'o', 'D']
+    
+    for j in range(4):
+    
+        ### figure
+        fig, ax = plt.subplots(1, 1, tight_layout=True, figsize=(5,3))
+        
+        for i in range(4):
+            if sum(np.isnan(fraction[i,j,:]))==0:
+                ax.plot(window_size, fraction[i,j,:], linestyle='--', color=[0.5,0.5,0.5])
+                ax.scatter(window_size, fraction[i,j,:], c=fraction[i,j,:], cmap=cmap_sensory_prediction, 
+                            marker=marker[i], vmin=0, vmax=1, edgecolors='k', linewidth=0.5, zorder=20)
+            
+            ax.scatter(window_size[0], fraction[i,j,0], c=fraction[i,j,0], marker=marker[j], s=100, 
+                       cmap=cmap_sensory_prediction, vmin=0, vmax=1, edgecolors='k', linewidth=0.5, zorder=30)
+        
+        ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+        ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+        
+        ax.set_ylabel('fraction sensory input')
+        ax.set_xlabel('window size (#trials after transition)')
+        ax.set_ylim([0,1.05])
+        
+        sns.despine(ax=ax)
+
+
+def plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation_direction, 
+                            plot_deviation_gradual = False):
+    
+    ### define figure size
+    fig, ax = plt.subplots(1, 1, tight_layout=True, figsize=(5.5,4))
+    
+    ### inityialise 
+    leg1, leg2 = [], []
+    
+    for i, input_flg in enumerate(input_flgs):
+        
+        file_load = '../results/data/perturbations/data_pe_vs_neuron_stim_' + input_flg + '.pickle'
+        file_load2 = '../results/data/perturbations/data_perturbations_' + input_flg + '.pickle'
+        
+        with open(file_load,'rb') as f:
+            [_, slopes_nPE, slopes_pPE] = pickle.load(f)
+            
+        with open(file_load2,'rb') as f:
+            [_, _, _, dev_prediction_steady, dev_variance_steady] = pickle.load(f)
+            
+        
+        ### define whether you look at mean or variance
+        if moment_flg==0:
+            data = dev_prediction_steady
+        else:
+            data = dev_variance_steady
+            
+        ### decide on perturbation data to be used in plot
+        if perturbation_direction == -1: # inhibitory perturbation
+            data_pert = data[0,[0,1,4,5,6,7]]
+            title = 'Inhibitory perturbation'
+        else: # excitatory perturbation
+            data_pert = data[1,[0,1,4,5,6,7]]
+            title = 'Excitatory perturbation'
+
+        ### plot for all networks
+        if plot_deviation_gradual:
+            sc = ax.scatter(slopes_pPE, slopes_nPE, marker=marker[i], lw=0, 
+                             c=data_pert, cmap='vlag', zorder=10, s=100) 
+            
+            if i==0:
+                plt.colorbar(sc, shrink=0.5, label='deviation (%)')
+                
+            ax.set_title(title, pad=20, loc='right')
+            
+        else:
+            color_inds = np.sign(data_pert) / perturbation_direction
+            ax.scatter(slopes_pPE, slopes_nPE, marker=marker[i], lw=0, 
+                             c=color_inds, cmap='vlag', zorder=10, s=100)
+            
+        ### add text to markers
+        m = -1
+        x = slopes_pPE
+        y = slopes_nPE
+        names = [r'E$_\mathrm{n}$',r'E$_\mathrm{p}$','P','P','S','V']
+        
+        for k,l in zip(x,y):
+            m += 1
+            ax.annotate(names[m],  xy=(k, l), color='white',
+                        fontsize="x-small", weight='normal',
+                        horizontalalignment='center',
+                        verticalalignment='center', zorder=20)
+
+        
+        ### legend - part I
+        leg1 += ax.plot(np.nan, np.nan, 'k', marker=marker[i], label=labels[i], linestyle='None')
+        
+        
+    if moment_flg==0:
+        ax.axline((0, 0), slope=1, color=[0.5,0.5,0.5], ls=':', alpha = 0.5)
+    else:
+        ax.axline((0, 0), slope=-1, color=[0.5,0.5,0.5], ls=':', alpha = 0.5)
+        
+        
+    ### show legend 
+    ax.legend(leg1, labels, loc=3, frameon=False)
+     
+    ### legend - part  II
+    if plot_deviation_gradual==False:
+        cmap =  plt.get_cmap('vlag') 
+        leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0), label='deviation opposite to perturbation direction')
+        leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0.99), label='deviation along perturbation direction')
+        
+        leg = Legend(ax, leg2, ['opposite to pert. dir.', 'along perturbation dir.'],
+                 loc=1, title='Deviation', handlelength=1, frameon=True)
+        ax.add_artist(leg)
+    
+    ### improve plot appearance   
+    ax.set_ylabel('nPE / input', loc='top', rotation=0, labelpad=-10)
+    ax.set_xlabel('pPE / input', loc='right')
+    
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['left'].set_position('zero')
+    
+    ax.xaxis.set_major_locator(plt.MaxNLocator(2))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(2))
+
+    sns.despine(ax=ax)
+
+
+def plot_deviation_vs_PE(moment_flg, input_flgs, marker, labels, perturbation_direction, 
+                         plot_deviation_gradual = False):
+    
+    ### define figure size
+    fig, ax = plt.subplots(1, 1, tight_layout=True, figsize=(5,4))
+    
+    ### inityialise 
+    leg1, leg2 = [], []
+    
+    for i, input_flg in enumerate(input_flgs):
+        
+        file_load = '../results/data/perturbations/data_neuron_drive_' + input_flg + '.pickle'
+        file_load2 = '../results/data/perturbations/data_perturbations_' + input_flg + '.pickle'
+        
+        with open(file_load,'rb') as f:
+            [_, _, slopes_feedforward, slopes_feedback] = pickle.load(f)
+            
+        with open(file_load2,'rb') as f:
+            [_, _, _, dev_prediction_steady, dev_variance_steady] = pickle.load(f)
+            
+        
+        ### define whether you look at mean or variance
+        if moment_flg==0:
+            data = dev_prediction_steady
+        else:
+            data = dev_variance_steady
+            
+        ### decide on perturbation data to be used in plot
+        if perturbation_direction == -1: # inhibitory perturbation
+            data_pert = data[0,[0,1,4,5,6,7]]
+            title = 'Inhibitory perturbation'
+        else: # excitatory perturbation
+            data_pert = data[1,[0,1,4,5,6,7]]
+            title = 'Excitatory perturbation'
+
+        ### plot for all networks
+        if plot_deviation_gradual:
+            sc = ax.scatter(slopes_feedforward, slopes_feedback, marker=marker[i], lw=0, 
+                             c=data_pert, cmap='vlag', zorder=10, s=100) 
+            
+            if i==0:
+                plt.colorbar(sc, shrink=0.5, label='deviation (%)')
+                
+            ax.set_title(title, pad=20, loc='right')
+            
+        else:
+            color_inds = np.sign(data_pert) / perturbation_direction
+            ax.scatter(slopes_feedforward, slopes_feedback, marker=marker[i], lw=0, 
+                             c=color_inds, cmap='vlag', zorder=10, s=100)
+            
+        ### add text to markers
+        m = -1
+        x = slopes_feedforward
+        y = slopes_feedback
+        names = [r'E$_\mathrm{n}$',r'E$_\mathrm{p}$','P','P','S','V']
+        
+        for k,l in zip(x,y):
+            m += 1
+            ax.annotate(names[m],  xy=(k, l), color='white',
+                        fontsize="x-small", weight='normal',
+                        horizontalalignment='center',
+                        verticalalignment='center', zorder=20)
+
+        
+        ### legend - part I
+        leg1 += ax.plot(np.nan, np.nan, 'k', marker=marker[i], label=labels[i], linestyle='None')
+        
+    ### show legend 
+    ax.legend(leg1, labels, loc=3, frameon=False)
+     
+    ### legend - part  II
+    if plot_deviation_gradual==False:
+        cmap =  plt.get_cmap('vlag') 
+        leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0), label='deviation opposite to perturbation direction')
+        leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0.99), label='deviation along perturbation direction')
+        
+        leg = Legend(ax, leg2, ['opposite to pert. dir.', 'along perturbation dir.'],
+                 loc=1, frameon=False, title='Deviation', handlelength=1)
+        ax.add_artist(leg)
+    
+    ### improve plot appearance   
+    ax.set_ylabel('activity / nPE', loc='top', rotation=0, labelpad=-10)
+    ax.set_xlabel('activity / pPE', loc='right')
+    
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['left'].set_position('zero')
+    
+    ax.xaxis.set_major_locator(plt.MaxNLocator(2))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(2))
+
+    sns.despine(ax=ax)
+
+
+def plot_deviation_vs_effect_size(x, y, title, plot_legend=True):
+    
+    fig, ax = plt.subplots(1, 1, figsize=(4,3), tight_layout=True)
+    
+    ax.plot(x, y[0, :], '.-', label='nEP', color=Col_Rate_nE)
+    ax.plot(x, y[1, :], '.-', label='pPE', color=Col_Rate_pE)
+    
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+    
+    ax.spines['bottom'].set_position('zero')
+    ax.set_xlabel('effect size', loc='right')
+    ax.set_ylabel('deviation (%)')
+    ax.set_title(title)
+    
+    if plot_legend:
+        ax.legend(loc=0)
+    
+    sns.despine(ax=ax)
+    
+    # xlabel ylabel, title
+
+
+def heatmap_summary_transitions(data, title=None):
+    
+    plt.figure(tight_layout=True)
+    g = sns.heatmap(data, vmin=0, vmax=1, cmap=cmap_sensory_prediction, 
+                    cbar_kws={'label': 'fraction sensory input', 'ticks': [0, 1]})
+    g.set_facecolor('#DBDBDB')
+    
+    g.set_xticks([])
+    g.set_yticks([])
+    g.xaxis.set_label_position('top') 
+    
+    g.set_ylabel('transition to ...', labelpad=30)
+    g.set_xlabel('transition from ...', labelpad=30)
+    
+    if title is not None:
+        g.set_title(title)
+    
+
+def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
+                              time_plot = 0, ylim=None, plot_ylable=True):
+    
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(3.5,5), sharex=True, tight_layout=True)
     
     time = np.arange(len(stimuli))/trial_duration
     
-    ax1.plot(time, stimuli, color='#D76A03', label='stimulus')
-    ax1.plot(time, prediction, color='#19535F', label='prediction')
-    ax1.plot(time, mean_of_prediction, color='#70A9A1', label='mean of prediction')
+    ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
+    ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
+    if plot_ylable:
+        ax1.set_ylabel('Activity')
+    else:
+        ax1.set_ylabel('Activity', color='white')
+        ax1.tick_params(axis='y', colors='white')
+    #ax1.set_xlabel('Time (#trials)')
+    ax1.set_xlim([time_plot * time[-1],time[-1]])
+    if ylim is not None:
+        ax1.set_ylim(ylim)
+    ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
+    sns.despine(ax=ax1)
+    
+    ax2.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
+    ax2.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], color='#19535F', label='prediction')
+    if plot_ylable:
+        ax2.set_ylabel('Fraction')
+    else:
+        ax2.set_ylabel('Fraction', color='white')
+        ax2.tick_params(axis='y', colors='white')
+    ax2.set_xlabel('Time (#trials)')
+    ax2.set_xlim([time_plot * time[-1],time[-1]])
+    ax2.set_ylim([0,1.05])
+    ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
+    sns.despine(ax=ax2)
+    
+
+def plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, variance_per_stimulus, 
+                            variance_prediction, alpha, beta, weighted_output, time_plot = 0.8, plot_legend=True):
+    
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12,3), sharex=True, tight_layout=True)
+    
+    time = np.arange(len(stimuli))/trial_duration
+    
+    ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
+    ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
+    #ax1.axvspan(time_inset*time[-1],time[-1], color='#F5F5F5')
     ax1.set_ylabel('Activity')
     ax1.set_xlabel('Time (#trials)')
     #ax1.set_title('Sensory inputs and predictions')
-    #ax1.legend(loc=0, ncol=3)
-    ax1.set_xlim([time[0],time[-1]])
+    if plot_legend:
+        ax1.legend(loc=0)#, ncol=2)
+    ax1.set_xlim([time_plot * time[-1],time[-1]])
+    ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
     sns.despine(ax=ax1)
     
-    ax2.plot(time,stimuli, color='#D76A03', label='stimulus')
-    ax2.plot(time,weighted_output, color='#5E0035', label='weighted output')
+    # inset_ax1 = inset_axes(ax1, width="30%", height="30%", loc=4)
+    # inset_ax1.plot(time[time>time_inset*time[-1]], stimuli[time>time_inset*time[-1]], color='#D76A03', label='stimulus')
+    # inset_ax1.plot(time[time>time_inset*time[-1]],weighted_output[time>time_inset*time[-1]], color='#5E0035', label='weighted output')
+    # inset_ax1.set_xticks([])
+    # inset_ax1.set_yticks([])
+    # inset_ax1.set_facecolor('#F5F5F5')
+    
+    #ax2.plot(time,stimuli, color='#D76A03', label='stimulus')
+    ax2.plot(time[time > time_plot * time[-1]], prediction[time > time_plot * time[-1]], color='#19535F', label='prediction')
+    ax2.plot(time[time > time_plot * time[-1]], mean_of_prediction[time > time_plot * time[-1]], color='#70A9A1', label='mean of prediction')
     ax2.set_xlabel('Time (#trials)')
-    #ax2.set_title('Weighted output compared to sensory inputs & predictions')
-    #ax2.legend(loc=0, ncol=3)
-    ax2.set_xlim([time[0],time[-1]])
+    if plot_legend:
+        ax2.legend(loc=0)#, ncol=2)
+    ax2.set_xlim([time_plot * time[-1],time[-1]])
+    ax2.set_ylim([ax1.get_ylim()[0], ax1.get_ylim()[1]])
+    ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
     sns.despine(ax=ax2)
     
-    ax3.plot(time,alpha, color='#D76A03', label='stimulus')
-    ax3.plot(time,beta, color='#19535F', label='prediction')
+    ax3.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
+    ax3.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], color='#19535F', label='prediction')
     ax3.set_ylabel('Fraction')
     ax3.set_xlabel('Time (#trials)')
-    ax3.set_xlim([time[0],time[-1]])
-    ax3.set_ylim(bottom=0)
-    #ax3.set_title('Fraction of sensory input & prediction in weighted output')
+    #if plot_legend:
+    #    ax3.legend(loc=0)#, ncol=2)
+    ax3.set_xlim([time_plot * time[-1],time[-1]])
+    ax3.set_ylim([0,1])
+    ax3.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax3.yaxis.set_major_locator(plt.MaxNLocator(3))
     sns.despine(ax=ax3)
     
 

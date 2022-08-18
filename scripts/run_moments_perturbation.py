@@ -19,7 +19,8 @@ from src.plot_toy_model import plot_limit_case, plot_alpha_para_exploration_rati
 from src.plot_toy_model import plot_manipulation_results
 
 from src.plot_results_mfn import plot_prediction, plot_variance, plot_mse, plot_manipulations, plot_deviations_upon_perturbations
-from src.plot_results_mfn import plot_heatmap_perturbation_all
+from src.plot_results_mfn import plot_heatmap_perturbation_all, plot_deviation_vs_effect_size, plot_deviation_vs_PE
+from src.plot_results_mfn import plot_deviation_vs_PE_II
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -38,7 +39,7 @@ if flag==1:
     
     VS, VV = int(input_flg[0]), int(input_flg[1])
     filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
-    file_data4plot = '../results/data/moments/data_perturbation_example_' + input_flg + '.pickle'
+    file_data4plot = '../results/data/perturbations/data_perturbation_example_' + input_flg + '.pickle'
     
     if flg_plot_only==0:
     
@@ -112,7 +113,7 @@ if flag==1:
     
     VS, VV = int(input_flg[0]), int(input_flg[1])
     filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
-    file_data4plot = '../results/data/moments/data_perturbations_' + input_flg + '.pickle'
+    file_data4plot = '../results/data/perturbations/data_perturbations_' + input_flg + '.pickle'
     
     if flg_plot_only==0:
     
@@ -206,7 +207,7 @@ if flag==1:
     
     ### load data for plotting
     input_flg = '01' # 10, 01, 11
-    file = '../results/data/moments/data_perturbations_' + input_flg + '.pickle'
+    file = '../results/data/perturbations/data_perturbations_' + input_flg + '.pickle'
     
     with open(file,'rb') as f:
         [_, _, _, dev_prediction_steady, dev_variance_steady] = pickle.load(f)
@@ -224,9 +225,9 @@ import seaborn as sns
 if flag==1:
     
     ### load data for plotting
-    file_10 = '../results/data/moments/data_perturbations_10.pickle'
-    file_01 = '../results/data/moments/data_perturbations_01.pickle'
-    file_11 = '../results/data/moments/data_perturbations_11.pickle'
+    file_10 = '../results/data/perturbations/data_perturbations_10.pickle'
+    file_01 = '../results/data/perturbations/data_perturbations_01.pickle'
+    file_11 = '../results/data/perturbations/data_perturbations_11.pickle'
     
     with open(file_10,'rb') as f:
         [_, _, _, dev_prediction_steady_10, dev_variance_steady_10] = pickle.load(f)
@@ -283,9 +284,11 @@ if flag==1:
 # => effect size of nPE to pPE changes which leads to estimation bias
 
 flag = 0
-flg_plot_only = 0
+flg_plot_only = 1
 
 if flag==1:
+    
+    file_data4plot = '../results/data/perturbations/data_deviations_vs_BL.pickle'
     
     if flg_plot_only==0:
         
@@ -294,7 +297,6 @@ if flag==1:
         
         VS, VV = int(input_flg[0]), int(input_flg[1])
         filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
-        file_data4plot = '../results/data/moments/data_deviations_vs_BL.pickle'
         
         [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename, VS=VS, VV=VV)
@@ -400,9 +402,11 @@ if flag==1:
 # %% Estimation bias depends on effect size of nPE:pPE neurons 
 
 flag = 0
-flg_plot_only = 0
+flg_plot_only = 1
 
 if flag==1:
+    
+    file_data4plot = '../results/data/perturbations/data_deviations_vs_effect_size.pickle'
     
     if flg_plot_only==0:
         
@@ -411,7 +415,6 @@ if flag==1:
         
         VS, VV = int(input_flg[0]), int(input_flg[1])
         filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
-        file_data4plot = '../results/data/moments/data_deviations_vs_effect_size.pickle'
         
         [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename, VS=VS, VV=VV)
@@ -454,7 +457,7 @@ if flag==1:
         dev_variance_steady = np.zeros((2, len(scaling_factors)))
         
         ### compute variances and predictions after effect size has been changed
-        for id_cell in range(2): # BL of nPE (0) or pPE (1)
+        for id_cell in range(2): # effect size of nPE (0) or pPE (1)
         
             for i, scaling_factor in enumerate(scaling_factors):
                 
@@ -507,90 +510,240 @@ if flag==1:
         
             
     # ### plot
-    plt.figure()
-    plt.plot(scaling_factors, dev_prediction_steady[0, :])
-    plt.plot(scaling_factors, dev_prediction_steady[1, :])
-    
-    plt.figure()
-    plt.plot(scaling_factors, dev_variance_steady[0, :])
-    plt.plot(scaling_factors, dev_variance_steady[1, :])
-    
-    
-# %% Estimate deviation direction by how strongly/much a neuron is driven by sensory input or prediction
+    plot_deviation_vs_effect_size(scaling_factors, dev_prediction_steady, 'Bias in mean', plot_legend=False)
+    plot_deviation_vs_effect_size(scaling_factors, dev_variance_steady, 'Bias in variance')
 
-# Continue here ...
+    
+# %% Estimate how strongly/much a neuron is driven by (S-P) or (P-S) for all 3 MFN
 
-flag = 1
+flag = 0
 
 if flag==1:
     
-    ### load and define parameters
-    input_flg = '10' # 10, 01, 11
+    input_flgs = ['10', '01', '11']
     
-    VS, VV = int(input_flg[0]), int(input_flg[1])
-    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
-    file_data4plot = '../results/data/moments/data_deviations_vs_effect_size.pickle'
+    for input_flg in input_flgs:
     
-    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename, VS=VS, VV=VV)
-    
-    ### define stimulus length
-    num_steps = 5000
-    feedforward_strengths = np.linspace(1,5,5)
-    feedback_strengths = np.linspace(1,5,5)
-    
-    rates_steady_state_feedforward = np.zeros((len(feedforward_strengths), 8))
-    rates_steady_state_feedback = np.zeros((len(feedback_strengths), 8))
-    
-    ### test different sensory input strengths
-    prediction = np.zeros(num_steps)
-
-    for i, feedforward_strength in enumerate(feedforward_strengths):
+        ### load and define parameters
+        VS, VV = int(input_flg[0]), int(input_flg[1])
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
         
-        stimuli = feedforward_strength * np.ones(num_steps)
-
-        ###  run network
-        rates = run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input, stimuli, 
-                                   prediction, VS = VS, VV = VV, dt = dtype(1))
+        [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+         tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename, VS=VS, VV=VV)
         
-        ### steady state activity
-        rates_steady_state_feedforward[i, :] = rates[-1,:]
+        ### define stimulus length
+        num_steps = 5000
+        feedforward_strengths = np.linspace(1,5,5)
+        feedback_strengths = np.linspace(1,5,5)
         
+        rates_steady_state_feedforward = np.zeros((len(feedforward_strengths), 8))
+        rates_steady_state_feedback = np.zeros((len(feedback_strengths), 8))
     
-    ### extract slope of linear fit for each cell type
-    slopes_feedforward = []
+        ### test different sensory input strengths
+        prediction = np.zeros(num_steps)
     
-    for i in [0,1,4,5,6,7]:
-        
-        m, n = np.polyfit(feedforward_strengths, rates_steady_state_feedforward[:,i], 1)
-        slopes_feedforward.append(m)
-        
+        for i, feedforward_strength in enumerate(feedforward_strengths):
+            
+            stimuli = feedforward_strength * np.ones(num_steps)
     
-    ### test different prediction strengths
-    stimuli = np.zeros(num_steps)
-
-    for i, feedback_strength in enumerate(feedback_strengths):
+            ###  run network
+            rates = run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input, stimuli, 
+                                       prediction, VS = VS, VV = VV, dt = dtype(1))
+            
+            ### steady state activity
+            rates_steady_state_feedforward[i, :] = rates[-1,:]
+            
         
-        prediction = feedback_strength * np.ones(num_steps)
-
-        ###  run network
-        rates = run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input, stimuli, 
-                                   prediction, VS = VS, VV = VV, dt = dtype(1))
+        ### extract slope of linear fit for each cell type
+        slopes_feedforward = []
         
-        ### steady state activity
-        rates_steady_state_feedback[i, :] = rates[-1,:]
+        for i in [0,1,4,5,6,7]:
+            if sum(rates_steady_state_feedforward[:,i]>0)>0:
+                m, n = np.polyfit(feedforward_strengths[rates_steady_state_feedforward[:,i]>0], 
+                                  rates_steady_state_feedforward[rates_steady_state_feedforward[:,i]>0,i], 1)
+            else:
+                m = 0
+            slopes_feedforward.append(m)
+            
+            #plt.figure()
+            #plt.plot(feedforward_strengths, rates_steady_state_feedforward[:,i], 'r')
+            
         
+        ### test different prediction strengths
+        stimuli = np.zeros(num_steps)
     
-    ### extract slope of linear fit for each cell type
-    slopes_feedback = []
+        for i, feedback_strength in enumerate(feedback_strengths):
+            
+            prediction = feedback_strength * np.ones(num_steps)
     
-    for i in [0,1,4,5,6,7]:
+            ###  run network
+            rates = run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input, stimuli, 
+                                        prediction, VS = VS, VV = VV, dt = dtype(1))
+            
+            ### steady state activity
+            rates_steady_state_feedback[i, :] = rates[-1,:]
+            
         
-        m, n = np.polyfit(feedback_strengths, rates_steady_state_feedback[:,i], 1)
-        slopes_feedback.append(m)
+        ### extract slope of linear fit for each cell type
+        slopes_feedback = []
+        
+        for i in [0,1,4,5,6,7]:
+            if sum(rates_steady_state_feedback[:,i]>0)>0:
+                m, n = np.polyfit(feedback_strengths[rates_steady_state_feedback[:,i]>0], 
+                                  rates_steady_state_feedback[rates_steady_state_feedback[:,i]>0,i], 1)
+            else:
+                m = 0
+            slopes_feedback.append(m)
+            
+            #plt.figure()
+            #plt.plot(feedforward_strengths, rates_steady_state_feedback[:,i], 'b')
   
+        ## save data for later
+        file_save = '../results/data/perturbations/data_neuron_drive_' + input_flg + '.pickle'
+        
+        with open(file_save,'wb') as f:
+            pickle.dump([feedforward_strengths, feedback_strengths, slopes_feedforward, slopes_feedback],f)   
+
+
+# %% Estimate deviation direction by how strongly/much a neuron is driven by sensory input or prediction
+
+flag = 0
+
+if flag==1:
     
-    ### plot 
-    plt.figure()
-    plt.plot(slopes_feedforward, slopes_feedback, 'o')
+    input_flgs = ['10', '01', '11']
+    marker = ['o', 's', 'D']
+    labels = ['MFN 1', 'MFN 2', 'MFN 3']
+    moment_flg = 1 # 0 = mean, 1 = variance
     
+    
+    plot_deviation_vs_PE(moment_flg, input_flgs, marker, labels, perturbation_direction=-1, 
+                         plot_deviation_gradual = False)
+    
+    plot_deviation_vs_PE(moment_flg, input_flgs, marker, labels, perturbation_direction=1, 
+                         plot_deviation_gradual = True)
+    
+    plot_deviation_vs_PE(moment_flg, input_flgs, marker, labels, perturbation_direction=-1, 
+                         plot_deviation_gradual = True)
+    
+ 
+    
+# %% Estimate net impact of each neuron on both nPE and pPE neurons
+
+# Please note that the linear fit is only an approximation. Due to non-linearities (e.g. rectifications)
+# the data would sometimes be better fit by two lines (one for inhibitory stimulation, one for 
+# excitatory stimulation). Hence, it is only an approximation. Most of the time, it does not matter.
+# However, for MFN 01 (SOM and VIP) could be a bit off (for the variance).
+# Either fix it by showing results for inh/exc stimulatoin separately or simply explain in text.
+
+flag = 0
+
+if flag==1:
+    
+    input_flgs = ['10', '01', '11']
+    
+    for input_flg in input_flgs:
+    
+        ### load and define parameters
+        VS, VV = int(input_flg[0]), int(input_flg[1])
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
+        file_data4plot = '../results/data/perturbations/data_deviations_pe_vs_stimulation.pickle'
+        
+        [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+         tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename, VS=VS, VV=VV)
+        
+        ### define stimulus length and strength
+        num_steps = 5000
+        stimulation_stengths = np.linspace(-0.5,0.5,9)
+
+        ### initialise
+        fixed_input = np.tile(fixed_input, (num_steps,1))
+        rates_steady_state_nPE = np.zeros((len(stimulation_stengths), 6))
+        rates_steady_state_pPE = np.zeros((len(stimulation_stengths), 6))
+        
+        ### nPE activity
+        prediction = 5 * np.ones(num_steps)
+        stimuli = np.zeros(num_steps) 
+    
+        for i, stimulation_strength in enumerate(stimulation_stengths):
+            
+            for j, cell_id in enumerate([0,1,4,5,6,7]): # 6 targets
+            
+                stim_input = np.zeros((len(stimuli),8))                          
+                stim_input[:, cell_id] = stimulation_strength          
+                fixed_input_plus = fixed_input + stim_input
+    
+                ###  run network
+                rates = run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input_plus, stimuli, 
+                                           prediction, VS = VS, VV = VV, dt = dtype(1))
+            
+                ### steady state activity
+                rates_steady_state_nPE[i, j] = rates[-1,0]
+               
+                
+        ### pPE activity
+        prediction = np.zeros(num_steps) 
+        stimuli = 5 * np.ones(num_steps) 
+    
+        for i, stimulation_strength in enumerate(stimulation_stengths):
+            
+            for j, cell_id in enumerate([0,1,4,5,6,7]): # 6 targets
+            
+                stim_input = np.zeros((len(stimuli),8))                          
+                stim_input[:, cell_id] = stimulation_strength          
+                fixed_input_plus = fixed_input + stim_input
+    
+                ###  run network
+                rates = run_pe_circuit_mfn(w_PE_to_PE, tau_pe, fixed_input_plus, stimuli, 
+                                           prediction, VS = VS, VV = VV, dt = dtype(1))
+            
+                ### steady state activity
+                rates_steady_state_pPE[i, j] = rates[-1,1]
+        
+        ### extract slope of linear fit for each cell type
+        slopes_nPE = []
+        slopes_pPE = []
+        
+        for j, cell_id in enumerate([0,1,4,5,6,7]):
+            # nPE neurons
+            m, n = np.polyfit(stimulation_stengths, rates_steady_state_nPE[:,j], 1)
+            slopes_nPE.append(m)
+            
+            #plt.plot(stimulation_stengths, rates_steady_state_nPE[:,j])
+            
+            # nPE neurons
+            m, n = np.polyfit(stimulation_stengths, rates_steady_state_pPE[:,j], 1)
+            slopes_pPE.append(m)
+            
+            plt.plot(stimulation_stengths, rates_steady_state_pPE[:,j])
+            
+            
+        ## save data for later
+        file_save = '../results/data/perturbations/data_pe_vs_neuron_stim_' + input_flg + '.pickle'
+        
+        with open(file_save,'wb') as f:
+            pickle.dump([stimulation_stengths, slopes_nPE, slopes_pPE],f) 
+            
+ 
+# %% Estimate deviation direction by how strongly/much a neuron is driven by sensory input or prediction
+
+flag = 0
+
+if flag==1:
+    
+    input_flgs = ['10', '01', '11']
+    marker = ['o', 's', 'D']
+    labels = ['MFN 1', 'MFN 2', 'MFN 3']
+    moment_flg = 1 # 0 = mean, 1 = variance
+    
+    
+    plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation_direction=1, 
+                            plot_deviation_gradual = False)
+    
+    # plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation_direction=1, 
+    #                         plot_deviation_gradual = True)
+    
+    # plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation_direction=-1, 
+    #                         plot_deviation_gradual = True)
+    
+ 

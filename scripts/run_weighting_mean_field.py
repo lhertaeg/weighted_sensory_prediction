@@ -17,7 +17,7 @@ from src.plot_toy_model import plot_manipulation_results
 # from src.mean_field_model import stimuli_moments_from_uniform, run_toy_model, default_para, alpha_parameter_exploration
 # from src.mean_field_model import random_uniform_from_moments, random_lognormal_from_moments, random_gamma_from_moments
 # from src.mean_field_model import stimuli_from_mean_and_std_arrays
-from src.plot_results_mfn import plot_limit_case_example
+from src.plot_results_mfn import plot_limit_case_example, plot_transitions_examples, heatmap_summary_transitions, plot_transition_course
 
 
 import warnings
@@ -66,11 +66,11 @@ if flag==1:
             nPE_scale = 2.49
             pPE_scale = 2.53
             
-        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!!
+        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!!  to make it faster
         w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
         w_PE_to_V = [nPE_scale, pPE_scale]
         
-        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!!
+        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
         v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
         v_PE_to_V = [nPE_scale, pPE_scale]
         
@@ -113,14 +113,18 @@ if flag==1:
         
     
     ### plot results
-    plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, 
-                            variance_per_stimulus, variance_prediction, alpha, beta, weighted_output)
+    if flg_limit_case==0:
+        plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, 
+                                variance_per_stimulus, variance_prediction, alpha, beta, weighted_output)
+    else:
+        plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, 
+                                variance_per_stimulus, variance_prediction, alpha, beta, weighted_output, plot_legend=False)
 
 
 # %% Summary ... extrapolate between cases 
 
 flag = 0
-flg_plot_only = 0
+flg_plot_only = 1
 
 if flag==1:
     
@@ -146,11 +150,11 @@ if flag==1:
             nPE_scale = 2.49
             pPE_scale = 2.53
             
-        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!!
+        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
         w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
         w_PE_to_V = [nPE_scale, pPE_scale]
         
-        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!!
+        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
         v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
         v_PE_to_V = [nPE_scale, pPE_scale]
         
@@ -210,21 +214,20 @@ if flag==1:
     
     ### plot results
     plot_alpha_para_exploration(fraction_sensory_mean_averaged_over_seeds, std_std_arr, std_mean_arr, 2, 
-                                xlabel='variability across stimuli', ylabel='variability per stimulus')
-    
+                                xlabel='unexpected uncertainty \n(variability across trial)', ylabel='expected uncertainty \n(variability within trial)')
     
 # %% Transition examples
 
 flag = 0
-flg_plot_only = 0
+flg_plot_only = 1
 
 # 3300 --> 3315 --> 1515 --> 1500 --> 3300
 
 if flag==1:
     
     ### file to save data
-    state_before = '3315' # 3300, 3315, 1500, 1515
-    state_after = '3300' # 3300, 3315, 1500, 1515
+    state_before = '3300' # 3300, 3315, 1500, 1515
+    state_after = '3315' # 3300, 3315, 1500, 1515
     file_data4plot = '../results/data/weighting/data_transition_example_' + state_before + '_' + state_after + '.pickle'
     
     if flg_plot_only==0:
@@ -246,17 +249,16 @@ if flag==1:
             nPE_scale = 2.49
             pPE_scale = 2.53
             
-        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!!
+        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
         w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
         w_PE_to_V = [nPE_scale, pPE_scale]
         
-        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!!
+        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
         v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
         v_PE_to_V = [nPE_scale, pPE_scale]
         
         tc_var_per_stim = dtype(1000)
         tc_var_pred = dtype(1000)
-        
         
         ### define stimuli
         n_trials = 120
@@ -302,55 +304,21 @@ if flag==1:
         
     
     ### plot results
-    plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, 
-                            variance_per_stimulus, variance_prediction, alpha, beta, weighted_output)
+    # plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, 
+    #                         variance_per_stimulus, variance_prediction, alpha, beta, weighted_output, time_plot=0)
 
-    # plot_limit_case_new(n_stimuli, stimulus_duration, stimuli, prediction, mean_of_prediction, 
-    #                     variance_per_stimulus, variance_prediction, alpha, beta, weighted_output)
-
-
-
-# %% Illustrate the input regimes 
-
-flag = 0
-
-if flag==1:
-    
-    ms = 150
-    
-    plt.plot(0,0, marker='s', color='b', markersize=ms)
-    plt.plot(0,1, marker='s', color='r', markersize=ms)
-    plt.plot(1,0, marker='s', color='g', markersize=ms)
-    plt.plot(1,1, marker='s', color='y', markersize=ms)
-    
-    ax = plt.gca()
-    # ax.annotate("", xy=(0.95, 0.9), xytext=(0, 0),arrowprops=dict(arrowstyle="->", color='b', lw=2))
-    # ax.annotate("", xy=(0.01, 0.9), xytext=(0.01, 0),arrowprops=dict(arrowstyle="->", color='b', lw=2))
-    # ax.annotate("", xy=(0.9, 0.01), xytext=(0, 0.01),arrowprops=dict(arrowstyle="->", color='b', lw=2))
-    
-    # ax.annotate("", xy=(0, 0.1), xytext=(0, 1),arrowprops=dict(arrowstyle="->", color='r', lw=2))
-    # ax.annotate("", xy=(0.01, 0.9), xytext=(0, 1),arrowprops=dict(arrowstyle="->", color='r', lw=2))
-    # ax.annotate("", xy=(0.9, 0.01), xytext=(0, 1),arrowprops=dict(arrowstyle="->", color='r', lw=2))
-    
-    # ax.annotate("", xy=(0.05, 0.1), xytext=(1, 1),arrowprops=dict(arrowstyle="->"))
-    
-    ax.set_xlabel('variability across stimuli')
-    ax.set_ylabel('variability of stimuli')
-    
-    ax.set_xticks([0,1])
-    ax.set_yticks([0,1])
-    
-    ax.set_xticklabels(['low', 'high'])
-    ax.set_yticklabels(['low', 'high'])
-    
-    ax.set_xlim([-0.25, 1.25])
-    ax.set_ylim([-0.25, 1.25])
+    if state_before=='3300':
+        plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
+                                  time_plot=0, ylim=[-15,20])
+    else:
+        plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
+                                  time_plot=0, ylim=[-15,20], plot_ylable=False)    
     
     
 # %% Summary ... transitions
 
 flag = 0
-flg_plot_only = 1
+flg_plot_only = 0
 
 if flag==1:
     
@@ -360,7 +328,7 @@ if flag==1:
     if flg_plot_only==0:
         
         ### define all transitions
-        states = ['3300', '3315', '1500', '1515']
+        states = ['3300', '3315', '1515', '1500']
         #state_before = ['3300', '3315', '1500', '1515']
         #state_after = '3300' # 3300, 3315, 1500, 1515
         
@@ -381,11 +349,11 @@ if flag==1:
             nPE_scale = 2.49
             pPE_scale = 2.53
             
-        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!!
+        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
         w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
         w_PE_to_V = [nPE_scale, pPE_scale]
         
-        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!!
+        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
         v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
         v_PE_to_V = [nPE_scale, pPE_scale]
         
@@ -457,17 +425,118 @@ if flag==1:
     # plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, 
     #                         variance_per_stimulus, variance_prediction, alpha, beta, weighted_output)
 
-    from matplotlib.colors import LinearSegmentedColormap, ListedColormap
-    cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_prediction', 
-                                                            colors=['#19535F','#fefee3','#D76A03'])
+    heatmap_summary_transitions(fraction_initial)#, 'Immediately after transition')
+    heatmap_summary_transitions(fraction_steady_state)#, 'Steady state reached')
 
-    plt.figure()
-    g = sns.heatmap(fraction_initial, vmin=0, vmax=1, cmap=cmap_sensory_prediction)
-    g.set_facecolor('#DBDBDB')
+
+# %% Transitions time course
+
+flag = 0
+flg_plot_only = 1
+
+if flag==1:
     
-    plt.figure()
-    h = sns.heatmap(fraction_steady_state, vmin=0, vmax=1, cmap=cmap_sensory_prediction)
-    h.set_facecolor('#DBDBDB')
+    ### file to save data
+    file_data4plot = '../results/data/weighting/data_transitions.pickle'
+    
+    if flg_plot_only==0:
+        
+        ### define all transitions
+        states = ['3300', '3315', '1515', '1500']
+        
+        ### load and define parameters
+        input_flg = '10'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+        
+        [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+         tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
+        
+        if input_flg=='10':
+            nPE_scale = 1.015
+            pPE_scale = 1.023
+        elif input_flg=='01':
+            nPE_scale = 1.7 # 1.72
+            pPE_scale = 1.7 # 1.68
+        elif input_flg=='11':
+            nPE_scale = 2.49
+            pPE_scale = 2.53
+            
+        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
+        w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
+        w_PE_to_V = [nPE_scale, pPE_scale]
+        
+        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
+        v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
+        v_PE_to_V = [nPE_scale, pPE_scale]
+        
+        tc_var_per_stim = dtype(1000)
+        tc_var_pred = dtype(1000)
+        
+        ### define stimuli
+        n_trials = 120
+        trial_duration = 5000
+        n_stimuli_per_trial = 10
+        n_repeats_per_stim = trial_duration/n_stimuli_per_trial
+        # In each trial a stimulus is shown. This stimulus may vary (depending on limit case)
+        # Between trials the stimulus is either the same or varies (depending on the limit case)
+        
+        ### initialise
+        window_size = np.linspace(0,5,21)
+        fraction = np.zeros((4,4, len(window_size)))
+        
+        for j, state_before in enumerate(states):
+            for i, state_after in enumerate(states):
+                
+                print(state_before + ' --> ' + state_after)
+                
+                if state_before!=state_after:
+                
+                    stimuli = np.zeros(n_trials * n_stimuli_per_trial)
+                    mid = (n_trials*n_stimuli_per_trial)//2
+                    
+                    mu_min, mu_max = int(state_before[0]), int(state_before[1])
+                    sd_min, sd_max = int(state_before[2]), int(state_before[3])
+                    stimuli[:mid] = stimuli_moments_from_uniform(n_trials//2, np.int32(n_stimuli_per_trial), 
+                                                                 mu_min, mu_max, sd_min, sd_max)
+                    
+                    mu_min, mu_max = int(state_after[0]), int(state_after[1])
+                    sd_min, sd_max = int(state_after[2]), int(state_after[3])
+                    stimuli[mid:] = stimuli_moments_from_uniform(n_trials//2, np.int32(n_stimuli_per_trial), 
+                                                                 mu_min, mu_max, sd_min, sd_max)
+                    
+                    stimuli = np.repeat(stimuli, n_repeats_per_stim)
+                    
+                    ### compute variances and predictions
+                    
+                    ## run model
+                    [prediction, variance_per_stimulus, mean_of_prediction, variance_prediction, 
+                      alpha, beta, weighted_output] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+                                                                          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli,
+                                                                          w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V)
+                    ### compute fraction
+                    for k, span in enumerate(window_size):  
+                        if span==0:
+                            fraction[i,j,k] = np.mean(alpha[((n_trials//2 - 5) * trial_duration):int((n_trials//2) * trial_duration)])   
+                        else:                                   
+                            fraction[i,j,k] = np.mean(alpha[(n_trials//2 * trial_duration):int((n_trials//2+span) * trial_duration)])                                                 
+                    
+                else:
+                    
+                    fraction[i,j,:] = np.nan
+                                                                           
+        ### save data for later
+        with open(file_data4plot,'wb') as f:
+            pickle.dump([n_trials, trial_duration, stimuli, states, window_size, fraction],f) 
+                                                       
+    else:
+        
+        ### load data for plotting
+        with open(file_data4plot,'rb') as f:
+            [n_trials, trial_duration, stimuli, states, window_size, fraction] = pickle.load(f)  
+            
+            
+    ### plot results
+    plot_transition_course(file_data4plot)
 
 
 # %% ####################################################################

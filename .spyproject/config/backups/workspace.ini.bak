@@ -4,9 +4,9 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['scripts/run_moments_perturbation.py', 'scripts/run_weighting_mean_field.py', 'src/plot_results_mfn.py', 'src/mean_field_model.py', 'src/plot_toy_model.py', 'scripts/run_weighting.py']
+recent_files = ['scripts/run_moments_perturbation.py', 'src/mean_field_model.py', 'src/plot_results_mfn.py', 'scripts/run_moments_through_pe_neurons.py']
 
 [main]
 version = 0.2.0
-recent_files = ['scripts/run_moments_perturbation.py', 'src/mean_field_model.py', 'src/plot_results_mfn.py', 'scripts/run_moments_through_pe_neurons.py']
+recent_files = ['scripts/run_moments_perturbation.py', 'src/plot_results_mfn.py', 'scripts/run_weighting_mean_field.py', 'src/plot_toy_model.py', 'src/mean_field_model.py']
 

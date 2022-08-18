@@ -16,6 +16,7 @@ import pandas as pd
 
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.ticker as ticker
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 dtype = np.float32
 
@@ -115,6 +116,9 @@ def plot_alpha_para_exploration(fraction_sensory_median, para_tested_first, para
     data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
     ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap, xticklabels=every_n_ticks, 
                      yticklabels=every_n_ticks, cbar_kws={'label': 'fraction sensory input'})
+    
+    # inset_ax = inset_axes(ax, width="20%", height="20%", loc=1)
+    # inset_ax.patch.set_alpha(0)
     
     ax.invert_yaxis()
     ax.set_xlabel(xlabel)
