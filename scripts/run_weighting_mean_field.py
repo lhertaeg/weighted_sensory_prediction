@@ -540,7 +540,7 @@ if flag==1:
 
 
 # %% ####################################################################
-#########################################################################
+####################### Below old ... ignore ############################
 #########################################################################
 
 # %% Parameter exploration - time constants or weights
@@ -681,62 +681,6 @@ if flag==1:
                                 xlabel='variability across stimuli', ylabel='variability per stimulus', title='Std', cmap='gray_r', vmax=0.5)
     
     
-# %% Impact of stimulus duration
-
-# ##### Not done yet: you have to adapt the part about the stimuli to tailor it to te MFN
-# ##### Also, think about the stim_durations and how many stimuli you should show to make it comparable between different stim_durations
-
-# flag = 0
-# flg = 1
-
-# if flag==1:
-    
-#     ### default parameters
-#     filename = '../results/data/Prediction/Data_Optimal_Parameters_MFN_10.pickle'
-    
-#     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-#      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
-    
-#     ### stimuli durations to be tested and number of stimuli & repetitions
-#     stim_durations = np.int32(np.array([25,100,500,5000]))
-    
-#     ### stimulation & simulation parameters
-#     n_repeats = 5
-    
-#     dt = dtype(1)
-#     n_stimuli = np.int32(60)
-#     last_n = np.int32(30)
-#     num_values_per_stim = np.int32(50)
-#     num_repeats_per_value = np.int32(stimulus_duration/num_values_per_stim)
-    
-#     ### initialise array
-#     fraction_sensory = np.zeros((len(stim_durations), n_stimuli, n_repeats))
-    
-#     ### test different stimuli durations
-#     for seed in range(n_repeats):
-#         for id_stim, stimulus_duration in enumerate(stim_durations):
-            
-#             if flg==0:
-#                 stimuli = stimuli_moments_from_uniform(n_stimuli, np.int32(num_values_per_stim/dt), 5, 5, 1, 5) # mean 5, SD between 1 and 5
-#             else:
-#                 stimuli = stimuli_moments_from_uniform(n_stimuli, np.int32(num_values_per_stim/dt), 1, 5, 0, 0) # mean between 1 and 5, SD 0
-          
-#             stimuli = dtype(np.repeat(stimuli, num_repeats_per_value))
-            
-#             ## run model
-#             [_, _, _, _, alpha, _, _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-#                                                              tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli)
-    
-#             ## fraction of sensory input in weighted output stored in array
-#             fraction_sensory[id_stim, :, seed] = np.mean(np.split(alpha,n_stimuli),1)
-            
-#     fraction_sensory_averaged_over_seeds = np.mean(fraction_sensory,2)
-#     fraction_sensory_std_over_seeds = np.std(fraction_sensory,2)
-    
-#     ### plot results
-#     plot_fraction_sensory_comparsion(fraction_sensory_averaged_over_seeds, fraction_sensory_std_over_seeds, n_repeats,
-#                                      label_text=stim_durations)
-
 # %% Activation/inactivation experiments 
 
 # this might be also dependent on the specific distribution of inputs (S/P) onto the interneurons

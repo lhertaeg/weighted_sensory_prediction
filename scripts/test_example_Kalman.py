@@ -92,7 +92,7 @@ if flag==1:
     sigmaNoise = 1
     sigmaPrior = 1
     xMax = 10
-    nPoly = 4
+    nPoly = 1 #4
     
     ts = np.linspace(0,xMax,nSteps)
     deltaT = ts[1] - ts[0]
@@ -145,7 +145,7 @@ if flag==1:
 
 # based on implementation above
 
-flag = 1
+flag = 0
 
 if flag==1:
 
@@ -157,6 +157,8 @@ if flag==1:
     
     ts = np.linspace(0,xMax,nSteps)
     deltaT = ts[1] - ts[0]
+    
+    #np.random.seed(1)
     y = np.random.uniform(1,5,size=nSteps)
     
     # Prepare Kalman estimation
@@ -180,6 +182,64 @@ if flag==1:
         K = P * H / (H * P * H + sigmaNoise**2)
         x = x + K * (y[i] - H * x)
         P = (1 - K * H) * P
+        ySigma.append(P)
+        yEst.append(x)
+    
+    ySigma = np.sqrt(ySigma)
+    
+    # Plot
+    plt.figure(figsize=(5,3.5))
+    #plt.fill_between(ts,y-ySigma, y+ySigma, color='0.2', alpha=0.17, label='Konfidenzintervall', lw=0)
+    plt.fill_between(ts,yEst-ySigma, yEst+ySigma, color='0.2', alpha=0.17, label='Konfidenzintervall', lw=0)
+    plt.plot(ts,y,'.-', color='C1', markersize=4, linewidth=0.4, alpha=0.6, label='data')
+    plt.plot(ts,yEst,'C0-',  label='Kalman-Schätzung')
+    plt.xlabel('Zeit')
+    plt.legend(loc=4)
+    plt.tight_layout()
+    
+    
+# %% Kalman filter for random variable drawn from two uniform distribution (simplified)
+
+# based on implementation above
+
+flag = 1
+
+if flag==1:
+
+    # sensory data
+    nSteps = 301
+    sigmaNoise = 1   # 1e-5
+    sigmaPrior = 1
+    
+    #np.random.seed(1)
+    y1 = np.random.uniform(1,5,size=nSteps)
+    y2 = np.random.uniform(7,7,size=nSteps)
+    y = np.concatenate((y1,y2))
+    
+    deltaT = 0.01 #ts[1] - ts[0]
+    ts = np.arange(0, 2*nSteps*deltaT, deltaT)
+    
+    # Prepare Kalman estimation
+    F = 1
+    H = 1
+    
+    # Initialize Kalman estimation
+    x = 0
+    P = sigmaPrior**2
+    
+    # Start Kalman iteration
+    yEst = []
+    ySigma = []
+    for i in range(len(y)):
+        # Propagate (actually "prediction")
+        if i > 0:
+            x = x #F * x
+            P = P #F * P * F
+    
+        # Estimate (actually "correction")
+        K = P / (P + sigmaNoise**2) #P * H / (H * P * H + sigmaNoise**2)
+        x = x + K * (y[i] - x) # x + K * (y[i] - H * x)
+        P = (1 - K) * P # (1 - K * H) * P
         ySigma.append(P)
         yEst.append(x)
     
