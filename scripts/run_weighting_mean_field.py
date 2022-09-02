@@ -123,7 +123,7 @@ if flag==1:
 
 # %% Summary ... extrapolate between cases 
 
-flag = 0
+flag = 1
 flg_plot_only = 1
 
 if flag==1:
@@ -215,6 +215,7 @@ if flag==1:
     ### plot results
     plot_alpha_para_exploration(fraction_sensory_mean_averaged_over_seeds, std_std_arr, std_mean_arr, 2, 
                                 xlabel='unexpected uncertainty \n(variability across trial)', ylabel='expected uncertainty \n(variability within trial)')
+    
     
 # %% Transition examples
 

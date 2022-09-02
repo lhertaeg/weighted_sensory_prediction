@@ -242,17 +242,21 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
     rates_pe_circuit_sens = np.zeros((len(stimuli), 8), dtype=dtype)
     rates_pe_circuit_pred = np.zeros((len(stimuli), 8), dtype=dtype)
     
+    if fixed_input.ndim==1:
+        n_stimuli = len(stimuli)
+        fixed_input = np.tile(fixed_input,(n_stimuli,1))
+    
     ### compute prediction-errors, prediction, mean of prediction, variance of sensory onput, variance of prediction
     for id_stim, stim in enumerate(stimuli):
               
         ## mean-field network, PE circuit (feedforward = sensory, fedback = prediction)
-        feedforward_input = fixed_input + stim * neurons_feedforward
+        feedforward_input = fixed_input[id_stim,:] + stim * neurons_feedforward
         rates_pe_circuit_sens[id_stim,:], prediction[id_stim] = rate_dynamics_mfn(tau_E, tau_I, w_PE_to_P, w_P_to_PE, w_PE_to_PE, 
                                                                                   rates_pe_circuit_sens[id_stim-1,:], prediction[id_stim-1], 
                                                                                   feedforward_input, dt)
         
         ## mean-field network, PE circuit (feedforward = prediction, fedback = prediction of prediction)
-        feedforward_input = fixed_input + prediction[id_stim-1] * neurons_feedforward
+        feedforward_input = fixed_input[id_stim,:] + prediction[id_stim-1] * neurons_feedforward
         rates_pe_circuit_pred[id_stim,:], mean_pred[id_stim] = rate_dynamics_mfn(tau_E, tau_I, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
                                                                                  rates_pe_circuit_pred[id_stim-1,:], mean_pred[id_stim-1], 
                                                                                  feedforward_input, dt)
@@ -265,8 +269,12 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
         variance_prediction[id_stim] = (1-1/tc_var_pred) * variance_prediction[id_stim-1] + (nPE_prediction + pPE_prediction)**2/tc_var_pred
 
     ### compute weighted output
+    variance_per_stimulus[np.isinf(1/variance_per_stimulus)] = 1e-30
+    variance_prediction[np.isinf(1/variance_prediction)] = 1e-30
+    
     alpha = (1/variance_per_stimulus) / ((1/variance_per_stimulus) + (1/variance_prediction))
     beta = (1/variance_prediction) / ((1/variance_per_stimulus) + (1/variance_prediction))
+   
     weighted_output = alpha * stimuli + beta * prediction
     
     return prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_output
@@ -317,8 +325,12 @@ def run_mean_field_model_pred(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_t
         variance_prediction[id_stim] = (1-1/tc_var_pred) * variance_prediction[id_stim-1] + (nPE_prediction + pPE_prediction)**2/tc_var_pred
 
     ### compute weighted output
+    variance_per_stimulus[np.isinf(1/variance_per_stimulus)] = 1e-30
+    variance_prediction[np.isinf(1/variance_prediction)] = 1e-30
+    
     alpha = (1/variance_per_stimulus) / ((1/variance_per_stimulus) + (1/variance_prediction))
     beta = (1/variance_prediction) / ((1/variance_per_stimulus) + (1/variance_prediction))
+    
     weighted_prediction = alpha * prediction + beta * mean_pred
     
     return prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_prediction
