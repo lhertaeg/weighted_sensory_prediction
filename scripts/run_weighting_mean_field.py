@@ -35,6 +35,7 @@ import seaborn as sns
 # Here the stimuli are drawn from a normal distribution with mean and std 
 # for each stimulus presentation, mean and std are drawn from a uniform distribution
 
+
 # %% limit cases
 
 flag = 0
@@ -123,7 +124,7 @@ if flag==1:
 
 # %% Summary ... extrapolate between cases 
 
-flag = 1
+flag = 0
 flg_plot_only = 1
 
 if flag==1:
@@ -176,6 +177,7 @@ if flag==1:
         
         ### initialise
         fraction_sensory_mean = np.zeros((len(std_std_arr),len(std_mean_arr), n_repeats), dtype=dtype)
+        weighted_out = np.zeros((len(std_std_arr),len(std_mean_arr), n_repeats, np.int32(n_trials * trial_duration)), dtype=dtype)
         
         for seed in range(n_repeats):
     
@@ -193,21 +195,25 @@ if flag==1:
                     stimuli = dtype(np.repeat(stimuli, n_repeats_per_stim))
                     
                     ### run model
-                    [_, _, _, _, alpha, _, _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-                                                                  tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli)
+                    [_, _, _, _, alpha, _, 
+                     weighted_output] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+                                                             tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli)
                     
                     ### fraction of sensory input in weighted output
                     fraction_sensory_mean[row, col, seed] = np.mean(alpha[(n_trials - last_n) * trial_duration:])
      
+                    ### weihgted output
+                    weighted_out[row, col, seed, :] = weighted_output
+        
         ### save data for later
         with open(file_data4plot,'wb') as f:
-            pickle.dump([fraction_sensory_mean, std_std_arr, std_mean_arr],f) 
+            pickle.dump([fraction_sensory_mean, std_std_arr, std_mean_arr, weighted_out],f) 
      
     else:
         
         ### load data for plotting
         with open(file_data4plot,'rb') as f:
-            [fraction_sensory_mean, std_std_arr, std_mean_arr] = pickle.load(f)
+            [fraction_sensory_mean, std_std_arr, std_mean_arr, weighted_out] = pickle.load(f)
         
     ### average over seeds
     fraction_sensory_mean_averaged_over_seeds = np.mean(fraction_sensory_mean,2)

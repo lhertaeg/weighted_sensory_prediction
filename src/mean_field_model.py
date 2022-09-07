@@ -223,7 +223,8 @@ def run_mean_field_model_one_column(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per
 def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
                          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli, 
                          VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False,
-                         w_PE_to_V = dtype([1,1]), v_PE_to_V = dtype([1,1])):
+                         w_PE_to_V = dtype([1,1]), v_PE_to_V = dtype([1,1]), 
+                         fixed_input_1 = None, fixed_input_2 = None):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -242,21 +243,37 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
     rates_pe_circuit_sens = np.zeros((len(stimuli), 8), dtype=dtype)
     rates_pe_circuit_pred = np.zeros((len(stimuli), 8), dtype=dtype)
     
-    if fixed_input.ndim==1:
-        n_stimuli = len(stimuli)
-        fixed_input = np.tile(fixed_input,(n_stimuli,1))
-    
+    ### fixed input (external input and possible perturbation)
+    if fixed_input is not None:
+        
+        if fixed_input.ndim==1:
+            n_stimuli = len(stimuli)
+            fixed_input = np.tile(fixed_input,(n_stimuli,1))
+            
+        fixed_input_1 = fixed_input
+        fixed_input_2 = fixed_input
+        
+    else:
+        
+        if fixed_input_1.ndim==1:
+            n_stimuli = len(stimuli)
+            fixed_input_1 = np.tile(fixed_input_1,(n_stimuli,1))
+            
+        if fixed_input_2.ndim==1:
+            n_stimuli = len(stimuli)
+            fixed_input_2 = np.tile(fixed_input_2,(n_stimuli,1))
+        
     ### compute prediction-errors, prediction, mean of prediction, variance of sensory onput, variance of prediction
     for id_stim, stim in enumerate(stimuli):
               
         ## mean-field network, PE circuit (feedforward = sensory, fedback = prediction)
-        feedforward_input = fixed_input[id_stim,:] + stim * neurons_feedforward
+        feedforward_input = fixed_input_1[id_stim,:] + stim * neurons_feedforward
         rates_pe_circuit_sens[id_stim,:], prediction[id_stim] = rate_dynamics_mfn(tau_E, tau_I, w_PE_to_P, w_P_to_PE, w_PE_to_PE, 
                                                                                   rates_pe_circuit_sens[id_stim-1,:], prediction[id_stim-1], 
                                                                                   feedforward_input, dt)
         
         ## mean-field network, PE circuit (feedforward = prediction, fedback = prediction of prediction)
-        feedforward_input = fixed_input[id_stim,:] + prediction[id_stim-1] * neurons_feedforward
+        feedforward_input = fixed_input_2[id_stim,:] + prediction[id_stim-1] * neurons_feedforward
         rates_pe_circuit_pred[id_stim,:], mean_pred[id_stim] = rate_dynamics_mfn(tau_E, tau_I, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
                                                                                  rates_pe_circuit_pred[id_stim-1,:], mean_pred[id_stim-1], 
                                                                                  feedforward_input, dt)
