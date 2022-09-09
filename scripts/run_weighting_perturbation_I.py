@@ -332,8 +332,6 @@ if flag==1:
 
 # %% plot results from perturbation experiments (see above), only one example
 
-### ATTENTION: AS SOON AS YO FIT TO ALL INPUTS TESTED (NOT JUST DIAGONAL), TAKE OUT (0,0) !!!!
-
 flag = 0
 
 if flag==1:
@@ -431,9 +429,7 @@ if flag==1:
     sns.despine(ax=ax)
         
     
-# %% Test: Exc/Inh perturbation, VIP in MFN1, +/- 2 perturbation, whole range
-
-# !!!!!!!!! continue here ...
+# %% Test: Exc/Inh perturbation, whole range
 
 flag = 0
 
@@ -477,7 +473,7 @@ if flag==1:
     n_repeats = np.int32(1) # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     ### perturbation specs
-    perturbations = [-2, 2]
+    perturbations = [-1, 1]
     
     ### means and std's to be tested
     mean_mean, min_std = dtype(3), dtype(0)
@@ -494,7 +490,7 @@ if flag==1:
     ### compute variances and predictions
     for id_mod, perturbation_strength in enumerate(perturbations): 
             
-            for id_cell_perturbed in range(7,8): #range(4,8): # (nPE, pPE, nPE dend, pPE dend,) PVv, PVm, SOM, VIP
+            for id_cell_perturbed in range(4,8): #range(4,8): # (nPE, pPE, nPE dend, pPE dend,) PVv, PVm, SOM, VIP
             
                 ### display progress
                 print(str(id_mod+1) + '/' + str(len(perturbations)) + ' and ' + str(id_cell_perturbed-3) + '/' + str(4))
@@ -540,6 +536,92 @@ if flag==1:
                      frac_sens_before_pert, frac_sens_after_pert, weighted_out],f)  
      
        
+# %% plot results from perturbation experiments (see above), only one example
+
+flag = 0
+
+if flag==1:
+     
+    ### define MFN
+    input_flg = '10' #['10', '01', '11']
+    
+    ### load data
+    file_data4plot = '../results/data/weighting_perturbation/test_weighting_perturbations_' + input_flg + '.pickle'
+    
+    with open(file_data4plot,'rb') as f:
+        [_, _, _, frac_sens_before_pert, frac_sens_after_pert, _] = pickle.load(f)  
+
+    ## figure setup
+    fig, ax = plt.subplots(1,1, tight_layout=True, figsize=(4,3))
+   
+    ### which IN?
+    i = 3 # IN that is considered
+    
+    ### plotting settings etc.
+    colors = ['#44729D', '#BA403C']
+    marker = ['h', 'X', 'P', 'd']
+    labels = ['inhibitory', 'excitatory']
+    
+    for j in range(2):
+
+        before = frac_sens_before_pert[j,i,:,:].flatten()[1:] # take out (0,0)
+        after = frac_sens_after_pert[j,i,:,:].flatten()[1:] # take out (0,0)
+        ax.scatter(before, after, color=colors[j], lw=1, marker=marker[i], label='')
+        
+        m, n = np.polyfit(before, after,1)
+        after_lin = m * before + n
+            
+        ax.plot(before, after_lin, color=colors[j], lw=1, alpha=1, zorder=0, label=labels[j])
+    
+    ax.legend(loc=0, frameon=False, title='modulation')
+    ax.axline((0.5, 0.5), slope=1, color='k', ls=':', alpha=1, zorder=0)
+
+    ax.set_ylabel(r'fraction$_\mathrm{sens}$ (after)')
+    ax.set_xlabel(r'fraction$_\mathrm{sens}$ (before)')
+    
+    sns.despine(ax=ax)
+        
+        
+# %% first plots compare weighted output XXXXXXXXX
+
+flag = 0
+
+if flag==1:
+    
+    ### define MFN
+    input_flg = '10' #['10', '01', '11']
+    
+    ### load data
+    file_data4plot = '../results/data/weighting_perturbation/test_weighting_perturbations_' + input_flg + '.pickle'
+    
+    with open(file_data4plot,'rb') as f:
+        [_, _, _, _, _, weighted_out] = pickle.load(f) 
+        
+    ### means and std's to be tested
+    std_mean_arr = np.linspace(0,3,5, dtype=dtype)
+    std_std_arr = np.linspace(0,3,5, dtype=dtype)
+    
+    ### compute MSE (difference between MSE_perturb and MSE_before)
+    for id_mod in [0,1]: 
+            for id_cell_perturbed in range(4,8):
+                
+                mse = np.zeros((5,5))
+                
+                for col, std_mean in enumerate(std_mean_arr):
+                    for row, std_std in enumerate(std_std_arr):
+                        
+                        output_split = np.array_split(weighted_out[id_mod, id_cell_perturbed-4, row, col, :], 8)
+                        
+                        MSE_before = np.sum((output_split[3] - output_split[2])**2) / len(output_split[2])
+                        MSE_perturb = np.sum((output_split[6] - output_split[2])**2) / len(output_split[2])
+                        
+                        mse[row, col] = (MSE_perturb - MSE_before)
+                        
+                plt.figure()
+                ax = sns.heatmap(mse)
+                ax.invert_yaxis()
+     
+
 # %% #########################################################################  
 ##############################################################################
 ##############################################################################   
