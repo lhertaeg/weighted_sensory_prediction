@@ -5,7 +5,7 @@ I list here the obvious next steps. The lists are not exhaustive ofc.
 
 ## Simulations
 
-- run perturbation experiments in different mean-field networks (INs perturbed in both PE circuits equally or only in one of them)
+- run experiments to mimic neuromodulators and compare with literature
 - add behavioural task (for instance, contraction bias?)
 
 - run experiments in "large-scale" networks to check whether the assumptions we have to make can be relaxed when deviations emerge un-coordinated in the network (and therefore can balance out)

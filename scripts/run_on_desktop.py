@@ -41,8 +41,8 @@ if flag==1:
         
             ### load and define parameters
             #input_flg = '10'
-            filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
-            file_data4plot = file_data4plot = '../results/data/weighting_perturbation/test_weighting_perturbations_' + input_flg + '.pickle'
+            filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
+            file_data4plot = '../results/data/weighting_perturbation/test_weighting_perturbations_' + input_flg + '_column_' + str(column) + '.pickle'
             
             [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
              tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)

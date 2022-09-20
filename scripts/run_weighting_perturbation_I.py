@@ -229,6 +229,7 @@ if flag==1:
 # %% Exc/Inh perturbation, all IN neurons, all MFN
 
 # run for each MFN network
+# if I take this one, then I would have to run this again because I forgot to change filename according to input_flg
 
 flag = 0
 
@@ -236,7 +237,7 @@ if flag==1:
     
     ### load and define parameters
     input_flg = '11'
-    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
     file_data4plot = file_data4plot = '../results/data/weighting_perturbation/data_weighting_perturbations_' + input_flg + '.pickle'
     
     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
@@ -427,7 +428,6 @@ if flag==1:
     ax.set_ylabel('slope')
     
     sns.despine(ax=ax)
-        
     
 # %% Test: Exc/Inh perturbation, whole range
 
@@ -437,7 +437,7 @@ if flag==1:
     
     ### load and define parameters
     input_flg = '10'
-    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
     file_data4plot = file_data4plot = '../results/data/weighting_perturbation/test_weighting_perturbations_' + input_flg + '.pickle'
     
     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
@@ -573,7 +573,7 @@ if flag==1:
             
         ax.plot(before, after_lin, color=colors[j], lw=1, alpha=1, zorder=0, label=labels[j])
     
-    ax.legend(loc=0, frameon=False, title='modulation')
+    ax.legend(loc=0, frameon=False, title='modulation', handlelength=1)
     ax.axline((0.5, 0.5), slope=1, color='k', ls=':', alpha=1, zorder=0)
 
     ax.set_ylabel(r'fraction$_\mathrm{sens}$ (after)')
@@ -581,45 +581,198 @@ if flag==1:
     
     sns.despine(ax=ax)
         
-        
-# %% first plots compare weighted output XXXXXXXXX
+     
+# %% Summarise change in weighting for all INs and all perturbations per MFN
 
 flag = 0
 
 if flag==1:
     
     ### define MFN
-    input_flg = '10' #['10', '01', '11']
+    input_flg = '10'
     
     ### load data
     file_data4plot = '../results/data/weighting_perturbation/test_weighting_perturbations_' + input_flg + '.pickle'
     
     with open(file_data4plot,'rb') as f:
-        [_, _, _, _, _, weighted_out] = pickle.load(f) 
+        [_, _, _, frac_sens_before_pert, frac_sens_after_pert, _] = pickle.load(f)  
+
+    ### figure setup
+    fig, ax = plt.subplots(1,1, tight_layout=True, figsize=(4,3))
+    
+    colors = ['#44729D', '#BA403C']
+    marker = ['h', 'X', 'P', 'd']
+    labels = ['PVv', 'PVm', 'SOM', 'VIP']
+    
+    ### initialise
+    slopes = np.zeros((4,2))
+    offsets = np.zeros((4,2))
+    
+    ### all IN types
+    for id_cell in range(4):
+        
+        ### inhibitory/excitatory perturbation
+        for id_pert in range(2):
+            
+            before = frac_sens_before_pert[id_pert,id_cell,:,:].flatten()[1:] # take out (0,0)
+            after = frac_sens_after_pert[id_pert,id_cell,:,:].flatten()[1:] # take out (0,0)
+            m, n = np.polyfit(before, after, 1)
+            
+            n_compare = 0.5 * (1-m)
+            
+            slopes[id_cell, id_pert] = m
+            offsets[id_cell, id_pert] = n - n_compare # n
+         
+        ### plotting
+        ax.scatter(offsets[id_cell,:], slopes[id_cell,:], c=colors, marker=marker[id_cell])
+        ax.scatter(np.nan, np.nan, c='k', marker=marker[id_cell], label=labels[id_cell])
+    
+    ax.axhline(1, color='k', ls='--', zorder=0)
+    ax.axvline(0, color='k', ls='--', zorder=0)
+    ax.set_xlim([-0.25,0.18])
+    ax.set_ylim([0.37,1.25])
+    
+    #ax.legend(loc=0, frameon=False, ncol=2)
+    ax.legend(loc=2, frameon=False, ncol=2, borderaxespad=0)
+    ax.set_xlabel(r'$\Delta$ offset')
+    ax.set_ylabel('slope')
+    
+    sns.despine(ax=ax)
+    
+
+# %% Schematic to illustrate changes in slope and offset and their meaning
+
+flag = 0
+
+if flag==1:
+    
+    from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+    
+    ### adjust insets
+    def adjust_insets(ax):
+        
+        ax.axline((0.5, 0.5), slope=1, color='k', ls=':', alpha=1, zorder=0)
+        
+        ax.set_xlim([0,1])
+        ax.set_ylim([0,1])
+    
+        ax.set_xticks([])
+        ax.set_yticks([])
+        sns.despine(ax=ax)
+        
+    
+    ### figure setup
+    fig, ax = plt.subplots(1,1, tight_layout=True, figsize=(4,3))
+    
+    marker = ['h', 'X', 'P', 'd']
+    labels = ['PVv', 'PVm', 'SOM', 'VIP']
+    
+    ### initialise
+    slopes = np.zeros((4,2))
+    offsets = np.zeros((4,2))
+
+    ax.axvline(0, 0.5, 1, color='#A4508B', ls='--', lw=2)
+    inset_1 = inset_axes(ax, width='20%', height='20%', loc=9, borderpad=1)
+    inset_1.set_ylabel('after')
+    
+    x = np.linspace(0,1,20)
+    y = 2 * x - 0.5
+    y[y<0] = 0
+    y[y>1] = 1
+    inset_1.plot(x,y, color='#A4508B')
+    
+    adjust_insets(inset_1)
+    
+    ax.axvline(0, 0, 0.5, color='#5BC0BE', ls='--', lw=2)
+    inset_2 = inset_axes(ax, width='20%', height='20%', loc=8, borderpad=1)
+    
+    y = 0.5 * x + 0.25
+    inset_2.plot(x,y, color='#5BC0BE')
+    
+    adjust_insets(inset_2)
+    
+    ax.axhline(1, 0.5, 1, color='#D76A03', ls='--', lw=2)
+    inset_3 = inset_axes(ax, width='20%', height='20%', loc=5, borderpad=1)
+    
+    y = x + 0.25
+    inset_3.plot(x,y, color='#D76A03')
+    
+    adjust_insets(inset_3)
+    
+    ax.axhline(1, 0, 0.5, color='#19535F', ls='--', lw=2)
+    inset_4 = inset_axes(ax, width='20%', height='20%', loc=6, borderpad=1)
+    inset_4.set_xlabel('before')
+    
+    y = x - 0.25
+    inset_4.plot(x,y, color='#19535F')
+    
+    adjust_insets(inset_4)
+    
+    ax.set_xlim([-0.5,0.5])
+    ax.set_ylim([0,2])
+    
+    ax.set_xticks([0])
+    ax.set_yticks([1])
+    
+    ax.set_xlabel('offset')#, labelpad=10)
+    ax.set_ylabel('slope')#, labelpad=10)
+    
+    sns.despine(ax=ax)
+                   
+     
+# %% MSE ... to show that in prediction-driven regime, prediction can be off
+
+flag = 0
+
+if flag==1:
+    
+    ### define MFN
+    input_flg = '11' #['10', '01', '11']
+    
+    ### load data
+    file_data4plot = '../results/data/weighting_perturbation/test_weighting_perturbations_' + input_flg + '.pickle'
+    
+    with open(file_data4plot,'rb') as f:
+        [_, _, _, frac_sens_before_pert, _, weighted_out] = pickle.load(f) 
         
     ### means and std's to be tested
     std_mean_arr = np.linspace(0,3,5, dtype=dtype)
     std_std_arr = np.linspace(0,3,5, dtype=dtype)
     
     ### compute MSE (difference between MSE_perturb and MSE_before)
-    for id_mod in [0,1]: 
-            for id_cell_perturbed in range(4,8):
+    fig, ax = plt.subplots(1,4, tight_layout=True, sharey=True, sharex=True, figsize=(10,2.5))
+    colors = ['#44729D', '#BA403C']
+
+    for id_cell_perturbed in range(4):
+        
+        for id_mod in [0,1]:   
                 
-                mse = np.zeros((5,5))
+            mse = np.zeros((5,5))
+            before = frac_sens_before_pert[id_mod, id_cell_perturbed, :, :].flatten()[1:]
                 
-                for col, std_mean in enumerate(std_mean_arr):
-                    for row, std_std in enumerate(std_std_arr):
+            for col, std_mean in enumerate(std_mean_arr):
+                for row, std_std in enumerate(std_std_arr):
+                    
+                    output_split = np.array_split(weighted_out[id_mod, id_cell_perturbed-4, row, col, :], 8)
+                    
+                    MSE_before = np.sum((output_split[3] - output_split[2])**2) / len(output_split[2])
+                    MSE_perturb = np.sum((output_split[6] - output_split[2])**2) / len(output_split[2])
+                    
+                    mse[row, col] = (MSE_perturb - MSE_before)/MSE_before
+                    
+            #ax[id_cell_perturbed].plot(before, mse.flatten()[1:], 'o', color=colors[id_mod])
+            ax[id_cell_perturbed].scatter(before, mse.flatten()[1:], marker='o', c=colors[id_mod], s=5)
+            
+            if id_cell_perturbed==0:
+               ax[id_cell_perturbed].set_ylabel('normalised MSE') 
+              
+            ax[id_cell_perturbed].set_xlabel('fraction (before)')
+            
+            sns.despine(ax=ax[id_cell_perturbed])
                         
-                        output_split = np.array_split(weighted_out[id_mod, id_cell_perturbed-4, row, col, :], 8)
-                        
-                        MSE_before = np.sum((output_split[3] - output_split[2])**2) / len(output_split[2])
-                        MSE_perturb = np.sum((output_split[6] - output_split[2])**2) / len(output_split[2])
-                        
-                        mse[row, col] = (MSE_perturb - MSE_before)
-                        
-                plt.figure()
-                ax = sns.heatmap(mse)
-                ax.invert_yaxis()
+            
+            #ax = sns.heatmap(mse, cmap='gray_r', vmax=10)
+            #ax.invert_yaxis()
      
 
 # %% #########################################################################  
