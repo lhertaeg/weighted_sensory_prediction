@@ -182,4 +182,25 @@
 
 ## Short summary on literature research
 
+- ACh:
+	- Classical view, that is, ACh signals expected uncertainty, is supported by literature
+	- However, in one study, it has also been shown to lead to faster updating of volatility beliefs comparable to the effects of NE antagonists (which is related ti unexpected uncertainty)
+	- Pretty much all VIP neurons show strong activation upon ACh, while PV neurons show heterogeneous response and SOM neurons show mild to moderate and/or rare responses
+- DA:
+	- DA depletion seems to impair incorporating uncertainty/precision into updating predictions and impairs reactions to unexpected events occurring within a predictable context
+	- DA neurons increase activity of positive PE and decrease activity to negative PE 
+	- From all INs, PVs are the most likely target
+- Serotonin:
+	- In one study, activity of half the serotonin neurons correlated with „expected uncertainty“ on long time scales and „unexpected uncertainty“ at the time of outcome
+	- Serotonin neurons increase activity to both positive and negative PEs
+	- Deficits in serotonin make subject more likely to stick to relearned behaviours (or at least takes longer to update)
+	- While all INs are influenced by serotonin, VIPs are most strongly targeted and modulated by it (increase activity)
+- NA:
+	- NA higher when environment very volatile (NA neurons show strong responses to unexpected changes)
+	- Increasing NA enhances bottom-up, relative to top-down (and antagonists increase effect of expectations on behavior and slower updating of belief system)
+	- Responses of PV and SOM neurons may be more significant than of VIP neurons
+	- Yon 2021b: Either NA selectively disrupts signalling of PE => slower belief update or it more generally sets the balance between bottom-up and top-down
+		- This can be disentangled by repeating the same interventions of Lawson 2021 in a more stable environment
+		- If first hypothesis is correct then nothing should change because sneezy input is used anyways, if second hypothesis is correct, effect of expectations should also be enhanced
+
 
