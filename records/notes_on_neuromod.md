@@ -95,3 +95,45 @@
 - SOM and VIP: could not find strong statements
 
 
+## Serotonin
+
+### General
+
+- originate in the raphe nuclei of the brainstem, extend to almost all forebrain areas (Barnes and Sharp, 1999), including the cortex, ventral striatum, hippocampus, and amygdala (reviewed in Avery 2017: Harvey, 2003; Meneses and Perez- Garcia, 2007)
+- Sertonin receptor activation can induce short-term changes in excitability (reviewed in Grossman 2022: Andrade, 2011; Celada 2013) as well as long-lasting synaptic plasticity (reviewed in Grossman 2022: Lesch 2012)
+- Excitation of serotonin neurons enhanced learning rates (reviewed in Grossman 2022: Iigaya 2018)
+
+### Function
+
+- Generally, involved in impulsivity & punishment, reward and cost assessment, harm aversion, stress & anxiety (reviewed in Avery 2017: Millan, 2003; Jasinska et al., 2012; Asher et al., 2013; Heisler et al., 1998; Weisstaub et al., 2006), withdrawal
+- Observations suggest two possible complementary contributions of serotonin neurons to behavioral flexibility: (1) to facilitate the learning of new associations and (2) to directly inhibit responses which are no longer appropriate (Matias 2017)
+- Impairments to the serotonergic system have been linked to anxiety disorders and depression (reviewed in Avery 2017: Craske and Stein, 2016), as well as Parkinson’s disease (reviewed in Avery 2017: Bédard et al., 2011)
+- Relation to RL
+	- serotonin controls the discounting of reward prediction (reviewed in Avery 2017: Doya, 2002, 2008)
+	- Has been confirmed in rodent and human experiments (reviewed in Avery 2017: Tanaka et al., 2007; Miyazaki et al., 2011)
+	- higher serotonin firing activity causes a rat to wait longer for upcoming rewards, as predicted by temporal discounting (reviewed in Avery 2017: Miyazaki et al., 2011)
+
+### Relation to uncertainty
+
+- Modulates flexible behavior in changing environments (reviewed in Grossman 2022: Matias 2017; Clarke 2004 & 2007, Iigaya 2018)
+- Activity of half of serotonin neurons correlate with „expected uncertainty“ on long time scales and „unexpected uncertainty“ at the time of outcome (Grossman 2022)
+	- While some individual neurons had significant correlations for both forms of uncertainty, most only correlated with one, suggesting that the computation is performed across the population (Grossman 2022)
+	- „Thus, the nervous system may maintain running estimates of two forms of uncertainty that generalize across behavioral tasks“ (Grossman 2022)
+- serotonin neurons showed an increase in activity in response to positive and negative RPEs, and showed a larger response for the larger magnitude RPE (Matias 2017)
+	- Serotonin neurons resembled an ‘unsigned RPE’ with respect to rewards and reward omissions, but they diverged from this model for air puff responses (Matias 2017)
+	- Hypothesis: serotonin neurons might report errors of control rather than errors of prediction. Under this hypothesis, an aversive outcome such as the air puff continues to generate a response in serotonin neurons because the organism has not managed to control this aspect of its environment (Matias 2017)
+- Deficits in serotonin, especially in the medial prefrontal cortex, disturb adaptation to changes in the required action for a given cue (reversal learning) by making the subjects more likely to stick to prelearned behaviors (Clarke 2004)
+- Animals are still capable of adapting their behavior but do so more slowly in serotonin axon lesions (reviewed in Grossman 2022: Clarke 2004 & 2007), or reversible inactivation of dorsal raphe serotonin neurons (reviewed in Grossman 2022: Matias 2017)
+
+### Impact on interneurons
+
+- PV neurons are most likely influenced by serotonin
+	- preferentially express the genes for serotonin and opioid receptors (reviewed in Swanson in Maffei 2019: Paul et al., 2017)
+- SOM neurons are most likely influenced by serotonin
+	- SOM neurons express genes for serotonergic receptors
+	- Given that neuromodulators that reduce SOM-neuron activity have not yet been identified (Urban-Ciecko 2016), serotonin most likely increases SOM activity
+- VIP neurons may be modified most strongly (in comparison to PV and SOM)
+	- They are target of serotonergic inputs (reviewed in Wester 2014)
+	- Express the ionotropic serotonin 5-HT3A receptor (Hattori 2017, Swanson in Maffei 2019)
+	- serotonin induced fast membrane potential depolarizations (Isabelle Férézou 2002 J Neurosci)
+
