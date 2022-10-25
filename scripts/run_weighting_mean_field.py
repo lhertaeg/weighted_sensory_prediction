@@ -18,6 +18,7 @@ from src.plot_toy_model import plot_manipulation_results
 # from src.mean_field_model import random_uniform_from_moments, random_lognormal_from_moments, random_gamma_from_moments
 # from src.mean_field_model import stimuli_from_mean_and_std_arrays
 from src.plot_results_mfn import plot_limit_case_example, plot_transitions_examples, heatmap_summary_transitions, plot_transition_course
+from src.plot_results_mfn import  plot_alpha_over_trial
 
 
 import warnings
@@ -28,13 +29,13 @@ dtype = np.float32
 # %% erase after testing
 
 import matplotlib.pyplot as plt
+import matplotlib as mlp
 import seaborn as sns
 
 # %% Note!!!
 
 # Here the stimuli are drawn from a normal distribution with mean and std 
 # for each stimulus presentation, mean and std are drawn from a uniform distribution
-
 
 # %% limit cases
 
@@ -52,7 +53,7 @@ if flag==1:
         
         ### load and define parameters
         input_flg = '10'
-        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
         
         [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
@@ -136,7 +137,7 @@ if flag==1:
         
         ### load and define parameters
         input_flg = '10'
-        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
         
         [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
@@ -223,6 +224,98 @@ if flag==1:
                                 xlabel='unexpected uncertainty \n(variability across trial)', ylabel='expected uncertainty \n(variability within trial)')
     
     
+# %% Average course of alpha within a trial (fraction) 
+
+flag = 1
+flg_plot_only = 1
+
+if flag==1:
+    
+    ### trial duration to be changed
+    trial_duration = np.int32(1000)# dtype(5000)
+    
+    ### file to save data
+    file_data4plot = '../results/data/weighting/data_weighting_alpha_course_' + str(trial_duration) + '.pickle'
+    
+    if flg_plot_only==0:
+        
+        ### load and define parameters
+        input_flg = '10'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
+        
+        [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+         tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
+        
+        if input_flg=='10':
+            nPE_scale = 1.015
+            pPE_scale = 1.023
+        elif input_flg=='01':
+            nPE_scale = 1.7 # 1.72
+            pPE_scale = 1.7 # 1.68
+        elif input_flg=='11':
+            nPE_scale = 2.49
+            pPE_scale = 2.53
+            
+        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
+        w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
+        w_PE_to_V = [nPE_scale, pPE_scale]
+        
+        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
+        v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
+        v_PE_to_V = [nPE_scale, pPE_scale]
+        
+        tc_var_per_stim = dtype(1000)
+        tc_var_pred = dtype(1000)
+        
+        ### stimulation & simulation parameters
+        n_trials = np.int32(100)
+        n_stimuli_per_trial = np.int32(10)
+        n_repeats_per_stim = np.int32(trial_duration/n_stimuli_per_trial)
+        
+        ### means and std's to be tested
+        mean_mean, min_std = dtype(3), dtype(0)
+        std_mean_arr = np.array([3, 2.25, 1.5, 0.75, 0])
+        std_std_arr = np.array([0, 0.75, 1.5, 2.25, 3])
+        
+        ### initialise
+        fraction_course = np.zeros((n_trials * trial_duration, 5), dtype=dtype)
+        
+        for id_stim in range(len(std_mean_arr)):
+                    
+                print(str(id_stim+1) + '/' + str(len(std_mean_arr)))
+                
+                ### define stimuli
+                std_mean = std_mean_arr[id_stim]
+                std_std = std_std_arr[id_stim]
+                
+                ### define stimuli
+                stimuli = stimuli_moments_from_uniform(n_trials, n_stimuli_per_trial, dtype(mean_mean - np.sqrt(3)*std_mean), 
+                                                       dtype(mean_mean + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
+                
+                stimuli = dtype(np.repeat(stimuli, n_repeats_per_stim))
+                
+                ### run model
+                [_, _, _, _, alpha, _,  _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+                                                                  tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli)
+                
+                ### fraction of sensory input in weighted output
+                fraction_course[:, id_stim] = alpha
+                       
+        
+        ### save data for later
+        with open(file_data4plot,'wb') as f:
+            pickle.dump([n_trials, std_std_arr, std_mean_arr, fraction_course],f) 
+     
+    else:
+        
+        ### load data for plotting
+        with open(file_data4plot,'rb') as f:
+            [n_trials, std_std_arr, std_mean_arr, fraction_course] = pickle.load(f)
+        
+    ### plot results
+    plot_alpha_over_trial(fraction_course, n_trials)
+    
+ 
 # %% Transition examples
 
 flag = 0
@@ -241,7 +334,7 @@ if flag==1:
         
         ### load and define parameters
         input_flg = '10'
-        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
         
         [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
@@ -341,7 +434,7 @@ if flag==1:
         
         ### load and define parameters
         input_flg = '10'
-        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
         
         [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
@@ -453,7 +546,7 @@ if flag==1:
         
         ### load and define parameters
         input_flg = '10'
-        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_10.pickle'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
         
         [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)

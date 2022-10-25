@@ -46,6 +46,31 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 # %% functions
 
 
+def plot_alpha_over_trial(fraction_course, n_trials):
+    
+    fig, ax = plt.subplots(1, 1, tight_layout=True, figsize=(4,4))
+    colors = sns.color_palette('magma', n_colors=5)
+    
+    for id_stim in range(5):
+        
+        alpha_split = np.array_split(fraction_course[:,id_stim], n_trials)
+        alpha_avg_trial = np.mean(alpha_split,0)
+        alpha_std_trial = np.std(alpha_split,0)
+        sem = alpha_std_trial/np.sqrt(n_trials)
+        trial_fraction = np.linspace(0,1,len(alpha_avg_trial))
+        
+        ax.plot(trial_fraction, alpha_avg_trial, color=colors[id_stim])
+        ax.fill_between(trial_fraction, alpha_avg_trial-sem, alpha_avg_trial+sem, alpha=0.3, color=colors[id_stim])
+    
+    ax.set_ylim([0,1])
+    ax.set_xlim([0,1])
+    
+    ax.set_ylabel('fraction')
+    ax.set_xlabel('time/trial duration')
+    sns.despine(ax=ax)
+    
+    
+
 def plot_transition_course(file_data4plot):
     
     ### load data

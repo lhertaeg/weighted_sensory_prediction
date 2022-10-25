@@ -17,6 +17,16 @@ dtype = np.float32
     
     # For the sake of simplicity, I have squared the activity of the PE neurons only for the computation of the variance,
     # in later implementations, that needs to be revised
+    
+    
+# s = 0
+# N = 100000
+# tau = 100
+
+# for i in range(N):
+#     s += np.random.uniform(1,5) * np.exp((i-(N-1))/tau) / tau
+
+# print(s)
 
 # %% functions
 
@@ -279,6 +289,7 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
                                                                                  feedforward_input, dt)
 
         ## compute variance of sensory input and prediction
+        # please note that dt = 1 here!
         nPE_sensory, pPE_sensory = (w_PE_to_V * rates_pe_circuit_sens[id_stim, :2]) 
         variance_per_stimulus[id_stim] = (1-1/tc_var_per_stim) * variance_per_stimulus[id_stim-1] + (nPE_sensory + pPE_sensory)**2/tc_var_per_stim
 

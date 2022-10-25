@@ -1,4 +1,10 @@
-# Notes on Neuromodulation
+# Neuromodulators, interneurons and uncertainty
+
+*„Neuromodulatory influences may be a key mechanistic link between behavioral state and GABAergic interneurons in the cortex.“* (Cardin 2019)
+ 
+*„Several lines of recent evidence have pointed to inhibitory interneurons as a critical intersection point between neuromodulatory inputs and local cortical circuits“* (Cardin 2019)
+
+*„There is evidence that multiple neurotransmitters and neuromodulators are co-released at the axon terminals of neurons (Trudeau, 2004; Sarter et al., 2005; Zhou et al., 2005)“* (Avery 2017)
 
 ## Activation of Inhibitory Neurons and Their Recruitment in behaviour
 Swanson and Maffei, 2019 
