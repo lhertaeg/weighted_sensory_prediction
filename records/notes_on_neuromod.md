@@ -59,3 +59,39 @@
 	- In V1 & A1, cholinergic activity excites VIP-INs, which increases pyramidal spiking via disinhibition (reviewed in Hattori 2017: Fu 2016, Kuchibhotla 2017, Nelson 2016)
 	- Stimulation of cholinergic input to the cortex modified all VIP+ neurons (reviewed in Swanson in Maffei 2019: Alitto and Dan, 2012)
 
+
+## Dopamine (DA)
+
+### General
+
+- Dopamine originates in either the ventral tegmental area (VTA) or substantia nigra pars compacta (SNc) (Avery 2017)
+- VTA and SNc are strongly influenced by the striatum and subcortical structures such as the lateral habenula and pedunculopontine tegmental nucleus (Avery 2017)
+- Dopamine neurons, in turn, send projections to the striatum, thalamus, amygdala, hippocampus, and prefrontal cortex, demonstrating the “feedback” nature of this circuit (Avery 2017)
+
+### Function
+
+- In general, dopamine has been linked to reward, saliency, uncertainty and invigoration (Avery 2017)
+	- D2 receptors play a preferential role in behavior and reward processing, whereas D1-expressing neurons are involved in working memory and attentional modulation of visual cortices (reviewed in Avery 2017: Noudoost and Moore, 2011; Gee et al., 2012; Puig and Miller, 2014)
+	- DA may signal reward PE (reviewed in Avery 2017: Doya 2002, 2008)
+	- DA neurons respond to any salient or novel input in the environment regardless of its reward value (reviewed in Avery 2017: Bromberg-Martin et al., 2010)
+	- also been suggested that dopamine encodes the precision, the inverse of uncertainty, of alternative actions beliefs (reviewed in Avery 2017: Friston et al., 2012)
+- Abnormalities in DA responses linked to disorders, including schizophrenia, attention and mood disorders, and Parkinson’s disease (reviewed in Avery 2017: Wise, 2004; Björklund and Dunnett, 2007; Schultz, 2007; Sillitoe and Vogel, 2008)
+- DA depletion primarily impacts task performance and learning is left intact (reviewed in Avery 2017: Berridge and Robinson, 1998; Cannon and Palmiter, 2003; Berridge, 2012)
+
+### Relation to uncertainty
+
+- Diederen et al.: Under dopamine blockade, agents are less able to incorporate information about the reliability or precision of their predictions into the signals they use for learning
+	- When agents could make more precise predictions (because the environment is stable), unexpected outcomes elicited stronger error signals — leading to more rapid belief updating AWAY from the prior rather than inferences biased towards it!
+- DA depletion impairs adaptive reactions to unexpected events occurring within a broadly predictable context (reviewed in Marshall 2016: Bestmann 2014)
+- Distinctions have also been made between D1 and D2 dopaminergic receptor subtypes in regulating adaptive responses to unexpected stimuli (reviewed in Marshall 2016: Bestmann 2014)
+- no evidence that DA receptor antagonism influenced participants’ reactions to low-level sensory PE (Marshall 2016)
+- manipulating DA altered the degree to which participants’ perceptual beliefs modulated the preparation of their speeded responses to uncertain stimuli (Marshall 2016)
+- Parkinson’s disease patients with DA dysfunction have an impaired capacity to switch from naming digits to letters when both types of stimuli are presented simultaneously, even when the task shift is explicitly cued (reviewed in Marshall 2016: Cools 2001)
+
+### Impact on interneurons
+
+- Effect of DA on PV neurons moderate (in comparison to other INs DA has biggest impact seemingly, by judging the subset of papers I looked at)
+	- DA enhances the excitability of fast-spiking INs (reviewed in Hattori 2017: Gorelova), while still depressing GABA release through direct inactivation of presynaptic terminals (reviewed in Hattori 2017: Tritsch 2012)
+- SOM and VIP: could not find strong statements
+
+
