@@ -208,59 +208,44 @@
 
 Please note that I did not include all references mentioned above. If you don’t find the reference in the list below, please look into the paper that is cited as „reviewed in _“. You will find the respective reference there. 
 
-Avery, Michael C., and Jeffrey L. Krichmar. "Neuromodulatory systems and their interactions: a review of models, theories, and experiments." Frontiers in neural circuits (2017): 108.
-
-Behrens, T.E., Woolrich, M.W., Walton, M.E., and Rushworth, M.F. (2007). Learning the value of information in an uncertain world. Nat. Neurosci. 10, 1214–1221.
-Bengtson, C.P., Lee, D.J., and Osborne, P.B. (2004). Opposing electrophysiological actions of 5-HT on noncholinergic and cholinergic neurons in the rat ventral pallidum in vitro. J. Neurophysiol. 92, 433–443.
-Bestmann S, Ruge D, Rothwell J, Galea JM. The Role of Dopamine in Motor Flexibility. J Cogn Neu- rosci. 2014; 27: 365–376. doi: 10.1162/jocn_a_00706 PMID: 25170792
-Bouret S, Sara SJ. Network reset: a simplified overarching theory of locus coeruleus noradrenaline function. Trends Neurosci. 2005; 28: 574–582. doi: 10.1016/j.tins.2005.09.002 PMID: 16165227
-Cardin, Jessica A. "Functional flexibility in cortical circuits." Current opinion in neurobiology 58 (2019): 175-180.
-
-Clarke, H.F., Dalley, J.W., Crofts, H.S., Robbins, T.W., and Roberts, A.C. (2004). Cognitive inflexibility after prefrontal serotonin depletion. Science 304, 878–880. 
-Clarke, H.F., Walker, S.C., Dalley, J.W., Robbins, T.W., and Roberts, A.C. (2007). Cognitive inflexibility after prefrontal serotonin depletion is behaviorally and neurochemically specific. Cereb. Cortex 17, 18–27.
-Cools R, Barker RA, Sahakian BJ, Robbins TW. Mechanisms of cognitive set flexibility in Parkinson’s disease. Brain. 2001; 124: 2503–2512. PMID: 11701603
-Cools, Roshan, and Amy FT Arnsten. "Neuromodulation of prefrontal cortex cognitive function in primates: the powerful roles of monoamines and acetylcholine." Neuropsychopharmacology 47.1 (2022): 309-328.
-
-Dayan P, Yu A. Norepinephrine and neural interrupts. Adv Neural Inf Process Syst. 2006; 18: 243.
-Dayan, P. & Yu, A.J. Phasic norepinephrine: A neural interrupt signal for unexpected events. Network 17, 335–350 (2006).
-Diederen, K.M.J., Spencer, T., Vestergaard, M.D., Fletcher, P.C., and Schultz, W. (2016). Adaptive prediction error coding in the human midbrain and striatum facilitates behavioral adaptation and learning efficiency. Neuron 90, 1127–1138. 
-Diederen, K.M.J., Ziauddeen, H., Vestergaard, M.D., Spencer, T., Schultz, W., and Fletcher, P.C. (2017). Dopamine modulates adaptive prediction error coding in the human midbrain and striatum. J. Neurosci. 37, 1708–1720.
-Doya, Kenji. "Modulators of decision making." Nature neuroscience 11.4 (2008): 410-416.
-
-Ferguson, Brielle R., and Wen-Jun Gao. "PV interneurons: critical regulators of E/I balance for prefrontal cortex-dependent behavior and psychiatric disorders." Frontiers in neural circuits 12 (2018): 37.
-
-Gil Z, Connors BW, Amitai Y. Differential Regulation of Neocortical Synapses by Neuromodulators and Activity. Neuron. 1997; 19: 679–686. doi: 10.1016/S0896-6273(00)80380-3 PMID: 9331357
-Grossman, Cooper D., Bilal A. Bari, and Jeremiah Y. Cohen. "Serotonin neurons modulate learning rate through uncertainty." Current Biology 32.3 (2022): 586-599.
-
-Hangya, B., Ranade, S.P., Lorenc, M., and Kepecs, A. (2015). Central cholinergic neurons are rapidly recruited by reinforcement feedback. Cell 162, 1155–1168.
-Hasselmo, M.E., Linster, C., Patil, M., Ma, D., and Cekic, M. (1997). Noradrenergic suppression of synaptic transmission may influence cortical signal-to-noise ratio. J. Neurophysiol. 77, 3326–3339.
-Hattori, Ryoma, et al. "Functions and dysfunctions of neocortical inhibitory neuron subtypes." Nature neuroscience 20.9 (2017): 1199-1208.
-
-Iigaya, K., Fonseca, M.S., Murakami, M., Mainen, Z.F., and Dayan, P. (2018). An effect of serotonergic stimulation on learning rates for rewards apparent after long intertrial intervals. Nat. Commun. 9, 2477.
-Janitzky, K., Lippert, M.T., Engelhorn, A., Tegtmeier, J., Goldschmidt, J., Heinze, H.-J., and Ohl, F.W. (2015). Optogenetic silencing of locus coeruleus activity in mice impairs cognitive flexibility in an attentional set-shifting task. Front. Behav. Neurosci. 9, 286.
-Kobayashi, M., Imamura, K., Sugai, T., Onoda, N., Yamamoto, M., Komai, S., and Watanabe, Y. (2000). Selective suppression of horizontal propagation in rat visual cortex by norepinephrine. Eur. J. Neurosci. 12, 264–272. 
-Lawson, Rebecca P., et al. "The computational, pharmacological, and physiological determinants of sensory learning under uncertainty." Current Biology 31.1 (2021): 163-172.
-
-Marshall, Louise, et al. "Pharmacological fingerprints of contextual uncertainty." PLoS Biology 14.11 (2016): e1002575.
-
-Matias, Sara, et al. "Activity patterns of serotonin neurons underlying cognitive flexibility." Elife 6 (2017): e20552.
-
-Moran RJ, Campo P, Symmonds M, Stephan KE, Dolan RJ, Friston KJ. Free energy, precision and learning: the role of cholinergic neuromodulation. J Neurosci. 2013; 33: 8227–8236. doi: 10.1523/ JNEUROSCI.4255-12.2013 PMID: 23658161
-Ridley, R.M., Haystead, T.A.J., Baker, H.F., and Crow, T.J. (1981). A new approach to the role of noradrenaline in learning: problem-solving in the marmoset after a-noradrenergic receptor blockade. Pharmacol. Biochem. Behav. 14, 849–855.
-Rogers, Robert D. "The roles of dopamine and serotonin in decision making: evidence from pharmacological experiments in humans." Neuropsychopharmacology 36.1 (2011): 114-132. 
-Sara SJ, Segal M. Plasticity of sensory responses of locus coeruleus neurons in the behaving rat: implications for cognition. Prog Brain Res. 1991; 88: 571–585. PMID: 1813935
-Swanson, Olivia K., and Arianna Maffei. "From hiring to firing: activation of inhibitory neurons and their recruitment in behavior." Frontiers in molecular neuroscience 12 (2019): 168.
-
-Szabo, S.T., and Blier, P. (2001). Functional and pharmacological characterization of the modulatory role of serotonin on the firing activity of locus coeruleus norepinephrine neurons. Brain Res. 922, 9–20.
-Urban-Ciecko, Joanna, and Alison L. Barth. "Somatostatin-expressing neurons in cortical networks." Nature Reviews Neuroscience 17.7 (2016): 401-409.
-
-Wester, Jason C., and Chris J. McBain. "Behavioral state-dependent modulation of distinct interneuron subtypes and consequences for circuit function." Current opinion in neurobiology 29 (2014): 118-125.
-
-Yon, Daniel, and Chris D. Frith. "Precision and the Bayesian brain." Current Biology 31.17 (2021): R1026-R1032.
-
-Yon, Daniel. "Prediction and learning: understanding uncertainty." Current Biology 31.1 (2021): R23-R25.
-
-Yu AJ, Dayan P. Acetylcholine in cortical inference. Neural Netw. 2002; 15: 719–730. doi: 10.1016/ S0893-6080(02)00058-8 PMID: 12371522
-Yu, A., and Dayan, P. (2003). Expected and unexpected uncertainty: ACh and NE in the neocortex. Adv. Neural Inf. Process. Syst. 15, 157–164. 
-Yu, A.J., and Dayan, P. (2005). Uncertainty, neuromodulation, and attention. Neuron 46, 681–692. 
-Zhang, K., Chen, C.D., and Monosov, I.E. (2019). Novelty, salience, and surprise timing are signaled by neurons in the basal forebrain. Curr. Biol. 29, 134–142.e3.
+- Avery, Michael C., and Jeffrey L. Krichmar. "Neuromodulatory systems and their interactions: a review of models, theories, and experiments." Frontiers in neural circuits (2017): 108.
+- Behrens, T.E., Woolrich, M.W., Walton, M.E., and Rushworth, M.F. (2007). Learning the value of information in an uncertain world. Nat. Neurosci. 10, 1214–1221.
+- Bengtson, C.P., Lee, D.J., and Osborne, P.B. (2004). Opposing electrophysiological actions of 5-HT on noncholinergic and cholinergic neurons in the rat ventral pallidum in vitro. J. Neurophysiol. 92, 433–443.
+- Bestmann S, Ruge D, Rothwell J, Galea JM. The Role of Dopamine in Motor Flexibility. J Cogn Neu- rosci. 2014; 27: 365–376. doi: 10.1162/jocn_a_00706 PMID: 25170792
+- Bouret S, Sara SJ. Network reset: a simplified overarching theory of locus coeruleus noradrenaline function. Trends Neurosci. 2005; 28: 574–582. doi: 10.1016/j.tins.2005.09.002 PMID: 16165227
+- Cardin, Jessica A. "Functional flexibility in cortical circuits." Current opinion in neurobiology 58 (2019): 175-180.
+- Clarke, H.F., Dalley, J.W., Crofts, H.S., Robbins, T.W., and Roberts, A.C. (2004). Cognitive inflexibility after prefrontal serotonin depletion. Science 304, 878–880. 
+- Clarke, H.F., Walker, S.C., Dalley, J.W., Robbins, T.W., and Roberts, A.C. (2007). Cognitive inflexibility after prefrontal serotonin depletion is behaviorally and neurochemically specific. Cereb. Cortex 17, 18–27.
+- Cools R, Barker RA, Sahakian BJ, Robbins TW. Mechanisms of cognitive set flexibility in Parkinson’s disease. Brain. 2001; 124: 2503–2512. PMID: 11701603
+- Cools, Roshan, and Amy FT Arnsten. "Neuromodulation of prefrontal cortex cognitive function in primates: the powerful roles of monoamines and acetylcholine." Neuropsychopharmacology 47.1 (2022): 309-328.
+- Dayan P, Yu A. Norepinephrine and neural interrupts. Adv Neural Inf Process Syst. 2006; 18: 243.
+- Dayan, P. & Yu, A.J. Phasic norepinephrine: A neural interrupt signal for unexpected events. Network 17, 335–350 (2006).
+- Diederen, K.M.J., Spencer, T., Vestergaard, M.D., Fletcher, P.C., and Schultz, W. (2016). Adaptive prediction error coding in the human midbrain and striatum facilitates behavioral adaptation and learning efficiency. Neuron 90, 1127–1138. 
+- Diederen, K.M.J., Ziauddeen, H., Vestergaard, M.D., Spencer, T., Schultz, W., and Fletcher, P.C. (2017). Dopamine modulates adaptive prediction error coding in the human midbrain and striatum. J. Neurosci. 37, 1708–1720.
+- Doya, Kenji. "Modulators of decision making." Nature neuroscience 11.4 (2008): 410-416.
+- Ferguson, Brielle R., and Wen-Jun Gao. "PV interneurons: critical regulators of E/I balance for prefrontal cortex-dependent behavior and psychiatric disorders." Frontiers in neural circuits 12 (2018): 37.
+- Gil Z, Connors BW, Amitai Y. Differential Regulation of Neocortical Synapses by Neuromodulators and Activity. Neuron. 1997; 19: 679–686. doi: 10.1016/S0896-6273(00)80380-3 PMID: 9331357
+- Grossman, Cooper D., Bilal A. Bari, and Jeremiah Y. Cohen. "Serotonin neurons modulate learning rate through uncertainty." Current Biology 32.3 (2022): 586-599.
+- Hangya, B., Ranade, S.P., Lorenc, M., and Kepecs, A. (2015). Central cholinergic neurons are rapidly recruited by reinforcement feedback. Cell 162, 1155–1168.
+- Hasselmo, M.E., Linster, C., Patil, M., Ma, D., and Cekic, M. (1997). Noradrenergic suppression of synaptic transmission may influence cortical signal-to-noise ratio. J. Neurophysiol. 77, 3326–3339.
+- Hattori, Ryoma, et al. "Functions and dysfunctions of neocortical inhibitory neuron subtypes." Nature neuroscience 20.9 (2017): 1199-1208.
+- Iigaya, K., Fonseca, M.S., Murakami, M., Mainen, Z.F., and Dayan, P. (2018). An effect of serotonergic stimulation on learning rates for rewards apparent after long intertrial intervals. Nat. Commun. 9, 2477.
+- Janitzky, K., Lippert, M.T., Engelhorn, A., Tegtmeier, J., Goldschmidt, J., Heinze, H.-J., and Ohl, F.W. (2015). Optogenetic silencing of locus coeruleus activity in mice impairs cognitive flexibility in an attentional set-shifting task. Front. Behav. Neurosci. 9, 286.
+- Kobayashi, M., Imamura, K., Sugai, T., Onoda, N., Yamamoto, M., Komai, S., and Watanabe, Y. (2000). Selective suppression of horizontal propagation in rat visual cortex by norepinephrine. Eur. J. Neurosci. 12, 264–272. 
+- Lawson, Rebecca P., et al. "The computational, pharmacological, and physiological determinants of sensory learning under uncertainty." Current Biology 31.1 (2021): 163-172.
+- Marshall, Louise, et al. "Pharmacological fingerprints of contextual uncertainty." PLoS Biology 14.11 (2016): e1002575.
+- Matias, Sara, et al. "Activity patterns of serotonin neurons underlying cognitive flexibility." Elife 6 (2017): e20552.
+- Moran RJ, Campo P, Symmonds M, Stephan KE, Dolan RJ, Friston KJ. Free energy, precision and learning: the role of cholinergic neuromodulation. J Neurosci. 2013; 33: 8227–8236. doi: 10.1523/ JNEUROSCI.4255-12.2013 PMID: 23658161
+- Ridley, R.M., Haystead, T.A.J., Baker, H.F., and Crow, T.J. (1981). A new approach to the role of noradrenaline in learning: problem-solving in the marmoset after a-noradrenergic receptor blockade. Pharmacol. Biochem. Behav. 14, 849–855.
+- Rogers, Robert D. "The roles of dopamine and serotonin in decision making: evidence from pharmacological experiments in humans." Neuropsychopharmacology 36.1 (2011): 114-132. 
+- Sara SJ, Segal M. Plasticity of sensory responses of locus coeruleus neurons in the behaving rat: implications for cognition. Prog Brain Res. 1991; 88: 571–585. PMID: 1813935
+- Swanson, Olivia K., and Arianna Maffei. "From hiring to firing: activation of inhibitory neurons and their recruitment in behavior." Frontiers in molecular neuroscience 12 (2019): 168.
+- Szabo, S.T., and Blier, P. (2001). Functional and pharmacological characterization of the modulatory role of serotonin on the firing activity of locus coeruleus norepinephrine neurons. Brain Res. 922, 9–20.
+- Urban-Ciecko, Joanna, and Alison L. Barth. "Somatostatin-expressing neurons in cortical networks." Nature Reviews Neuroscience 17.7 (2016): 401-409.
+- Wester, Jason C., and Chris J. McBain. "Behavioral state-dependent modulation of distinct interneuron subtypes and consequences for circuit function." Current opinion in neurobiology 29 (2014): 118-125.
+- Yon, Daniel, and Chris D. Frith. "Precision and the Bayesian brain." Current Biology 31.17 (2021): R1026-R1032.
+- Yon, Daniel. "Prediction and learning: understanding uncertainty." Current Biology 31.1 (2021): R23-R25.
+- Yu AJ, Dayan P. Acetylcholine in cortical inference. Neural Netw. 2002; 15: 719–730. doi: 10.1016/ S0893-6080(02)00058-8 PMID: 12371522
+- Yu, A., and Dayan, P. (2003). Expected and unexpected uncertainty: ACh and NE in the neocortex. Adv. Neural Inf. Process. Syst. 15, 157–164. 
+- Yu, A.J., and Dayan, P. (2005). Uncertainty, neuromodulation, and attention. Neuron 46, 681–692. 
+- Zhang, K., Chen, C.D., and Monosov, I.E. (2019). Novelty, salience, and surprise timing are signaled by neurons in the basal forebrain. Curr. Biol. 29, 134–142.e3.
