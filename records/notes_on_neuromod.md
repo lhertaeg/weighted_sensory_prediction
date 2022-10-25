@@ -137,3 +137,49 @@
 	- Express the ionotropic serotonin 5-HT3A receptor (Hattori 2017, Swanson in Maffei 2019)
 	- serotonin induced fast membrane potential depolarizations (Isabelle Férézou 2002 J Neurosci)
 
+
+## Noradrenaline/Norepinephrine (NA/NE)
+
+### General
+ 
+- With the exception of the basal ganglia, noradrenergic neurons, which originate in the locus coeruleus (LC), project to nearly every cortical and subcortical region (reviewed in Avery 2017: Berridge and Waterhouse, 2003)
+- norepinephrine in the locus coeruleus receives functional input from dorsal raphe serotonin neurons (reviewed in Grossman 2022: Szabo 2001)
+
+### Function
+
+- Generally, involved in exploration vs. exploitation, network reset, unexpected uncertainty (Avery 2017)
+- Two theories of noradrenergic function:
+	1. The “adaptive gain theory” suggests that the noradrenergic system mediates the switch between exploration and exploitation behaviors (reviewed in Avery 2017: Aston-Jones and Cohen, 2005)
+	2. The “network reset” theory, on the other hand, suggests that the noradrenergic system is critical for functional reorganization of cortical activity when environmental contingencies change to allow for behavioral adaptation (reviewed in Avery 2017: Bouret and Sara, 2005)
+- Suggested that exploration and exploitation modes are mediated by tonic and phasic LC activity (reviewed in Avery 2017: Aston-Jones and Cohen, 2005)
+	- High phasic and low tonic activity is indicative of an exploitive phase in which an animal is task engaged
+	- High tonic modes, however, put the animal into a highly distractible state, allowing them to explore the state space
+
+### Relation to uncertainty
+
+- neurons in the locus coeruleus (LC), the primary source of cortical NA, show strong responses to unexpected environmental changes (reviewed in Marshall 2016: Sara 1991, Yu and Dayan 2005)
+- Increasing NA in rodents enhances bottom-up, thalamo-sensory processing (Hasselmo 1997; Kobayashi 2000) relative to top-down, intracortical, and feedback processing (reviewed in Marshall 2016: Gil 1997; Dayan 2006)
+	- Propranolol increases effects of expectations on behaviour (Lawson 2021) => NA decreases effects of expectations on behavior (that is, NA should be higher when environment is very volatile)
+	- Across primary sensory cortices, NE selectively suppresses intracortical and feedback synaptic transmission, while sparing, or even boosting, thalamo-cortical processing (Gil et al., 1997; Hasselmo et al., 1996; Hsieh et al., 2000; Kimura et al., 1999; Kobayashi, 2000)
+- NA influences learning of uncertain events arising from unexpected changes in the environment (Marshall 2016)
+- NA is thought to offer an interrupt signal when volatility uncertainty arises between contexts (reviewed in Marshall 2016: Bouret 2005)
+	- Propranolol reduces volatility-linked learning (Lawson 2021) => that is, new sensory input does not quickly lead to updating the belief system
+	- Attenuating effect of NA eliminated effect of PE and volatility on pupil size, consistent with slower belief updating (Lawson 2021)
+
+
+### Impact on interneurons
+
+- PV may be depolarised by NA
+	- NA depolarises fast-spiking (putative PV+) interneurons  (reviewed in Swanson in Maffei 2019: Kawaguchi and Shindou, 1998)
+	- A subpopulation of PV interneurons in sensory cortex increases activity with arousal in association with noradrenergic input (reviewed in Cardin 2019: Garcia-Junco-Clemente 2019)
+- SOM are enhanced/activated by NA
+	- noradrenergic inputs can enhance SST-neuron activity (reviewed in Urban-Ciecko 2016: Fanselow, 2008; Urban-Ciecko 2015; Chen 2015; Xiang 1998)
+	- noradrenergic agonists increases spontaneous activity of neocortical SST neurons (reviewed in Urban-Ciecko 2016: Fanselow, 2008; Chen 2015; Xiang 1998; Kawaguchi 1998)
+	- In V1, noradrenergic projections have been shown to connect to SOM neurons (reviewed in Hattori 2017: Paspalas 1999)
+	- In the rat frontal cortex, noradrenaline depolarizes and drives SST (reviewed in Swanson in Maffei 2019: Kawaguchi and Shindou, 1998)
+- VIP seemingly target for NA (at least partly)
+	- In V1, noradrenergic projections have been shown to connect to VIP neurons (reviewed in Hattori 2017: Paspalas 1999)
+
+## Short summary on literature research
+
+
