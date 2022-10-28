@@ -8,5 +8,5 @@ recent_files = ['scripts/run_moments_perturbation.py', 'src/mean_field_model.py'
 
 [main]
 version = 0.2.0
-recent_files = ['scripts/run_moments_perturbation.py', 'scripts/run_weighting_mean_field.py', 'src/mean_field_model.py', 'scripts/run_weighting_perturbation_I.py', 'scripts/run_weighting_perturbation_II.py', 'src/plot_results_mfn.py', 'src/plot_toy_model.py', 'scripts/run_on_desktop.py', 'scripts/run_on_desktop_1.py']
+recent_files = ['scripts/run_moments_perturbation.py', 'scripts/verify_analyses.py', 'scripts/run_weighting_mean_field.py', 'src/plot_results_mfn.py', 'src/mean_field_model.py', 'scripts/run_weighting_perturbation_I.py', 'scripts/run_weighting_perturbation_II.py', 'src/plot_toy_model.py', 'scripts/run_on_desktop.py', 'scripts/run_on_desktop_1.py']
 

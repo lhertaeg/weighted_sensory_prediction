@@ -538,7 +538,7 @@ if flag==1:
        
 # %% plot results from perturbation experiments (see above), only one example
 
-flag = 0
+flag = 1
 
 if flag==1:
      
