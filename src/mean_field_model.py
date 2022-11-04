@@ -234,7 +234,7 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
                          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli, 
                          VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False,
                          w_PE_to_V = dtype([1,1]), v_PE_to_V = dtype([1,1]), 
-                         fixed_input_1 = None, fixed_input_2 = None):
+                         fixed_input_1 = None, fixed_input_2 = None, test=False):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -305,7 +305,12 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
    
     weighted_output = alpha * stimuli + beta * prediction
     
-    return prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_output
+    ret = (prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_output,) # !!!!!!!
+    if test:
+        tested = np.array([nPE_sensory, pPE_sensory])
+        ret += (tested,)
+    
+    return ret #prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_output
 
 
 def run_mean_field_model_pred(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
