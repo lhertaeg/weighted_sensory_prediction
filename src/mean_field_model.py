@@ -234,13 +234,15 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
                          tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli, 
                          VS = 1, VV = 0, dt = dtype(1), set_initial_prediction_to_mean = False,
                          w_PE_to_V = dtype([1,1]), v_PE_to_V = dtype([1,1]), 
-                         fixed_input_1 = None, fixed_input_2 = None, test=False):
+                         fixed_input_1 = None, fixed_input_2 = None, PE=False):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
     neurons_feedforward = np.array([1, 1, 0, 0, 1, 0, VS, VV], dtype=dtype)
     
     ### initialise
+    nPE = np.zeros_like(stimuli, dtype=dtype)
+    pPE = np.zeros_like(stimuli, dtype=dtype)
     prediction = np.zeros_like(stimuli, dtype=dtype)
     mean_pred = np.zeros_like(stimuli, dtype=dtype)   
     variance_per_stimulus = np.zeros_like(stimuli, dtype=dtype)
@@ -295,6 +297,9 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
 
         nPE_prediction, pPE_prediction = (v_PE_to_V * rates_pe_circuit_pred[id_stim, :2]) 
         variance_prediction[id_stim] = (1-1/tc_var_pred) * variance_prediction[id_stim-1] + (nPE_prediction + pPE_prediction)**2/tc_var_pred
+        
+        nPE[id_stim] = nPE_sensory
+        pPE[id_stim] = pPE_sensory
 
     ### compute weighted output
     variance_per_stimulus[np.isinf(1/variance_per_stimulus)] = 1e-30
@@ -305,10 +310,9 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
    
     weighted_output = alpha * stimuli + beta * prediction
     
-    ret = (prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_output,) # !!!!!!!
-    if test:
-        tested = np.array([nPE_sensory, pPE_sensory])
-        ret += (tested,)
+    ret = (prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_output,)
+    if PE:
+        ret += (nPE, pPE, )
     
     return ret #prediction, variance_per_stimulus, mean_pred, variance_prediction, alpha, beta, weighted_output
 

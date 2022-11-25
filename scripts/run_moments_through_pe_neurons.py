@@ -21,7 +21,7 @@ from src.toy_model import random_uniform_from_moments, random_lognormal_from_mom
 from src.plot_toy_model import plot_limit_case, plot_alpha_para_exploration_ratios, plot_fraction_sensory_comparsion, plot_alpha_para_exploration
 from src.plot_toy_model import plot_manipulation_results
 
-from src.plot_results_mfn import plot_prediction, plot_variance, plot_mse, plot_manipulations, plot_mse_heatmap
+from src.plot_results_mfn import plot_prediction, plot_variance, plot_mse, plot_manipulations, plot_mse_heatmap, plot_diff_heatmap
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -90,7 +90,7 @@ if flag==1:
 # mean and varaince are drawn from a unimodal distribution
 
 flag = 0
-flg_plot_only = 0
+flg_plot_only = 1
 
 if flag==1:
     
@@ -163,7 +163,7 @@ flg_plot_only = 1
 if flag==1:
     
     ### load and define parameters
-    input_flg = '11' # 10, 01, 11
+    input_flg = '10' # 10, 01, 11
     
     VS, VV = int(input_flg[0]), int(input_flg[1])
     filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
@@ -202,6 +202,8 @@ if flag==1:
         ### initialisation
         mse_prediction = np.zeros((len(mean_tested), len(variance_tested), n_trials * trial_duration))
         mse_variance = np.zeros((len(mean_tested), len(variance_tested), n_trials * trial_duration))
+        diff_pred = np.zeros((len(mean_tested), len(variance_tested), n_trials * trial_duration))
+        diff_var = np.zeros((len(mean_tested), len(variance_tested), n_trials * trial_duration))
         
         ### test different parameterizations
         for i, mean_dist in enumerate(mean_tested):
@@ -223,30 +225,37 @@ if flag==1:
                 ## compute mean squared error
                 running_average = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1)
                 mse_prediction[i, j, :] = (running_average - prediction)**2
+                diff_pred[i, j, :] = (prediction - running_average)/running_average
                 
                 mean_running = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1)
                 momentary_variance = (stimuli - mean_running)**2
                 variance_running = np.cumsum(momentary_variance)/np.arange(1,len(stimuli)+1)
                 mse_variance[i, j, :] = (variance_running - variance)**2
+                diff_var[i, j, :] = (variance - variance_running) / variance_running
                 
         ### save data for later
         with open(file_data4plot,'wb') as f:
             pickle.dump([n_trials, trial_duration, mean_tested, variance_tested, 
-                         mse_prediction, mse_variance],f)  
+                         mse_prediction, mse_variance, diff_pred, diff_var],f)  
                 
     else:
         
         ### load data for plotting
         with open(file_data4plot,'rb') as f:
             [n_trials, trial_duration, mean_tested, variance_tested, 
-             mse_prediction, mse_variance] = pickle.load(f)
+             mse_prediction, mse_variance, diff_pred, diff_var] = pickle.load(f)
 
     ### plot results        
-    plot_mse_heatmap(n_trials, trial_duration, mean_tested, variance_tested, mse_prediction, 
-                     title='Estimating the mean')
-    plot_mse_heatmap(n_trials, trial_duration, mean_tested, variance_tested, mse_variance, 
-                     title='Estimating the variance')   
+    # plot_mse_heatmap(n_trials, trial_duration, mean_tested, variance_tested, mse_prediction, 
+    #                   title='Estimating the mean')
+    # plot_mse_heatmap(n_trials, trial_duration, mean_tested, variance_tested, mse_variance, 
+    #                   title='Estimating the variance', flg=1)   
 
+    plot_diff_heatmap(n_trials, trial_duration, mean_tested, variance_tested, diff_pred, 
+                      title='Estimating the mean', vmax=50)
+    
+    plot_diff_heatmap(n_trials, trial_duration, mean_tested, variance_tested, diff_var, 
+                      title='Estimating the variance', flg=1, vmax=50)
 
 # %% MSE of estimated mean (prediction) and variance for different distributions
 

@@ -105,10 +105,11 @@ def plot_transition_course(file_data4plot):
 
 
 def plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation_direction, 
-                            plot_deviation_gradual = False):
+                            plot_deviation_gradual = False, plot_inds = [0,1,4,5,6,7], xlim=None, ylim=None,
+                            figsize=(5.5,4), fontsize=12, markersize=5, linewidth=1, legend_II_flg=True):
     
     ### define figure size
-    fig, ax = plt.subplots(1, 1, tight_layout=True, figsize=(5.5,4))
+    fig, ax = plt.subplots(1, 1, tight_layout=True, figsize=figsize)
     
     ### inityialise 
     leg1, leg2 = [], []
@@ -125,6 +126,14 @@ def plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation
             [_, _, _, dev_prediction_steady, dev_variance_steady] = pickle.load(f)
             
         
+        ### pick slopes that are relevant according to plot_ids
+        for _ in range(2):
+            slopes_nPE.insert(2,0)
+            slopes_pPE.insert(2,0)
+            
+        slopes_nPE = np.asarray(slopes_nPE)[plot_inds]
+        slopes_pPE = np.asarray(slopes_pPE)[plot_inds]
+        
         ### define whether you look at mean or variance
         if moment_flg==0:
             data = dev_prediction_steady
@@ -133,32 +142,34 @@ def plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation
             
         ### decide on perturbation data to be used in plot
         if perturbation_direction == -1: # inhibitory perturbation
-            data_pert = data[0,[0,1,4,5,6,7]]
+            data_pert = data[0, plot_inds]
             title = 'Inhibitory perturbation'
         else: # excitatory perturbation
-            data_pert = data[1,[0,1,4,5,6,7]]
+            data_pert = data[1, plot_inds]
             title = 'Excitatory perturbation'
 
+        
         ### plot for all networks
         if plot_deviation_gradual:
             sc = ax.scatter(slopes_pPE, slopes_nPE, marker=marker[i], lw=0, 
-                             c=data_pert, cmap='vlag', zorder=10, s=100) 
+                             c=data_pert, cmap='vlag', zorder=10, s=markersize**2) 
             
             if i==0:
                 plt.colorbar(sc, shrink=0.5, label='deviation (%)')
                 
-            ax.set_title(title, pad=20, loc='right')
+            ax.set_title(title, pad=20, loc='right', fontsize=fontsize)
             
         else:
             color_inds = np.sign(data_pert) / perturbation_direction
             ax.scatter(slopes_pPE, slopes_nPE, marker=marker[i], lw=0, 
-                             c=color_inds, cmap='vlag', zorder=10, s=100)
+                              c=color_inds, cmap='vlag', zorder=10, s=markersize**2)
             
         ### add text to markers
         m = -1
         x = slopes_pPE
         y = slopes_nPE
-        names = [r'E$_\mathrm{n}$',r'E$_\mathrm{p}$','P','P','S','V']
+        names = [r'E$_\mathrm{n}$',r'E$_\mathrm{p}$','0','0','P','P','S','V']
+        names = np.asarray(names)[plot_inds]
         
         for k,l in zip(x,y):
             m += 1
@@ -169,7 +180,8 @@ def plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation
 
         
         ### legend - part I
-        leg1 += ax.plot(np.nan, np.nan, 'k', marker=marker[i], label=labels[i], linestyle='None')
+        leg1 += ax.plot(np.nan, np.nan, 'k', marker=marker[i], label=labels[i], linestyle='None',
+                        markersize=markersize-3)
         
         
     if moment_flg==0:
@@ -179,24 +191,32 @@ def plot_deviation_vs_PE_II(moment_flg, input_flgs, marker, labels, perturbation
         
         
     ### show legend 
-    ax.legend(leg1, labels, loc=3, frameon=False)
+    ax.legend(leg1, labels, loc=0, frameon=False, fontsize=fontsize) # loc=3
      
     ### legend - part  II
-    if plot_deviation_gradual==False:
-        cmap =  plt.get_cmap('vlag') 
-        leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0), label='deviation opposite to perturbation direction')
-        leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0.99), label='deviation along perturbation direction')
-        
-        leg = Legend(ax, leg2, ['opposite to pert. dir.', 'along perturbation dir.'],
-                 loc=1, title='Deviation', handlelength=1, frameon=True)
-        ax.add_artist(leg)
+    if legend_II_flg:
+        if plot_deviation_gradual==False:
+            cmap =  plt.get_cmap('vlag') 
+            leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0), label='deviation opposite to perturbation direction')
+            leg2 += ax.plot(np.nan, np.nan, '-', c=cmap(0.99), label='deviation along perturbation direction')
+            
+            leg = Legend(ax, leg2, ['opposite to pert. dir.', 'along perturbation dir.'],
+                     loc=1, title='Deviation', handlelength=1, frameon=True, fontsize=fontsize)
+            ax.add_artist(leg)
     
     ### improve plot appearance   
-    ax.set_ylabel('nPE / input', loc='top', rotation=0, labelpad=-10)
-    ax.set_xlabel('pPE / input', loc='right')
+    ax.set_ylabel('gain nPE', loc='top', rotation=0, labelpad=-10, fontsize=fontsize)
+    ax.set_xlabel('gain pPE', loc='right', fontsize=fontsize)
+    ax.tick_params(axis='both', labelsize=fontsize)
     
     ax.spines['bottom'].set_position('zero')
     ax.spines['left'].set_position('zero')
+    
+    if xlim is not None:
+        ax.set_xlim(xlim)
+    
+    if ylim is not None:
+        ax.set_ylim(ylim)
     
     ax.xaxis.set_major_locator(plt.MaxNLocator(2))
     ax.yaxis.set_major_locator(plt.MaxNLocator(2))
@@ -308,7 +328,7 @@ def plot_deviation_vs_effect_size(x, y, title, plot_legend=True):
     ax.yaxis.set_major_locator(plt.MaxNLocator(3))
     
     ax.spines['bottom'].set_position('zero')
-    ax.set_xlabel('effect size', loc='right')
+    ax.set_xlabel('gain', loc='right')
     ax.set_ylabel('deviation (%)')
     ax.set_title(title)
     
@@ -339,91 +359,111 @@ def heatmap_summary_transitions(data, title=None):
     
 
 def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
-                              time_plot = 0, ylim=None, plot_ylable=True):
+                              time_plot = 0, ylim=None, xlim=None, plot_ylable=True, 
+                              figsize=(3.5,5), plot_only_weights=False, fs=12, transition_point=60):
     
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(3.5,5), sharex=True, tight_layout=True)
+    if plot_only_weights:
+        fig, ax2 = plt.subplots(1, 1, figsize=figsize, sharex=True, tight_layout=True)
+    else:  
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=figsize, sharex=True, tight_layout=True)
     
     time = np.arange(len(stimuli))/trial_duration
     
-    ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
-    ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
-    if plot_ylable:
-        ax1.set_ylabel('Activity')
-    else:
-        ax1.set_ylabel('Activity', color='white')
-        ax1.tick_params(axis='y', colors='white')
-    #ax1.set_xlabel('Time (#trials)')
-    ax1.set_xlim([time_plot * time[-1],time[-1]])
-    if ylim is not None:
-        ax1.set_ylim(ylim)
-    ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
-    ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
-    sns.despine(ax=ax1)
+    if not plot_only_weights:
+        ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
+        ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
+        if plot_ylable:
+            ax1.set_ylabel('Activity', fontsize=fs)
+        else:
+            ax1.set_ylabel('Activity', color='white', fontsize=fs)
+            ax1.tick_params(axis='y', colors='white')
+        #ax1.set_xlabel('Time (#trials)')
+        ax1.set_xlim([time_plot * time[-1],time[-1]])
+        if ylim is not None:
+            ax1.set_ylim(ylim)
+        if xlim is not None:
+            ax1.set_xlim(xlim)
+        ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
+        ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
+        ax1.tick_params(axis='both', labelsize=fs)
+        sns.despine(ax=ax1)
     
     ax2.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
     ax2.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], color='#19535F', label='prediction')
     if plot_ylable:
-        ax2.set_ylabel('Fraction')
+        ax2.set_ylabel('Weights', fontsize=fs)
     else:
-        ax2.set_ylabel('Fraction', color='white')
+        ax2.set_ylabel('Weights', color='white', fontsize=fs)
         ax2.tick_params(axis='y', colors='white')
-    ax2.set_xlabel('Time (#trials)')
+    ax2.axvline(transition_point, color='k', alpha=0.5, ls='--')
+    ax2.set_xlabel('Time (#trials)', fontsize=fs)
     ax2.set_xlim([time_plot * time[-1],time[-1]])
     ax2.set_ylim([0,1.05])
+    if xlim is not None:
+        ax2.set_xlim(xlim)
     ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
     ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax2.tick_params(axis='both', labelsize=fs)
     sns.despine(ax=ax2)
     
 
 def plot_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, variance_per_stimulus, 
-                            variance_prediction, alpha, beta, weighted_output, time_plot = 0.8, plot_legend=True):
+                            variance_prediction, alpha, beta, weighted_output, time_plot = 0.8, plot_legend=True,
+                            flg_fraction_only=False, figsize=(12,3), fs=12):
     
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12,3), sharex=True, tight_layout=True)
+    if flg_fraction_only:
+        f, ax3 = plt.subplots(1, 1, figsize=figsize, sharex=True, tight_layout=True)
+    else:
+        f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize, sharex=True, tight_layout=True)
     
     time = np.arange(len(stimuli))/trial_duration
     
-    ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
-    ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
-    #ax1.axvspan(time_inset*time[-1],time[-1], color='#F5F5F5')
-    ax1.set_ylabel('Activity')
-    ax1.set_xlabel('Time (#trials)')
-    #ax1.set_title('Sensory inputs and predictions')
-    if plot_legend:
-        ax1.legend(loc=0)#, ncol=2)
-    ax1.set_xlim([time_plot * time[-1],time[-1]])
-    ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
-    ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
-    sns.despine(ax=ax1)
-    
-    # inset_ax1 = inset_axes(ax1, width="30%", height="30%", loc=4)
-    # inset_ax1.plot(time[time>time_inset*time[-1]], stimuli[time>time_inset*time[-1]], color='#D76A03', label='stimulus')
-    # inset_ax1.plot(time[time>time_inset*time[-1]],weighted_output[time>time_inset*time[-1]], color='#5E0035', label='weighted output')
-    # inset_ax1.set_xticks([])
-    # inset_ax1.set_yticks([])
-    # inset_ax1.set_facecolor('#F5F5F5')
-    
-    #ax2.plot(time,stimuli, color='#D76A03', label='stimulus')
-    ax2.plot(time[time > time_plot * time[-1]], prediction[time > time_plot * time[-1]], color='#19535F', label='prediction')
-    ax2.plot(time[time > time_plot * time[-1]], mean_of_prediction[time > time_plot * time[-1]], color='#70A9A1', label='mean of prediction')
-    ax2.set_xlabel('Time (#trials)')
-    if plot_legend:
-        ax2.legend(loc=0)#, ncol=2)
-    ax2.set_xlim([time_plot * time[-1],time[-1]])
-    ax2.set_ylim([ax1.get_ylim()[0], ax1.get_ylim()[1]])
-    ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
-    ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
-    sns.despine(ax=ax2)
+    if not flg_fraction_only:
+        ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
+        ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
+        #ax1.axvspan(time_inset*time[-1],time[-1], color='#F5F5F5')
+        ax1.set_ylabel('Activity', fontsize=fs)
+        ax1.set_xlabel('Time (#trials)', fontsize=fs)
+        #ax1.set_title('Sensory inputs and predictions')
+        if plot_legend:
+            ax1.legend(loc=0)#, ncol=2)
+        ax1.set_xlim([time_plot * time[-1],time[-1]])
+        ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
+        ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
+        ax1.tick_params(axis='both', labelsize=fs)
+        sns.despine(ax=ax1)
+        
+        # inset_ax1 = inset_axes(ax1, width="30%", height="30%", loc=4)
+        # inset_ax1.plot(time[time>time_inset*time[-1]], stimuli[time>time_inset*time[-1]], color='#D76A03', label='stimulus')
+        # inset_ax1.plot(time[time>time_inset*time[-1]],weighted_output[time>time_inset*time[-1]], color='#5E0035', label='weighted output')
+        # inset_ax1.set_xticks([])
+        # inset_ax1.set_yticks([])
+        # inset_ax1.set_facecolor('#F5F5F5')
+        
+        #ax2.plot(time,stimuli, color='#D76A03', label='stimulus')
+        ax2.plot(time[time > time_plot * time[-1]], prediction[time > time_plot * time[-1]], color='#19535F', label='prediction')
+        ax2.plot(time[time > time_plot * time[-1]], mean_of_prediction[time > time_plot * time[-1]], color='#70A9A1', label='mean of prediction')
+        ax2.set_xlabel('Time (#trials)')
+        if plot_legend:
+            ax2.legend(loc=0)#, ncol=2)
+        ax2.set_xlim([time_plot * time[-1],time[-1]])
+        ax2.set_ylim([ax1.get_ylim()[0], ax1.get_ylim()[1]])
+        ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
+        ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
+        ax2.tick_params(axis='both', labelsize=fs)
+        sns.despine(ax=ax2)
     
     ax3.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
     ax3.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], color='#19535F', label='prediction')
-    ax3.set_ylabel('Fraction')
-    ax3.set_xlabel('Time (#trials)')
+    ax3.set_ylabel('Weights', fontsize=fs)
+    ax3.set_xlabel('Time (#trials)', fontsize=fs)
     #if plot_legend:
     #    ax3.legend(loc=0)#, ncol=2)
     ax3.set_xlim([time_plot * time[-1],time[-1]])
     ax3.set_ylim([0,1])
     ax3.xaxis.set_major_locator(plt.MaxNLocator(3))
     ax3.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax3.tick_params(axis='both', labelsize=fs)
     sns.despine(ax=ax3)
     
 
@@ -692,71 +732,119 @@ def plot_mse(trials, mean, sd, mse, SEM=None, title=None, inset_labels=None):
 
     
 def plot_mse_heatmap(n_trials, trial_duration, mean_tested, variance_tested, mse, vmax = 5, 
-                     title=None, flg=0):
+                     title=None, flg=0, fs=5):
     
     plt.figure()
     MSE_steady_state = np.mean(mse[:,:,(n_trials-500) * trial_duration:],2)
     #MSE_max = np.max(mse,2)
+    
     if flg==0:
         MSE = MSE_steady_state / mean_tested[:,None]**2
+        cbar_label = r'MSE$_\mathrm{\infty}$ (normalised by mean$^2$) [%]'
+        color_cbar = LinearSegmentedColormap.from_list(name='mse_prediction', colors=['#FEFAE0', '#19535F'])
     else:
         MSE = MSE_steady_state/variance_tested[None,:]**2
+        cbar_label = r'MSE$_\mathrm{\infty}$ (normalised by variance) [%]'
+        color_cbar = LinearSegmentedColormap.from_list(name='mse_variance', colors=['#FEFAE0', '#452144'])
+        
     MSE *= 100
     
     data = pd.DataFrame(MSE.T, index=variance_tested, columns=mean_tested)
-    ax1 = sns.heatmap(data, vmin=0, vmax=vmax, cmap='rocket_r', xticklabels=3, yticklabels=2,
-                      cbar_kws={'label': r'MSE$_\mathrm{ss}$ (normalised) [%]', 'ticks': [0, vmax]}) # , 'pad':0.01
-    ax1.set_xlabel('mean of stimuli')
-    ax1.set_ylabel('variance of stimuli')
+    ax1 = sns.heatmap(data, vmin=0, vmax=vmax, cmap=color_cbar, xticklabels=3, yticklabels=2,
+                      cbar_kws={'label': cbar_label, 'ticks': [0, vmax]}) # , 'pad':0.01
+    ax1.set_xlabel('mean of stimuli', fontsize=fs)
+    ax1.set_ylabel('variance of stimuli', fontsize=fs)
     if title is not None:
-        ax1.set_title(title)
+        ax1.set_title(title, fontsize=fs, pad=20)
     
     ax1.invert_yaxis()
     
-    # axes = fig.add_axes([0.15,0.15,0.15,0.1]) 
-    # axes.patch.set_alpha(0.01)
-    # axes.plot(mse_variance[0,0,:], 'k')
-    # axes.set_ylim([0,50])
-    # axes.set_xticks([])
-    # axes.set_yticks([])
-    # sns.despine(ax=axes)
+    sns.despine(ax=ax1,bottom=False, top=False, right=False, left=False)
+    
+
+
+def plot_diff_heatmap(n_trials, trial_duration, mean_tested, variance_tested, diff, vmax = 5, 
+                     title=None, flg=0, fs=5):
+    
+    plt.figure()
+    diff_steady_state = np.abs(np.mean(diff[:,:,(n_trials-500) * trial_duration:],2))
+    
+    if flg==0:
+        cbar_label = 'dP/P (%)'
+        color_cbar = LinearSegmentedColormap.from_list(name='mse_prediction', colors=['#FEFAE0', '#19535F'])
+    else:
+        cbar_label = 'dV/V (%)'
+        color_cbar = LinearSegmentedColormap.from_list(name='mse_variance', colors=['#FEFAE0', '#452144'])
+        
+    diff_steady_state *= 100
+    
+    data = pd.DataFrame(diff_steady_state.T, index=variance_tested, columns=mean_tested)
+    ax1 = sns.heatmap(data, vmin=0, vmax=vmax, cmap=color_cbar, xticklabels=3, yticklabels=2,
+                      cbar_kws={'label': cbar_label, 'ticks': [0, vmax]}) # , 'pad':0.01
+    
+    ax1.set_xlabel('mean of stimuli', fontsize=fs)
+    ax1.set_ylabel('variance of stimuli', fontsize=fs)
+    if title is not None:
+        ax1.set_title(title, fontsize=fs, pad=20)
+    
+    ax1.invert_yaxis()
+    
+    sns.despine(ax=ax1,bottom=False, top=False, right=False, left=False)
+    
     
 
 def plot_prediction(n_stimuli, stimuli, stimulus_duration, prediction, 
-                    perturbation_time = None, figsize=(6,4.5), ylim_mse=None):
+                    perturbation_time = None, figsize=(6,4.5), ylim_mse=None, lw=1, fs=5,
+                    tight_layout=True, legend_flg=True, mse_flg=True):
     
-    f, ((ax1), (ax2)) = plt.subplots(2, 1, sharex=True, figsize=figsize,
-                                     gridspec_kw={'height_ratios': [5, 1]})
-    plt.locator_params(nbins=3)
+    if mse_flg:
+        f, ((ax1), (ax2)) = plt.subplots(2, 1, sharex=True, figsize=figsize,
+                                     gridspec_kw={'height_ratios': [5, 1]}, tight_layout=tight_layout)
+    else:
+        f, ax1 = plt.subplots(1, 1, figsize=figsize, tight_layout=tight_layout)
+    
+    ax1.locator_params(nbins=3)
+    if mse_flg:
+        ax2.locator_params(nbins=3)
     
     trials = np.arange(len(stimuli))/stimulus_duration
     running_average = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1)
     
     ax1.axvspan(perturbation_time, trials[-1], alpha=0.1, facecolor='#1E000E', edgecolor=None)
-    ax1.plot(trials, stimuli, color='#D76A03', label='stimulus', alpha=0.3)
-    ax1.plot(trials, running_average, color='#D76A03', label='running average')
-    ax1.plot(trials, prediction, color='#19535F', label='predicted mean')
+    ax1.plot(trials, stimuli, color='#D76A03', label='stimulus', alpha=0.3, lw=lw)
+    ax1.plot(trials, running_average, color='#D76A03', label='running average', lw=lw)
+    ax1.plot(trials, prediction, color='#19535F', label='predicted mean', lw=lw)
     ax1.set_xlim([0,max(trials)])
-    ax1.set_ylabel('Activity (1/s)')
-    ax1.set_title('Mean of sensory inputs')
-    ax1.legend(loc=0, ncol=3, frameon=False, handlelength=1)
+    ax1.set_ylabel('Activity (1/s)', fontsize=fs)
+    ax1.set_title('Mean of sensory inputs', fontsize=fs+1)
+    ax1.tick_params(axis='both', labelsize=fs)
+    if legend_flg:
+        ax1.legend(loc=0, ncol=2, frameon=False, handlelength=1)
     sns.despine(ax=ax1)
     
-    ax2.axvspan(perturbation_time, trials[-1], alpha=0.1, facecolor='#1E000E', edgecolor=None)
-    ax2.plot(trials, (running_average - prediction)**2, color='#AF1B3F')
-    if ylim_mse is not None:
-        ax2.set_ylim(ylim_mse)
-    ax2.set_ylabel('MSE')
-    ax2.set_xlabel('Time (#stimuli)')
-    sns.despine(ax=ax2)
+    if mse_flg:
+        ax2.axvspan(perturbation_time, trials[-1], alpha=0.1, facecolor='#1E000E', edgecolor=None)
+        ax2.plot(trials, (running_average - prediction)**2, color='#AF1B3F')
+        if ylim_mse is not None:
+            ax2.set_ylim(ylim_mse)
+        ax2.set_ylabel('MSE', fontsize=fs)
+        ax2.set_xlabel('Time (#stimuli)', fontsize=fs)
+        sns.despine(ax=ax2)
     
     
 def plot_variance(n_stimuli, stimuli, stimulus_duration, variance_per_stimulus, 
-                  perturbation_time = None, figsize=(6,4.5)):
+                  perturbation_time = None, figsize=(6,4.5), lw=1, fs=5,
+                  tight_layout=True, legend_flg=True, mse_flg=True):
     
-    f, ((ax1), (ax2)) = plt.subplots(2, 1, sharex=True, figsize=figsize,
-                                     gridspec_kw={'height_ratios': [5, 1]})
-    plt.locator_params(nbins=3)
+    if mse_flg:
+        f, ((ax1), (ax2)) = plt.subplots(2, 1, sharex=True, figsize=figsize,
+                                     gridspec_kw={'height_ratios': [5, 1]}, tight_layout=tight_layout)
+    else:
+        f, ax1 = plt.subplots(1, 1, figsize=figsize, tight_layout=tight_layout)
+    
+    ax1.locator_params(nbins=3)
+    if mse_flg:
+        ax2.locator_params(nbins=3)
     
     mean_running = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1)
     momentary_variance = (stimuli - mean_running)**2
@@ -764,18 +852,21 @@ def plot_variance(n_stimuli, stimuli, stimulus_duration, variance_per_stimulus,
     trials = np.arange(len(stimuli))/stimulus_duration
     
     ax1.axvspan(perturbation_time, trials[-1], alpha=0.1, facecolor='#1E000E', edgecolor=None)
-    ax1.plot(trials, momentary_variance, color='#D76A03', label='stimuli variance', alpha=0.3)
-    ax1.plot(trials, variance_running, color='#D76A03', label='running average')
-    ax1.plot(trials, variance_per_stimulus, color='#19535F', label='predicted variance')
+    ax1.plot(trials, momentary_variance, color='#D76A03', label='variance of stimuli', alpha=0.3, lw=lw)
+    ax1.plot(trials, variance_running, color='#D76A03', label='running average', lw=lw)
+    ax1.plot(trials, variance_per_stimulus, color='#452144', label='predicted variance', lw=lw)
     ax1.set_xlim([0,max(trials)])
-    ax1.set_ylabel('Activity (1/s)')
-    ax1.set_title('Variance of sensory inputs')
-    ax1.legend(loc=0, ncol=2, frameon=False, handlelength=1)
+    ax1.set_ylabel('Activity (1/s)', fontsize=fs)
+    ax1.set_title('Variance of sensory inputs', fontsize=fs+1)
+    ax1.tick_params(axis='both', labelsize=fs)
+    if legend_flg:
+        ax1.legend(loc=0, ncol=2, frameon=False, handlelength=1)
     sns.despine(ax=ax1)
     
-    ax2.axvspan(perturbation_time, trials[-1], alpha=0.1, facecolor='#1E000E', edgecolor=None)
-    ax2.plot(trials, (variance_running - variance_per_stimulus)**2, color='#AF1B3F')
-    ax2.set_ylabel('MSE')
-    ax2.set_xlabel('Time (#stimuli)')
-    sns.despine(ax=ax2)
+    if mse_flg:
+        ax2.axvspan(perturbation_time, trials[-1], alpha=0.1, facecolor='#1E000E', edgecolor=None)
+        ax2.plot(trials, (variance_running - variance_per_stimulus)**2, color='#AF1B3F')
+        ax2.set_ylabel('MSE', fontsize=fs)
+        ax2.set_xlabel('Time (#stimuli)', fontsize=fs)
+        sns.despine(ax=ax2)
   

@@ -280,7 +280,7 @@ if flag==1:
 
 # Please note that when BL activity of nPE (pPE) is increased the BL of the other PE neuron increases equivalently
 # (dendrites are balanced in FB phase => nPE/pPE receive roughly the same amount of additional excitation)
-# in MM and PB phase though, becuase dendrites may be excited or inhibited, this is not necessarily true
+# in MM and PB phase though, because dendrites may be excited or inhibited, this is not necessarily true
 # => effect size of nPE to pPE changes which leads to estimation bias
 
 flag = 0
@@ -727,7 +727,7 @@ if flag==1:
  
 # %% Estimate deviation direction by how strongly/much a neuron is driven by sensory input or prediction
 
-flag = 0
+flag = 1
 
 if flag==1:
     

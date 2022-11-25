@@ -107,22 +107,28 @@ def plot_alpha_para_exploration_ratios(fraction_sensory, para_tested_first, para
     
 
 def plot_alpha_para_exploration(fraction_sensory_median, para_tested_first, para_tested_second, every_n_ticks, xlabel='', 
-                                ylabel='', vmin=0, vmax=1, decimal = 1e2, title='', cmap = cmap_sensory_prediction):
+                                ylabel='', vmin=0, vmax=1, decimal = 1e2, title='', cmap = cmap_sensory_prediction,
+                                figsize=(5,5), fs=12):
     
-    plt.figure(tight_layout=True)
+    plt.figure(tight_layout=True, figsize=figsize)
     index = np.round(decimal*para_tested_first)/decimal
     columns = np.round(decimal*para_tested_second)/decimal
     
     data = pd.DataFrame(fraction_sensory_median, columns=columns, index=index)
     ax = sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap, xticklabels=every_n_ticks, 
-                     yticklabels=every_n_ticks, cbar_kws={'label': 'fraction sensory input'})
+                     yticklabels=every_n_ticks, cbar_kws={'label': 'Sensory \nweight'})
     
+    ax.locator_params(nbins=2)
+    ax.tick_params(axis='both', labelsize=fs)
+    cbar = ax.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=fs)
+    cbar.ax.yaxis.label.set_size(fs)
     # inset_ax = inset_axes(ax, width="20%", height="20%", loc=1)
     # inset_ax.patch.set_alpha(0)
     
     ax.invert_yaxis()
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel, fontsize=fs)
+    ax.set_ylabel(ylabel, fontsize=fs)
     ax.set_title(title)
     
     

@@ -226,7 +226,7 @@ if flag==1:
     
 # %% Average course of alpha within a trial (fraction) 
 
-flag = 1
+flag = 0
 flg_plot_only = 1
 
 if flag==1:
@@ -418,7 +418,7 @@ if flag==1:
 # %% Summary ... transitions
 
 flag = 0
-flg_plot_only = 0
+flg_plot_only = 1
 
 if flag==1:
     
