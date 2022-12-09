@@ -8,5 +8,5 @@ recent_files = ['scripts/run_moments_perturbation.py', 'src/mean_field_model.py'
 
 [main]
 version = 0.2.0
-recent_files = ['../../analyse_allen-data_change-detection/scripts/run_ramping_tests.py', '../../analyse_allen-data_change-detection/scripts/run_motifs_general_kmedoids.py', '../../analyse_allen-data_change-detection/scripts/Run_Preprocessing.py', '../../analyse_allen-data_change-detection/src/get_from_data.py', '../../analyse_allen-data_change-detection/scripts/run_define_omission_classes.py', '../../analyse_allen-data_change-detection/src/analyse_selectivity.py', 'scripts/run_neuromod.py', 'src/toy_model.py', 'scripts/run_weighting_mean_field.py', 'src/plot_results_mfn.py', 'scripts/run_figures_conference.py', 'src/plot_toy_model.py']
+recent_files = ['scripts/run_neuromod.py', 'scripts/run_weighting_mean_field.py', 'scripts/run_neuron_properties.py', 'src/plot_results_mfn.py', 'src/mean_field_model.py', 'scripts/run_figures_conference.py']
 

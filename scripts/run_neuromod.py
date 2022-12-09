@@ -10,6 +10,7 @@ Created on Fri Oct 28 10:05:25 2022
 
 import numpy as np
 import pickle
+import pandas as pd
 
 from src.mean_field_model import default_para, stimuli_moments_from_uniform, run_mean_field_model, alpha_parameter_exploration
 from src.plot_toy_model import plot_limit_case, plot_alpha_para_exploration_ratios, plot_fraction_sensory_comparsion, plot_alpha_para_exploration
@@ -39,7 +40,7 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 
 # %% Effect of neuromodulators on weighted output
 
-flag = 1
+flag = 0
 
 if flag==1:
     
@@ -343,416 +344,247 @@ if flag==1:
     
     sns.despine(ax=ax)
     
+    
+# %% Systematically exploring the regimes for which the system relies more on sensory inputs or predictions after interneurons are activated
 
-# %% How fast does the prediction change when statistics/environment changes (compare with and without neuromodulator)
-# # here: nPE and pPE neurons "effect size" (basically magnitude of activity in comparison to control case)
+flag = 1
 
-# # to estimate the update speed, this might not be the best approach
+if flag==1:
+    
+    ### define target area and stimulus statistics
+    column = 2      # 0: both, 1: lower level PE circuit, 2: higher level PE circuit
+    std_mean = 1    # uncertainty of environement [0, 0.5, 1]
+    std_std = 0     # uncertainty of stimulus [1, 0.5, 0]
+    
+    ### load and define parameters
+    input_flg = '10'
+    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
+    file_data4plot = '../results/data/neuromod/data_neuromod_column_' + str(column) + '_SDm_' + str(std_mean) + '_SDs_' + str(std_std) + '_netflg_' + input_flg + '.pickle'
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
+    
+    if input_flg=='10':
+        nPE_scale = 1.015
+        pPE_scale = 1.023
+    elif input_flg=='01':
+        nPE_scale = 1.7 # 1.72
+        pPE_scale = 1.7 # 1.68
+    elif input_flg=='11':
+        nPE_scale = 2.49
+        pPE_scale = 2.53
+        
+    w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
+    w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
+    w_PE_to_V = [nPE_scale, pPE_scale]
+    
+    v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
+    v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
+    v_PE_to_V = [nPE_scale, pPE_scale]
+    
+    tc_var_per_stim = dtype(1000)
+    tc_var_pred = dtype(1000)
+    
+    ### stimulation & simulation parameters
+    n_trials = np.int32(200)
+    last_n = np.int32(50)
+    trial_duration = np.int32(5000)# dtype(5000)
+    n_stimuli_per_trial = np.int32(10)
+    n_repeats_per_stim = np.int32(trial_duration/n_stimuli_per_trial)
+    
+    ### fixed values for stimulus/environement statistics
+    mean_mean, min_std = dtype(3), dtype(0)
+    
+    ### define IN activation combinations
+    nums = 10
+    xp, xs = np.meshgrid(np.linspace(0, 1, nums), np.linspace(0, 1, nums)) # xp varies along the columns, xs varies along the rows
+    xv = np.sqrt(1 - xp**2 - xs**2) # xv[i,j], i corresponds to xs, j corresponds to xp
+    
+    ### define stimuli
+    np.random.seed(186)
+    
+    stimuli = stimuli_moments_from_uniform(n_trials, n_stimuli_per_trial, dtype(mean_mean - np.sqrt(3)*std_mean), 
+                                           dtype(mean_mean + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
 
-# flag = 0
-
-# if flag==1:    
+    stimuli = dtype(np.repeat(stimuli, n_repeats_per_stim))
     
-#     ### load and define parameters
-#     input_flg = '10'
-#     filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
-#     file_data4plot = '../results/data/neuromod/test_speed_neuromod_' + input_flg + '.pickle'
     
-#     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-#      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
+    ### run model without perturbation
+    print('Without neuromodulation')
+    [_, _, _, _, alpha, _, _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+                                                     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli)
     
-#     if input_flg=='10':
-#         nPE_scale = 1.015
-#         pPE_scale = 1.023
-#     elif input_flg=='01':
-#         nPE_scale = 1.7 # 1.72
-#         pPE_scale = 1.7 # 1.68
-#     elif input_flg=='11':
-#         nPE_scale = 2.49
-#         pPE_scale = 2.53
-        
-#     w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
-#     w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
-#     w_PE_to_V = [nPE_scale, pPE_scale]
+    alpha_before_pert = np.mean(alpha[(n_trials - last_n) * trial_duration:])
     
-#     v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
-#     v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
-#     v_PE_to_V = [nPE_scale, pPE_scale]
+    ### initialise
+    alpha_after_pert = np.zeros((nums, nums))
     
-#     tc_var_per_stim = dtype(1000)
-#     tc_var_pred = dtype(1000)
+    ### define target IN affected
+    print('With neuromodulation')
+    for i in range(nums):
+        for j in range(nums):
     
-#     ### stimulation & simulation parameters
-#     n_trials = np.int32(400)
-#     last_n = np.int32(100)
-#     trial_duration = np.int32(5000)# dtype(5000)
-#     n_stimuli_per_trial = np.int32(10)
-#     n_repeats_per_stim = np.int32(trial_duration/n_stimuli_per_trial)
-    
-#     ### means and std's to be tested
-#     mean_mean, min_std = dtype(3), dtype(0)
-#     std_mean_arr = np.array([0, 3])
-#     std_std_arr = np.array([3, 0])
-    
-#     ### initalise
-#     nPE_cumsum_gain_before_pert = np.zeros((2, 3, 4)) # 2 limit cases, target column/s, INs affected by neuromod
-#     nPE_cumsum_gain_after_pert = np.zeros((2, 3, 4))
-#     pPE_cumsum_gain_before_pert = np.zeros((2, 3, 4))
-#     pPE_cumsum_gain_after_pert = np.zeros((2, 3, 4))
-    
-#     ### main loop
-#     for row in range(2): # two limit cases
-        
-#         print('Limit case: ', row)
-        
-#         std_mean = std_mean_arr[row]
-#         std_std = std_std_arr[row]
-
-#         ## define stimuli  (
-#         # Please note: to make it comparable, I repeated the set of stimuli, so that before and after neuromods is driven by the same sequence of stimuli)
-#         np.random.seed(186)
-        
-#         stimuli = stimuli_moments_from_uniform(n_trials//2, n_stimuli_per_trial, dtype(mean_mean - np.sqrt(3)*std_mean), 
-#                                            dtype(mean_mean + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
-    
-#         stimuli = np.tile(stimuli,2)
-#         stimuli = dtype(np.repeat(stimuli, n_repeats_per_stim))
-        
-#         ## define target IN affected
-#         for id_cell_perturbed in range(4): # 0-3: PV, PV, SOM, VIP
-        
-#             print('- Target IN id:', id_cell_perturbed)
-        
-#             ## add perturbation
-#             perturbation = np.zeros((n_trials * trial_duration,8))                          
-#             perturbation[(n_trials * trial_duration)//2:, id_cell_perturbed + 4] = 1          
-#             fixed_input_plus_perturbation = fixed_input + perturbation
-
-#             ## define target PE circuit
-#             for column in range(3): # 1st or 2nd PE circuit, 0: both PE circuits
+            print('-- xp:', xp[i,j], 'xs:', xs[i,j], 'xv:', xv[i,j])
             
-#                 print('-- Target column id:', column)  
-                
-#                 if column==1:
-#                     fixed_input_1 = fixed_input_plus_perturbation
-#                     fixed_input_2 = fixed_input
-#                 elif column==2:
-#                     fixed_input_1 = fixed_input
-#                     fixed_input_2 = fixed_input_plus_perturbation
-#                 elif column==0:
-#                     fixed_input_1 = fixed_input_plus_perturbation
-#                     fixed_input_2 = fixed_input_plus_perturbation
+            if ~np.isnan(xv[i,j]):
+        
+                ## add perturbation
+                perturbation = np.zeros((n_trials * trial_duration,8))                          
+                perturbation[(n_trials * trial_duration)//2:, 4:6] = xp[i,j]
+                perturbation[(n_trials * trial_duration)//2:, 6] = xs[i,j]
+                perturbation[(n_trials * trial_duration)//2:, 7] = xv[i,j]
+                fixed_input_plus_perturbation = fixed_input + perturbation
                     
-#                 ## run model
-#                 [prediction, _, _, _, _, _, _, nPE, pPE] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-#                                                                       tc_var_per_stim, tc_var_pred, tau_pe, None, stimuli,
-#                                                                       fixed_input_1 = fixed_input_1, 
-#                                                                       fixed_input_2 = fixed_input_2, PE=True)
-        
-            
-#                 ## save nPE & pPE cumsum gain before and after neuromods
-#                 nPE_before = np.cumsum(nPE[(n_trials//2 - last_n) * trial_duration:n_trials//2 * trial_duration])
-#                 nPE_after = np.cumsum(nPE[(n_trials - last_n) * trial_duration:])
-                
-#                 m_before, _ = np.polyfit(np.arange(len(nPE_before)), nPE_before, 1)
-#                 m_after, _ = np.polyfit(np.arange(len(nPE_after)), nPE_after, 1)
-                
-#                 nPE_cumsum_gain_before_pert[row, column, id_cell_perturbed] = m_before
-#                 nPE_cumsum_gain_after_pert[row, column, id_cell_perturbed] = m_after
-                
-#                 pPE_before = np.cumsum(pPE[(n_trials//2 - last_n) * trial_duration:n_trials//2 * trial_duration])
-#                 pPE_after = np.cumsum(pPE[(n_trials - last_n) * trial_duration:])
-                
-#                 m_before, _ = np.polyfit(np.arange(len(pPE_before)), pPE_before, 1)
-#                 m_after, _ = np.polyfit(np.arange(len(pPE_after)), pPE_after, 1)
-
-#                 pPE_cumsum_gain_before_pert[row, column, id_cell_perturbed] = m_before
-#                 pPE_cumsum_gain_after_pert[row, column, id_cell_perturbed] = m_after
-        
-#     ### save data
-#     with open(file_data4plot,'wb') as f:
-#         pickle.dump([n_trials, last_n, trial_duration, std_mean_arr, std_std_arr, nPE_cumsum_gain_before_pert,
-#                      nPE_cumsum_gain_after_pert, pPE_cumsum_gain_before_pert, pPE_cumsum_gain_after_pert],f)  
-
-
-# # %% plot results (see above)
-
-# # to estimate the update speed, this might not be the best approach
-
-# flag = 0
-
-# if flag==1:
-    
-#     ### define what to plot
-#     id_cell = 0
-    
-#     ### load data
-#     input_flg = '10'
-#     file_data4plot = '../results/data/neuromod/test_speed_neuromod_' + input_flg + '.pickle'
-    
-#     with open(file_data4plot,'rb') as f:
-#         [n_trials, last_n, trial_duration, std_mean_arr, std_std_arr, nPE_cumsum_gain_before_pert,
-#          nPE_cumsum_gain_after_pert, pPE_cumsum_gain_before_pert, pPE_cumsum_gain_after_pert] = pickle.load(f) 
-        
-#     ### initialise
-#     z_exp_low_unexp_high = np.zeros(3)
-#     z_exp_high_unexp_low = np.zeros(3)
-#     columns = np.array([1,0,2])
-#     colors = ['#19535F', '#D76A03']
-    
-#     ### define neuromodulator (by target IN)
-#     if id_cell==0:
-#         title = 'DA activates PVs (sens)'
-#     elif id_cell==1:
-#         title = 'DA activates PVs (pred)'
-#     elif id_cell==2:
-#         title = 'NA/NE activates SOMs'
-#     elif id_cell==3:
-#         title = 'ACh or 5-HT activates VIPs'
-    
-#     for flg_PE in range(2): # 0: nPE, 1: pPE
-    
-#         ### defne PE type
-#         if flg_PE==0:
-#             before = nPE_cumsum_gain_before_pert
-#             after = nPE_cumsum_gain_after_pert
-#         else:
-#             before = pPE_cumsum_gain_before_pert
-#             after = pPE_cumsum_gain_after_pert
-        
-#         for idx, column in enumerate(columns):
-                
-#             pred_exp_low_unexp_high_before = before[1, column, id_cell]
-#             pred_exp_low_unexp_high_after = after[1, column, id_cell]
-            
-#             pred_exp_high_unexp_low_before = before[0, column, id_cell]
-#             pred_exp_high_unexp_low_after = after[0, column, id_cell]
-            
-#             z_exp_low_unexp_high[idx] = (pred_exp_low_unexp_high_after - pred_exp_low_unexp_high_before) / pred_exp_low_unexp_high_before
-#             z_exp_high_unexp_low[idx] = (pred_exp_high_unexp_low_after - pred_exp_high_unexp_low_before) / pred_exp_high_unexp_low_before
-        
-#         ### plot
-#         fig, ax = plt.subplots(1,1, tight_layout=True, figsize=(4,3))
-        
-#         ax.plot(np.arange(3), z_exp_low_unexp_high * 100, '.-', color=colors[1])
-#         ax.plot(np.arange(3), z_exp_high_unexp_low * 100, '.-', color=colors[0])
-#         ax.axhline(0, color='k', ls=':')
-#         #ax.set_ylim([-12, 24])
-        
-#         ax.set_xticks([0,1,2])
-#         ax.set_xticklabels(['first', 'both', 'second'])
-        
-#         ax.set_ylabel('change in PE gain (normalised, %)')
-#         ax.set_xlabel('target PE circuit')
-#         ax.set_title(title)
-        
-#         sns.despine(ax=ax)
-        
-        
-# # %% plot results (see above), each column one figure
-
-# # to estimate the update speed, this might not be the best approach
-
-# flag = 0
-
-# if flag==1:
-    
-#     ### load data
-#     column = 1
-#     flg_PE = 0 # 0: nPE, 1: pPE
-    
-#     input_flg = '10'
-#     file_data4plot = '../results/data/neuromod/test_speed_neuromod_' + input_flg + '.pickle'
-    
-#     with open(file_data4plot,'rb') as f:
-#         [n_trials, last_n, trial_duration, std_mean_arr, std_std_arr, nPE_cumsum_gain_before_pert,
-#          nPE_cumsum_gain_after_pert, pPE_cumsum_gain_before_pert, pPE_cumsum_gain_after_pert] = pickle.load(f)
-        
-#     ### initialise
-#     z_exp_low_unexp_high = np.zeros(4)
-#     z_exp_high_unexp_low = np.zeros(4)
-#     colors = ['#19535F', '#D76A03']
-    
-#     ### rename
-#     if flg_PE:
-#         before = nPE_cumsum_gain_before_pert
-#         after = nPE_cumsum_gain_after_pert
-#     else:
-#         before = pPE_cumsum_gain_before_pert
-#         after = pPE_cumsum_gain_after_pert
-    
-#     ### main loop
-#     for id_cell in range(4):
-            
-#         pred_exp_low_unexp_high_before = before[1, column, id_cell]
-#         pred_exp_low_unexp_high_after = after[1, column, id_cell]
-        
-#         pred_exp_high_unexp_low_before = before[0, column, id_cell]
-#         pred_exp_high_unexp_low_after = after[0, column, id_cell]
-        
-#         z_exp_low_unexp_high[id_cell] = (pred_exp_low_unexp_high_after - pred_exp_low_unexp_high_before) / pred_exp_low_unexp_high_before
-#         z_exp_high_unexp_low[id_cell] = (pred_exp_high_unexp_low_after - pred_exp_high_unexp_low_before) / pred_exp_high_unexp_low_before
-    
-#     ### plot
-#     fig, ax = plt.subplots(1,1, tight_layout=True, figsize=(5,3))
-    
-#     X = np.arange(4)
-#     ax.bar(X - 0.25/2, z_exp_low_unexp_high*100, color = colors[1], width = 0.25)
-#     ax.bar(X + 0.25/2, z_exp_high_unexp_low*100, color = colors[0], width = 0.25)
-#     ax.axhline(0, color='k', ls=':')
-#     #ax.set_ylim([-12, 24])
-    
-#     ax.set_xticks([0,1,2,3])
-#     ax.set_xticklabels(['DA\n[PV1]', 'DA\n[PV2]', 'NA\n[SOM]', 'ACh/\n5-HT\n[VIP]'])
-    
-#     ax.set_ylabel('change in PE gain\n(normalised, %)')
-#     ax.set_xlabel('neuromodulator')
-    
-#     sns.despine(ax=ax)
-    
-
-# %% How fast does the prediction change when statistics/environment changes (compare with and without neuromodulator)
-
-# flag = 0
-
-# if flag==1:    
-    
-#     ### load and define parameters
-#     input_flg = '10'
-#     filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
-#     file_data4plot = '../results/data/neuromod/test_update_speed_neuromod_' + input_flg + '.pickle'
-    
-#     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-#      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
-    
-#     if input_flg=='10':
-#         nPE_scale = 1.015
-#         pPE_scale = 1.023
-#     elif input_flg=='01':
-#         nPE_scale = 1.7 # 1.72
-#         pPE_scale = 1.7 # 1.68
-#     elif input_flg=='11':
-#         nPE_scale = 2.49
-#         pPE_scale = 2.53
-        
-#     w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
-#     w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
-#     w_PE_to_V = [nPE_scale, pPE_scale]
-    
-#     v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
-#     v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
-#     v_PE_to_V = [nPE_scale, pPE_scale]
-    
-#     tc_var_per_stim = dtype(1000)
-#     tc_var_pred = dtype(1000)
-    
-#     ### stimulation & simulation parameters
-#     n_trials = np.int32(200)
-#     last_n = np.int32(100)
-#     trial_duration = np.int32(5000)# dtype(5000)
-#     n_stimuli_per_trial = np.int32(10)
-#     n_repeats_per_stim = np.int32(trial_duration/n_stimuli_per_trial)
-    
-#     ### means and std's to be tested
-#     mean_mean_before, mean_mean_after =  dtype(3), dtype(10)
-#     min_std = dtype(0)
-#     std_mean_arr = np.array([0, 3], dtype=dtype)
-#     std_std_arr = np.array([3, 0], dtype=dtype)
-    
-#     ### initalise
-#     # nPE_cumsum_gain_before_pert = np.zeros((2, 3, 4)) # 2 limit cases, target column/s, INs affected by neuromod
-#     # nPE_cumsum_gain_after_pert = np.zeros((2, 3, 4))
-#     # pPE_cumsum_gain_before_pert = np.zeros((2, 3, 4))
-#     # pPE_cumsum_gain_after_pert = np.zeros((2, 3, 4))
-    
-#     ### main loop
-#     for row in range(1): # two limit cases !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#         row = 1
-#         print('Limit case: ', row)
-        
-#         std_mean = std_mean_arr[row]
-#         std_std = std_std_arr[row]
-
-#         ## define stimuli
-#         np.random.seed(186)
-        
-#         stimuli_before = stimuli_moments_from_uniform(n_trials//2, n_stimuli_per_trial, dtype(mean_mean_before - np.sqrt(3)*std_mean), 
-#                                                       dtype(mean_mean_before + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
-        
-#         stimuli_after = stimuli_moments_from_uniform(n_trials//2, n_stimuli_per_trial, dtype(mean_mean_after - np.sqrt(3)*std_mean), 
-#                                                       dtype(mean_mean_after + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
-    
-#         stimuli = np.concatenate((stimuli_before, stimuli_after))
-#         stimuli = dtype(np.repeat(stimuli, n_repeats_per_stim))
-        
-#         ## run network without any neuromodulation
-#         [prediction_without, _, _, _, _, _, _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-#                                                                       tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli)
-        
-#         ## define target IN affected
-#         for id_cell_perturbed in range(1): # 0-3: PV, PV, SOM, VIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-#             id_cell_perturbed = 3
-#             print('- Target IN id:', id_cell_perturbed)
-        
-#             ## add perturbation
-#             perturbation = np.zeros((n_trials * trial_duration,8))                          
-#             perturbation[(n_trials * trial_duration)//2:, id_cell_perturbed + 4] = 1          
-#             fixed_input_plus_perturbation = fixed_input + perturbation
-
-#             ## define target PE circuit
-#             for column in range(1): # 1st or 2nd PE circuit, 0: both PE circuits !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-#                 column = 1
-#                 print('-- Target column id:', column)  
-                
-#                 if column==1:
-#                     fixed_input_1 = fixed_input_plus_perturbation
-#                     fixed_input_2 = fixed_input
-#                 elif column==2:
-#                     fixed_input_1 = fixed_input
-#                     fixed_input_2 = fixed_input_plus_perturbation
-#                 elif column==0:
-#                     fixed_input_1 = fixed_input_plus_perturbation
-#                     fixed_input_2 = fixed_input_plus_perturbation
+                if column==1:
+                    fixed_input_1 = fixed_input_plus_perturbation
+                    fixed_input_2 = fixed_input
+                elif column==2:
+                    fixed_input_1 = fixed_input
+                    fixed_input_2 = fixed_input_plus_perturbation
+                elif column==0:
+                    fixed_input_1 = fixed_input_plus_perturbation
+                    fixed_input_2 = fixed_input_plus_perturbation
                     
-#                 ## run model
-#                 [prediction_with, _, _, _, _, _, _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
-#                                                                            tc_var_per_stim, tc_var_pred, tau_pe, None, stimuli,
-#                                                                            fixed_input_1 = fixed_input_1, 
-#                                                                            fixed_input_2 = fixed_input_2)
-     
-        
-#     ### XXX plot
-#     plt.figure()
-#     plt.plot(prediction_without)
-#     plt.plot(prediction_with)
-    
-    
-    
-    
+                ## run model
+                [_, _, _, _, alpha, _, _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+                                                                 tc_var_per_stim, tc_var_pred, tau_pe, None, stimuli,
+                                                                 fixed_input_1 = fixed_input_1, 
+                                                                 fixed_input_2 = fixed_input_2)
+                
+                ## save alpha after neuromods
+                alpha_after_pert[i, j] = np.mean(alpha[(n_trials - last_n) * trial_duration:])
             
-#     #             ## save nPE & pPE cumsum gain before and after neuromods
-#     #             nPE_before = np.cumsum(nPE[(n_trials//2 - last_n) * trial_duration:n_trials//2 * trial_duration])
-#     #             nPE_after = np.cumsum(nPE[(n_trials - last_n) * trial_duration:])
+            else:
                 
-#     #             m_before, _ = np.polyfit(np.arange(len(nPE_before)), nPE_before, 1)
-#     #             m_after, _ = np.polyfit(np.arange(len(nPE_after)), nPE_after, 1)
+                alpha_after_pert[i, j] = np.nan
                 
-#     #             nPE_cumsum_gain_before_pert[row, column, id_cell_perturbed] = m_before
-#     #             nPE_cumsum_gain_after_pert[row, column, id_cell_perturbed] = m_after
-                
-#     #             pPE_before = np.cumsum(pPE[(n_trials//2 - last_n) * trial_duration:n_trials//2 * trial_duration])
-#     #             pPE_after = np.cumsum(pPE[(n_trials - last_n) * trial_duration:])
-                
-#     #             m_before, _ = np.polyfit(np.arange(len(pPE_before)), pPE_before, 1)
-#     #             m_after, _ = np.polyfit(np.arange(len(pPE_after)), pPE_after, 1)
-
-#     #             pPE_cumsum_gain_before_pert[row, column, id_cell_perturbed] = m_before
-#     #             pPE_cumsum_gain_after_pert[row, column, id_cell_perturbed] = m_after
         
-#     # ### save data
-#     # with open(file_data4plot,'wb') as f:
-#     #     pickle.dump([n_trials, last_n, trial_duration, std_mean_arr, std_std_arr, nPE_cumsum_gain_before_pert,
-#     #                  nPE_cumsum_gain_after_pert, pPE_cumsum_gain_before_pert, pPE_cumsum_gain_after_pert],f)  
+    ### save data
+    with open(file_data4plot,'wb') as f:
+        pickle.dump([n_trials, last_n, trial_duration, xp, xs, xv, alpha_before_pert, alpha_after_pert],f)
 
+    
+# %%  Plot results from above
+
+flag = 0
+
+# XXXX WHY ARE XTICKS and YTICKS WRONG?
+
+if flag==1:
+    
+    ### define target area and stimulus statistics
+    column = 2    # 0: both, 1: lower level PE circuit, 2: higher level PE circuit
+    std_mean = 0    # uncertainty of environement
+    std_std = 1    # uncertainty of stimulus
+    
+    ### load and define parameters
+    input_flg = '10'
+    file_data4plot = '../results/data/neuromod/data_neuromod_column_' + str(column) + '_SDm_' + str(std_mean) + '_SDs_' + str(std_std) + '_netflg_' + input_flg + '.pickle'
+    
+    ### load data
+    with open(file_data4plot,'rb') as f:
+        [_, _, _, xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f)  
+        
+    ### plot data
+    deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
+    
+    plt.figure()
+    index = np.round(np.unique(xp),2)
+    columns = np.round(np.unique(xs),2)
+    data = pd.DataFrame(deviation, index=index, columns=columns)
+    ax = sns.heatmap(deviation, cmap=cmap_sensory_prediction, vmin=-100, vmax=100, 
+                     xticklabels=3, yticklabels=3, cbar_kws={'label': 'Change in sensory weight (%)'})
+    
+    ax.set_facecolor('#DBDBDB')
+    ax.invert_yaxis()
+    
+    ax.set_xlabel(r'Fraction of PV neurons activated, x$_\mathrm{PV}$')
+    ax.set_ylabel(r'Fraction of SOM neurons activated, x$_\mathrm{SOM}$')
+    ax.text(5.5, 9, r'x$_\mathrm{VIP}$ = $\sqrt{1-x_\mathrm{PV}^2 - x_\mathrm{SOM}^2}$')
+    ax.text(0.15, 0.1, 'VIP\nonly')
+    ax.text(9.15, 0.1, 'PV\nonly')
+    ax.text(0.1, 9.1, 'SOM\nonly')
+
+
+# %% Plot all heatmaps together (see above)
+
+flag = 0
+
+if flag==1:
+
+    columns = [1,0,2]
+    
+    fig, axs = plt.subplots(3,3, figsize=(8.5,6))# tight_layout=True)
+    cbar_ax = fig.add_axes([.91, .3, .02, .4])
+    
+    for row in range(3):
+        
+        if row==0:
+            std_mean = 1
+            std_std = 0
+        elif row==1:
+            std_mean = 0.5
+            std_std = 0.5
+        elif row==2:
+            std_mean = 0
+            std_std = 1
+        
+        for c in range(3):
+            
+            column = columns[c]
+            
+            ## load data
+            file_data4plot = '../results/data/neuromod/data_neuromod_column_' + str(column) + '_SDm_' + str(std_mean) + '_SDs_' + str(std_std) + '_netflg_' + input_flg + '.pickle'
+    
+            with open(file_data4plot,'rb') as f:
+                [_, _, _, xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f) 
+                
+            ## compute deviation
+            deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
+            
+            ind = np.round(np.unique(xp),2)
+            col = np.round(np.unique(xs),2)
+            data = pd.DataFrame(deviation, index=ind, columns=col)
+            
+            s = sns.heatmap(deviation, cmap=cmap_sensory_prediction, vmin=-100, vmax=100, ax=axs[row,c], 
+                             xticklabels=9, yticklabels=9, cbar=row == 0, cbar_ax=None if row else cbar_ax)
+            
+            if ((c==0) & (row==0)):
+                
+                axs[row,c].text(1, 5, r'x$_\mathrm{VIP}$ = $\sqrt{1-x_\mathrm{PV}^2 - x_\mathrm{SOM}^2}$')
+                axs[row,c].text(0.15, 0.1, r'$\bigstar$')
+                axs[row,c].text(9.15, 0.1, r'$\clubsuit$')
+                axs[row,c].text(0.1, 9.1, r'$\spadesuit$')
+            
+            if ((c==0) & (row==2)):
+                
+                axs[row,c].tick_params(left=True, bottom=True)
+                axs[row,c].set_xticks([0.5,9.5])
+                axs[row,c].set_yticks([0.5,9.5])
+                axs[row,c].set_xticklabels([0,1])
+                axs[row,c].set_yticklabels([0,1])
+            else:
+                axs[row,c].tick_params(left=False, bottom=False)
+                axs[row,c].set_xticks([])
+                axs[row,c].set_yticks([])
+            
+                
+            if ((c==0) & (row==1)):
+                
+                axs[row,c].set_ylabel(r'Fraction of SOM neurons activated, x$_\mathrm{SOM}$', labelpad=20)
+                
+            if ((c==1) & (row==2)):
+                
+                axs[row,c].set_xlabel(r'Fraction of PV neurons activated, x$_\mathrm{PV}$', labelpad=20)
+                
+            axs[row,c].tick_params(size=2.0,pad=2.0)
+            axs[row,c].set_facecolor('#DBDBDB')
+            axs[row,c].invert_yaxis()
+    
+    cbar_ax.set_ylabel('Change in sensory weight (%)', fontsize=10, labelpad = 0)
+    cbar_ax.tick_params(size=2.0,pad=2.0)
+    cbar_ax.locator_params(nbins=3)
+    
+    fig.tight_layout(rect=[0, 0, .9, 1])
+    
+    
