@@ -18,6 +18,7 @@ from src.plot_toy_model import plot_manipulation_results
 # from src.mean_field_model import random_uniform_from_moments, random_lognormal_from_moments, random_gamma_from_moments
 # from src.mean_field_model import stimuli_from_mean_and_std_arrays
 from src.plot_results_mfn import plot_limit_case_example, plot_transitions_examples, heatmap_summary_transitions, plot_transition_course
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -418,17 +419,16 @@ if flag==1:
      
         
 # %% plot results for different BL activities (different cognitive loads)
+# either from cell above, or from below
 
 flag = 0
 
 if flag==1:
     
-    
-    from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-    
     ### load and define parameters
     input_flg = '10'
-    file_data4plot = '../results/data/neuro_props/test_task_complexity_' + input_flg + '.pickle'
+    #file_data4plot = '../results/data/neuro_props/test_task_complexity_' + input_flg + '.pickle'
+    file_data4plot = '../results/data/neuro_props/test_task_complexity_all_neurons_' + input_flg + '.pickle'
     
     with open(file_data4plot,'rb') as f:
         [_, _, _, _, _, add_inputs, alpha_before, alpha_after] = pickle.load(f)
@@ -460,3 +460,241 @@ if flag==1:
     ax.set_ylabel('Sensory weight \n(baseline increased)')
     ax.set_xlabel('Sensory weight (control)')
     sns.despine(ax=ax)
+    
+    
+# %% Higher task demands (expressed through increased BL activity of ALL neurons) 
+# out: sensory weight for several different task demands (task complexity => BL activity), PE neurons in both columns affected
+
+flag = 0
+
+if flag==1:
+    
+    ### load and define parameters
+    input_flg = '10'
+    filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
+    file_data4plot = '../results/data/neuro_props/test_task_complexity_all_neurons_' + input_flg + '.pickle'
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
+    
+    if input_flg=='10':
+        nPE_scale = 1.015
+        pPE_scale = 1.023
+    elif input_flg=='01':
+        nPE_scale = 1.7 # 1.72
+        pPE_scale = 1.7 # 1.68
+    elif input_flg=='11':
+        nPE_scale = 2.49
+        pPE_scale = 2.53
+        
+    w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
+    w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
+    w_PE_to_V = [nPE_scale, pPE_scale]
+    
+    v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
+    v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
+    v_PE_to_V = [nPE_scale, pPE_scale]
+    
+    tc_var_per_stim = dtype(1000)
+    tc_var_pred = dtype(1000)
+    
+    ### stimulation & simulation parameters
+    n_trials = np.int32(400)
+    last_n = np.int32(100)
+    trial_duration = np.int32(5000) # dtype(5000)
+    n_stimuli_per_trial = np.int32(10)
+    n_repeats_per_stim = np.int32(trial_duration/n_stimuli_per_trial)
+    
+    ### means and std's to be tested
+    num_inpu_conds = 5
+    mean_mean, min_std = dtype(3), dtype(0)
+    std_mean_arr = np.linspace(0, 1, num_inpu_conds) # !!!!!!!!!!!!!!! to ensure that inputs don't get too negative and hence neurons are knocked out ...
+    std_std_arr = np.linspace(0, 1, num_inpu_conds)[::-1]
+    
+    ### different BLs
+    add_inputs = np.array([0.5, 1, 1.5, 2])
+    num_inputs = len(add_inputs)
+    
+    ### initalise
+    alpha_before, alpha_after = np.zeros((num_inpu_conds, num_inputs)), np.zeros((num_inpu_conds, num_inputs))
+    
+    ### main loop
+    for row in range(num_inpu_conds): # input conditions
+        
+        print('Input condition: ', row)
+        
+        std_mean = std_mean_arr[row]
+        std_std = std_std_arr[row]
+
+        ## define stimuli
+        # Please note: to make it comparable, I repeated the set of stimuli, so that before and after neuromods is driven by the same sequence of stimuli)
+        np.random.seed(186)
+        
+        stimuli = stimuli_moments_from_uniform(n_trials//2, n_stimuli_per_trial, dtype(mean_mean - np.sqrt(3)*std_mean), 
+                                               dtype(mean_mean + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
+    
+        stimuli = np.tile(stimuli,2)
+        stimuli = dtype(np.repeat(stimuli, n_repeats_per_stim))
+
+        ## add perturbation
+        for column, add_input in enumerate(add_inputs):
+            
+            print('-- Additional inp to increase BL: ', add_input)
+            
+            # increase BL in all neurons (not in dendrites, for simplicity)
+            perturbation = np.zeros((n_trials * trial_duration,8))                          
+            perturbation[(n_trials * trial_duration)//2:, :2] = add_input  
+            perturbation[(n_trials * trial_duration)//2:, 4:] = add_input 
+            fixed_input_plus_perturbation = fixed_input + perturbation
+
+            ## define target PE circuit
+            fixed_input_1 = fixed_input_plus_perturbation
+            fixed_input_2 = fixed_input_plus_perturbation
+                
+            ## run model
+            [pred_1, var_1, pred_2, var_2, alpha, _, _] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+                                                                               tc_var_per_stim, tc_var_pred, tau_pe, None, stimuli,
+                                                                               fixed_input_1 = fixed_input_1, 
+                                                                               fixed_input_2 = fixed_input_2)
+            
+        
+            ## save prediction before and after neuromods
+            alpha_before[row, column] = np.mean(alpha[(n_trials//2 - last_n) * trial_duration:n_trials//2 * trial_duration])
+            alpha_after[row, column] = np.mean(alpha[(n_trials - last_n) * trial_duration:])
+
+        
+    ### save data
+    with open(file_data4plot,'wb') as f:
+        pickle.dump([n_trials, last_n, trial_duration, std_mean_arr, std_std_arr, 
+                     add_inputs, alpha_before, alpha_after],f) 
+     
+
+# %% Test different "time constants" for updating prediction/memory neuron in both PE circuits
+# basically 
+
+flag = 0
+flg_plot_only = 1
+
+if flag==1:
+    
+    ### file to save data
+    file_data4plot = '../results/data/neuro_props/data_when_weighting_goes_wrong.pickle'
+    
+    if flg_plot_only==0:
+        
+        ### load and define parameters
+        input_flg = '10'
+        filename = '../results/data/moments/Data_Optimal_Parameters_MFN_' + input_flg + '.pickle'
+        
+        [w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+         tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para(filename)
+        
+        if input_flg=='10':
+            nPE_scale = 1.015
+            pPE_scale = 1.023
+        elif input_flg=='01':
+            nPE_scale = 1.7 # 1.72
+            pPE_scale = 1.7 # 1.68
+        elif input_flg=='11':
+            nPE_scale = 2.49
+            pPE_scale = 2.53
+            
+        w_PE_to_P[0,0] *= nPE_scale * 15 # !!!!!!!!!!! to make it faster
+        w_PE_to_P[0,1] *= pPE_scale * 15 # !!!!!!!!!!!
+        w_PE_to_V = [nPE_scale, pPE_scale]
+        
+        v_PE_to_P[0,0] *= nPE_scale * 0.7 # !!!!!!!!!!! to make it slower
+        v_PE_to_P[0,1] *= pPE_scale * 0.7 # !!!!!!!!!!!
+        v_PE_to_V = [nPE_scale, pPE_scale]
+        
+        tc_var_per_stim = dtype(1000)
+        tc_var_pred = dtype(1000)
+        
+        ### stimulation & simulation parameters
+        n_trials = np.int32(100)
+        last_n = np.int32(30)
+        trial_duration = np.int32(5000)# dtype(5000)
+        n_stimuli_per_trial = np.int32(10)
+        n_repeats_per_stim = np.int32(trial_duration/n_stimuli_per_trial)
+        
+        ### means and std's to be tested
+        num_conditions = 5
+        mean_mean, min_std = dtype(3), dtype(0)
+        std_mean_arr = np.linspace(0,3, num_conditions, dtype=dtype)
+        std_std_arr = np.linspace(0,3, num_conditions, dtype=dtype)[::-1]
+        
+        ### parameters to be tested
+        sv = np.linspace(1,6,6)
+        
+        ### initialise
+        fraction_sensory_mean = np.zeros((num_conditions, len(sv)), dtype=dtype)
+        
+        for l in range(num_conditions):
+            
+            std_mean = std_mean_arr[l]
+            std_std = std_std_arr[l]
+                
+            ### display progress
+            print(l)
+    
+            ### define stimuli
+            stimuli = stimuli_moments_from_uniform(n_trials, n_stimuli_per_trial, dtype(mean_mean - np.sqrt(3)*std_mean), 
+                                                   dtype(mean_mean + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
+            
+            stimuli = dtype(np.repeat(stimuli, n_repeats_per_stim))
+            
+            for k, s in enumerate(sv):
+                
+                w_PE_to_P_scaled = np.copy(w_PE_to_P)
+                v_PE_to_P_scaled = np.copy(v_PE_to_P)
+                
+                w_PE_to_P_scaled[0,:] /= s 
+                v_PE_to_P_scaled[0,:] *= s
+                
+                ### run model
+                [_, _, _, _, alpha, _, 
+                 weighted_output] = run_mean_field_model(w_PE_to_P_scaled, w_P_to_PE, w_PE_to_PE, v_PE_to_P_scaled, v_P_to_PE, v_PE_to_PE, 
+                                                         tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli)
+                
+                ### fraction of sensory input in weighted output
+                fraction_sensory_mean[l, k] = np.mean(alpha[(n_trials - last_n) * trial_duration:])
+ 
+    
+        ### save data for later
+        with open(file_data4plot,'wb') as f:
+            pickle.dump([fraction_sensory_mean, std_std_arr, std_mean_arr, sv],f) 
+     
+    else:
+        
+        ### load data for plotting
+        with open(file_data4plot,'rb') as f:
+            [fraction_sensory_mean, std_std_arr, std_mean_arr, sv] = pickle.load(f)
+            
+    ### plot
+    fs = 10
+    
+    f, ax = plt.subplots(1,1, figsize=(5,4), tight_layout=True)
+    colors = sns.color_palette("viridis_r", n_colors=np.size(fraction_sensory_mean,1)-1)
+    
+    for i in range(np.size(fraction_sensory_mean,1)-1):
+        ax.plot(fraction_sensory_mean[:,0], fraction_sensory_mean[:,i+1],  marker='s', color=colors[i],
+                markeredgecolor='k', markeredgewidth=0.4)
+        
+    ax.axline((0.5,0.5), slope=1, color='k', ls=':')
+    
+    ax.set_xlabel('Sensory weight (ctrl)')
+    ax.set_ylabel('Sensory weight \n(parameters modulated)')
+    
+    axins1 = inset_axes(ax, width="30%", height="5%", loc=2)
+    
+    cmap = ListedColormap(colors)
+    cb = mpl.colorbar.ColorbarBase(axins1, cmap=cmap, orientation='horizontal', ticks=[0.1,0.9])
+    cb.outline.set_visible(False)
+    cb.ax.set_title('Scaling', fontsize=fs, pad = 0)
+    cb.ax.set_xticklabels([str(sv[1]**2), str(sv[-1]**2)], fontsize=fs)
+    axins1.xaxis.set_ticks_position("bottom")
+    axins1.tick_params(size=2.0,pad=2.0)
+    
+    sns.despine(ax=ax)    
+
+        
