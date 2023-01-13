@@ -98,7 +98,7 @@ if flag==1:
         
         ## run model
         [prediction, variance_per_stimulus, mean_of_prediction, variance_prediction, 
-          alpha, beta, weighted_output] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
+         alpha, beta, weighted_output] = run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
                                                               tc_var_per_stim, tc_var_pred, tau_pe, fixed_input, stimuli,
                                                               w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V)
         ### save data for later

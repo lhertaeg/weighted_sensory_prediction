@@ -157,6 +157,8 @@
 
 ### Relation to uncertainty
 
+- Jordan 2022: „LC responds to many different events, including unexpected task outcomes (Bouret and Sara, 2004; Breton-Provencher et al., 2022), novelty (Takeuchi et al., 2016; Vankov et al., 1995), and unexpected sensory stimuli in general (Aston-Jones and Bloom, 1981; Deitcher et al., 2019; Foote et al., 1980; Hervé-Minvielle and Sara, 1995)“
+- Jordan 2022: „In zebrafish, noradrenergic neurons increase their activity during the prolonged visuomotor mismatches of failed swim attempts to drive ‘giving up’ behavior (Mu et al., 2019)“
 - neurons in the locus coeruleus (LC), the primary source of cortical NA, show strong responses to unexpected environmental changes (reviewed in Marshall 2016: Sara 1991, Yu and Dayan 2005)
 - Increasing NA in rodents enhances bottom-up, thalamo-sensory processing (Hasselmo 1997; Kobayashi 2000) relative to top-down, intracortical, and feedback processing (reviewed in Marshall 2016: Gil 1997; Dayan 2006)
 	- Propranolol increases effects of expectations on behaviour (Lawson 2021) => NA decreases effects of expectations on behavior (that is, NA should be higher when environment is very volatile)
@@ -165,6 +167,8 @@
 - NA is thought to offer an interrupt signal when volatility uncertainty arises between contexts (reviewed in Marshall 2016: Bouret 2005)
 	- Propranolol reduces volatility-linked learning (Lawson 2021) => that is, new sensory input does not quickly lead to updating the belief system
 	- Attenuating effect of NA eliminated effect of PE and volatility on pupil size, consistent with slower belief updating (Lawson 2021)
+- May regulate and gate plasticity in the cortex (mentioned in Jordan 2022: Choi et al., 2005; He et al., 2015; Seol et al., 2007)
+- Joram 2022: „Prevalent idea is that noradrenaline is a mediator of gain modulation in the cortex (Ferguson and Cardin, 2020), including the gain increase in V1 during locomotion (Polack et al., 2013)“
 
 
 ### Impact on interneurons

@@ -347,7 +347,7 @@ if flag==1:
     
 # %% Systematically exploring the regimes for which the system relies more on sensory inputs or predictions after interneurons are activated
 
-flag = 1
+flag = 0
 
 if flag==1:
     
@@ -534,6 +534,7 @@ if flag==1:
             column = columns[c]
             
             ## load data
+            input_flg = '10'
             file_data4plot = '../results/data/neuromod/data_neuromod_column_' + str(column) + '_SDm_' + str(std_mean) + '_SDs_' + str(std_std) + '_netflg_' + input_flg + '.pickle'
     
             with open(file_data4plot,'rb') as f:
@@ -587,4 +588,121 @@ if flag==1:
     
     fig.tight_layout(rect=[0, 0, .9, 1])
     
+  
+# %% Test other presentation of heatmap results
+
+flag = 1
+
+if flag==1:
+    
+    plt.figure()
+    ax = plt.gca()
+    
+    # ax.axline((0, 0), (0.5, 1))
+    # ax.axline((0.5, 1), (1, 0))
+    # ax.axline((0, 0), (1, 0))
+    
+    column = 2
+    std_mean = 0
+    std_std = 1
+    
+    ## load data
+    input_flg = '10'
+    file_data4plot = '../results/data/neuromod/data_neuromod_column_' + str(column) + '_SDm_' + str(std_mean) + '_SDs_' + str(std_std) + '_netflg_' + input_flg + '.pickle'
+
+    with open(file_data4plot,'rb') as f:
+        [_, _, _, xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f) 
+        
+    ## compute deviation
+    deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
+    
+    num_nans_per_row = np.count_nonzero(np.isnan(deviation),axis=0)
+    
+    for i in range(10):
+        deviation[i,:] = np.roll(deviation[i,:], num_nans_per_row[i]//2)
+    
+    ind = np.round(np.unique(xp),2)
+    col = np.round(np.unique(xs),2)
+    data = pd.DataFrame(deviation, index=ind, columns=col)
+    
+    s = sns.heatmap(deviation, cmap=cmap_sensory_prediction, vmin=-100, vmax=100, ax=ax, 
+                     xticklabels=9, yticklabels=9, cbar=row == 0, cbar_ax=None if row else cbar_ax)
+    
+    ax.invert_yaxis()
+    
+    # columns = [1,0,2]
+    
+    # fig, axs = plt.subplots(3,3, figsize=(8.5,6))# tight_layout=True)
+    # cbar_ax = fig.add_axes([.91, .3, .02, .4])
+    
+    # for row in range(3):
+        
+    #     if row==0:
+    #         std_mean = 1
+    #         std_std = 0
+    #     elif row==1:
+    #         std_mean = 0.5
+    #         std_std = 0.5
+    #     elif row==2:
+    #         std_mean = 0
+    #         std_std = 1
+        
+    #     for c in range(3):
+            
+    #         column = columns[c]
+            
+    #         ## load data
+    #         input_flg = '10'
+    #         file_data4plot = '../results/data/neuromod/data_neuromod_column_' + str(column) + '_SDm_' + str(std_mean) + '_SDs_' + str(std_std) + '_netflg_' + input_flg + '.pickle'
+    
+    #         with open(file_data4plot,'rb') as f:
+    #             [_, _, _, xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f) 
+                
+    #         ## compute deviation
+    #         deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
+            
+    #         ind = np.round(np.unique(xp),2)
+    #         col = np.round(np.unique(xs),2)
+    #         data = pd.DataFrame(deviation, index=ind, columns=col)
+            
+    #         s = sns.heatmap(deviation, cmap=cmap_sensory_prediction, vmin=-100, vmax=100, ax=axs[row,c], 
+    #                          xticklabels=9, yticklabels=9, cbar=row == 0, cbar_ax=None if row else cbar_ax)
+            
+    #         if ((c==0) & (row==0)):
+                
+    #             axs[row,c].text(1, 5, r'x$_\mathrm{VIP}$ = $\sqrt{1-x_\mathrm{PV}^2 - x_\mathrm{SOM}^2}$')
+    #             axs[row,c].text(0.15, 0.1, r'$\bigstar$')
+    #             axs[row,c].text(9.15, 0.1, r'$\clubsuit$')
+    #             axs[row,c].text(0.1, 9.1, r'$\spadesuit$')
+            
+    #         if ((c==0) & (row==2)):
+                
+    #             axs[row,c].tick_params(left=True, bottom=True)
+    #             axs[row,c].set_xticks([0.5,9.5])
+    #             axs[row,c].set_yticks([0.5,9.5])
+    #             axs[row,c].set_xticklabels([0,1])
+    #             axs[row,c].set_yticklabels([0,1])
+    #         else:
+    #             axs[row,c].tick_params(left=False, bottom=False)
+    #             axs[row,c].set_xticks([])
+    #             axs[row,c].set_yticks([])
+            
+                
+    #         if ((c==0) & (row==1)):
+                
+    #             axs[row,c].set_ylabel(r'Fraction of SOM neurons activated, x$_\mathrm{SOM}$', labelpad=20)
+                
+    #         if ((c==1) & (row==2)):
+                
+    #             axs[row,c].set_xlabel(r'Fraction of PV neurons activated, x$_\mathrm{PV}$', labelpad=20)
+                
+    #         axs[row,c].tick_params(size=2.0,pad=2.0)
+    #         axs[row,c].set_facecolor('#DBDBDB')
+    #         axs[row,c].invert_yaxis()
+    
+    # cbar_ax.set_ylabel('Change in sensory weight (%)', fontsize=10, labelpad = 0)
+    # cbar_ax.tick_params(size=2.0,pad=2.0)
+    # cbar_ax.locator_params(nbins=3)
+    
+    # fig.tight_layout(rect=[0, 0, .9, 1])    
     

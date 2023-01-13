@@ -284,6 +284,7 @@ def run_mean_field_model(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE,
                                                                                   rates_pe_circuit_sens[id_stim-1,:], prediction[id_stim-1], 
                                                                                   feedforward_input, dt)
         
+        
         ## mean-field network, PE circuit (feedforward = prediction, fedback = prediction of prediction)
         feedforward_input = fixed_input_2[id_stim,:] + prediction[id_stim-1] * neurons_feedforward
         rates_pe_circuit_pred[id_stim,:], mean_pred[id_stim] = rate_dynamics_mfn(tau_E, tau_I, v_PE_to_P, v_P_to_PE, v_PE_to_PE, 
