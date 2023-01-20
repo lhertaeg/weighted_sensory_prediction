@@ -8,5 +8,5 @@ recent_files = ['scripts/run_moments_perturbation.py', 'src/mean_field_model.py'
 
 [main]
 version = 0.2.0
-recent_files = ['src/default_parameters.py', 'src/functions_simulate.py', 'scripts/run_fig_2_support_1.py', 'src/plot_data.py', 'scripts/run_fig_2.py', 'src/functions_networks.py', 'src/plot_results_mfn.py', 'scripts/run_moments_through_pe_neurons.py', 'src/toy_model.py']
+recent_files = ['src/plot_data.py', 'scripts/run_fig_2_support_1.py', 'src/default_parameters.py', 'src/functions_simulate.py', 'scripts/run_fig_3.py', 'scripts/run_fig_3_support_1.py', 'src/functions_networks.py', 'scripts/run_neuron_properties.py', 'src/plot_results_mfn.py', 'scripts/run_fig_5.py']
 

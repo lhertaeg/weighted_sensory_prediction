@@ -27,8 +27,8 @@ dtype = np.float32
     # beautify plotting functions
     # rerun (you have to because something in the functions changed!)
 
-run_cell = False
-plot_only = False
+run_cell = True
+plot_only = True
 
 if run_cell:
     
@@ -49,8 +49,8 @@ if run_cell:
             [_, _, trial_duration, _, stimuli, m_neuron, v_neuron] = pickle.load(f)
             
     ### plot single panels
-    plot_example_mean(stimuli, trial_duration, m_neuron)
-    plot_example_variance(stimuli, trial_duration, v_neuron)
+    plot_example_mean(stimuli, trial_duration, m_neuron, figsize=(4,3), fs=7, lw=1.2)
+    plot_example_variance(stimuli, trial_duration, v_neuron, figsize=(4,3), fs=7, lw=1.2)
 
 
 # %% Systematically run network for different parameterisations of uniform distribution
@@ -61,7 +61,7 @@ if run_cell:
     # beautify plotting functions
     # rerun (you have to because something in the functions changed!)
 
-run_cell = False
+run_cell = True
 plot_only = True
 
 if run_cell: 
@@ -92,8 +92,11 @@ if run_cell:
     ### plot heatmaps
     end_of_initial_phase = np.int32(trial_duration * 0.5)
     plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse_mean, 
-                      title='Estimating the mean', vmax=0.3)
+                      title='M neuron encodes mean for a wide range of parameters', 
+                      figsize=(4,3), fs=7, x_example=5, y_example=2**2) # vmax=0.3
     plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse_variance, 
-                      title='Estimating the variance', show_mean=False)#, vmax=10)
+                      title='V neuron encodes variance for a wide range of parameters', show_mean=False, 
+                      figsize=(4,3), fs=7, x_example=5, y_example=2**2)#, vmax=10)
+
     
-    
+   

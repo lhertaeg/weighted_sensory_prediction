@@ -17,7 +17,7 @@ dtype = np.float32
 
 
 def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean, 
-                      var, feedforward_input, dt):
+                      var, feedforward_input, dt, n):
     
     # Initialise
     rates_new = rates.copy() 
@@ -33,7 +33,7 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
     
     # RK 2nd order
     dr_mem_1 = (U @ rates_new) / tau_E
-    dr_var_1 = (-var_new + sum(w_var * rates_new[:2])**2) / tc_var ##############
+    dr_var_1 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var ##############
     dr_1 = -rates_new + W @ rates_new + V @ np.array([mean_new]) + feedforward_input
     dr_1[:4] /= tau_E 
     dr_1[4:] /= tau_I 
@@ -43,7 +43,7 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
     var_new += dt * dr_var_1 #############
     
     dr_mem_2 = (U @ rates_new) / tau_E
-    dr_var_2 = (-var_new + sum(w_var * rates_new[:2])**2) / tc_var ##############
+    dr_var_2 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var ##############
     dr_2 = -rates_new + W @ rates_new + V @ mean_new + feedforward_input
     dr_2[:4] /= tau_E 
     dr_2[4:] /= tau_I
@@ -59,7 +59,7 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
 
 
 def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, 
-                        stimuli, VS = 1, VV = 0, dt = dtype(1), w_PE_to_V = dtype([1,1])):
+                        stimuli, VS = 1, VV = 0, dt = dtype(1), w_PE_to_V = dtype([1,1]), n=2):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -84,13 +84,13 @@ def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, f
          m_neuron[id_stim], v_neuron[id_stim]] = rate_dynamics_mfn(tau_E, tau_I, tc_var_per_stim, w_PE_to_V, 
                                                                    w_PE_to_P, w_P_to_PE, w_PE_to_PE,
                                                                    rates_lower[id_stim-1,:], m_neuron[id_stim-1], 
-                                                                   v_neuron[id_stim-1], feedforward_input, dt)
+                                                                   v_neuron[id_stim-1], feedforward_input, dt, n)
 
     return m_neuron, v_neuron, rates_lower[:,:2]
 
 
 def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
-                            tc_var_pred, tau_pe, fixed_input, stimuli, VS = 1, VV = 0, dt = dtype(1), 
+                            tc_var_pred, tau_pe, fixed_input, stimuli, VS = 1, VV = 0, dt = dtype(1), n = 2, 
                             w_PE_to_V = dtype([1,1]), v_PE_to_V  = dtype([1,1]), record_pe_activity = False):
     
     ### neuron and network parameters
@@ -123,7 +123,7 @@ def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_
          v_neuron_lower[id_stim]] = rate_dynamics_mfn(tau_E, tau_I, tc_var_per_stim, w_PE_to_V, w_PE_to_P,
                                                       w_P_to_PE, w_PE_to_PE, rates_lower[id_stim-1,:],
                                                       m_neuron_lower[id_stim-1], v_neuron_lower[id_stim-1], 
-                                                     feedforward_input_lower, dt)
+                                                     feedforward_input_lower, dt, n)
         
         
         ## run higher PE circuit
@@ -133,7 +133,7 @@ def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_
          v_neuron_higher[id_stim]] = rate_dynamics_mfn(tau_E, tau_I, tc_var_pred, v_PE_to_V, v_PE_to_P,
                                                       v_P_to_PE, v_PE_to_PE, rates_higher[id_stim-1,:],
                                                       m_neuron_higher[id_stim-1], v_neuron_higher[id_stim-1], 
-                                                      feedforward_input_higher, dt)
+                                                      feedforward_input_higher, dt, n)
                                                        
     ### compute weighted output
     v_neuron_lower[np.isinf(1/v_neuron_lower)] = 1e-30

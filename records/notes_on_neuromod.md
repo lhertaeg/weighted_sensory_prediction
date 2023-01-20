@@ -51,6 +51,7 @@
 	- In A1, ACh activated SOMs (reviewed in Hattori 2017: Kuchibhotla 2017, Nelson 2016) and has been shown that in M1 and S1 SOM expresses cholinergic receptors (reviewed in Swanson in Maffei 2019: Paul et al., 2017)
 	- SOMs in barrel cortex receive input from the Basal nucleus of Meynert (reviewed in Swanson in Maffei 2019: Wall et al., 2016)
 	- However, stimulation cholinergic input to the cortex modified rarely SST+ neurons (reviewed in Swanson in Maffei 2019: Alitto and Dan, 2012)
+	- but on the other side, it sometimes seems to be activated even more than VIP neurons! (See "An acetylcholine-activated microcircuit drives temporal dynamics of cortical activity")
 - ACh strongly activates VIPs
 	- Cholinergic inputs depolarise VIPs (reviewed in Wester 2014)
 	- ACh resulted in increased Ca signal amplitude in the majority of VIPs (reviewed in Wester 2014) 

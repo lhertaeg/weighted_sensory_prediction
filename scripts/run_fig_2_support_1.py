@@ -24,10 +24,6 @@ dtype = np.float32
 
 # Todo:
     # choose parameters consistent with the subsequent plots
-    # beautify plotting functions:
-        # find a nice way to illustrate the distributions
-        # take nice color scheme
-        # inset steady state
     # rerun (you have to because something in the functions changed!)
     
 run_cell = True
@@ -94,8 +90,8 @@ if run_cell:
     sem_mean = np.std(mse_mean,2)/np.sqrt(num_reps)
     sem_variance = np.std(mse_variance,2)/np.sqrt(num_reps)
     
-    plot_mse_test_distributions(np.mean(mse_mean,2), SEM = sem_mean, title = 'Mean of stimuli', 
-                                x_lim=[0,50000], mean=mean, std=std, dist_types=dist_types)
-    plot_mse_test_distributions(np.mean(mse_variance,2), SEM = sem_variance, 
-                                title = 'Variance of stimuli', x_lim=[0,50000])
+    plot_mse_test_distributions(np.mean(mse_mean,2), SEM = sem_mean, title = 'Mean of stimuli', fs=8, 
+                                mean=mean, std=std, dist_types=dist_types, inset_steady_state=True) # x_lim=[0,50000]
+    plot_mse_test_distributions(np.mean(mse_variance,2), SEM = sem_variance, fs = 8,
+                                title = 'Variance of stimuli', inset_steady_state = True) #  , x_lim=[0,50000]
         
