@@ -24,11 +24,10 @@ dtype = np.float32
 
 # Todo:
     # choose parameters consistent with the subsequent plots
-    # beautify plotting functions
     # rerun
 
 run_cell = False
-plot_only = False
+plot_only = True
 
 if run_cell:
     
@@ -42,14 +41,14 @@ if run_cell:
     ### get data
     if not plot_only: # simulate respective network
         
-        min_mean, max_mean, min_std, max_std = 3, 3, 1, 5
+        min_mean, max_mean, m_sd, n_sd = 3, 3, 0, 3
         [n_trials, trial_duration, _, stimuli_1, m_neuron_lower_1, v_neuron_lower_1, m_neuron_higher_1, v_neuron_higher_1, alpha_1, beta_1, 
-         weighted_output_1] = simulate_weighting_example(mfn_flag, min_mean, max_mean, min_std, max_std, 
+         weighted_output_1] = simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, 
                                                          file_for_data = file_for_data_prediction_driven)
 
-        min_mean, max_mean, min_std, max_std = 1, 5, 0, 0
+        min_mean, max_mean, m_sd, n_sd = 1, 5, 0, 0
         [_, _, _, stimuli_2, m_neuron_lower_2, v_neuron_lower_2, m_neuron_higher_2, v_neuron_higher_2, alpha_2, beta_2, 
-         weighted_output_2] = simulate_weighting_example(mfn_flag, min_mean, max_mean, min_std, max_std, 
+         weighted_output_2] = simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, 
                                                          file_for_data = file_for_data_sensory_driven)                                                
                                                           
     else: # load results from previous simulation
@@ -67,18 +66,18 @@ if run_cell:
                                       v_neuron_lower_1, v_neuron_higher_1, alpha_1, beta_1, weighted_output_1)
     
     plot_weighting_limit_case_example(n_trials, trial_duration, stimuli_2, m_neuron_lower_2, m_neuron_higher_2, 
-                                      v_neuron_lower_2, v_neuron_higher_2, alpha_2, beta_2, weighted_output_2)
+                                      v_neuron_lower_2, v_neuron_higher_2, alpha_2, beta_2, weighted_output_2, 
+                                      plot_legend = False)
     
     
 # %% Systematic exploration
 
 # Todo:
-    # add plotting function
     # choose parameters wisely
     # rerun ...
 
 run_cell = False
-plot_only = False
+plot_only = True
 
 if run_cell:
     
@@ -92,13 +91,13 @@ if run_cell:
     if not plot_only: # simulate respective network
         
         ### within and across trial variabilities tested
-        mean_trials, min_std = dtype(3), dtype(0)
+        mean_trials, m_sd = dtype(3), dtype(0)
         variability_within = np.linspace(0,3,5, dtype=dtype)
         variability_across = np.linspace(0,3,5, dtype=dtype)
         
         [variability_within, 
          variability_across, alpha] = simulate_weighting_exploration(mfn_flag, variability_within, variability_across, 
-                                                                     mean_trials, min_std, file_for_data = file_for_data)
+                                                                     mean_trials, m_sd, file_for_data = file_for_data)
         
     
     else: # load results from previous simulation
@@ -119,10 +118,10 @@ if run_cell:
 # Todo:
     # check implementation
     # beautify plotting function
-    # re-run with for correct examples and parameters
+    # re-run for correct examples and parameters
 
-run_cell = True
-plot_only = False
+run_cell = False
+plot_only = True
 
 if run_cell:
     
@@ -132,26 +131,26 @@ if run_cell:
     ### define stimulus statistics before and after transition
     min_mean_before = 3
     max_mean_before = 3
-    min_std_before = 0
-    max_std_before = 0
+    m_sd_before = 0
+    n_sd_before = 0
     
     min_mean_after = 3
     max_mean_after = 3
-    min_std_after = 0
-    max_std_after = 0
+    m_sd_after = 0
+    n_sd_after = 0
 
     ### filename for data
-    before = str(min_mean_before) + str(max_mean_before) + str(min_std_before) + str(max_std_before)
-    after = str(min_mean_after) + str(max_mean_after) + str(min_std_after) + str(max_std_after)
+    before = str(min_mean_before) + str(max_mean_before) + str(m_sd_before) + str(n_sd_before)
+    after = str(min_mean_after) + str(max_mean_after) + str(m_sd_after) + str(n_sd_after)
     file_for_data = '../results/data/weighting/data_weighting_transition_' + before + '_' + after + '.pickle'
     
     ### get data
     if not plot_only: # simulate respective network
         
         [_, _, _, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, alpha, beta, 
-         weighted_output] = simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, min_std_before, 
-                                                          max_std_before, min_mean_after, max_mean_after, min_std_after, 
-                                                          max_std_after, file_for_data = file_for_data)     
+         weighted_output] = simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, m_sd_before, 
+                                                          n_sd_before, min_mean_after, max_mean_after, m_sd_after, 
+                                                          n_sd_after, file_for_data = file_for_data)     
         
     else: # load results from previous simulation
 

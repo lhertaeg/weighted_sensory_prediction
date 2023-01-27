@@ -18,10 +18,12 @@ dtype = np.float32
 
 # %% functions
 
-def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, min_std, max_std):
+def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd):
     
     mean_stimuli = np.random.uniform(min_mean, max_mean, size=n_trials)
-    sd_stimuli = np.random.uniform(min_std, max_std, size=n_trials)
+    #sd_stimuli = np.random.uniform(min_std, max_std, size=n_trials)
+    sd_stimuli = mean_stimuli * m_sd + n_sd
+    
     stimuli = np.array([])
     
     for id_stim in range(n_trials):
@@ -173,7 +175,7 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
     return [trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance]
          
 
-def simulate_weighting_example(mfn_flag, min_mean, max_mean, min_std, max_std, seed = np.int32(186), n_trials = np.int32(100), 
+def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = np.int32(186), n_trials = np.int32(100), 
                                trial_duration = np.int32(5000), num_values_per_trial = np.int32(10), file_for_data = None):
     
     ### load default parameters
@@ -187,7 +189,7 @@ def simulate_weighting_example(mfn_flag, min_mean, max_mean, min_std, max_std, s
     np.random.seed(seed)
     n_repeats_per_stim = trial_duration/num_values_per_trial
     
-    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, min_std, max_std)
+    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd)
     stimuli = np.repeat(stimuli, n_repeats_per_stim)
     
     ### run model
@@ -210,7 +212,7 @@ def simulate_weighting_example(mfn_flag, min_mean, max_mean, min_std, max_std, s
 
 
 
-def simulate_weighting_exploration(mfn_flag, variability_within, variability_across, mean_trials, min_std, last_n = np.int32(30),
+def simulate_weighting_exploration(mfn_flag, variability_within, variability_across, mean_trials, m_sd, last_n = np.int32(30),
                                    seed = np.int32(186), n_trials = np.int32(100), trial_duration = np.int32(5000), 
                                    num_values_per_trial = np.int32(10), file_for_data = None):
     
@@ -229,17 +231,17 @@ def simulate_weighting_exploration(mfn_flag, variability_within, variability_acr
         
         print('Variability across trials:', std_mean)
         
-        for row, std_std in enumerate(variability_within):
+        for row, n_sd in enumerate(variability_within):
             
             ## display progress
-            print('-- Variability within trial:', std_std)
+            print('-- Variability within trial:', n_sd)
     
             ## define stimuli
             np.random.seed(seed)
             n_repeats_per_stim = trial_duration/num_values_per_trial
     
             stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
-                                                   dtype(mean_trials + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
+                                                   dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
             stimuli = np.repeat(stimuli, n_repeats_per_stim)
 
             ## run model
@@ -260,8 +262,8 @@ def simulate_weighting_exploration(mfn_flag, variability_within, variability_acr
             
      
         
-def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, min_std_before, max_std_before, 
-                                  min_mean_after, max_mean_after, min_std_after, max_std_after, seed = np.int32(186),
+def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, m_sd_before, n_sd_before, 
+                                  min_mean_after, max_mean_after, m_sd_after, n_sd_after, seed = np.int32(186),
                                   n_trials = np.int32(120), trial_duration = np.int32(5000), num_values_per_trial = np.int32(10),
                                   file_for_data = None):
     
@@ -280,9 +282,9 @@ def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, mi
     mid = (n_trials * num_values_per_trial)//2
     
     stimuli[:mid] = stimuli_moments_from_uniform(n_trials//2, num_values_per_trial, min_mean_before, max_mean_before, 
-                                                min_std_before, max_std_before)
+                                                m_sd_before, n_sd_before)
     stimuli[mid:] = stimuli_moments_from_uniform(n_trials//2, num_values_per_trial, min_mean_after, max_mean_after, 
-                                                min_std_after, max_std_after)
+                                                m_sd_after, n_sd_after)
     
     stimuli = np.repeat(stimuli, n_repeats_per_stim)
     
@@ -307,7 +309,7 @@ def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, mi
 
 
 def simulate_sensory_weight_time_course(mfn_flag, variability_within, variability_across, mean_trials, 
-                                        min_std, seed = np.int32(186), trial_duration = np.int32(5000),
+                                        m_sd, n_sd, seed = np.int32(186), trial_duration = np.int32(5000),
                                         n_trials = np.int32(100), num_values_per_trial = np.int32(10),
                                         file_for_data = None):
     
@@ -336,7 +338,7 @@ def simulate_sensory_weight_time_course(mfn_flag, variability_within, variabilit
         n_repeats_per_stim = trial_duration/num_values_per_trial
 
         stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
-                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
+                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
         stimuli = np.repeat(stimuli, n_repeats_per_stim)
 
         ## run model
@@ -361,7 +363,7 @@ def simulate_sensory_weight_time_course(mfn_flag, variability_within, variabilit
 
 
 def simulate_impact_para(mfn_flag, variability_within, variability_across, mean_trials, 
-                                        min_std, last_n = np.int32(30), seed = np.int32(186), 
+                                        m_sd, n_sd, last_n = np.int32(30), seed = np.int32(186), 
                                         n_trials = np.int32(100), trial_duration = np.int32(5000), 
                                         num_values_per_trial = np.int32(10), file_for_data = None,
                                         n = 2, gain_w_PE_to_P = 1, gain_v_PE_to_P = 1, add_input = 0,
@@ -402,7 +404,7 @@ def simulate_impact_para(mfn_flag, variability_within, variability_across, mean_
         n_repeats_per_stim = trial_duration/num_values_per_trial
 
         stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
-                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(min_std), dtype(min_std + 2*np.sqrt(3)*std_std))
+                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
         stimuli = np.repeat(stimuli, n_repeats_per_stim)
 
         ## run model

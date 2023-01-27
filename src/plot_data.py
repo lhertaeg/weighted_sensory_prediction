@@ -40,9 +40,12 @@ color_running_average_stimuli = '#D76A03'
 color_m_neuron = '#19535F'
 color_v_neuron = '#452144'
 color_mse = '#AF1B3F' 
+color_weighted_output = '#5E0035'
+color_mean_prediction = '#70A9A1' 
 
 cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_prediction', 
-                                                            colors=['#19535F','#fefee3','#D76A03'])
+                                                            colors=[color_m_neuron,'#fefee3',
+                                                                    color_running_average_stimuli])
 
 # %% plot functions
 
@@ -72,19 +75,22 @@ def plot_weight_over_trial(fraction_course, n_trials):
 
 
 def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
-                              time_plot = 0, ylim=None, xlim=None, plot_ylable=True, 
+                              time_plot = 0, ylim=None, xlim=None, plot_ylable=True, lw=1, 
                               figsize=(3.5,5), plot_only_weights=False, fs=12, transition_point=60):
     
-    if plot_only_weights:
-        fig, ax2 = plt.subplots(1, 1, figsize=figsize, sharex=True, tight_layout=True)
-    else:  
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=figsize, sharex=True, tight_layout=True)
+    f1, ax1 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
+    f1, ax2 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
     
     time = np.arange(len(stimuli))/trial_duration
     
     if not plot_only_weights:
-        ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
-        ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
+        
+        for i in range(n_trials):
+            ax1.axvspan(2*i, (2*i+1), color='#F5F4F5')
+
+        ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], 
+             color=color_stimuli_background, lw=lw, marker='|', ls="None")  
+        ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color=color_m_neuron, label='weighted output')
         if plot_ylable:
             ax1.set_ylabel('Activity', fontsize=fs)
         else:
@@ -101,14 +107,17 @@ def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, we
         ax1.tick_params(axis='both', labelsize=fs)
         sns.despine(ax=ax1)
     
-    ax2.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
-    ax2.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], color='#19535F', label='prediction')
+    for i in range(n_trials):
+        ax2.axvspan(2*i, (2*i+1), color='#F5F4F5')
+    
+    ax2.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], color=color_running_average_stimuli, label='stimulus')
+    ax2.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], color=color_m_neuron, label='prediction')
     if plot_ylable:
         ax2.set_ylabel('Weights', fontsize=fs)
     else:
         ax2.set_ylabel('Weights', color='white', fontsize=fs)
         ax2.tick_params(axis='y', colors='white')
-    ax2.axvline(transition_point, color='k', alpha=0.5, ls='--')
+    ax2.axvline(transition_point, color='k', ls='--')
     ax2.set_xlabel('Time (#trials)', fontsize=fs)
     ax2.set_xlim([time_plot * time[-1],time[-1]])
     ax2.set_ylim([0,1.05])
@@ -147,56 +156,57 @@ def plot_fraction_sensory_heatmap(fraction_sensory_median, para_tested_first, pa
 
 def plot_weighting_limit_case_example(n_trials, trial_duration, stimuli, prediction, mean_of_prediction, variance_per_stimulus, 
                             variance_prediction, alpha, beta, weighted_output, time_plot = 0.8, plot_legend=True,
-                            flg_fraction_only=False, figsize=(12,3), fs=12):
+                            figsize=(4,3), fs=12, lw=1):
     
-    if flg_fraction_only:
-        f, ax3 = plt.subplots(1, 1, figsize=figsize, sharex=True, tight_layout=True)
-    else:
-        f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize, sharex=True, tight_layout=True)
+    f1, ax1 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
+    f1, ax2 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
+    f1, ax3 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
     
     time = np.arange(len(stimuli))/trial_duration
     
-    if not flg_fraction_only:
-        ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
-        ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color='#5E0035', label='weighted output')
-        #ax1.axvspan(time_inset*time[-1],time[-1], color='#F5F5F5')
-        ax1.set_ylabel('Activity', fontsize=fs)
-        ax1.set_xlabel('Time (#trials)', fontsize=fs)
-        #ax1.set_title('Sensory inputs and predictions')
-        if plot_legend:
-            ax1.legend(loc=0)#, ncol=2)
-        ax1.set_xlim([time_plot * time[-1],time[-1]])
-        ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
-        ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
-        ax1.tick_params(axis='both', labelsize=fs)
-        sns.despine(ax=ax1)
-        
-        # inset_ax1 = inset_axes(ax1, width="30%", height="30%", loc=4)
-        # inset_ax1.plot(time[time>time_inset*time[-1]], stimuli[time>time_inset*time[-1]], color='#D76A03', label='stimulus')
-        # inset_ax1.plot(time[time>time_inset*time[-1]],weighted_output[time>time_inset*time[-1]], color='#5E0035', label='weighted output')
-        # inset_ax1.set_xticks([])
-        # inset_ax1.set_yticks([])
-        # inset_ax1.set_facecolor('#F5F5F5')
-        
-        #ax2.plot(time,stimuli, color='#D76A03', label='stimulus')
-        ax2.plot(time[time > time_plot * time[-1]], prediction[time > time_plot * time[-1]], color='#19535F', label='prediction')
-        ax2.plot(time[time > time_plot * time[-1]], mean_of_prediction[time > time_plot * time[-1]], color='#70A9A1', label='mean of prediction')
-        ax2.set_xlabel('Time (#trials)')
-        if plot_legend:
-            ax2.legend(loc=0)#, ncol=2)
-        ax2.set_xlim([time_plot * time[-1],time[-1]])
-        ax2.set_ylim([ax1.get_ylim()[0], ax1.get_ylim()[1]])
-        ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
-        ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
-        ax2.tick_params(axis='both', labelsize=fs)
-        sns.despine(ax=ax2)
+    for i in range(n_trials):
+        ax1.axvspan(2*i, (2*i+1), color='#F5F4F5')
+    ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], 
+             color=color_stimuli_background, lw=lw, marker='|', ls="None") # , label='stimuli'
+    ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], 
+             color=color_weighted_output, label='weighted output')  
+    ax1.set_ylabel('Activity', fontsize=fs)
+    ax1.set_xlabel('Time (#trials)', fontsize=fs)
+    if plot_legend:
+        ax1.legend(loc=0, frameon=False)
+    ax1.set_xlim([time_plot * time[-1],time[-1]])
+    ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax1.tick_params(axis='both', labelsize=fs)
+    sns.despine(ax=ax1)
     
-    ax3.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], color='#D76A03', label='stimulus')
-    ax3.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], color='#19535F', label='prediction')
+    for i in range(n_trials):
+        ax2.axvspan(2*i, (2*i+1), color='#F5F4F5')
+    ax2.plot(time[time > time_plot * time[-1]], prediction[time > time_plot * time[-1]], 
+             color=color_m_neuron, label='prediction')
+    ax2.plot(time[time > time_plot * time[-1]], mean_of_prediction[time > time_plot * time[-1]], 
+             color=color_mean_prediction, label='mean of prediction')
+    ax2.set_ylabel('Activity', fontsize=fs)
+    ax2.set_xlabel('Time (#trials)')
+    if plot_legend:
+        ax2.legend(loc=0, frameon=False)
+    ax2.set_xlim([time_plot * time[-1],time[-1]])
+    ax2.set_ylim([ax1.get_ylim()[0], ax1.get_ylim()[1]])
+    ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax2.tick_params(axis='both', labelsize=fs)
+    sns.despine(ax=ax2)
+    
+    for i in range(n_trials):
+        ax3.axvspan(2*i, (2*i+1), color='#F5F4F5')
+    ax3.plot(time[time > time_plot * time[-1]], alpha[time > time_plot * time[-1]], 
+             color=color_running_average_stimuli, label='feedforward')
+    ax3.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], 
+             color=color_m_neuron, label='feedback')
     ax3.set_ylabel('Weights', fontsize=fs)
     ax3.set_xlabel('Time (#trials)', fontsize=fs)
-    #if plot_legend:
-    #    ax3.legend(loc=0)#, ncol=2)
+    if plot_legend:
+        ax3.legend(loc=0, frameon=False)
     ax3.set_xlim([time_plot * time[-1],time[-1]])
     ax3.set_ylim([0,1])
     ax3.xaxis.set_major_locator(plt.MaxNLocator(3))
