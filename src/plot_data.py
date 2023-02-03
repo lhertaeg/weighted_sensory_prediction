@@ -9,10 +9,12 @@ Created on Mon Jan  9 09:18:17 2023
 # %% Import
 
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap
 
 from src.functions_simulate import random_uniform_from_moments, random_gamma_from_moments
@@ -50,14 +52,231 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 # %% plot functions
 
 
-def plot_weight_over_trial(fraction_course, n_trials):
+def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(4,3), 
+                                  fs=7, lw=1, num_trial_ss=np.int32(50)):
+    
+    trials_sensory_all = np.mean(np.split(stimuli, n_trials),1)
+    trials_estimated_all = np.mean(np.split(weighted_output, n_trials),1)
+    
+    # to take out transient ...
+    trials_sensory = trials_sensory_all[num_trial_ss:]
+    trials_estimated = trials_estimated_all[num_trial_ss:]
+
+    f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)                                                                              
+    ax.plot(trials_sensory, trials_estimated, 'o', alpha = 1, color=color_stimuli_background)
+    ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
+    
+    # points = np.arange(np.ceil(np.min(trials_sensory)), np.floor(np.max(trials_sensory)))
+    # for point in points:
+    #     bools = (trials_sensory>point-0.5) & (trials_sensory<=point+0.5)
+    #     ax.plot(point, np.mean(trials_estimated[bools]), 's', color=color_weighted_output)
+    
+    ###########
+    mean_sensory = np.mean(stimuli)
+    
+    ### below mean
+    bools = (trials_sensory<=mean_sensory) # (trials_sensory>=min_mean) & (trials_sensory<=mean_sensory)
+    x = trials_sensory[bools]
+        
+    p1 =  np.polyfit(x, trials_estimated[bools], 1)
+    ax.plot(x, np.polyval(p1, x), '--')
+    
+    print(p1)
+    
+    ### above mean
+    bools = (trials_sensory>=mean_sensory) # (trials_sensory>=mean_sensory) & (trials_sensory<max_mean)
+    x = trials_sensory[bools]
+        
+    p2 =  np.polyfit(x, trials_estimated[bools], 1)
+    ax.plot(x, np.polyval(p2, x), '--')
+    print(p2)
+    ###########
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.set_xlabel('mean sensory input per trail', fontsize=fs)
+    ax.set_ylabel('estimated sensory input per trail', fontsize=fs)
+    sns.despine(ax=ax)
+    
+    
+
+def plot_trial_mean_vs_sd(stimuli, n_trials, figsize=(3,3), fs=7, lw=1):
+    
+    trials_sensory_mu = np.mean(np.split(stimuli, n_trials),1)
+    trials_sensory_sd = np.std(np.split(stimuli, n_trials),1)
+    
+    f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)
+    ax.plot(trials_sensory_mu, trials_sensory_sd, 'o', color=color_sensory, alpha=0.2)
+    
+    p = np.polyfit(trials_sensory_mu, trials_sensory_sd, 1)
+    x = np.unique(np.round(trials_sensory_mu,1))
+    ax.plot(x, np.polyval(p, x), color='k', ls=':')
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.set_xlabel('trial mean', fontsize=fs)
+    ax.set_ylabel('trial std', fontsize=fs)
+    sns.despine(ax=ax)
+
+
+def plot_combination_activation_INs(xp, xs, xv, alpha_before_pert, alpha_after_pert, 
+                                    figsize=(4,4), fs=7, lw=1, f_max = 0.99, f_min=1.05, s=40):
+    
+    f = plt.figure(figsize=figsize)
+    
+    # compute deviation and define combinations of interest
+    deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
+    
+    xp_no_change = xp[np.abs(deviation)<=5]
+    xs_no_change = xs[np.abs(deviation)<=5]
+    xv_no_change = xv[np.abs(deviation)<=5]
+    
+    xp_max = xp[alpha_after_pert>=f_max*np.nanmax(alpha_after_pert)]
+    xs_max = xs[alpha_after_pert>=f_max*np.nanmax(alpha_after_pert)]
+    xv_max = xv[alpha_after_pert>=f_max*np.nanmax(alpha_after_pert)]
+    
+    xp_min = xp[alpha_after_pert<=f_min*np.nanmin(alpha_after_pert)]
+    xs_min = xs[alpha_after_pert<=f_min*np.nanmin(alpha_after_pert)]
+    xv_min = xv[alpha_after_pert<=f_min*np.nanmin(alpha_after_pert)]
+    
+    ax = f.add_subplot(1, 1, 1, projection='3d', elev=20, azim=45)
+    #ax.scatter(xp.flatten(), xs.flatten(), xv.flatten(), c='#A89FA1', marker='.', zorder=0)
+    
+    #ax.contour(xp, xs, xv, zdir='z', offset=-0., cmap='gray')
+    ax.scatter(xp_no_change, xs_no_change, xv_no_change, marker='d', s=s, color='#447604', alpha=1) #, edgecolor='k'
+    ax.scatter(xp_max, xs_max, xv_max, marker='^', s=s, color='#8F250C', alpha=1) #, edgecolor='k'
+    ax.scatter(xp_min, xs_min, xv_min, marker='v', s=s, color='#177E89', alpha=1) #, edgecolor='k'
+    ax.plot_wireframe(xp, xs, xv, color='#A89FA1', alpha=0.5)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs, pad=0)
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.zaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.set_xlabel('fraction of PV', fontsize=fs, labelpad=0)
+    ax.set_ylabel('fraction of SOM', fontsize=fs, labelpad=0)
+    ax.set_zlabel('fraction of VIP', fontsize=fs, rotation=-90, labelpad=0)
+
+    ax.set_xlim([0,1])
+    ax.set_ylim([0,1])
+    ax.set_zlim([0,1])
+    sns.despine(ax=ax)
+
+        
+def plot_heatmap_neuromod(xp, xs, alpha_before_pert, alpha_after_pert, figsize=(3,2.5), fs=7):
+    
+    
+    f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)
+    
+    # compute deviation and define index & columns
+    deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
+    index = np.round(np.unique(xp),2)
+    columns = np.round(np.unique(xs),2)
+    
+    # create annotation
+    Text = np.chararray((11,11),unicode=True,itemsize=15)
+    Text[:] = ' '
+    #Text[np.abs(deviation)<=5] = r'$\bullet$' 
+    Text[deviation>5] = '+'
+    Text[deviation<-5] = '-'
+    Anno = pd.DataFrame(Text, columns=columns, index=index)
+    
+    # create heatmap
+    data = pd.DataFrame(alpha_after_pert, index=index, columns=columns)
+    ax = sns.heatmap(data, cmap=cmap_sensory_prediction, vmin=0, vmax=1, 
+                      xticklabels=5, yticklabels=5, cbar=None, #cbar_kws={'label': 'Sensory weight'},
+                      annot=Anno, fmt = '', annot_kws={"fontsize": fs})
+    
+    ax.invert_yaxis()
+    ax.set_facecolor('#DBDBDB')
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.set_xlabel('Fraction of PV neurons activated', fontsize=fs)
+    ax.set_ylabel('Fraction of SOM neurons activated', fontsize=fs)
+    #sns.despine(ax=ax)
+
+
+def plot_schema_inputs_tested(figsize=(2,2), fs=7, lw=0.5):
+    
+    inputs = np.nan*np.ones((5,5))
+    di = np.diag_indices(5)
+    inputs[di] = np.linspace(0,1,5)
+    
+    colors = sns.color_palette('Blues_d', n_colors=11)
+    f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)
+    
+    data = pd.DataFrame(inputs)
+    ax = sns.heatmap(data, vmin=0, vmax=1, cmap=colors, cbar=False, linewidths=lw, linecolor='k')
+    
+    ax.set_xlabel('variability across trial', fontsize=fs)
+    ax.set_ylabel('variability within trial', fontsize=fs)
+    ax.set_xticks([]), ax.set_yticks([])
+    
+    
+
+def plot_impact_para(weight_ctrl, weight_act, para_range_tested = [], fs=12, 
+                         ms = 5, lw=1, figsize=(3,3), color='r', cmap='rocket_r',
+                         colorbar_title = None, colorbar_tick_labels = None, loc_position=2):
+    
+        f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)
+        colors_inputs =  sns.color_palette('Blues_d', n_colors=len(weight_act))
+        
+        if len(para_range_tested)==0:
+            ax.plot(weight_ctrl, weight_act, '-', ms=ms, lw=lw, color=colors_inputs[0],zorder=0)
+            ax.scatter(weight_ctrl, weight_act, s=ms**2, lw=lw, color=colors_inputs)
+        else:
+            colors_para = sns.color_palette(cmap, n_colors=len(para_range_tested))
+            
+            for i in range(len(para_range_tested)):
+                ax.plot(weight_ctrl, weight_act[:,i], '-s', ms=ms, lw=lw, color=colors_para[i], 
+                         markeredgewidth=0.4, markeredgecolor='k')
+            
+            for j in range(np.size(weight_act,0)):
+               #ax.axvline(weight_ctrl[j], color=colors_inputs[j], ymin=0, ymax=0.1, zorder=0)
+               ax.plot(weight_ctrl[j], 0, 'v', color=colors_inputs[j], )
+                
+            axins1 = inset_axes(ax, width="30%", height="5%", loc=loc_position)
+    
+            cmap = ListedColormap(colors_para)
+            cb = mpl.colorbar.ColorbarBase(axins1, cmap=cmap, orientation='horizontal', ticks=[0.1,0.9])
+            cb.outline.set_visible(False)
+            cb.ax.set_title(colorbar_title, fontsize=fs, pad = 0)
+            cb.ax.set_xticklabels([colorbar_tick_labels[0], colorbar_tick_labels[1]], fontsize=fs)
+            axins1.xaxis.set_ticks_position("bottom")
+            axins1.tick_params(axis='both', labelsize=fs)
+            axins1.tick_params(size=2.0,pad=2.0)
+          
+        ax.axline((0.5,0.5), slope=1, ls=':', color='k')
+        ymin, ymax = ax.get_ylim()
+        ax.axhspan(ymin,0.5, color=color_m_neuron, alpha=0.07, zorder=0)
+        ax.axhspan(0.5, ymax, color=color_sensory, alpha=0.07, zorder=0)
+        ax.set_ylim([ymin, ymax])
+        
+        ax.tick_params(size=2.0) 
+        ax.tick_params(axis='both', labelsize=fs)
+        ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+        ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+        ax.set_xlabel('sensory weight (default network)', fontsize=fs)
+        ax.set_ylabel('sensory weight (network altered)', fontsize=fs)
+    
+        sns.despine(ax=ax)
+        
+        
+
+def plot_weight_over_trial(weight_ctrl, weight_mod, n_trials, id_stims = [0,4], fs=7, leg_text=None):
     
     fig, ax = plt.subplots(1, 1, tight_layout=True, figsize=(4,4))
-    colors = sns.color_palette('magma', n_colors=5)
+    colors = sns.color_palette('Blues_d', n_colors=np.size(weight_ctrl, 1))
     
-    for id_stim in range(5):
+    for id_stim in id_stims:
         
-        alpha_split = np.array_split(fraction_course[:,id_stim], n_trials)
+        ### control
+        alpha_split = np.array_split(weight_ctrl[:,id_stim], n_trials)
         alpha_avg_trial = np.mean(alpha_split,0)
         alpha_std_trial = np.std(alpha_split,0)
         sem = alpha_std_trial/np.sqrt(n_trials)
@@ -66,11 +285,34 @@ def plot_weight_over_trial(fraction_course, n_trials):
         ax.plot(trial_fraction, alpha_avg_trial, color=colors[id_stim])
         ax.fill_between(trial_fraction, alpha_avg_trial-sem, alpha_avg_trial+sem, alpha=0.3, color=colors[id_stim])
     
-    ax.set_ylim([0,1])
+        ### modulated
+        alpha_split = np.array_split(weight_mod[:,id_stim], n_trials)
+        alpha_avg_trial = np.mean(alpha_split,0)
+        alpha_std_trial = np.std(alpha_split,0)
+        sem = alpha_std_trial/np.sqrt(n_trials)
+        trial_fraction = np.linspace(0,1,len(alpha_avg_trial))
+        
+        ax.plot(trial_fraction, alpha_avg_trial, color=colors[id_stim], ls='--')
+        ax.fill_between(trial_fraction, alpha_avg_trial-sem, alpha_avg_trial+sem, alpha=0.3, color=colors[id_stim])
+    
+    ymin, ymax = ax.get_ylim()
+    ax.axhspan(ymin,0.5, color=color_m_neuron, alpha=0.07, zorder=0)
+    ax.axhspan(0.5, ymax, color=color_sensory, alpha=0.07, zorder=0)
+    ax.set_ylim([ymin, ymax])
+    
+    #ax.set_ylim([0,1])
     ax.set_xlim([0,1])
     
-    ax.set_ylabel('Sensory weight')
-    ax.set_xlabel('time/trial duration')
+    if leg_text is not None:
+        ax.plot(np.nan, np.nan, ls='-', color='k', label=leg_text[0])
+        ax.plot(np.nan, np.nan, ls='--', color='k', label=leg_text[1])
+        ax.legend(loc=0, frameon=False, handlelength=1, fontsize=fs)
+    
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.set_ylabel('sensory weight', fontsize=fs)
+    ax.set_xlabel('time/trial duration', fontsize=fs)
     sns.despine(ax=ax)
 
 
@@ -78,19 +320,19 @@ def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, we
                               time_plot = 0, ylim=None, xlim=None, plot_ylable=True, lw=1, 
                               figsize=(3.5,5), plot_only_weights=False, fs=12, transition_point=60):
     
-    f1, ax1 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
     f1, ax2 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
-    
     time = np.arange(len(stimuli))/trial_duration
     
     if not plot_only_weights:
+        
+        f1, ax1 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
         
         for i in range(n_trials):
             ax1.axvspan(2*i, (2*i+1), color='#F5F4F5')
 
         ax1.plot(time[time > time_plot * time[-1]], stimuli[time > time_plot * time[-1]], 
              color=color_stimuli_background, lw=lw, marker='|', ls="None")  
-        ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color=color_m_neuron, label='weighted output')
+        ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], color=color_weighted_output, label='weighted output')
         if plot_ylable:
             ax1.set_ylabel('Activity', fontsize=fs)
         else:
@@ -132,7 +374,7 @@ def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, we
 
 def plot_fraction_sensory_heatmap(fraction_sensory_median, para_tested_first, para_tested_second, every_n_ticks, xlabel='', 
                                 ylabel='', vmin=0, vmax=1, decimal = 1e2, title='', cmap = cmap_sensory_prediction,
-                                figsize=(5,5), fs=12):
+                                figsize=(6,4.5), fs=12):
     
     plt.figure(tight_layout=True, figsize=figsize)
     index = np.round(decimal*para_tested_first)/decimal

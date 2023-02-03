@@ -9,275 +9,189 @@ Created on Mon Jan  9 09:04:01 2023
 # %% Import
 
 import numpy as np
-from src.functions_simulate import simulate_weighting_example
-
+from src.functions_simulate import simulate_weighting_example, stimuli_moments_from_uniform
+from src.plot_data import plot_trial_mean_vs_sd, plot_example_contraction_bias
+import pickle
 
 import matplotlib.pyplot as plt
 
+dtype = np.float32
 
+# %% Notes
 
-# %% Different mean across trials, same SD, smaller vs. larger mean range
+# Contraction bias occurs also without std in visual stimuli (mean goes from a to b)
+# then it is a consequence of the previous stimulus (it takes a while to catch up with the real new stimulus)
 
-run_cell = False
-#plot_only = False
+# if mean stimulus always the same but std for stimulus high, you also see contration bias, but
+# here it is related to the fact that prediction is weighted stronger
 
-if run_cell: 
-    
-    n_trials = 200
-    
-    ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
-    
-    ### shorter mean range
-    min_mean, max_mean, min_std, max_std = 20, 25, 5, 5
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                    
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
+# the slope is mainly determined by mean_min and mean_max, std of visual stimuli has effect but 
+# comparably littel in comparison to across trial variabilty
 
-    plt.figure()
-    plt.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='b')
-    ax = plt.gca()
-    ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
-    
-    m_1, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_1 * trials_sensory + n, '--', color='b')
-    
-    ### larger mean range
-    min_mean, max_mean, min_std, max_std = 15, 30, 5, 5
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                 
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
-    ax.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='r')
-    
-    m_2, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_2 * trials_sensory + n, '--', color='r')
+# this probably explains why scalar varibailty doesn't seem to have the most prominent effect
 
+# Check again: Does really trail variability define mostly bias?
+# Is it correct that stimulus variability does only little to it?
+# Should I plot/simulate differently? stimuli only 1, 2, 3, 4, ... ?
+# Look at equations: Under which circumstances would I get bias imbalance?
+# how does rectification come into play?
 
-# %% Different mean across trials, same SD, mean smaller vs. larger
+# %% Illustrate mean and std of trials (stimuli) for two cases: 1) without scalar variability, 2) with scalar variability
 
 run_cell = False
-#plot_only = False
 
-if run_cell: 
+if run_cell:
     
-    n_trials = 200
+    ### define numbe rof trials and values drawn per trail
+    n_trials = 1000
+    num_values_per_trial = 10
     
-    ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
+    ### compute 
+    stimuli_without = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean=10, max_mean=20, m_sd=0, n_sd=7.5)
+    stimuli_with = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean=10, max_mean=20, m_sd=0.5, n_sd=0)
     
-    ### larger mean
-    min_mean, max_mean, min_std, max_std = 20, 25, 5, 5
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                    
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
+    ### plot
+    plot_trial_mean_vs_sd(stimuli_without, n_trials)
+    plot_trial_mean_vs_sd(stimuli_with, n_trials)
     
 
-    plt.figure()
-    plt.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='b')
-    ax = plt.gca()
-    ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
-    
-    m_1, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_1 * trials_sensory + n, '--', color='b')
-    
-    ### smaller mean
-    min_mean, max_mean, min_std, max_std = 10, 15, 5, 5
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                 
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
-    ax.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='r')
-    
-    m_2, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_2 * trials_sensory + n, '--', color='r')
-
-
-
-# %% Same mean across trials, small and large SD
+# %% Example contraction bias, no scalar variabilty
 
 run_cell = False
-#plot_only = False
+plot_only = True
 
-if run_cell: 
+if run_cell:
     
     n_trials = 200
-    
-    ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
-    
-    ### large SD
-    min_mean, max_mean, min_std, max_std = 15, 15, 5, 5
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                    
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
-
-    plt.figure()
-    plt.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='b')
-    ax = plt.gca()
-    ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
-    
-    m_1, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_1 * trials_sensory + n, '--', color='b')
-    
-    ### small SD
-    min_mean, max_mean, min_std, max_std = 15, 15, 0, 0
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                 
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
-    ax.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='r')
-    
-    m_2, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_2 * trials_sensory + n, '--', color='r')
-
-
-# %% Different mean across trials, small and large SD
-
-run_cell = True
-#plot_only = False
-
-if run_cell: 
-    
-    n_trials = 200
-    
-    ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
-    
-    ### large SD
-    min_mean, max_mean, min_std, max_std = 10, 15, 5, 5
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                    
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
-
-    plt.figure()
-    plt.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='b')
-    ax = plt.gca()
-    ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
-    
-    m_1, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_1 * trials_sensory + n, '--', color='b')
-    
-    ### small SD
-    min_mean, max_mean, min_std, max_std = 10, 15, 0, 0
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                 
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
-    ax.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='r')
-    
-    m_2, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m_2 * trials_sensory + n, '--', color='r')
-    
-
-# %% test first ideas
-
-run_cell = False
-#plot_only = False
-
-if run_cell: 
-    
-    n_trials = 100
     
     ### choose mean-field network to simulate
     mfn_flag = '10' # valid options are '10', '01', '11
     
     ### filename for data
-    #file_for_data = '../results/data/weighting/data_example_limit_case_prediction_driven.pickle'
+    file_for_data = '../results/data/behavior/data_contraction_bias_example_without_scalar_variability.pickle'
     
-    min_mean, max_mean, min_std, max_std = 10, 15, 5, 5
+    ### get data
+    if not plot_only:
+        
+        ## define statistics
+        min_mean, max_mean, m_std, n_std = dtype(10), dtype(20), dtype(0), dtype(2)
     
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-    # compute trail mean (real and estimated)                                                                                    
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
+        ## run
+        [n_trials, _, _, stimuli, _, _, _, _, _, _, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
+                                                                                                  m_std, n_std, n_trials=n_trials,
+                                                                                                  file_for_data = file_for_data)
+                                                                          
+    else:
+        
+        with open(file_for_data,'rb') as f:
+            [n_trials, _, _, stimuli, _, _, _, _, _, _, weighted_output] = pickle.load(f)
+            
     
-    # plot
-    plt.figure()
-    plt.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='b')
-    ax = plt.gca()
-    ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
-    
-    m, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m * trials_sensory + n, '--', color='b')
-    
-    # contraction bias reproduceable in the current setting
-    # fitting a line shows that nicely
-    # however, not sure if I can see bias(a) < bias (b) (rather not) and SD(a) < SD(b)
-    # however, we can for sure increase std and then see how this affects bias etc. => testable prediction?
+    ### plot data 
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30))                                                                          
     
     
-    min_mean, max_mean, min_std, max_std = 10, 15, 1, 1
-    
-    [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-     v_neuron_higher, alpha, beta, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                 min_std, max_std, n_trials=n_trials,
-                                                                                 file_for_data = None)
-                                                                                 
-    trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated = np.mean(np.split(weighted_output, n_trials),1)                                                                              
-    
-    # plot
-    ax.plot(trials_sensory, trials_estimated, 'o', alpha = 0.2, color='r')
-    
-    m, n =  np.polyfit(trials_sensory, trials_estimated, 1)
-    ax.plot(trials_sensory, m * trials_sensory + n, '--', color='r')
-    
-    
-# %% test
+# %% Example contraction bias, with scalar variabilty
 
-# v = 20
+run_cell = False
+plot_only = True
 
-# x = np.linspace(1,100,1000)
-# y = (1/x) / ((1/x) + (1/v))
+if run_cell:
+    
+    n_trials = 200
+    
+    ### choose mean-field network to simulate
+    mfn_flag = '10' # valid options are '10', '01', '11
+    
+    ### filename for data
+    file_for_data = '../results/data/behavior/data_contraction_bias_example_with_scalar_variability.pickle'
+    
+    ### get data
+    if not plot_only:
+        
+        ## define statistics
+        min_mean, max_mean, m_std, n_std = dtype(10), dtype(20), dtype(0.15), dtype(0)
+    
+        ## run
+        [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
+                                                                                                  m_std, n_std, n_trials=n_trials,
+                                                                                                  file_for_data = file_for_data)
+                                                                          
+    else:
+        
+        with open(file_for_data,'rb') as f:
+            [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output] = pickle.load(f)
+            
+    
+    ### plot data 
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30)) 
+ 
+    
+# %% Tests
 
-# plt.figure()
-# plt.plot(x,y)
+run_cell = True
+plot_only = False
 
-                                                                     
+if run_cell:
+    
+    n_trials = 200
+    
+    ### choose mean-field network to simulate
+    mfn_flag = '10' # valid options are '10', '01', '11
+    
+    ### filename for data
+    file_for_data = '../results/data/behavior/data_contraction_bias_test.pickle'
+    
+    ### get data
+    if not plot_only:
+        
+        ## define statistics
+        min_mean, max_mean, m_std, n_std = dtype(15), dtype(15), dtype(0), dtype(5)
+    
+        ## run
+        [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
+                                                                                                  m_std, n_std, n_trials=n_trials,
+                                                                                                  file_for_data = file_for_data)
+                                                                          
+    else:
+        
+        with open(file_for_data,'rb') as f:
+            [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output] = pickle.load(f)
+            
+    
+    ### plot data 
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30))  
+    
+    # import numpy as np
+    # import matplotlib as mpl
+    # import matplotlib.pyplot as plt
+    # import seaborn as sns
+    # import pandas as pd
+    
+    # trials_sensory = np.mean(np.split(stimuli, n_trials),1)
+    # trials_alpha = np.mean(np.split(alpha, n_trials),1)
+    
+    # plt.figure()
+    # plt.plot(trials_sensory, trials_alpha, '.')
+    
+    # trials_estimated = np.mean(np.split(weighted_output, n_trials),1)
+    
+    # plt.figure()
+    # plt.plot(trials_sensory, (trials_estimated - trials_sensory), '.')
+    # ax = plt.gca()
+    # ax.axhline(0,color='k', ls=':')
+    
+
+# maybe look at alpha for each trial mean ... doesn't that already give you estimate of sensory input ... I mean 
+# it is exactly the slope isn't it? And then you can immediately get the bias
+# because weighted_output = alpha * sensory + beta & prediction
+# and in principle you have all quantities, then you simply calculate it for min and max!?
+
+# be careful: if rectification kicks in, lower end is usually bigger than upper end!!!!! Think it through
+
+# two dimensions: 1) is bias at lower end < bias upper end? 2) diff between cases with and without scalar variability
+# 4 possibilities:
+    # i) yes, yes --> kinda expected
+    # ii) yes, no --> could also be interesting, question would be why
+    # iii) no, yes --> why does it work without scalar variability but not with, as predicted?
+    # iv) no, no --> why doesn't scalar variability make a difference?

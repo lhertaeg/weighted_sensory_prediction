@@ -21,8 +21,7 @@ dtype = np.float32
 def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd):
     
     mean_stimuli = np.random.uniform(min_mean, max_mean, size=n_trials)
-    #sd_stimuli = np.random.uniform(min_std, max_std, size=n_trials)
-    sd_stimuli = mean_stimuli * m_sd + n_sd
+    sd_stimuli = np.maximum(mean_stimuli * m_sd + n_sd, 0) ######### in csae n_sd is negative !!!
     
     stimuli = np.array([])
     
@@ -259,6 +258,8 @@ def simulate_weighting_exploration(mfn_flag, variability_within, variability_acr
     ### save data for later
     with open(file_for_data,'wb') as f:
         pickle.dump([variability_within, variability_across, weight],f) 
+        
+    return [variability_within, variability_across, weight]
             
      
         
@@ -309,7 +310,7 @@ def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, m_
 
 
 def simulate_sensory_weight_time_course(mfn_flag, variability_within, variability_across, mean_trials, 
-                                        m_sd, n_sd, seed = np.int32(186), trial_duration = np.int32(5000),
+                                        m_sd, seed = np.int32(186), trial_duration = np.int32(5000),
                                         n_trials = np.int32(100), num_values_per_trial = np.int32(10),
                                         file_for_data = None):
     
@@ -338,7 +339,7 @@ def simulate_sensory_weight_time_course(mfn_flag, variability_within, variabilit
         n_repeats_per_stim = trial_duration/num_values_per_trial
 
         stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
-                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
+                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(std_std))
         stimuli = np.repeat(stimuli, n_repeats_per_stim)
 
         ## run model
@@ -363,11 +364,11 @@ def simulate_sensory_weight_time_course(mfn_flag, variability_within, variabilit
 
 
 def simulate_impact_para(mfn_flag, variability_within, variability_across, mean_trials, 
-                                        m_sd, n_sd, last_n = np.int32(30), seed = np.int32(186), 
-                                        n_trials = np.int32(100), trial_duration = np.int32(5000), 
-                                        num_values_per_trial = np.int32(10), file_for_data = None,
-                                        n = 2, gain_w_PE_to_P = 1, gain_v_PE_to_P = 1, add_input = 0,
-                                        id_cells_modulated = np.array([True,True,False,False,True,True,True,True])):
+                         m_sd, last_n = np.int32(30), seed = np.int32(186), 
+                         n_trials = np.int32(100), trial_duration = np.int32(5000), 
+                         num_values_per_trial = np.int32(10), file_for_data = None,
+                         n = 2, gain_w_PE_to_P = 1, gain_v_PE_to_P = 1, add_input = 0,
+                         id_cells_modulated = np.array([True,True,False,False,True,True,True,True])):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -380,7 +381,7 @@ def simulate_impact_para(mfn_flag, variability_within, variability_across, mean_
     v_PE_to_P *= gain_v_PE_to_P
     
     if add_input!=0:
-        perturbation = np.zeros((n_trials * trial_duration,8))                          
+        perturbation = np.zeros((n_trials * trial_duration, 8))                          
         perturbation[(n_trials * trial_duration)//2:, id_cells_modulated] = add_input  
         fixed_input_plus = fixed_input + perturbation
     else:
@@ -404,7 +405,7 @@ def simulate_impact_para(mfn_flag, variability_within, variability_across, mean_
         n_repeats_per_stim = trial_duration/num_values_per_trial
 
         stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
-                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
+                                               dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(std_std))
         stimuli = np.repeat(stimuli, n_repeats_per_stim)
 
         ## run model
@@ -428,3 +429,89 @@ def simulate_impact_para(mfn_flag, variability_within, variability_across, mean_
             
     return [stimuli, n, gain_w_PE_to_P, gain_v_PE_to_P, add_input, id_cells_modulated, weight]
 
+
+
+def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials = dtype(5), m_sd = dtype(0), 
+                      last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000), 
+                      num_values_per_trial = np.int32(10), file_for_data = None, mult_input = dtype(1)):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+      v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### define stimuli
+    np.random.seed(seed)
+    n_repeats_per_stim = trial_duration/num_values_per_trial
+
+    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
+                                            dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
+    stimuli = np.repeat(stimuli, n_repeats_per_stim)
+    
+    ### run model without perturbation
+    print('Without neuromodulation\n')
+    [_, _, _, _, alpha, _, _] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                        v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                        tc_var_pred, tau_pe, fixed_input, stimuli, 
+                                                        VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                        v_PE_to_V = v_PE_to_V)
+    
+    alpha_before_pert = np.mean(alpha[(n_trials - last_n) * trial_duration:])
+    
+    ### initialise
+    nums = np.size(xp,0)
+    alpha_after_pert = np.zeros((nums, nums))
+
+    ### run model for different fractions of INs activated
+    print('With neuromodulation:\n')
+    
+    for i in range(nums):
+        for j in range(nums):
+        
+            if ~np.isnan(xv[i,j]):
+                ## display progress
+                print('-- xp:', xp[i,j], 'xs:', xs[i,j], 'xv:', xv[i,j], 'r:', xp[i,j]**2 + xs[i,j]**2 + xv[i,j]**2)
+                
+                ## add perturbation XXXX
+                perturbation = np.zeros((n_trials * trial_duration,8))                          
+                perturbation[(n_trials * trial_duration)//2:, 4:6] = xp[i,j] * mult_input
+                perturbation[(n_trials * trial_duration)//2:, 6] = xs[i,j] * mult_input
+                perturbation[(n_trials * trial_duration)//2:, 7] = xv[i,j] * mult_input
+                fixed_input_plus_perturbation = fixed_input + perturbation
+                    
+                if column==1:
+                    fixed_input_lower = fixed_input_plus_perturbation
+                    fixed_input_higher = fixed_input
+                elif column==2:
+                    fixed_input_lower = fixed_input
+                    fixed_input_higher = fixed_input_plus_perturbation
+                elif column==0:
+                    fixed_input_lower = fixed_input_plus_perturbation
+                    fixed_input_higher = fixed_input_plus_perturbation
+        
+                ## run model
+                [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+                  alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                          v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                          tc_var_pred, tau_pe, None, stimuli, VS = VS,
+                                                                          VV = VV, w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V, 
+                                                                          fixed_input_lower = fixed_input_lower,
+                                                                          fixed_input_higher = fixed_input_higher)
+                
+                
+                ### comppute steady state
+                alpha_after_pert[i, j] = np.mean(alpha[-last_n * trial_duration:])
+                
+            else:
+                
+                alpha_after_pert[i, j] = np.nan
+        
+    ### save data for later
+    if file_for_data is not None:
+        
+        with open(file_for_data,'wb') as f:
+            pickle.dump([xp, xs, xv, alpha_before_pert, alpha_after_pert],f) 
+            
+    return [xp, xs, xv, alpha_before_pert, alpha_after_pert]

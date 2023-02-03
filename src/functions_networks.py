@@ -91,7 +91,8 @@ def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, f
 
 def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
                             tc_var_pred, tau_pe, fixed_input, stimuli, VS = 1, VV = 0, dt = dtype(1), n = 2, 
-                            w_PE_to_V = dtype([1,1]), v_PE_to_V  = dtype([1,1]), record_pe_activity = False):
+                            w_PE_to_V = dtype([1,1]), v_PE_to_V  = dtype([1,1]), record_pe_activity = False,
+                            fixed_input_lower = None, fixed_input_higher = None):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -106,12 +107,19 @@ def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_
     rates_lower = np.zeros((num_points, 8), dtype=dtype)
     rates_higher = np.zeros((num_points, 8), dtype=dtype)
     
-    if fixed_input.ndim==1:
-        fixed_input_lower = np.tile(fixed_input, (num_points,1))
-        fixed_input_higher = np.tile(fixed_input, (num_points,1))
+    if fixed_input is not None:
+        if fixed_input.ndim==1:
+            fixed_input_lower = np.tile(fixed_input, (num_points,1))
+            fixed_input_higher = np.tile(fixed_input, (num_points,1))
+        else:
+            fixed_input_lower = fixed_input
+            fixed_input_higher = fixed_input
     else:
-        fixed_input_lower = fixed_input
-        fixed_input_higher = fixed_input
+        if fixed_input_lower.ndim==1:
+            fixed_input_lower = np.tile(fixed_input_lower, (num_points,1))
+        if fixed_input_higher.ndim==1:
+            fixed_input_higher = np.tile(fixed_input_higher, (num_points,1))
+            
     
     ### run mean-field network
     for id_stim, stim in enumerate(stimuli):

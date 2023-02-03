@@ -532,7 +532,7 @@ if flag==1:
        
 # %% plot results from perturbation experiments (see above), only one example
 
-flag = 1
+flag = 0
 column = 2 # 1 or 2
 
 if flag==1:
@@ -868,7 +868,7 @@ if flag==1:
 
 # %% MSE as function of fraction (after)
 
-flag = 0
+flag = 1
 
 if flag==1:
     
