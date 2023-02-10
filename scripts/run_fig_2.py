@@ -27,7 +27,7 @@ dtype = np.float32
     # beautify plotting functions
     # rerun (you have to because something in the functions changed!)
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:
@@ -61,7 +61,7 @@ if run_cell:
     # beautify plotting functions
     # rerun (you have to because something in the functions changed!)
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell: 
@@ -76,8 +76,8 @@ if run_cell:
     if not plot_only: # simulate respective network
     
         ## define parameters ranges tested:
-        means_tested = np.linspace(3,6,7)
-        variances_tested = np.linspace(2,9,8)
+        means_tested = np.linspace(3,6,7, dtype=dtype)
+        variances_tested = np.linspace(2,9,8, dtype=dtype)
         
         ## run simulations
         [trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, 
@@ -98,5 +98,4 @@ if run_cell:
                       title='V neuron encodes variance for a wide range of parameters', show_mean=False, 
                       figsize=(4,3), fs=7, x_example=5, y_example=2**2)#, vmax=10)
 
-    
    

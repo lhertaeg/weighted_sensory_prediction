@@ -13,7 +13,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import pickle
 
+import matplotlib.gridspec as gridspec
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap
 
@@ -147,7 +149,7 @@ def plot_combination_activation_INs(xp, xs, xv, alpha_before_pert, alpha_after_p
     #ax.scatter(xp.flatten(), xs.flatten(), xv.flatten(), c='#A89FA1', marker='.', zorder=0)
     
     #ax.contour(xp, xs, xv, zdir='z', offset=-0., cmap='gray')
-    ax.scatter(xp_no_change, xs_no_change, xv_no_change, marker='d', s=s, color='#447604', alpha=1) #, edgecolor='k'
+    ax.scatter(xp_no_change, xs_no_change, xv_no_change, marker='o', s=s, color='#447604', alpha=1) #, edgecolor='k'
     ax.scatter(xp_max, xs_max, xv_max, marker='^', s=s, color='#8F250C', alpha=1) #, edgecolor='k'
     ax.scatter(xp_min, xs_min, xv_min, marker='v', s=s, color='#177E89', alpha=1) #, edgecolor='k'
     ax.plot_wireframe(xp, xs, xv, color='#A89FA1', alpha=0.5)
@@ -165,20 +167,106 @@ def plot_combination_activation_INs(xp, xs, xv, alpha_before_pert, alpha_after_p
     ax.set_ylim([0,1])
     ax.set_zlim([0,1])
     sns.despine(ax=ax)
+    
+    
+def plot_points_of_interest_neuromod(columns, std_means, n_std_all, figsize=(8,3), fs=7,
+                                     f_max = 0.99, f_min=1.05, s=40, show_inter=False):
+    
+    ### layout
+    n_col = len(columns)
+    n_row = len(std_means)
+    
+    fig = plt.figure(figsize=figsize, tight_layout=True)
+    G = gridspec.GridSpec(1, n_col, figure=fig, wspace=0.3)
+    
+    ### run over 3 example statisitcs
+    for j, column in enumerate(columns):
+        
+        ax = fig.add_subplot(G[0,j], projection='3d', elev=30, azim=45)
+        
+        xp_no_change, xs_no_change, xv_no_change = np.array([]), np.array([]), np.array([])
+        xp_max, xs_max, xv_max = np.array([]), np.array([]), np.array([])
+        xp_min, xs_min, xv_min = np.array([]), np.array([]), np.array([])
+        
+        for i, std_mean in enumerate(std_means):
+    
+            n_std = n_std_all[i]
+
+            ### filename for data
+            identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
+            file_for_data = '../results/data/neuromod/data_weighting_neuromod' + identifier + '.pickle'
+            
+            ### load data
+            with open(file_for_data,'rb') as f:
+                [xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f)
+            
+            ### compute deviation and define combinations of interest
+            deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
+            
+            xp_no_change = np.concatenate((xp_no_change, xp[np.abs(deviation)<=5]))
+            xs_no_change = np.concatenate((xs_no_change,xs[np.abs(deviation)<=5]))
+            xv_no_change = np.concatenate((xv_no_change, xv[np.abs(deviation)<=5]))
+            
+            xp_max = np.concatenate((xp_max, xp[alpha_after_pert>=f_max*np.nanmax(alpha_after_pert)]))
+            xs_max = np.concatenate((xs_max, xs[alpha_after_pert>=f_max*np.nanmax(alpha_after_pert)]))
+            xv_max = np.concatenate((xv_max, xv[alpha_after_pert>=f_max*np.nanmax(alpha_after_pert)]))
+            
+            xp_min = np.concatenate((xp_min, xp[alpha_after_pert<=f_min*np.nanmin(alpha_after_pert)]))
+            xs_min = np.concatenate((xs_min, xs[alpha_after_pert<=f_min*np.nanmin(alpha_after_pert)]))
+            xv_min = np.concatenate((xv_min, xv[alpha_after_pert<=f_min*np.nanmin(alpha_after_pert)]))
+            
+        if show_inter:
+            values, counts = np.unique(np.stack((xp_no_change,xs_no_change,xv_no_change),axis=0), axis=1, return_counts=True)
+            xp_no_change, xs_no_change, xv_no_change = values[:, np.where(counts==n_row)[0]]
+            
+            values, counts = np.unique(np.stack((xp_max,xs_max,xv_max),axis=0), axis=1, return_counts=True)
+            xp_max, xs_max, xv_max = values[:, np.where(counts==n_row)[0]]
+            
+            values, counts = np.unique(np.stack((xp_min,xs_min,xv_min),axis=0), axis=1, return_counts=True)
+            xp_min, xs_min, xv_min = values[:, np.where(counts==n_row)[0]]
+             
+        ax.scatter(xp_no_change, xs_no_change, xv_no_change, marker='o', s=s, color='#447604', alpha=1) #, edgecolor='k'
+        ax.scatter(xp_max, xs_max, xv_max, marker='^', s=s, color='#8F250C', alpha=1) #, edgecolor='k'
+        ax.scatter(xp_min, xs_min, xv_min, marker='v', s=s, color='#177E89', alpha=1) #, edgecolor='k'
+            
+        ax.plot_wireframe(xp, xs, xv, color='#A89FA1', alpha=0.5)
+        
+        ax.tick_params(size=2.0) 
+        ax.tick_params(axis='both', labelsize=fs, pad=0)
+        ax.set_xlim([0,1]), ax.set_ylim([0,1]), ax.set_zlim([0,1])
+        
+        ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+        ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+        ax.zaxis.set_major_locator(plt.MaxNLocator(3))
+        
+        if j==0:
+            ax.set_xlabel('fraction of PV', fontsize=fs, labelpad=0)
+            ax.set_ylabel('fraction of SOM', fontsize=fs, labelpad=0)
+            ax.set_zlabel('fraction of VIP', fontsize=fs, rotation=-90, labelpad=0)
+        else:
+            ax.set_xticklabels([]), ax.set_yticklabels([]), ax.set_zticklabels([])
+
+        sns.despine(ax=ax)
+            
 
         
-def plot_heatmap_neuromod(xp, xs, alpha_before_pert, alpha_after_pert, figsize=(3,2.5), fs=7):
+def plot_heatmap_neuromod(xp, xs, alpha_before_pert, alpha_after_pert, figsize=(3,2.5), fs=7, 
+                          axs=None, cbar_ax=None, ticks=False, plot_labels=True):
     
-    
-    f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)
+    if axs is None:
+        f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)
+    else:
+        ax = axs
     
     # compute deviation and define index & columns
     deviation = 100 * (alpha_after_pert - alpha_before_pert) / alpha_before_pert
     index = np.round(np.unique(xp),2)
     columns = np.round(np.unique(xs),2)
+    n_row = len(index)
+    n_col = len(columns)
     
     # create annotation
-    Text = np.chararray((11,11),unicode=True,itemsize=15)
+    Text = np.chararray((n_row,n_col),unicode=True,itemsize=15)
     Text[:] = ' '
     #Text[np.abs(deviation)<=5] = r'$\bullet$' 
     Text[deviation>5] = '+'
@@ -188,17 +276,76 @@ def plot_heatmap_neuromod(xp, xs, alpha_before_pert, alpha_after_pert, figsize=(
     # create heatmap
     data = pd.DataFrame(alpha_after_pert, index=index, columns=columns)
     ax = sns.heatmap(data, cmap=cmap_sensory_prediction, vmin=0, vmax=1, 
-                      xticklabels=5, yticklabels=5, cbar=None, #cbar_kws={'label': 'Sensory weight'},
-                      annot=Anno, fmt = '', annot_kws={"fontsize": fs})
+                     xticklabels=5, yticklabels=5, cbar=cbar_ax,
+                     annot=Anno, fmt = '', annot_kws={"fontsize": fs})  
     
     ax.invert_yaxis()
     ax.set_facecolor('#DBDBDB')
     
+    if cbar_ax is not None:
+        cbar_ax.set_ylabel('Change in sensory weight (%)', fontsize=10, labelpad = 0)
+        cbar_ax.tick_params(size=2.0,pad=2.0)
+        cbar_ax.locator_params(nbins=3)
+    
+    if ticks==False:
+        ax.tick_params(left=False, bottom=False)
+        ax.set_xticks([])
+        ax.set_yticks([])
+    else:
+        ax.tick_params(left=True, bottom=True)
+        ax.set_xticks([0.5, n_col-0.5])
+        ax.set_yticks([0.5, n_col-0.5])
+        ax.set_xticklabels([0,1])
+        ax.set_yticklabels([0,1])
+    
     ax.tick_params(size=2.0) 
     ax.tick_params(axis='both', labelsize=fs)
-    ax.set_xlabel('Fraction of PV neurons activated', fontsize=fs)
-    ax.set_ylabel('Fraction of SOM neurons activated', fontsize=fs)
-    #sns.despine(ax=ax)
+    
+    if plot_labels:
+        ax.set_xlabel('Fraction of PV \nneurons activated', fontsize=fs, labelpad=10)
+        ax.set_ylabel('Fraction of SOM \nneurons activated', fontsize=fs, labelpad=10)
+
+
+def plot_neuromod_per_net(columns, std_means, n_std_all, figsize=(8,6), fs=7):
+    
+    ### layout
+    n_col = len(columns)
+    n_row = len(std_means)
+    
+    fig = plt.figure(figsize=figsize, tight_layout=True)
+    cbar_ax = fig.add_axes([.92, .4, .01, .2])
+    G = gridspec.GridSpec(1, n_col, figure=fig, wspace=0.3)
+
+    for j, column in enumerate(columns):
+        
+        G_col = gridspec.GridSpecFromSubplotSpec(n_row, 1, subplot_spec=G[:,j], hspace=0.15)
+        
+        for i, std_mean in enumerate(std_means):
+    
+            n_std = n_std_all[i]
+            axes = fig.add_subplot(G_col[i,0])
+            
+            ### filename for data
+            identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
+            file_for_data = '../results/data/neuromod/data_weighting_neuromod' + identifier + '.pickle'
+            
+            ### load data
+            with open(file_for_data,'rb') as f:
+                [xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f)
+            
+            if (j==0) and (i==n_row-1):
+                plot_heatmap_neuromod(xp, xs, alpha_before_pert, alpha_after_pert, axs=axes, 
+                                      ticks=True) # 
+            else:
+                plot_heatmap_neuromod(xp, xs, alpha_before_pert, alpha_after_pert, axs=axes, 
+                                      plot_labels=False)
+
+    mpl.colorbar.ColorbarBase(cbar_ax, cmap=cmap_sensory_prediction)
+    
+    cbar_ax.set_ylabel('Sensory weight (after)', fontsize=fs, labelpad = 10)
+    cbar_ax.tick_params(size=2.0,pad=2.0)
+    cbar_ax.tick_params(axis='both', labelsize=fs)
+    cbar_ax.locator_params(nbins=3)     
 
 
 def plot_schema_inputs_tested(figsize=(2,2), fs=7, lw=0.5):

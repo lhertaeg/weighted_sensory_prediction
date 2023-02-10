@@ -112,7 +112,7 @@ if run_cell:
     # beautify plotting function
     # re-run for correct examples and parameters
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:

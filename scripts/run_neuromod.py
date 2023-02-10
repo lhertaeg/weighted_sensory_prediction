@@ -508,7 +508,7 @@ if flag==1:
 
 # %% Plot all heatmaps together (see above)
 
-flag = 0
+flag = 1
 
 if flag==1:
 

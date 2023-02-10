@@ -23,14 +23,14 @@ def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_m
     mean_stimuli = np.random.uniform(min_mean, max_mean, size=n_trials)
     sd_stimuli = np.maximum(mean_stimuli * m_sd + n_sd, 0) ######### in csae n_sd is negative !!!
     
-    stimuli = np.array([])
+    stimuli = np.array([], dtype=dtype)
     
     for id_stim in range(n_trials):
         
         inputs_per_stimulus = np.random.normal(mean_stimuli[id_stim], sd_stimuli[id_stim], size=num_values_per_trial)
         stimuli = np.concatenate((stimuli, inputs_per_stimulus))
         
-    return stimuli
+    return dtype(stimuli)
 
 
 
@@ -39,9 +39,9 @@ def random_binary_from_moments(mean, sd, n_stimuli, pa=0.5):
     if ((sd!=0) & (mean!=0)):
         a = mean - sd * np.sqrt((1-pa)/pa)
         b = mean + sd * np.sqrt(pa/(1-pa))
-        rnd = np.random.choice([a,b],size=n_stimuli,p=[pa,1-pa])
+        rnd = dtype(np.random.choice([a,b],size=n_stimuli,p=[pa,1-pa]))
     else:
-        rnd = np.zeros(n_stimuli)
+        rnd = np.zeros(n_stimuli, dtype=dtype)
         
     return rnd
 
@@ -51,9 +51,9 @@ def random_gamma_from_moments(mean, sd, n_stimuli):
     if ((sd!=0) & (mean!=0)):
         shape = mean**2 / sd**2
         scale = sd**2  / mean 
-        rnd = np.random.gamma(shape, scale, size=n_stimuli)
+        rnd = dtype(np.random.gamma(shape, scale, size=n_stimuli))
     else:
-        rnd = np.zeros(n_stimuli)
+        rnd = np.zeros(n_stimuli, dtype=dtype)
         
     return rnd
 
@@ -63,9 +63,9 @@ def random_lognormal_from_moments(mean, sd, n_stimuli):
     if ((sd!=0) & (mean!=0)):
         a = np.log(mean**2/np.sqrt(mean**2 + sd**2))
         b = np.sqrt(np.log(sd**2 / mean**2 + 1))
-        rnd = np.random.lognormal(a, b, size=n_stimuli)
+        rnd = dtype(np.random.lognormal(a, b, size=n_stimuli))
     else:
-        rnd = np.zeros(n_stimuli)
+        rnd = np.zeros(n_stimuli, dtype=dtype)
         
     return rnd
 
@@ -74,7 +74,7 @@ def random_uniform_from_moments(mean, sd, num):
     
     b = np.sqrt(12) * sd / 2 + mean
     a = 2 * mean -b
-    rnd = np.random.uniform(a, b, size = num)
+    rnd = dtype(np.random.uniform(a, b, size = num))
         
     return rnd
 
@@ -135,8 +135,8 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
       tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag)
     
     ### initialise
-    mse_mean = np.zeros((len(means_tested), len(variances_tested), trial_duration))
-    mse_variance = np.zeros((len(means_tested), len(variances_tested), trial_duration))
+    mse_mean = np.zeros((len(means_tested), len(variances_tested), trial_duration), dtype=dtype)
+    mse_variance = np.zeros((len(means_tested), len(variances_tested), trial_duration), dtype=dtype)
     
     ### parameter sweep
     for i, mean_dist in enumerate(means_tested):
@@ -158,12 +158,12 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
                                                           fixed_input, stimuli, VS=VS, VV=VV, w_PE_to_V = w_PE_to_V)
                 
                 ## compute mean squared error
-                running_average = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1)
+                running_average = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1, dtype=dtype)
                 mse_mean[i, j, :] = (running_average - prediction)**2
                 
-                mean_running = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1)
+                mean_running = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1, dtype=dtype)
                 momentary_variance = (stimuli - mean_running)**2
-                running_variance = np.cumsum(momentary_variance)/np.arange(1,len(stimuli)+1)
+                running_variance = np.cumsum(momentary_variance)/np.arange(1,len(stimuli)+1, dtype=dtype)
                 mse_variance[i, j, :] = (running_variance - variance)**2
                 
     ### save data for later
@@ -186,7 +186,7 @@ def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = 
     
     ### create stimuli
     np.random.seed(seed)
-    n_repeats_per_stim = trial_duration/num_values_per_trial
+    n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
     
     stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd)
     stimuli = np.repeat(stimuli, n_repeats_per_stim)
@@ -237,7 +237,7 @@ def simulate_weighting_exploration(mfn_flag, variability_within, variability_acr
     
             ## define stimuli
             np.random.seed(seed)
-            n_repeats_per_stim = trial_duration/num_values_per_trial
+            n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
     
             stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
                                                    dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
@@ -277,10 +277,10 @@ def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, m_
     
     ### create stimuli
     np.random.seed(seed)
-    n_repeats_per_stim = trial_duration/num_values_per_trial
+    n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
     
-    stimuli = np.zeros(n_trials * num_values_per_trial)
-    mid = (n_trials * num_values_per_trial)//2
+    stimuli = np.zeros(n_trials * num_values_per_trial, dtype=dtype)
+    mid = np.int32((n_trials * num_values_per_trial)//2)
     
     stimuli[:mid] = stimuli_moments_from_uniform(n_trials//2, num_values_per_trial, min_mean_before, max_mean_before, 
                                                 m_sd_before, n_sd_before)
@@ -444,7 +444,7 @@ def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials 
     
     ### define stimuli
     np.random.seed(seed)
-    n_repeats_per_stim = trial_duration/num_values_per_trial
+    n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
 
     stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
                                             dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
@@ -462,7 +462,7 @@ def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials 
     
     ### initialise
     nums = np.size(xp,0)
-    alpha_after_pert = np.zeros((nums, nums))
+    alpha_after_pert = np.zeros((nums, nums), dtype=dtype)
 
     ### run model for different fractions of INs activated
     print('With neuromodulation:\n')
@@ -475,7 +475,7 @@ def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials 
                 print('-- xp:', xp[i,j], 'xs:', xs[i,j], 'xv:', xv[i,j], 'r:', xp[i,j]**2 + xs[i,j]**2 + xv[i,j]**2)
                 
                 ## add perturbation XXXX
-                perturbation = np.zeros((n_trials * trial_duration,8))                          
+                perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
                 perturbation[(n_trials * trial_duration)//2:, 4:6] = xp[i,j] * mult_input
                 perturbation[(n_trials * trial_duration)//2:, 6] = xs[i,j] * mult_input
                 perturbation[(n_trials * trial_duration)//2:, 7] = xv[i,j] * mult_input

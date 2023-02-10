@@ -22,7 +22,7 @@ dtype = np.float32
 
 # %% Simulate control case for number of input statistics 
 
-run_cell = True
+run_cell = False
 load_only = True
 do_plot = False
 

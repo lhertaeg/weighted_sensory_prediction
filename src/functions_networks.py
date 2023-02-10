@@ -27,28 +27,28 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
     dr_mem_1 = np.zeros((1,1), dtype=dtype)
     dr_mem_2 = np.zeros((1,1), dtype=dtype)
     
-    var_new = var.copy() #########
-    dr_var_1 = np.zeros((1,1), dtype=dtype) #######
-    dr_var_2 = np.zeros((1,1), dtype=dtype) ########
+    var_new = var.copy() 
+    dr_var_1 = np.zeros((1,1), dtype=dtype) 
+    dr_var_2 = np.zeros((1,1), dtype=dtype) 
     
     # RK 2nd order
     dr_mem_1 = (U @ rates_new) / tau_E
-    dr_var_1 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var ##############
+    dr_var_1 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var 
     dr_1 = -rates_new + W @ rates_new + V @ np.array([mean_new]) + feedforward_input
     dr_1[:4] /= tau_E 
     dr_1[4:] /= tau_I 
 
     rates_new[:] += dt * dr_1
     mean_new += dt * dr_mem_1
-    var_new += dt * dr_var_1 #############
+    var_new += dt * dr_var_1
     
     dr_mem_2 = (U @ rates_new) / tau_E
-    dr_var_2 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var ##############
+    dr_var_2 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var
     dr_2 = -rates_new + W @ rates_new + V @ mean_new + feedforward_input
     dr_2[:4] /= tau_E 
     dr_2[4:] /= tau_I
     
-    rates += dt/2 * (dr_1 + dr_2)
+    rates[:] += dt/2 * (dr_1 + dr_2)
     mean += dt/2 * (dr_mem_1 + dr_mem_2)
     var += dt/2 * (dr_var_1 + dr_var_2)
     
