@@ -28,7 +28,7 @@ dtype = np.float32
     # rerun (you have to because something in the functions changed!)
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     

@@ -24,12 +24,12 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
     mean_new = mean.copy()
     dr_1 = np.zeros(len(rates_new), dtype=dtype)
     dr_2 = np.zeros(len(rates_new), dtype=dtype)
-    dr_mem_1 = np.zeros((1,1), dtype=dtype)
-    dr_mem_2 = np.zeros((1,1), dtype=dtype)
+    #dr_mem_1 = np.zeros((1,1), dtype=dtype)
+    #dr_mem_2 = np.zeros((1,1), dtype=dtype)
     
     var_new = var.copy() 
-    dr_var_1 = np.zeros((1,1), dtype=dtype) 
-    dr_var_2 = np.zeros((1,1), dtype=dtype) 
+    #dr_var_1 = np.zeros((1,1), dtype=dtype) 
+    #dr_var_2 = np.zeros((1,1), dtype=dtype) 
     
     # RK 2nd order
     dr_mem_1 = (U @ rates_new) / tau_E
@@ -55,7 +55,7 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
     # Rectify
     rates[rates<0] = 0
 
-    return [rates, mean, var]
+    return [rates, mean[0], var] # [rates, mean, var]
 
 
 def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, 
@@ -86,6 +86,7 @@ def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, f
                                                                    rates_lower[id_stim-1,:], m_neuron[id_stim-1], 
                                                                    v_neuron[id_stim-1], feedforward_input, dt, n)
 
+        
     return m_neuron, v_neuron, rates_lower[:,:2]
 
 

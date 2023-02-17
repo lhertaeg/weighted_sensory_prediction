@@ -22,18 +22,18 @@ dtype = np.float32
 
 # %% Activate fractions of IN neurons in lower/higher PE circuit or both for a specified input statistics
 
-# you need to rerun two of the zero-column cases for 10 ... !
+# run final missing simulation: 010 for 01
 
 run_cell = True
-plot_only = True
+plot_only = False
 
 if run_cell:
     
     ### choose mean-field network to simulate
-    mfn_flag = '11' # valid options are '10', '01', '11
+    mfn_flag = '01' # valid options are '10', '01', '11
     
     ### define target area and stimulus statistics
-    column = 1      # 0: both, 1: lower level PE circuit, 2: higher level PE circuit
+    column = 0      # 0: both, 1: lower level PE circuit, 2: higher level PE circuit
     std_mean = 1   # uncertainty of environement [0, 0.5, 1]
     n_std = 0       # uncertainty of stimulus [1, 0.5, 0]
     
@@ -68,23 +68,29 @@ run_cell = False
 
 if run_cell:
     
+    mfn_flag = '11' # valid options are '10', '01', '11
+    
     columns = [1,0,2]
     std_means = [1, 0.5, 0]
     n_std_all = [0, 0.5, 1]
     
-    plot_neuromod_per_net(columns, std_means, n_std_all)
+    plot_neuromod_per_net(mfn_flag, columns, std_means, n_std_all)
     
     
 # %% Plot points of interests in IN space 
+
+# There is something odd, it doesn't seem to refelect what I see in heatmaps for 11!!!!
 
 run_cell = False
 
 if run_cell:
     
+    mfn_flag = '11' # valid options are '10', '01', '11
+    
     columns = [1,0,2]
     std_means = [1, 0.5, 0]
     n_std_all = [0, 0.5, 1]
     
-    plot_points_of_interest_neuromod(columns, std_means, n_std_all)
-    plot_points_of_interest_neuromod(columns, std_means, n_std_all, show_inter=True)
+    plot_points_of_interest_neuromod(mfn_flag, columns, std_means, n_std_all)
+    plot_points_of_interest_neuromod(mfn_flag, columns, std_means, n_std_all, show_inter=True)
     

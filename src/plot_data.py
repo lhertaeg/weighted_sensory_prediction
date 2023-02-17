@@ -169,7 +169,7 @@ def plot_combination_activation_INs(xp, xs, xv, alpha_before_pert, alpha_after_p
     sns.despine(ax=ax)
     
     
-def plot_points_of_interest_neuromod(columns, std_means, n_std_all, figsize=(8,3), fs=7,
+def plot_points_of_interest_neuromod(mfn_flag, columns, std_means, n_std_all, figsize=(8,3), fs=7,
                                      f_max = 0.99, f_min=1.05, s=40, show_inter=False):
     
     ### layout
@@ -194,7 +194,7 @@ def plot_points_of_interest_neuromod(columns, std_means, n_std_all, figsize=(8,3
 
             ### filename for data
             identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
-            file_for_data = '../results/data/neuromod/data_weighting_neuromod' + identifier + '.pickle'
+            file_for_data = '../results/data/neuromod/data_weighting_neuromod_' + mfn_flag + identifier + '.pickle'
             
             ### load data
             with open(file_for_data,'rb') as f:
@@ -306,7 +306,7 @@ def plot_heatmap_neuromod(xp, xs, alpha_before_pert, alpha_after_pert, figsize=(
         ax.set_ylabel('Fraction of SOM \nneurons activated', fontsize=fs, labelpad=10)
 
 
-def plot_neuromod_per_net(columns, std_means, n_std_all, figsize=(8,6), fs=7):
+def plot_neuromod_per_net(mfn_flag, columns, std_means, n_std_all, figsize=(8,6), fs=7):
     
     ### layout
     n_col = len(columns)
@@ -327,7 +327,7 @@ def plot_neuromod_per_net(columns, std_means, n_std_all, figsize=(8,6), fs=7):
             
             ### filename for data
             identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
-            file_for_data = '../results/data/neuromod/data_weighting_neuromod' + identifier + '.pickle'
+            file_for_data = '../results/data/neuromod/data_weighting_neuromod_' + mfn_flag + identifier + '.pickle'
             
             ### load data
             with open(file_for_data,'rb') as f:
