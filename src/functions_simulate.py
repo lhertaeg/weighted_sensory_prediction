@@ -73,7 +73,7 @@ def random_lognormal_from_moments(mean, sd, n_stimuli):
 def random_uniform_from_moments(mean, sd, num):
     
     b = np.sqrt(12) * sd / 2 + mean
-    a = 2 * mean -b
+    a = 2 * mean - b
     rnd = dtype(np.random.uniform(a, b, size = num))
         
     return rnd
@@ -515,3 +515,142 @@ def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials 
             pickle.dump([xp, xs, xv, alpha_before_pert, alpha_after_pert],f) 
             
     return [xp, xs, xv, alpha_before_pert, alpha_after_pert]
+
+
+
+def simulate_moment_estimation_upon_changes_PE(mfn_flag, std_mean, n_sd, column, pert_stength, mean_trials = dtype(5), m_sd = dtype(0), 
+                                               last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000), 
+                                               num_values_per_trial = np.int32(10), file_for_data = None):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### define stimuli
+    np.random.seed(seed)
+    n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
+
+    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
+                                            dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
+    stimuli = np.repeat(stimuli, n_repeats_per_stim)
+    
+    ### initialise
+    nums = len(pert_stength)
+    m_act_lower = np.zeros((len(pert_stength), 2), dtype=dtype)
+    v_act_lower = np.zeros((len(pert_stength), 2), dtype=dtype)
+    v_act_higher = np.zeros((len(pert_stength), 2), dtype=dtype)
+
+    ### run model for input onto PE neuron
+    for cell_id in range(2):
+        
+        print('PE neuron type ', cell_id)
+        
+        for i in range(nums):
+                
+            ## display progress
+            print('-- Perturbation strength:', pert_stength[i])
+            
+            ## add perturbation XXXX
+            perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
+            perturbation[(n_trials * trial_duration)//2:, cell_id] = pert_stength[i]
+            fixed_input_plus_perturbation = fixed_input + perturbation
+                
+            if column==1:
+                fixed_input_lower = fixed_input_plus_perturbation
+                fixed_input_higher = fixed_input
+            elif column==2:
+                fixed_input_lower = fixed_input
+                fixed_input_higher = fixed_input_plus_perturbation
+            elif column==0:
+                fixed_input_lower = fixed_input_plus_perturbation
+                fixed_input_higher = fixed_input_plus_perturbation
+    
+            ## run model
+            [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+             alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                     v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                     tc_var_pred, tau_pe, None, stimuli, VS = VS,
+                                                                     VV = VV, w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V, 
+                                                                     fixed_input_lower = fixed_input_lower,
+                                                                     fixed_input_higher = fixed_input_higher)
+        
+            
+            ### compute steady state
+            m_act_lower[i, cell_id] = np.mean(m_neuron_lower[-last_n * trial_duration:])
+            v_act_lower[i, cell_id] = np.mean(v_neuron_lower[-last_n * trial_duration:])
+            v_act_higher[i, cell_id] = np.mean(v_neuron_higher[-last_n * trial_duration:])
+            
+        
+    ### save data for later
+    if file_for_data is not None:
+        
+        with open(file_for_data,'wb') as f:
+            pickle.dump([pert_stength, m_act_lower, v_act_lower, v_act_higher],f) 
+            
+    return [pert_stength, m_act_lower, v_act_lower, v_act_higher]
+
+
+def simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, m_sd, n_sd, id_cell = None, pert_stength = dtype(1),
+                                                  seed = np.int32(186), n_trials = np.int32(100), trial_duration = np.int32(5000),
+                                                  num_values_per_trial = np.int32(10), file_for_data = None):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### activate neuron with pert_stength if id_cell is not none
+    if id_cell is not None:
+        perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
+        perturbation[:, id_cell] = pert_stength
+        fixed_input_plus_perturbation = fixed_input + perturbation
+            
+        fixed_input_lower = fixed_input_plus_perturbation # we only look at the lower PE circuit later, so we apply perturbation there
+        fixed_input_higher = fixed_input
+        
+    else:
+        fixed_input_lower = fixed_input
+        fixed_input_higher = fixed_input
+      
+    
+    ### create stimuli
+    np.random.seed(seed)
+    n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
+    
+    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd)
+    stimuli = np.repeat(stimuli, n_repeats_per_stim)
+    
+    ### run model
+    [m_neuron_lower, v_neuron_lower, m_neuron_higher, 
+     v_neuron_higher, alpha, beta, weighted_output, 
+     PE_lower, PE_higher] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                    v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                    tc_var_pred, tau_pe, None, stimuli, 
+                                                    VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                    v_PE_to_V = v_PE_to_V, 
+                                                    fixed_input_lower = fixed_input_lower,
+                                                    fixed_input_higher = fixed_input_higher,
+                                                    record_pe_activity = True) 
+    
+    ### extract BL and gain of nPE and pPE neurons                                          
+    n_begin = trial_duration // num_values_per_trial - 1
+    n_every = trial_duration // num_values_per_trial
+    
+    p_minus_s = m_neuron_lower[n_begin::n_every] - stimuli[n_begin::n_every]
+    s_minus_p = (stimuli[n_begin::n_every] - m_neuron_lower[n_begin::n_every])
+    nPE = PE_lower[n_begin::n_every,0]
+    pPE = PE_lower[n_begin::n_every,1]
+    
+    gain_nPE, baseline_nPE = np.polyfit(p_minus_s[(p_minus_s>=0) & (p_minus_s<2.5)], 
+                                        nPE[(p_minus_s>=0) & (p_minus_s<2.5)], 1) 
+    
+    gain_pPE, baseline_pPE = np.polyfit(s_minus_p[(s_minus_p>=0) & (s_minus_p<2.5)], 
+                                        pPE[(s_minus_p>=0) & (s_minus_p<2.5)], 1)
+    
+    return [baseline_nPE, baseline_pPE, gain_nPE, gain_pPE]
+

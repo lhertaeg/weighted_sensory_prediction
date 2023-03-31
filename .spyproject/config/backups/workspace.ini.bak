@@ -8,5 +8,5 @@ recent_files = ['scripts/run_tests_jax.py', 'src/functions_networks.py', 'script
 
 [main]
 version = 0.2.0
-recent_files = ['scripts/run_fig_4.py', 'src/functions_simulate.py', 'src/functions_networks.py']
+recent_files = ['scripts/run_fig_4.py', 'src/plot_data.py', 'src/functions_simulate.py', 'src/functions_networks.py', '../PE_Circuits/make_figures_for_presentation.py', '../../Collaborations/adaptive_learning_rui/toy_model.py', 'src/default_parameters.py']
 

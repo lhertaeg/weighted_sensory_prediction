@@ -54,6 +54,280 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 # %% plot functions
 
 
+def plot_changes_upon_input2PE_neurons(std_mean = 1, n_std = 1, mfn_flag = '10'):
+    
+    color_column = ['#00A9A5', '#D1495B']
+    
+    f, axs = plt.subplots(2, 2, sharex=True, sharey='row')
+    axs[1,0].plot(np.nan, np.nan, color='k')
+    axs[1,0].plot(np.nan, np.nan, color='k', ls='--')
+    
+    for column in range(1,3):
+        
+        ### filename for data
+        identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
+        file_for_data = '../results/data/neuromod/data_moments_vs_PE_neurons_' + mfn_flag + identifier + '.pickle'
+        
+        with open(file_for_data,'rb') as f:
+            [pert_strength, m_act_lower, v_act_lower, v_act_higher] = pickle.load(f)
+            
+        
+        axs[0,0].plot(pert_strength, m_act_lower[:,1], color=color_column[column-1])
+
+        axs[0,1].plot(pert_strength, m_act_lower[:,0], color=color_column[column-1])
+        
+        axs[1,0].plot(pert_strength, v_act_lower[:,1], color=color_column[column-1])
+        axs[1,0].plot(pert_strength, v_act_higher[:,1], color=color_column[column-1], ls='--')
+
+        axs[1,1].plot(pert_strength, v_act_lower[:,0], color=color_column[column-1])
+        axs[1,1].plot(pert_strength, v_act_higher[:,0], color=color_column[column-1], ls='--')
+    
+    
+    ymin = axs[0,1].get_ylim()[0]
+    ymax = axs[0,0].get_ylim()[1]
+    axs[0,0].set_ylim([ymin, ymax])
+    axs[0,1].set_ylim([ymin, ymax])
+    
+    axs[0,0].set_ylabel('Activity M neuron', labelpad=10)
+    axs[1,0].set_ylabel('Activity V neuron', labelpad=10)
+    
+    axs[0,0].legend(['lower', 'upper'], title='Target circuit', handlelength=1, frameon=False)
+    axs[1,0].legend(['lower V neuron', 'upper V neuron'], frameon=False, handlelength=1.5)
+    
+    axs[1,0].set_xlabel('Input onto pPE', labelpad=10)
+    axs[1,1].set_xlabel('Input onto nPE', labelpad=10)
+    
+    for i in range(2):
+        for j in range(2):
+            sns.despine(ax=axs[i,j])
+            axs[i,j].xaxis.set_major_locator(plt.MaxNLocator(3))
+            axs[i,j].yaxis.set_major_locator(plt.MaxNLocator(3))
+            
+
+
+def plot_illustration_changes_upon_baseline_PE(BL = np.linspace(0,5,11), mean = 10, 
+                                               sd_tested = np.linspace(1,3,2), factor_for_visibility = 10):
+    
+    f, axs = plt.subplots(2, 2, sharex=True, sharey='row')#, tight_layout=True)
+    
+    colors_sd = ['#75D3E6','#16697A']
+    labels_mean = ['low SD', 'high SD']
+    
+    # BL of pPE neurons, BL of nPE fixed at zero
+    p_BL = BL
+    axs[1,0].plot(np.nan, np.nan, color='k')
+    axs[1,0].plot(np.nan, np.nan, color='k', ls='--')
+    
+    for i, sd in enumerate(sd_tested):
+        
+        ### prediction
+        b = np.sqrt(12) * sd / 2 + mean
+        a = 2 * mean - b
+        
+        P = (b + a)/2 + p_BL/(b - a)
+        axs[0,0].plot(p_BL, P, color=colors_sd[i], label = labels_mean[i])
+        axs[0,0].plot(0, mean, 'o', color=colors_sd[i])
+        
+        ### variance (in same column)
+        V_same = (b-a)**2/12 + p_BL**2/(b-a)**2 * (1 + 2*p_BL/(b-a)) + p_BL * (p_BL + (b-a)/2)
+        axs[1,0].plot(p_BL, V_same, color=colors_sd[i])
+        axs[1,0].plot(0, (b-a)**2/12, 'o', color=colors_sd[i])
+        
+        ### variance of higher PE circuit when PE neurons altered in lower PE circuit
+        V_mix = (b-a)**2 / 12 + factor_for_visibility * (P - P[0])**2
+        axs[1,0].plot(p_BL, V_mix, ls='--', color=colors_sd[i])
+        
+        
+    # BL of nPE neurons, BL of pPE fixed at zero
+    n_BL = BL
+    
+    for i, sd in enumerate(sd_tested):
+        
+        ### prediction
+        b = np.sqrt(12) * sd / 2 + mean
+        a = 2 * mean - b
+        
+        P = (b + a)/2 - n_BL/(b - a)
+        axs[0,1].plot(n_BL, P, color=colors_sd[i])
+        axs[0,1].plot(0, mean, 'o', color=colors_sd[i])
+        
+        ### variance (in same column)
+        V_same = (b-a)**2/12 + n_BL**2/(b-a)**2 * (1 + 2*n_BL/(b-a)) + n_BL * (n_BL + (b-a)/2)
+        axs[1,1].plot(n_BL, V_same, color=colors_sd[i])
+        axs[1,1].plot(0, (b-a)**2/12, 'o', color=colors_sd[i])
+        
+        ### variance of higher PE circuit when PE neurons altered in lower PE circuit
+        V_mix = (b-a)**2 / 12 + factor_for_visibility * (P - P[0])**2
+        axs[1,1].plot(p_BL, V_mix, ls='--', color=colors_sd[i])
+        
+    axs[0,0].set_ylabel('Activity M neuron', labelpad=10)
+    axs[1,0].set_ylabel('Activity V neuron', labelpad=10)
+    
+    axs[1,0].set_xlabel('BL of pPE neuron', labelpad=10)
+    axs[1,1].set_xlabel('BL of nPE neuron', labelpad=10)
+    
+    # ymin = axs[0,1].get_ylim()[0]
+    # ymax = axs[0,0].get_ylim()[1]
+    # axs[0,0].set_ylim([ymin, ymax])
+    # axs[0,1].set_ylim([ymin, ymax])
+    
+    axs[0,0].legend(loc=0, frameon=False, handlelength=1)
+    axs[1,0].legend(['same column', 'lower/upper col.'], frameon=False, handlelength=1.5)
+    
+    for i in range(2):
+        for j in range(2):
+            axs[i,j].set_xticks([])
+            axs[i,j].set_yticks([])
+            sns.despine(ax=axs[i,j])
+            
+            
+def plot_illustration_changes_upon_gain_PE(gains = np.linspace(0.5, 1.5, 11), mean = 10, 
+                                           sd_tested = np.linspace(1,3,2), factor_for_visibility = 5):
+    
+    f, axs = plt.subplots(2, 2, sharex=True, sharey='row')#, tight_layout=True)
+    
+    colors_sd = ['#75D3E6','#16697A']
+    labels_mean = ['low SD', 'high SD']
+    
+    # BL of pPE neurons, BL of nPE fixed at zero
+    m = gains
+    axs[1,0].plot(np.nan, np.nan, color='k')
+    axs[1,0].plot(np.nan, np.nan, color='k', ls='--')
+    
+    for i, sd in enumerate(sd_tested):
+        
+        ### prediction
+        b = np.sqrt(12) * sd / 2 + mean
+        a = 2 * mean - b
+        
+        P = (m*b - a + np.sqrt(m) * (a-b)) / (m-1)
+        P[np.isnan(P)] = (b+a)/2
+        axs[0,0].plot(m, P, color=colors_sd[i], label = labels_mean[i])
+        axs[0,0].plot(1, mean, 'o', color=colors_sd[i])
+        
+        ### variance (in same column)
+        V_same = (b-a)**2/(3*(m-1)**3) * ((m - np.sqrt(m))**3 - m * (1 - np.sqrt(m))**3)
+        V_same[np.isnan(V_same)] = (b-a)**2/12
+        axs[1,0].plot(m, V_same, color=colors_sd[i])
+        axs[1,0].plot(1, (b-a)**2/12, 'o', color=colors_sd[i])
+        
+        ### variance of higher PE circuit when PE neurons altered in lower PE circuit
+        V_mix = (b-a)**2 / 12 + factor_for_visibility * (P - P[m==1])**2
+        axs[1,0].plot(m, V_mix, ls='--', color=colors_sd[i])
+        
+        
+    # BL of nPE neurons, BL of pPE fixed at zero
+    n = gains
+    
+    for i, sd in enumerate(sd_tested):
+        
+        ### prediction
+        b = np.sqrt(12) * sd / 2 + mean
+        a = 2 * mean - b
+        
+        P = (b - n*a + np.sqrt(n) * (a-b)) / (1-n)
+        P[np.isnan(P)] = (b+a)/2
+        axs[0,1].plot(n, P, color=colors_sd[i])
+        axs[0,1].plot(1, mean, 'o', color=colors_sd[i])
+        
+        ### variance (in same column)
+        V_same = (b-a)**2/(3*(1-n)**3) * (n*(1 - np.sqrt(n))**3 - (n - np.sqrt(n))**3)
+        V_same[np.isnan(V_same)] = (b-a)**2/12
+        axs[1,1].plot(n, V_same, color=colors_sd[i])
+        axs[1,1].plot(1, (b-a)**2/12, 'o', color=colors_sd[i])
+        
+        ### variance of higher PE circuit when PE neurons altered in lower PE circuit
+        V_mix = (b-a)**2 / 12 + factor_for_visibility * (P - P[n==1])**2
+        axs[1,1].plot(n, V_mix, ls='--', color=colors_sd[i])
+        
+    axs[0,0].set_ylabel('Activity M neuron', labelpad=10)
+    axs[1,0].set_ylabel('Activity V neuron', labelpad=10)
+    
+    axs[1,0].set_xlabel('gain of pPE neuron', labelpad=10)
+    axs[1,1].set_xlabel('gain of nPE neuron', labelpad=10)
+    
+    # ymin = axs[0,1].get_ylim()[0]
+    # ymax = axs[0,0].get_ylim()[1]
+    # axs[0,0].set_ylim([ymin, ymax])
+    # axs[0,1].set_ylim([ymin, ymax])
+    
+    axs[0,0].legend(loc=0, frameon=False, handlelength=1)
+    axs[1,0].legend(['same column', 'lower/upper'], frameon=False, handlelength=1.5)
+    
+    for i in range(2):
+        for j in range(2):
+            axs[i,j].set_xticks([])
+            axs[i,j].set_yticks([])
+            sns.despine(ax=axs[i,j])
+    
+    
+
+def plot_bar_neuromod(column, mfn_flag, flag_what, figsize=(4,3), fs=7, lw=1, std_means=[1, 0], n_std_all = [0, 1], dgrad = 0.001, axs=None):
+    
+    if axs is None:
+        f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)
+    else:
+        ax = axs
+    
+    for condition in range(2):
+        
+        std_mean = std_means[condition]
+        n_std = n_std_all[condition]
+
+        ### filename for data
+        identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
+        file_for_data = '../results/data/neuromod/data_weighting_neuromod_' + mfn_flag + identifier + '.pickle'
+        
+        ### load data
+        with open(file_for_data,'rb') as f:
+            [xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f)
+         
+        if flag_what==0:
+            x = xv[xs==0]
+            sens_weight = alpha_after_pert[xs==0]
+        elif flag_what==1:
+            x = xv[xp==0]
+            sens_weight = alpha_after_pert[xp==0]
+        
+        #ax = plt.gca()
+        
+        for nom in range(len(x)):
+            
+            if condition==0:
+                z = [nom+1-0.3,nom+0.95]
+            else:
+                z = [nom+1.05,nom + 1 + 0.3]
+            
+            num_lines = np.int32(abs(alpha_before_pert - sens_weight[nom]) / dgrad)
+            gradient_lines = np.linspace(alpha_before_pert, sens_weight[nom], num_lines)
+            
+            for gline in gradient_lines:
+                ax.plot(z, [gline, gline], color=cmap_sensory_prediction(gline))
+        
+        ax.axhline(alpha_before_pert, ls=':', color=cmap_sensory_prediction(alpha_before_pert))
+        ax.set_ylim([0,1])
+        ax.set_xlim([0,len(x)+1])
+        
+        ax.set_xticks([1,11])
+        if flag_what==0:
+            ax.set_xticklabels(['VIP only', 'PV only'], fontsize=fs)
+        else:
+            ax.set_xticklabels(['VIP only', 'SOM only'], fontsize=fs)
+        
+        ax.tick_params(size=2.0) 
+        ax.tick_params(axis='both', labelsize=fs)
+        ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+        
+        if column==0:
+            ax.set_title('Global neuromodulation', fontsize=fs)
+        elif column==1:
+            ax.set_title('Neuromodulation in lower PE circuit', fontsize=fs)
+        elif column==2:
+            ax.set_title('Neuromodulation in higher PE circuit', fontsize=fs)
+        
+        sns.despine(ax=ax)
+
+
 def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(4,3), 
                                   fs=7, lw=1, num_trial_ss=np.int32(50)):
     
