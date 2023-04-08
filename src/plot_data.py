@@ -53,6 +53,27 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 
 # %% plot functions
 
+# from https://gist.github.com/ihincks
+def lighten_color(color, amount=0.5):
+    """
+    Lightens the given color by multiplying (1-luminosity) by the given amount.
+    Input can be matplotlib color string, hex string, or RGB tuple.
+
+    Examples:
+    >> lighten_color('g', 0.3)
+    >> lighten_color('#F034A3', 0.6)
+    >> lighten_color((.3,.55,.1), 0.5)
+    """
+    import matplotlib.colors as mc
+    import colorsys
+    try:
+        c = mc.cnames[color]
+    except:
+        c = color
+    c = colorsys.rgb_to_hls(*mc.to_rgb(c))
+    return colorsys.hls_to_rgb(c[0], 1 - amount * (1 - c[1]), c[2])
+
+
 
 def plot_changes_upon_input2PE_neurons(std_mean = 1, n_std = 1, mfn_flag = '10'):
     
@@ -329,44 +350,77 @@ def plot_bar_neuromod(column, mfn_flag, flag_what, figsize=(4,3), fs=7, lw=1, st
 
 
 def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(4,3), 
-                                  fs=7, lw=1, num_trial_ss=np.int32(50)):
+                                  fs=7, lw=1, num_trial_ss=np.int32(50), trial_means=None):
     
-    trials_sensory_all = np.mean(np.split(stimuli, n_trials),1)
-    trials_estimated_all = np.mean(np.split(weighted_output, n_trials),1)
+    if weighted_output.ndim==1:
+        
+        if trial_means is not None:
+            trials_sensory_all = trial_means
+        else:
+            trials_sensory_all = np.mean(np.split(stimuli, n_trials),1)
+        trials_estimated_all = np.mean(np.split(weighted_output, n_trials),1)
+        
+        # to take out transient ...
+        trials_sensory = trials_sensory_all[num_trial_ss:]
+        trials_estimated = trials_estimated_all[num_trial_ss:]
     
-    # to take out transient ...
-    trials_sensory = trials_sensory_all[num_trial_ss:]
-    trials_estimated = trials_estimated_all[num_trial_ss:]
-
-    f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)                                                                              
-    ax.plot(trials_sensory, trials_estimated, 'o', alpha = 1, color=color_stimuli_background)
-    ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
+        f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize)                                                                              
+        ax.plot(trials_sensory, trials_estimated, 'o', alpha = 1, color=color_stimuli_background)
+        ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
+        
+    else:
+    
+        f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize) 
+        colors = sns.color_palette("Set2", n_colors = weighted_output.ndim)
+        
+        for i in range(np.size(weighted_output,0)):
+            
+            if trial_means is not None:
+                trials_sensory_all = trial_means[i,:]
+            else:
+                trials_sensory_all = np.mean(np.split(stimuli[i,:], n_trials),1)
+            trials_estimated_all = np.mean(np.split(weighted_output[i,:], n_trials),1)
+            
+            # to take out transient ...
+            trials_sensory = trials_sensory_all[num_trial_ss:]
+            trials_estimated = trials_estimated_all[num_trial_ss:]
+        
+            ax.plot(trials_sensory, trials_estimated, '+', alpha = 0.5, color = colors[i])#, color=color_stimuli_background)
+            
+            # plot line through data
+            p =  np.polyfit(trials_sensory, trials_estimated, 1)
+            ax.plot(trials_sensory, np.polyval(p, trials_sensory), '-', color = lighten_color(colors[i],amount=1.5), label=str(round(p[0],2)))
+            
+        
+        ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
+        leg = ax.legend(loc=0, fontsize=fs, frameon=False)
+        leg.set_title('Slope',prop={'size':fs})
     
     # points = np.arange(np.ceil(np.min(trials_sensory)), np.floor(np.max(trials_sensory)))
     # for point in points:
     #     bools = (trials_sensory>point-0.5) & (trials_sensory<=point+0.5)
     #     ax.plot(point, np.mean(trials_estimated[bools]), 's', color=color_weighted_output)
     
-    ###########
-    mean_sensory = np.mean(stimuli)
+    # ###########
+    # mean_sensory = np.mean(stimuli)
     
-    ### below mean
-    bools = (trials_sensory<=mean_sensory) # (trials_sensory>=min_mean) & (trials_sensory<=mean_sensory)
-    x = trials_sensory[bools]
+    # ### below mean
+    # bools = (trials_sensory<=mean_sensory) # (trials_sensory>=min_mean) & (trials_sensory<=mean_sensory)
+    # x = trials_sensory[bools]
         
-    p1 =  np.polyfit(x, trials_estimated[bools], 1)
-    ax.plot(x, np.polyval(p1, x), '--')
+    # p1 =  np.polyfit(x, trials_estimated[bools], 1)
+    # ax.plot(x, np.polyval(p1, x), '--')
     
-    print(p1)
+    # print(p1)
     
-    ### above mean
-    bools = (trials_sensory>=mean_sensory) # (trials_sensory>=mean_sensory) & (trials_sensory<max_mean)
-    x = trials_sensory[bools]
+    # ### above mean
+    # bools = (trials_sensory>=mean_sensory) # (trials_sensory>=mean_sensory) & (trials_sensory<max_mean)
+    # x = trials_sensory[bools]
         
-    p2 =  np.polyfit(x, trials_estimated[bools], 1)
-    ax.plot(x, np.polyval(p2, x), '--')
-    print(p2)
-    ###########
+    # p2 =  np.polyfit(x, trials_estimated[bools], 1)
+    # ax.plot(x, np.polyval(p2, x), '--')
+    # print(p2)
+    # ###########
     
     ax.tick_params(size=2.0) 
     ax.tick_params(axis='both', labelsize=fs)

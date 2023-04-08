@@ -17,24 +17,115 @@ import matplotlib.pyplot as plt
 
 dtype = np.float32
 
-# %% Notes
+# %% Notes 
 
-# Contraction bias occurs also without std in visual stimuli (mean goes from a to b)
-# then it is a consequence of the previous stimulus (it takes a while to catch up with the real new stimulus)
+### CHECK IPAD AGAIN ... slope is not sensory weight (only in limit case)
+# how can we express P as function of current S?
 
-# if mean stimulus always the same but std for stimulus high, you also see contration bias, but
-# here it is related to the fact that prediction is weighted stronger
+# If I get interesting results for contraction bias, I should show that figure before neuromod fig 
+# and actually discuss what a neuromod does to the bias!
 
-# the slope is mainly determined by mean_min and mean_max, std of visual stimuli has effect but 
-# comparably littel in comparison to across trial variabilty
+# %% Increasing the range of trail means will lead to decreased slope (SD of input != 0) - examples
 
-# this probably explains why scalar varibailty doesn't seem to have the most prominent effect
+run_cell = True
+plot_only = False
 
-# Check again: Does really trail variability define mostly bias?
-# Is it correct that stimulus variability does only little to it?
-# Should I plot/simulate differently? stimuli only 1, 2, 3, 4, ... ?
-# Look at equations: Under which circumstances would I get bias imbalance?
-# how does rectification come into play?
+if run_cell:
+    
+    n_trials = 200
+    
+    ### choose mean-field network to simulate
+    mfn_flag = '10' # valid options are '10', '01', '11
+    
+    ### define statistics
+    m_std, n_std = dtype(0), dtype(5)
+    min_mean_1, max_mean_1 = dtype(15), dtype(25)
+    min_mean_2, max_mean_2 = dtype(10), dtype(30)
+
+    ### filenames for data
+    file_for_data_1 = '../results/data/behavior/data_contraction_bias_trial_mean_range_' + str(max_mean_1 - min_mean_1) + '_SD_' + str(n_std) + '.pickle'
+    file_for_data_2 = '../results/data/behavior/data_contraction_bias_trial_mean_range_' + str(max_mean_2 - min_mean_2) + '_SD_' + str(n_std) + '.pickle'
+    
+    ### get data
+    if not plot_only:
+        
+        ## run for smaller range
+        [n_trials, _, _, stimuli_1, _, _, _, _, a_1, _, weighted_output_1, trial_means_1] = simulate_weighting_example(mfn_flag, min_mean_1, max_mean_1, 
+                                                                                                                     m_std, n_std, n_trials=n_trials,
+                                                                                                                     file_for_data = file_for_data_1)
+        
+        ## run for larger range 
+        [n_trials, _, _, stimuli_2, _, _, _, _, a_2, _, weighted_output_2, trial_means_2] = simulate_weighting_example(mfn_flag, min_mean_2, max_mean_2, 
+                                                                                                                     m_std, n_std, n_trials=n_trials,
+                                                                                                                     file_for_data = file_for_data_2)
+                                                                          
+    else:
+        
+        with open(file_for_data_1,'rb') as f:
+            [n_trials, _, _, stimuli_1, _, _, _, _, _, _, weighted_output_1, trial_means_1] = pickle.load(f)
+            
+        with open(file_for_data_2,'rb') as f:
+            [n_trials, _, _, stimuli_2, _, _, _, _, _, _, weighted_output_2, trial_means_2] = pickle.load(f)
+            
+    
+    ### plot data 
+    weighted_output = np.vstack((weighted_output_1, weighted_output_2))
+    stimuli = np.vstack((stimuli_1, stimuli_2))
+    
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30))     
+
+
+# %% Even without input SD contraction bias occurs - examples
+
+run_cell = False
+plot_only = True
+
+if run_cell:
+    
+    n_trials = 200
+    
+    ### choose mean-field network to simulate
+    mfn_flag = '10' # valid options are '10', '01', '11
+    
+    ### define statistics
+    m_std, n_std = dtype(0), dtype(0)
+    min_mean_1, max_mean_1 = dtype(15), dtype(25)
+    min_mean_2, max_mean_2 = dtype(10), dtype(30)
+
+    ### filenames for data
+    file_for_data_1 = '../results/data/behavior/data_contraction_bias_trial_mean_range_' + str(max_mean_1 - min_mean_1) + '.pickle'
+    file_for_data_2 = '../results/data/behavior/data_contraction_bias_trial_mean_range_' + str(max_mean_2 - min_mean_2) + '.pickle'
+    
+    ### get data
+    if not plot_only:
+        
+        ## run for smaller range
+        [n_trials, _, _, stimuli_1, _, _, _, _, _, _, weighted_output_1, trial_means_1] = simulate_weighting_example(mfn_flag, min_mean_1, max_mean_1, 
+                                                                                                                     m_std, n_std, n_trials=n_trials,
+                                                                                                                     file_for_data = file_for_data_1)
+        
+        ## run for larger range 
+        [n_trials, _, _, stimuli_2, _, _, _, _, _, _, weighted_output_2, trial_means_2] = simulate_weighting_example(mfn_flag, min_mean_2, max_mean_2, 
+                                                                                                                     m_std, n_std, n_trials=n_trials,
+                                                                                                                     file_for_data = file_for_data_2)
+                                                                          
+    else:
+        
+        with open(file_for_data_1,'rb') as f:
+            [n_trials, _, _, stimuli_1, _, _, _, _, _, _, weighted_output_1, trial_means_1] = pickle.load(f)
+            
+        with open(file_for_data_2,'rb') as f:
+            [n_trials, _, _, stimuli_2, _, _, _, _, _, _, weighted_output_2, trial_means_2] = pickle.load(f)
+            
+    
+    ### plot data 
+    weighted_output = np.vstack((weighted_output_1, weighted_output_2))
+    stimuli = np.vstack((stimuli_1, stimuli_2))
+    
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30))                                                                          
+
+
+# %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # %% Illustrate mean and std of trials (stimuli) for two cases: 1) without scalar variability, 2) with scalar variability
 
@@ -129,8 +220,8 @@ if run_cell:
     
 # %% Tests
 
-run_cell = True
-plot_only = False
+run_cell = False
+plot_only = True
 
 if run_cell:
     
@@ -146,46 +237,23 @@ if run_cell:
     if not plot_only:
         
         ## define statistics
-        min_mean, max_mean, m_std, n_std = dtype(15), dtype(15), dtype(0), dtype(5)
+        min_mean, max_mean, m_std, n_std = dtype(10), dtype(50), dtype(0), dtype(9)
     
         ## run
-        [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
-                                                                                                  m_std, n_std, n_trials=n_trials,
-                                                                                                  file_for_data = file_for_data)
+        [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output, trial_means] = simulate_weighting_example(mfn_flag, min_mean, max_mean, 
+                                                                                                                   m_std, n_std, n_trials=n_trials,
+                                                                                                                   natural_numbers=False,
+                                                                                                                   file_for_data = file_for_data)
                                                                           
     else:
         
         with open(file_for_data,'rb') as f:
-            [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output] = pickle.load(f)
+            [n_trials, _, _, stimuli, _, _, _, _, alpha, _, weighted_output, trial_means] = pickle.load(f)
             
     
     ### plot data 
-    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30))  
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30))#, trial_means=trial_means)
     
-    # import numpy as np
-    # import matplotlib as mpl
-    # import matplotlib.pyplot as plt
-    # import seaborn as sns
-    # import pandas as pd
-    
-    # trials_sensory = np.mean(np.split(stimuli, n_trials),1)
-    # trials_alpha = np.mean(np.split(alpha, n_trials),1)
-    
-    # plt.figure()
-    # plt.plot(trials_sensory, trials_alpha, '.')
-    
-    # trials_estimated = np.mean(np.split(weighted_output, n_trials),1)
-    
-    # plt.figure()
-    # plt.plot(trials_sensory, (trials_estimated - trials_sensory), '.')
-    # ax = plt.gca()
-    # ax.axhline(0,color='k', ls=':')
-    
-
-# maybe look at alpha for each trial mean ... doesn't that already give you estimate of sensory input ... I mean 
-# it is exactly the slope isn't it? And then you can immediately get the bias
-# because weighted_output = alpha * sensory + beta & prediction
-# and in principle you have all quantities, then you simply calculate it for min and max!?
 
 # be careful: if rectification kicks in, lower end is usually bigger than upper end!!!!! Think it through
 

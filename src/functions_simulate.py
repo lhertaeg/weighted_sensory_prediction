@@ -10,6 +10,7 @@ Created on Mon Jan  9 09:31:58 2023
 
 import numpy as np
 import pickle
+import matplotlib.pyplot as plt
 
 from src.default_parameters import default_para_mfn
 from src.functions_networks import run_mfn_circuit, run_mfn_circuit_coupled
@@ -18,10 +19,13 @@ dtype = np.float32
 
 # %% functions
 
-def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd):
+def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd, out_trial_means=False, natural_numbers=False):
     
     mean_stimuli = np.random.uniform(min_mean, max_mean, size=n_trials)
-    sd_stimuli = np.maximum(mean_stimuli * m_sd + n_sd, 0) ######### in csae n_sd is negative !!!
+    sd_stimuli = np.maximum(mean_stimuli * m_sd + n_sd, 0) ######### in case n_sd is negative !!!
+    
+    if natural_numbers:
+        mean_stimuli = np.round(mean_stimuli)
     
     stimuli = np.array([], dtype=dtype)
     
@@ -29,9 +33,12 @@ def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_m
         
         inputs_per_stimulus = np.random.normal(mean_stimuli[id_stim], sd_stimuli[id_stim], size=num_values_per_trial)
         stimuli = np.concatenate((stimuli, inputs_per_stimulus))
+     
+    results = (dtype(stimuli),)
+    if out_trial_means:
+        results += (mean_stimuli,)
         
-    return dtype(stimuli)
-
+    return results
 
 
 def random_binary_from_moments(mean, sd, n_stimuli, pa=0.5):
@@ -175,7 +182,8 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
          
 
 def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = np.int32(186), n_trials = np.int32(100), 
-                               trial_duration = np.int32(5000), num_values_per_trial = np.int32(10), file_for_data = None):
+                               trial_duration = np.int32(5000), num_values_per_trial = np.int32(10), natural_numbers=False,
+                               file_for_data = None):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -188,7 +196,8 @@ def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = 
     np.random.seed(seed)
     n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
     
-    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd)
+    stimuli, trial_means = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd, out_trial_means = True, 
+                                                        natural_numbers = natural_numbers)   
     stimuli = np.repeat(stimuli, n_repeats_per_stim)
     
     ### run model
@@ -204,11 +213,13 @@ def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = 
         
         with open(file_for_data,'wb') as f:
             pickle.dump([n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, 
-                         v_neuron_lower, m_neuron_higher, v_neuron_higher, alpha, beta, weighted_output],f)
-            
-    return [n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, 
-            v_neuron_lower, m_neuron_higher, v_neuron_higher, alpha, beta, weighted_output]
-
+                         v_neuron_lower, m_neuron_higher, v_neuron_higher, alpha, beta, weighted_output, trial_means],f)
+    
+    ### get the results
+    results = (n_trials, trial_duration, num_values_per_trial, stimuli, m_neuron_lower, 
+               v_neuron_lower, m_neuron_higher, v_neuron_higher, alpha, beta, weighted_output, trial_means)
+    
+    return results
 
 
 def simulate_weighting_exploration(mfn_flag, variability_within, variability_across, mean_trials, m_sd, last_n = np.int32(30),
@@ -595,7 +606,7 @@ def simulate_moment_estimation_upon_changes_PE(mfn_flag, std_mean, n_sd, column,
 
 def simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, m_sd, n_sd, id_cell = None, pert_stength = dtype(1),
                                                   seed = np.int32(186), n_trials = np.int32(100), trial_duration = np.int32(5000),
-                                                  num_values_per_trial = np.int32(10), file_for_data = None):
+                                                  num_values_per_trial = np.int32(10), file_for_data = None, plot_data=False):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -651,6 +662,14 @@ def simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, 
     
     gain_pPE, baseline_pPE = np.polyfit(s_minus_p[(s_minus_p>=0) & (s_minus_p<2.5)], 
                                         pPE[(s_minus_p>=0) & (s_minus_p<2.5)], 1)
+    
+    if plot_data:
+        plt.figure()
+        plt.plot(p_minus_s, nPE, '.')
+        
+        plt.figure()
+        plt.plot(s_minus_p, pPE, '.')
+        
     
     return [baseline_nPE, baseline_pPE, gain_nPE, gain_pPE]
 

@@ -68,7 +68,7 @@ if run_cell:
     
 # %% Systematic exploration
 
-run_cell = False
+run_cell = True
 plot_only = True
 
 if run_cell:

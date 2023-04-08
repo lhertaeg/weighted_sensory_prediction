@@ -238,18 +238,190 @@ if run_cell:
 # %% Test gain and BL of nPE and pPE neurons
 
 run_cell = True
+plot_only = True
 
 if run_cell:
     
+    f1, ax1 = plt.subplots(1,1)
+    f2, ax2 = plt.subplots(1,1)
+    marker = ['o', 's', 'd']
+    
     ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
+    for i_net, mfn_flag in enumerate(['10', '01', '11']):
+                                  
+    #mfn_flag = '01' # valid options are '10', '01', '11
+        file_for_data = '../results/data/neuromod/data_PE_props_vs_neuromod_' + mfn_flag + '.pickle'
     
-    ### input statistics
-    min_mean, max_mean, m_sd, n_sd = 5, 5, 0, 2.3
+        ### input statistics
+        min_mean, max_mean, m_sd, n_sd = 5, 5, 0, 2.3
+        
+        if not plot_only:
+            ### initiate
+            results_base_nPE = np.zeros(4)
+            results_base_pPE = np.zeros(4)
+            results_gain_nPE = np.zeros(4)
+            results_gain_pPE = np.zeros(4)
+            
+            ### run network without perturbation
+            print('Without neuromodulation')
+            [baseline_nPE, baseline_pPE, 
+             gain_nPE, gain_pPE] = simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, m_sd, n_sd)
+            
+            results_base_nPE[0] = baseline_nPE
+            results_base_pPE[0] = baseline_pPE
+            results_gain_nPE[0] = gain_nPE
+            results_gain_pPE[0] = gain_pPE
+            
+            ### run network for which IN neurons are additionally stimulated
+            print('With neuromodulation')
+            list_id_cells = [[4,5], 6, 7]
+            
+            for k, id_cell in enumerate(list_id_cells):
+            
+                print(id_cell)
+                
+                [baseline_nPE, baseline_pPE, 
+                 gain_nPE, gain_pPE] = simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, m_sd, n_sd, id_cell=id_cell)
+            
+                results_base_nPE[k+1] = baseline_nPE
+                results_base_pPE[k+1] = baseline_pPE
+                results_gain_nPE[k+1] = gain_nPE
+                results_gain_pPE[k+1] = gain_pPE
+                
+            ### save data
+            with open(file_for_data,'wb') as f:
+                pickle.dump([results_base_nPE, results_base_pPE, results_gain_nPE, results_gain_pPE],f) 
+                
+        else:
+            
+            ### load data
+            with open(file_for_data,'rb') as f:
+                [results_base_nPE, results_base_pPE, results_gain_nPE, results_gain_pPE] = pickle.load(f) 
+            
+            
+        ### plot
+        ax1.scatter(results_base_nPE[1:] - results_base_nPE[0], results_base_pPE[1:] - results_base_pPE[0], c=np.arange(3), marker=marker[i_net])
+        ax2.scatter(results_gain_nPE[1:] - results_gain_nPE[0], results_gain_pPE[1:] - results_gain_pPE[0], c=np.arange(3), marker=marker[i_net])
+        
     
-    ### run network and extract 
-    [baseline_nPE, baseline_pPE, 
-     gain_nPE, gain_pPE] = simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, m_sd, n_sd)
+    ax1.axline((0,0),slope=-1, color='k', ls=':')
+    ax1.axhline(0, color='k', ls='--', alpha=0.5, zorder=0)
+    ax1.axvline(0, color='k', ls='--', alpha=0.5, zorder=0)
+    ax1.set_xlabel('BL nPE')
+    ax1.set_ylabel('BL pPE')
+    #ax.spines['bottom'].set_position('zero')
+    #ax.spines['left'].set_position('zero')
+    xbound = max(np.abs(ax1.get_xlim()))
+    ybound = max(np.abs(ax1.get_ylim()))
+    ax1.set_xlim([-xbound,xbound])
+    ax1.set_ylim([-ybound,ybound])
+    #ax1.axhspan(-ybound, 0, xmin=0, xmax=0.5, alpha=0.1)
+    #ax1.axhspan(0, ybound, xmin=0.5, xmax=1, alpha=0.1, color='r')
+    ax1.fill_between(np.linspace(-xbound,xbound), -np.linspace(-xbound,xbound), -ybound, alpha=0.1)
+    ax1.fill_between(np.linspace(-xbound,xbound), ybound, -np.linspace(-xbound,xbound), color='r', alpha=0.1)
     
+    ax2.axline((0,0),slope=-1, color='k', ls=':')
+    ax2.axhline(0, color='k', ls='--', alpha=0.5, zorder=0)
+    ax2.axvline(0, color='k', ls='--', alpha=0.5, zorder=0)
+    ax2.set_xlabel(r'$\Delta$ gain nPE')
+    ax2.set_ylabel(r'$\Delta$ gain pPE')
+    #ax.spines['bottom'].set_position('zero')
+    #ax.spines['left'].set_position('zero')
+    
+    xbound = max(np.abs(ax2.get_xlim()))
+    ybound = max(np.abs(ax2.get_ylim()))
+    ax2.set_xlim([-xbound,xbound])
+    ax2.set_ylim([-ybound,ybound])
+    #ax2.axhspan(-ybound, 0, xmin=0, xmax=0.5, alpha=0.1)
+    #ax2.axhspan(0, ybound, xmin=0.5, xmax=1, alpha=0.1, color='r')
+    ax2.fill_between(np.linspace(-xbound,xbound), -np.linspace(-xbound,xbound), -ybound, alpha=0.1)
+    ax2.fill_between(np.linspace(-xbound,xbound), ybound, -np.linspace(-xbound,xbound), color='r', alpha=0.1)
+     
+    sns.despine(ax=ax1)
+    sns.despine(ax=ax2)
+    
+  
+# %% plot for all MFN together
+
+# Please note that diagonal is just an illustration of the boundary
+# it actually depends on the mean and the std of the inputs (input statistics)
+# also, it is only true in the purely linear case (not taking rectifications into account)
+
+run_cell = False
+
+if run_cell:
+    
+    ### load data
+    file_for_data = '../results/data/neuromod/data_PE_props_vs_neuromod_10.pickle'
+    with open(file_for_data,'rb') as f:
+            [results_base_nPE_10, results_base_pPE_10, results_gain_nPE_10, results_gain_pPE_10] = pickle.load(f) 
+            
+    file_for_data = '../results/data/neuromod/data_PE_props_vs_neuromod_11.pickle'
+    with open(file_for_data,'rb') as f:
+            [results_base_nPE_11, results_base_pPE_11, results_gain_nPE_11, results_gain_pPE_11] = pickle.load(f) 
+            
+    file_for_data = '../results/data/neuromod/data_PE_props_vs_neuromod_01.pickle'
+    with open(file_for_data,'rb') as f:
+            [results_base_nPE_01, results_base_pPE_01, results_gain_nPE_01, results_gain_pPE_01] = pickle.load(f)
+            
+    ### plot data
+    label_text = ['10','11','01']
+    
+    def create_legend_for_INS(c):
+        
+        if c==0:
+            res = 'PV'
+        elif c==1:
+            res = 'SOM'
+        elif c==2:
+            res = 'VIP'
+            
+        return res
+    
+    plt.figure()
+    
+    sc = plt.scatter((results_base_nPE_10[1:] - results_base_nPE_10[0]) + (results_base_pPE_10[1:] - results_base_pPE_10[0]),
+                (results_gain_nPE_10[1:] - results_gain_nPE_10[0]) + (results_gain_pPE_10[1:] - results_gain_pPE_10[0]), c=np.arange(3), marker='o')
+    
+    plt.scatter((results_base_nPE_11[1:] - results_base_nPE_11[0]) + (results_base_pPE_11[1:] - results_base_pPE_11[0]),
+                (results_gain_nPE_11[1:] - results_gain_nPE_11[0]) + (results_gain_pPE_11[1:] - results_gain_pPE_11[0]), c=np.arange(3), marker='s')
+    
+    plt.scatter((results_base_nPE_01[1:] - results_base_nPE_01[0]) + (results_base_pPE_01[1:] - results_base_pPE_01[0]),
+                (results_gain_nPE_01[1:] - results_gain_nPE_01[0]) + (results_gain_pPE_01[1:] - results_gain_pPE_01[0]), c=np.arange(3), marker='d')
+    
+    ax = plt.gca()
+    
+    
+    handles = sc.legend_elements()[0]
+    legend1 = ax.legend(title='Targets', handles=handles, labels=['PV','SOM','VIP'], frameon=True)
+    ax.add_artist(legend1)
+    
+    xbound = max(np.abs(ax.get_xlim()))
+    ybound = max(np.abs(ax.get_ylim()))
+    ax.set_xlim([-xbound,xbound])
+    ax.set_ylim([-ybound,ybound])
+    ax.axhspan(-ybound, 0, xmin=0, xmax=0.5, alpha=0.1)
+    ax.axhspan(0, ybound, xmin=0.5, xmax=1, alpha=0.1, color='r')
+    
+    ax.set_xlabel('BL (nPE + pPE)')#, loc='left', labelpad=120)
+    ax.set_ylabel(r'$\Delta$ gain (nPE + pPE)')#, loc='bottom', labelpad=150)
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+
+    plt.scatter(np.nan, np.nan, c='k', marker='o', label='10')
+    plt.scatter(np.nan, np.nan, c='k', marker='s', label='11')
+    plt.scatter(np.nan, np.nan, c='k', marker='d', label='01')
+    legend2 = ax.legend(loc="upper right", title="MFN", frameon=True)
+    ax.add_artist(legend2)
+    
+    ax.text(0.3,0.4,'Variance \nincreases', color='r')
+    ax.text(-0.6,-0.4,'Variance \ndecreases', color='b')
+    
+    # ax.axline((0,0),slope=-1, color='k', ls=':') think about boundary, as it depends on input stats nt sure if it makes sense to show a line!?
+    ax.axhline(0, color='k', ls='--', alpha=0.5)
+    ax.axvline(0, color='k', ls='--', alpha=0.5)
+    #ax.spines['bottom'].set_position('zero')
+    #ax.spines['left'].set_position('zero')
+    sns.despine(ax=ax)
     
     
