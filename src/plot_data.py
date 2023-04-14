@@ -349,7 +349,47 @@ def plot_bar_neuromod(column, mfn_flag, flag_what, figsize=(4,3), fs=7, lw=1, st
         sns.despine(ax=ax)
 
 
-def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(4,3), 
+def plot_slope_variability(sd_1, sd_2, fitted_slopes_1, fitted_slopes_2, label_text, figsize=(3,2.5), fs=7, lw=1):
+    
+    f, ax = plt.subplots(1,1, tight_layout=True, figsize=(3,2.5))    
+    ax.plot(sd_1, fitted_slopes_1, color='k', label=label_text[0], lw=lw)
+    ax.plot(sd_2, fitted_slopes_2, color='k', alpha=0.5, label=label_text[1], lw=lw)
+    
+    leg = ax.legend(loc=0, handlelength=1.5, fontsize=fs, frameon=False)
+    leg.set_title('Variability',prop={'size':fs})
+    
+    ax.set_xlabel('Variability (SD)', fontsize=fs)
+    ax.set_ylabel('Slope', fontsize=fs)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+    
+    sns.despine(ax=ax)
+    
+
+def plot_slope_trail_duration(trial_durations,fitted_slopes_1, fitted_slopes_2, label_text, figsize=(3,2.5), fs=7, lw=1):
+    
+    f, ax = plt.subplots(1,1, tight_layout=True, figsize=(3,2.5))    
+    ax.plot(trial_durations, fitted_slopes_1, lw=lw, ls='-', color='k', label=label_text[0])
+    ax.plot(trial_durations, fitted_slopes_2, lw=lw, ls='-', color='k', alpha = 0.5,  label=label_text[1])
+    ax.axhline(1, color='k', ls=':')
+    
+    ax.set_xlabel('trial duration', fontsize=fs)
+    ax.set_ylabel('Slope', fontsize=fs)
+    leg = ax.legend(loc=0, handlelength=1.5, fontsize=fs, frameon=False)
+    leg.set_title('Variability \nset to zero',prop={'size':fs})
+    
+    ax.set_ylim([0.7,1.02])
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(3))
+    sns.despine(ax=ax)
+
+
+def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(2,2.5), ms=1,
                                   fs=7, lw=1, num_trial_ss=np.int32(50), trial_means=None):
     
     if weighted_output.ndim==1:
@@ -385,42 +425,16 @@ def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(4
             trials_sensory = trials_sensory_all[num_trial_ss:]
             trials_estimated = trials_estimated_all[num_trial_ss:]
         
-            ax.plot(trials_sensory, trials_estimated, '+', alpha = 0.5, color = colors[i])#, color=color_stimuli_background)
+            ax.plot(trials_sensory, trials_estimated, '.', alpha = 1, color = colors[i], markersize=ms)#, color=color_stimuli_background)
             
             # plot line through data
             p =  np.polyfit(trials_sensory, trials_estimated, 1)
-            ax.plot(trials_sensory, np.polyval(p, trials_sensory), '-', color = lighten_color(colors[i],amount=1.5), label=str(round(p[0],2)))
+            ax.plot(trials_sensory, np.polyval(p, trials_sensory), '-', color = lighten_color(colors[i],amount=2), label=str(round(p[0],2)))
             
         
-        ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
-        leg = ax.legend(loc=0, fontsize=fs, frameon=False)
+        ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':', zorder=0, lw=lw)
+        leg = ax.legend(loc=0, fontsize=fs, frameon=False, handlelength=1)
         leg.set_title('Slope',prop={'size':fs})
-    
-    # points = np.arange(np.ceil(np.min(trials_sensory)), np.floor(np.max(trials_sensory)))
-    # for point in points:
-    #     bools = (trials_sensory>point-0.5) & (trials_sensory<=point+0.5)
-    #     ax.plot(point, np.mean(trials_estimated[bools]), 's', color=color_weighted_output)
-    
-    # ###########
-    # mean_sensory = np.mean(stimuli)
-    
-    # ### below mean
-    # bools = (trials_sensory<=mean_sensory) # (trials_sensory>=min_mean) & (trials_sensory<=mean_sensory)
-    # x = trials_sensory[bools]
-        
-    # p1 =  np.polyfit(x, trials_estimated[bools], 1)
-    # ax.plot(x, np.polyval(p1, x), '--')
-    
-    # print(p1)
-    
-    # ### above mean
-    # bools = (trials_sensory>=mean_sensory) # (trials_sensory>=mean_sensory) & (trials_sensory<max_mean)
-    # x = trials_sensory[bools]
-        
-    # p2 =  np.polyfit(x, trials_estimated[bools], 1)
-    # ax.plot(x, np.polyval(p2, x), '--')
-    # print(p2)
-    # ###########
     
     ax.tick_params(size=2.0) 
     ax.tick_params(axis='both', labelsize=fs)

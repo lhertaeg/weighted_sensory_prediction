@@ -86,6 +86,124 @@ def random_uniform_from_moments(mean, sd, num):
     return rnd
 
 
+
+def simulate_slope_vs_variances(mfn_flag, min_mean, max_mean_arr, m_sd, n_sd_arr, trial_duration = np.int32(5000), seed = np.int32(186), n_trials = np.int32(100),
+                                num_values_per_trial = np.int32(10), num_trial_ss = np.int32(30), natural_numbers=False, file_for_data = None):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### 
+    if max_mean_arr.ndim == 0:
+        max_mean = max_mean_arr
+        values_tested = n_sd_arr
+    else:
+        n_sd = n_sd_arr
+        values_tested = max_mean_arr
+    
+    ### initialise
+    fitted_slopes = np.zeros(len(values_tested), dtype=dtype)
+    
+    ### run over all trial durations
+    for i, value in enumerate(values_tested):
+        
+        ### display progress & set seed
+        print(value)
+        np.random.seed(seed)
+        
+        ### create stimuli
+        n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
+        
+        if max_mean_arr.ndim == 0:
+            stimuli, trial_means = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, value, out_trial_means = True, 
+                                                                natural_numbers = natural_numbers)   
+        else:
+            stimuli, trial_means = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, value, m_sd, n_sd, out_trial_means = True, 
+                                                                natural_numbers = natural_numbers) 
+            
+        stimuli = np.repeat(stimuli, n_repeats_per_stim)
+        
+        ### run model
+        [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+         alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                 v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                 tc_var_pred, tau_pe, fixed_input, stimuli, 
+                                                                 VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                                 v_PE_to_V = v_PE_to_V) 
+                                                                 
+        ### extract slope
+        trials_sensory = np.mean(np.split(stimuli, n_trials),1)[num_trial_ss:]
+        trials_estimated = np.mean(np.split(weighted_output, n_trials),1)[num_trial_ss:]
+        p = np.polyfit(trials_sensory, trials_estimated, 1)
+        fitted_slopes[i] = p[0]
+
+    ### save data for later
+    if file_for_data is not None:
+        
+        with open(file_for_data,'wb') as f:
+            pickle.dump([values_tested, fitted_slopes],f)
+    
+    ### get the results
+    return [values_tested, fitted_slopes]
+
+
+
+def simulate_slope_vs_trial_duration(mfn_flag, min_mean, max_mean, m_sd, n_sd, trial_durations, seed = np.int32(186), n_trials = np.int32(100),
+                  num_values_per_trial = np.int32(10), num_trial_ss = np.int32(30), natural_numbers=False, file_for_data = None):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### initialise
+    fitted_slopes = np.zeros(len(trial_durations), dtype=dtype)
+    
+    ### run over all trial durations
+    for i, trial_duration in enumerate(trial_durations):
+        
+        ### display progress & set seed
+        print(trial_duration)
+        np.random.seed(seed)
+        
+        ### create stimuli
+        n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
+        
+        stimuli, trial_means = stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd, out_trial_means = True, 
+                                                            natural_numbers = natural_numbers)   
+        stimuli = np.repeat(stimuli, n_repeats_per_stim)
+        
+        ### run model
+        [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+         alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                 v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                 tc_var_pred, tau_pe, fixed_input, stimuli, 
+                                                                 VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                                 v_PE_to_V = v_PE_to_V) 
+                                                                 
+        ### extract slope
+        trials_sensory = np.mean(np.split(stimuli, n_trials),1)[num_trial_ss:]
+        trials_estimated = np.mean(np.split(weighted_output, n_trials),1)[num_trial_ss:]
+        p = np.polyfit(trials_sensory, trials_estimated, 1)
+        fitted_slopes[i] = p[0]
+
+    ### save data for later
+    if file_for_data is not None:
+        
+        with open(file_for_data,'wb') as f:
+            pickle.dump([trial_durations, fitted_slopes],f)
+    
+    ### get the results
+    return [trial_durations, fitted_slopes]
+
+
+
 def simulate_example_pe_circuit(mfn_flag, mean_stimuli, std_stimuli, file_for_data, 
                                 seed = 186, trial_duration = np.int32(100000), 
                                 num_values_per_trial = np.int32(200), dist_type = 'uniform', pa=0.8):
