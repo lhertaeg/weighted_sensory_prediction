@@ -389,8 +389,9 @@ def plot_slope_trail_duration(trial_durations,fitted_slopes_1, fitted_slopes_2, 
     sns.despine(ax=ax)
 
 
-def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(2,2.5), ms=1,
-                                  fs=7, lw=1, num_trial_ss=np.int32(50), trial_means=None):
+def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(2.5,2.8), ms=1,
+                                  fs=7, lw=1, num_trial_ss=np.int32(50), trial_means=None,
+                                  min_means = None, max_means = None, m_std = None, n_std = None, show_marker_inset=False):
     
     if weighted_output.ndim==1:
         
@@ -408,10 +409,18 @@ def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(2
         ax.plot(trials_sensory, trials_estimated, 'o', alpha = 1, color=color_stimuli_background)
         ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':')
         
+        if min_means is not None:
+            axin = ax.inset_axes((0.8,0.15,.2,.2)) #axin = inset_axes(ax, width="20%", height="20%", loc=4, borderpad=2)
+            x = np.linspace(min_means, max_means, 10)
+            axin.plot(x, np.maximum(m_std * x + n_std,0))
+        
     else:
     
         f, ax = plt.subplots(1,1, tight_layout=True, figsize=figsize) 
         colors = sns.color_palette("Set2", n_colors = weighted_output.ndim)
+        
+        if min_means is not None:
+            axin = ax.inset_axes((0.8,0.15,.2,.2))
         
         for i in range(np.size(weighted_output,0)):
             
@@ -431,10 +440,31 @@ def plot_example_contraction_bias(weighted_output, stimuli, n_trials, figsize=(2
             p =  np.polyfit(trials_sensory, trials_estimated, 1)
             ax.plot(trials_sensory, np.polyval(p, trials_sensory), '-', color = lighten_color(colors[i],amount=2), label=str(round(p[0],2)))
             
-        
+            if min_means is not None:
+                x = np.linspace(min_means[i], max_means[i], 10)
+                if show_marker_inset:
+                    axin.plot(x, np.maximum(m_std[i] * x + n_std[i],0), color=colors[i], ls='-', marker='o', ms=ms)
+                else:
+                    axin.plot(x, np.maximum(m_std[i] * x + n_std[i],0), color=colors[i], ls='-')
+                    
         ax.axline((np.mean(stimuli), np.mean(stimuli)), slope=1, color='k', ls=':', zorder=0, lw=lw)
         leg = ax.legend(loc=0, fontsize=fs, frameon=False, handlelength=1)
         leg.set_title('Slope',prop={'size':fs})
+    
+    if min_means is not None:
+        axin.tick_params(size=1.0)
+        axin.set_xlabel('mean', fontsize=fs, labelpad=0.2)
+        axin.set_ylabel('std', fontsize=fs, labelpad=0.2)
+        axin.tick_params(axis='both', labelsize=fs)
+        axin.xaxis.set_major_locator(plt.MaxNLocator(2))
+        axin.yaxis.set_major_locator(plt.MaxNLocator(2))
+        
+        x_lims = axin.get_xlim()
+        if (x_lims[1]-x_lims[0])<2:
+            axin.set_xlim([np.mean(x_lims)-1, np.mean(x_lims)+1])
+            
+        axin.set_ylim([axin.get_ylim()[0]-0.5, axin.get_ylim()[1]+0.5])
+        sns.despine(ax=axin)
     
     ax.tick_params(size=2.0) 
     ax.tick_params(axis='both', labelsize=fs)

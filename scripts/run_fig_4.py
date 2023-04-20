@@ -27,7 +27,7 @@ dtype = np.float32
 # %% Activate fractions of IN neurons in lower/higher PE circuit or both for a specified input statistics
 
 run_cell = False
-plot_only = False
+plot_only = True
 
 if run_cell:
     
@@ -237,7 +237,7 @@ if run_cell:
     
 # %% Test gain and BL of nPE and pPE neurons
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:
@@ -347,7 +347,7 @@ if run_cell:
 # it actually depends on the mean and the std of the inputs (input statistics)
 # also, it is only true in the purely linear case (not taking rectifications into account)
 
-run_cell = False
+run_cell = True
 
 if run_cell:
     

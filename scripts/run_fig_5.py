@@ -19,51 +19,12 @@ dtype = np.float32
 
 # %% Notes 
 
-### CHECK IPAD AGAIN ... slope is not sensory weight (only in limit case)
-# how can we express P as function of current S?
-
 # If I get interesting results for contraction bias, I should show that figure before neuromod fig 
 # and actually discuss what a neuromod does to the bias!
 
-
-# %% If T is very large, dependence on sensory weight is small
-
-# I guess this is also the reason why I get onlt small differences ...
-
-run_cell = False
-
-if run_cell:
-
-    ########
-    sigma_s = np.linspace(0,10,21)
-    sigma_p = np.linspace(0,10,21)
-    
-    ss, sp = np.meshgrid(sigma_s, sigma_p)
-    
-    e = np.exp(-3)
-    
-    m = e/(1+ss**2/sp**2) + (1-e)
-    
-    #plt.imshow(m, vmin=0, vmax=1)
-    plt.figure()
-    plt.contourf(sigma_s, sigma_p, m)
-    plt.colorbar()
-    
-    plt.xlabel('sigma_s')
-    plt.ylabel('sigma_p')
-    
-    #########
-    x = np.linspace(0,1,100)
-    
-    y = e * x + (1-e)
-    
-    plt.figure()
-    plt.plot(x,y)
-
-
 # %% Scalar variability ....
 
-run_cell = False
+run_cell = True
 plot_only = True
 
 if run_cell:
@@ -77,6 +38,7 @@ if run_cell:
     # m_std, n_std = dtype(0), dtype(5)
     min_mean_1, max_mean_1 = dtype(15), dtype(25)
     min_mean_2, max_mean_2 = dtype(25), dtype(35)
+    m_std, n_std = dtype(1), dtype(-14)
 
     ### filenames for data
     file_for_data_1 = '../results/data/behavior/data_contraction_bias_trial_mean_range_' + str(max_mean_1 - min_mean_1) + '_max_mean_' + str(max_mean_1) + '.pickle'
@@ -86,13 +48,11 @@ if run_cell:
     if not plot_only:
         
         ## run for smaller range
-        m_std, n_std = dtype(0.25), dtype(0)
         [n_trials, _, _, stimuli_1, _, _, _, _, _, _, weighted_output_1, trial_means_1] = simulate_weighting_example(mfn_flag, min_mean_1, max_mean_1, 
                                                                                                                      m_std, n_std, n_trials=n_trials,
                                                                                                                      file_for_data = file_for_data_1)
         
         ## run for larger range 
-        m_std, n_std = dtype(0.25), dtype(0)
         [n_trials, _, _, stimuli_2, _, _, _, _, _, _, weighted_output_2, trial_means_2] = simulate_weighting_example(mfn_flag, min_mean_2, max_mean_2, 
                                                                                                                      m_std, n_std, n_trials=n_trials,
                                                                                                                      file_for_data = file_for_data_2)
@@ -109,8 +69,13 @@ if run_cell:
     ### plot data 
     weighted_output = np.vstack((weighted_output_2, weighted_output_1))
     stimuli = np.vstack((stimuli_2, stimuli_1))
+    min_means = np.array([min_mean_2, min_mean_1])
+    max_means = np.array([max_mean_2, max_mean_1])
+    m_std = np.array([m_std, m_std])
+    n_std = np.array([n_std, n_std])
     
-    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30)) 
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2,
+                                  min_means=min_means, max_means=max_means, m_std=m_std, n_std=n_std, figsize=(5,2.8)) 
 
 
 # %% Slope as a function of variances
@@ -207,8 +172,13 @@ if run_cell:
     ### plot data 
     weighted_output = np.vstack((weighted_output_2, weighted_output_1))
     stimuli = np.vstack((stimuli_2, stimuli_1))
+    min_means = np.array([min_mean, min_mean])
+    max_means = np.array([max_mean, max_mean])
+    m_std = np.array([m_std, m_std])
+    n_std = np.array([n_std_2, n_std_1])
     
-    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2)  
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2,
+                                  min_means=min_means, max_means=max_means, m_std=m_std, n_std=n_std)  
     
     
 # %% Slope as a function of trial duration
@@ -309,8 +279,13 @@ if run_cell:
     ### plot data 
     weighted_output = np.vstack((weighted_output_2, weighted_output_1))
     stimuli = np.vstack((stimuli_2, stimuli_1))
+    min_means = np.array([min_mean, min_mean])
+    max_means = np.array([max_mean, max_mean])
+    m_std = np.array([m_std, m_std])
+    n_std = np.array([n_std_2, n_std_1])
     
-    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2)                                                                          
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2,
+                                  min_means=min_means, max_means=max_means, m_std=m_std, n_std=n_std, show_marker_inset=True)                                                                          
 
 
 # %% Even without input SD, contraction bias occurs - examples
@@ -362,5 +337,10 @@ if run_cell:
     ### plot data 
     weighted_output = np.vstack((weighted_output_2, weighted_output_1))
     stimuli = np.vstack((stimuli_2, stimuli_1))
+    min_means = np.array([min_mean_2, min_mean_1])
+    max_means = np.array([max_mean_2, max_mean_1])
+    m_std = np.array([m_std, m_std])
+    n_std = np.array([n_std, n_std])
     
-    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2)                                                                          
+    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2,
+                                  min_means=min_means, max_means=max_means, m_std=m_std, n_std=n_std)                                                                          
