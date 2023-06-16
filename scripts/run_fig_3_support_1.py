@@ -22,9 +22,9 @@ dtype = np.float32
 
 # %% Simulate control case for number of input statistics 
 
-run_cell = False
+run_cell = True
 load_only = True
-do_plot = False
+do_plot = True
 
 # define parameters used throughout the file
 mean_trials, m_sd = dtype(5), dtype(0)
@@ -137,13 +137,13 @@ if run_cell:
             
     
     ### plot data
-    plot_impact_para(weight_ctrl, weights_mod_base, para_range_tested=add_inputs,
+    plot_impact_para(weight_ctrl, weights_mod_base, para_range_tested=add_inputs, ms=3,
                      colorbar_title = 'baseline', colorbar_tick_labels = ['low','high'],fs=7) 
     
     
 # %% Impact of baseline activity (only PE neurons)
     
-run_cell = False
+run_cell = True
 plot_only = True
 
 if run_cell:
@@ -166,6 +166,60 @@ if run_cell:
     if not plot_only: # simulate respective network
     
         print('Increase baseline activity for PE neurons only:\n')
+    
+        for k, add_input in enumerate(add_inputs):
+        
+            print('Add input:', add_input)
+            [_, _, _, _, _, _, weight] = simulate_impact_para(mfn_flag, variability_within, variability_across, mean_trials, 
+                                                              m_sd, last_n = last_n, n_trials = n_trials, 
+                                                              add_input=add_input, id_cells_modulated = id_cells_modulated)
+            
+            weights_mod_base[:,k] = weight
+            
+        with open(file_for_data,'wb') as f:
+            pickle.dump([add_inputs, weights_mod_base],f) 
+        
+    else:
+        
+        with open(file_for_data,'rb') as f:
+            [add_inputs, weights_mod_base] = pickle.load(f)
+            
+    
+    ### plot data
+    plot_impact_para(weight_ctrl, weights_mod_base, para_range_tested=add_inputs,
+                     colorbar_title = 'baseline', colorbar_tick_labels = ['low','high'],
+                     fs=7, loc_position=5) 
+    
+
+# %% Impact of baseline activity of nPE OR pPE neuron
+    
+run_cell = True
+plot_only = True
+
+if run_cell:
+
+    ### choose mean-field network to simulate
+    mfn_flag = '10' # valid options are '10', '01', '11
+    
+    ### filename for data ... change PE neuron type to be tested here
+    id_cells_modulated = np.array([True,False,False,False,False,False,False,False])
+    
+    if id_cells_modulated[0]:
+        file_for_data = '../results/data/weighting/data_weighting_baseline_nPE.pickle'
+    elif id_cells_modulated[1]:
+        file_for_data = '../results/data/weighting/data_weighting_baseline_pPE.pickle'
+    
+    ### additional input to be tested
+    add_inputs = np.array([0.5, 1, 1.5, 2])
+    num_inputs = len(add_inputs)
+    
+    ### initialise
+    weights_mod_base = np.zeros((len(variability_across), num_inputs))
+    
+    ### get data
+    if not plot_only: # simulate respective network
+    
+        print('Increase baseline activity for PE neuron:\n')
     
         for k, add_input in enumerate(add_inputs):
         
@@ -246,7 +300,7 @@ if run_cell:
 # probbaly not important to show ... one is enough (see above)
 
 run_cell = False
-plot_only = False
+plot_only = True
 
 if run_cell:
 

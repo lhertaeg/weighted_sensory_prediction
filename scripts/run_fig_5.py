@@ -17,14 +17,9 @@ import matplotlib.pyplot as plt
 
 dtype = np.float32
 
-# %% Notes 
-
-# If I get interesting results for contraction bias, I should show that figure before neuromod fig 
-# and actually discuss what a neuromod does to the bias!
-
 # %% Scalar variability ....
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:
@@ -293,7 +288,7 @@ if run_cell:
 # slope independent of trial variance
 # mechanism: transient effects (steady state not reached ..., so basically history effect, it depends on previous stimulus)
 
-run_cell = False
+run_cell = True
 plot_only = True
 
 if run_cell:

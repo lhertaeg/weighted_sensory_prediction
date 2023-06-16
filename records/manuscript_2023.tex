@@ -100,17 +100,47 @@ blahhh blahhh blah
 \section*{Introduction}
 
 XXX
+with a special focus on the interneurons and how and hwy those may adapt yhe weighting XXX
 
 
 \section*{Results}
 %
 XXX
 
-\subsection*{first result}
+\subsection*{nPE and pPE neurons as the basis for computing mean and variance of sensory stimuli}
+%
+We hypothesis that the unique properties of nPE and pPE neurons put them in a perfect position to support both the computation of the mean and the variance of feedforward sensory stimuli. XXX Why is that XXX. 
+
+To this end we simulated a rate-based mean-field network model the core of which represents a PE circuit with nPE and pPE neurons and three types of inhibitory interneurons (XXX). In addition, the PE circuits connect/project to a memory neuron that is modeled as perfect integrator. In accordance with XXX, we assume that the pPE neurons excite the memory neuron while the nPE neuron inhibit the memory neuron (for instance through lateral inhibition not modeled explicitly here). With this connectivity/setup/architecture, the memory neuron holds/encodes the mean of the feedforward sensory stimuli that drive the PE circuit. The memory neuron, on the other hand, connects to the apical dendrites of the PE neurons and some of the inhibitory interneurons (see methods for more details). It therefore serves as a prediction that is dynamically updated when new sensory information is available. We furthermore assume that the PE neurons excite another neuron, modeled as a leaky integrator, whose activity may represent that variance of the feedforward stimuli when both nPE and pPE neurons have a net excitatory effect on it.
+
+To show that such a network can indeed represent mean and variance in the respective neurons, we stimulate it with sequence of step-wise constant inputs drawn from xxx. As shown in Fig. XXX, the memory neuron's activity gradually approaches the mean of the sensory stimuli, while the v neuron approaches the variance of the inputs. This is true for a wide range of inputs statistics (Fig. XXX). Deviations from the true mean occur mainly for larger input variances. The estimated variance is fairly independent of the input statistics tested. Moreover, the precise input distribution does not have a significant effect on the network's ability to estimate the mean and the variance (Supp Fig. XXX).
+
+XXX interneuron activity increases with mean but also with variance, some faster than the other ... XXX
+
+XXX validated that also correct for population network (beyond mean-field network) XXX
+
+XXX assumptions (BL, gain-nPE = gain-pPE = 1) and how important really (see above)
+
+\subsubsection*{Weighting external and internal signals requires two sets of PE neurons}
+%
+Coming back to the question at hand/example ...
+Following up the same ideas, the weighting of internal and external signals requires a higher PE circuit that integrates over the prediction of the lower PE circuit. 
+XXX explain set-up XXX ...
+XXX stimulation protocol XXX
+XXX two limit cases XXX
+XXX validation for a wide range of input statistics XXX
+XXX mentioning the dynamic nature of this estimation (Supp material), if you find differences in time scales of adaptation, report here XXX
+XXX predictions: nPE/pPE BL increase, cognitive load + trial duration XXX
+XXX The network does not require on the squared activation function but it is important that updating is faster in lower than in higher PE circuit XXX
+
+XXX Do we actually propose that predictions are sent up the hierarchy?
+
+\subsubsection*{XXX IN influence, neuromodulators ... mechanisms XXX}
 %
 
-\subsubsection*{second result}
 
+
+\subsubsection*{XXX contraction bias}
 
 \section*{Discussion}
 
@@ -273,28 +303,205 @@ r_\mathrm{out} = \alpha \cdot S + (1-\alpha) \cdot P
 \appendix
 
 
+\subsection*{Sensory weight and contraction bias}
+%
+If P is rather constant, the slope in the contraction bias is exactly the sensory weight
+%
+ \begin{align*}
+ r_\mathrm{out} = \alpha_\mathrm{S} \cdot S + \left( 1 -\alpha_\mathrm{S} \right) \cdot P \equiv m \cdot S + n
+ \end{align*}
+%
+However, P is usually/normally a function of $S$. For simplicity, let's assume that P decays exponentially to a new value of $S$:
+%
+\begin{align*}
+P = P_\mathrm{0} \cdot \mathrm{e}^{-t/\tau} + f(S) \cdot \left( 1 -   \mathrm{e}^{-t/\tau} \right)
+\end{align*}
+%
+Within each trial with trial duration T, P can be expressed by n sections of length t in which the stimulus is constant and, for the sake of simplicity, drawn from a uniform distribution $U\left( s - \frac{\sigma_\mathrm{S}}{12}, s + \frac{\sigma_\mathrm{S}}{12} \right)$. $P_\mathrm{0}$ is drawn from $U\left( \mu - \frac{\sigma_\mathrm{P}}{12}, \mu + \frac{\sigma_\mathrm{P}}{12} \right)$. $P_\mathrm{n}$ is then given by
+%
+\begin{align*}
+P_\mathrm{n} = P_\mathrm{0} \cdot \mathrm{e}^{-t/\tau}  + \left( 1 -   \mathrm{e}^{-t/\tau} \right) \sum_{i=1}^{n} s_i \cdot \mathrm{e}^{-(n-1)\cdot t/ \tau}
+\end{align*}
+%
+This needs to be averaged over all possible states
+%
+\begin{align*}
+P_\mathrm{n} = \mathrm{e}^{-t/\tau}  \int\limits_{\mu - \frac{\sigma_\mathrm{P}}{12}}^{\mu + \frac{\sigma_\mathrm{P}}{12}} P_\mathrm{0} \ f(P_\mathrm{0})\ dP_0+ \left( 1 -   \mathrm{e}^{-t/\tau} \right) \sum_{i=1}^{n} \cdot \mathrm{e}^{-(n-1)\cdot t/ \tau} \int\limits_{s - \frac{\sigma_\mathrm{S}}{12}}^{s + \frac{\sigma_\mathrm{S}}{12}} s\ f(s)\ ds
+\end{align*}
+%
+This gives
+%
+\begin{align*}
+P_\mathrm{n} = \mu \cdot \mathrm{e}^{-T/\tau} + \left( 1 -   \mathrm{e}^{-t/\tau} \right) \sum_{i=1}^{n} \mathrm{e}^{-(n-i)\cdot t/ \tau} \cdot S
+\end{align*}
+%
+By making use of the geometric series, this simplifies to
+%
+\begin{align*}
+P_\mathrm{n} =  \mu \cdot \mathrm{e}^{-T/\tau} + \left( 1 -   \mathrm{e}^{-T/\tau} \right) \cdot S
+\end{align*}
+%
+Together, this yields for the weighted output
+%
+\begin{align*}
+ r_\mathrm{out} = \left[ \alpha_\mathrm{S}\  \mathrm{e}^{-T/\tau} + \left( 1 -   \mathrm{e}^{-T/\tau} \right)\right] \cdot S + \left( 1 -\alpha_\mathrm{S} \right)\ \mathrm{e}^{-T/\tau}\ \mu
+\end{align*}
+%
+Hence, the slope is a function of both the sensory weight and the trial duration. 
+ 
+In a prediction-driven input regime ($alpha_\mathrm{S} \sim 0)$, the slope is independent of the sensory weight and only determined by the trial duration, $m \sim \left( 1 -   \mathrm{e}^{-T/\tau} \right)$. In a sensory-driven input regime ($alpha_\mathrm{S} \sim 0)$, the contraction bias vanishes ($m \sim 1$). 
+
+If the trail duration is short ($T \rightarrow 0$), the slope is given by the sensory weight. If the trail duration approaches infinity, the slope would be 1 again (however, this seems rather unrealistic, this would only be true in an ideal system without memory decay or reproduction and accumulation noise ...).
+
+\subsection*{Effect of nPE and pPE gain}
+%
+In the steady state, the averaged effect of nPE and pPE must be equal (so the gain must be equal):
+%
+\begin{align*}
+g_{pPE}\ \langle \mathrm{nPE}\rangle &= g_{nPE}\ \langle \mathrm{pPE}\rangle \\
+g_{pPE} \langle \left[ S-P\right]_+\rangle &= g_{nPE} \langle \left[ P-S\right]_+\rangle \\
+g_{pPE} \int\limits_P^b \left( x-P\right)\ f(x)\ dx &= g_{nPE} \int\limits_a^P \left( P-x\right)\ f(x)\ dx
+\end{align*}
+%
+Example, uniform distribution:
+\begin{align*}
+g_{pPE}\ \left[ \frac{1}{2} \left(b^2 - P^2\right) - P\left(b - P\right)\right] = g_{nPE}\ \left[  P\left(P - a\right) - \frac{1}{2} \left(P^2 - a^2\right)\right] 
+\end{align*}
+%
+which gives
+\begin{align*}
+P = \frac{g_{pPE}\ b - g_{nPE}\ a \pm \sqrt{g_{nPE}\ g_{pPE}} (a-b)}{g_{pPE} - g_{nPE}}
+\end{align*}
+%
+Only if $g_\mathrm{nPE}=g_\mathrm{pPE}$, the prediction $P$ is given by $\frac{a+b}{2}$.
+
+For variance, we need $g_{nPE}=g_{pPE}=1$. In case of a uniform distribution, we get
+%
+\begin{align*}
+V &= \langle (S-P)^2\rangle \\
+   &= g_\mathrm{pPE}\ \langle \langle[ S-P \rangle]_+ \rangle + g_\mathrm{nPE}\ \langle \langle[ P-S \rangle]_+ \\
+   &= \frac{g_\mathrm{pPE}}{b-a} \int\limits_P^b (u-P)^2\ du + \frac{g_\mathrm{nPE}}{b-a} \int\limits_a^P (P-u)^2\ du \\
+   &= \frac{g_\mathrm{pPE}}{3} \cdot \frac{(b-P)^3}{b-a} + \frac{g_\mathrm{nPE}}{3} \cdot \frac{(P-a)^3}{b-a} 
+\end{align*}
+%
+if $P = (b+a)/2$
+%
+\begin{align*}
+V = \frac{g_\mathrm{pPE} + g_\mathrm{nPE}}{24} \cdot (b-a)^2
+\end{align*}
+%
+Only if $g_\mathrm{nPE}=g_\mathrm{pPE}=1$, the V neuron encodes the variance, that for a uniform distribution is given by
+%
+\begin{align*}
+V = \frac{ (b-a)^2}{12}
+\end{align*}
+%
+XXXXXXX add the version where P is given by the g version ...
+%
+Of course, P is also a function of the gains (see above). If we take this into account, V is given by
+%
+\begin{align*}
+V = \frac{(b-a)^2}{3\ (g_\mathrm{pPE} - g_\mathrm{nPE})^3} \cdot \left[ g_\mathrm{nPE} \cdot( g_\mathrm{pPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3 - g_\mathrm{pPE} \cdot (g_\mathrm{nPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3\right]
+\end{align*}
+
+
+
+\subsection*{Effect of BL activity on mean an variance}
+%
+\begin{align*}
+\langle pPE \rangle &= \langle nPE \rangle \\
+\langle \left[ S - P\right]_+ + p_0\rangle &= \langle \left[ P - S\right]_+ + n_0\rangle \\
+\int\limits_P^b (x - P)\ f(x)\ dx + p_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1}  &= \int\limits_a^P (P - x)\ f(x)\ dx + n_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1} 
+\end{align*}
+%
+In case of a uniform distribution, that is $f(x) = \frac{1}{b-a}$ for $x\in [a,b]$, 0 otherwise, this leads to
+%
+\begin{align*}
+P = \frac{b+a}{2} + \frac{p_0 + n_0}{b-a}
+\end{align*}
+%
+
+Variance as function of bias in mean:
+\begin{align*}
+V &= \frac{1}{n} \sum_i \left( x - \left(\mu \pm \delta\mu\right)\right)^2 \\
+&= \frac{1}{n} \sum_i \lbrace  \left( x_i - \mu \right)^2 + \delta\mu^2 \mp 2\delta\mu (x_i - \mu)\rbrace \\
+&= V_\mathrm{uniform} + \delta\mu^2 \mp 2\ \delta\mu \left( \frac{1}{n} \sum_i x_i- \mu\right) \\
+&= V_\mathrm{uniform} + \delta\mu^2
+\end{align*}
+%
+
+Variance as a function of BL in nPE and pPE:
+%
+\begin{align*}
+V &= \langle \left( \mathrm{pPE} + \mathrm{nPE} \right)^2 \rangle \\
+&= \langle \left[ S-P\right]_+\rangle + \langle \left[ P-S\right]_+\rangle + (p_0 + n_0)^2 + 2\ (p_0 + n_0)\ \left( \langle \left[ S-P\right]_+\rangle + \langle \left[ P-S\right]_+ \rangle\right)
+\end{align*}
+%
+In case of a uniform distribution, this can be expressed by
+%
+\begin{align*}
+V = \frac{1}{3\ (b-a)} \left[ (b-P)^3 + (P-a)^3\right] + (p_0 + n_0)^2 + \frac{(p_0 + n_0)}{b-a} \left[ (b-P)^2 + (a-P)^2\right]
+\end{align*}
+%
+Since $P = \frac{b+a}{2} + \frac{p_0 + n_0}{b-a}$, this yields
+%
+\begin{align*}
+V =& \frac{1}{3\ (b-a)} \left[ \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^3 + \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^3\right] + (p_0 + n_0)^2 \\
+&+ \frac{(p_0 + n_0)}{b-a} \left[ \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^2 + \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^2\right]
+\end{align*}
+%
+Simplifying this expression, leads to
+%
+\begin{align*}
+V =  \frac{(b-a)^2}{12} + \frac{(p_0-n_0)^2}{(b-a)^2} \left( 1 + 2\ \frac{p_0+n_0}{b-a}\right) + (p_0 + n_0) \left( p_0 + n_0 + \frac{b-a}{2}\right)
+\end{align*}
+%
+
+
+\subsection*{Influence of a population of nPE and pPE neurons}
+XXX
+
+
 \subsection*{Analysis of simplified network model, effect of time constants}
 
 simplified model: dynamics and steady state of rM and rV, rM and rV as a function of time constants and trial duration etc., weighting, then use those expressions to discuss when weighting goes awry and how long transitions take from one state to another ...
 
 
-\subsection*{Analysis of requirements, perturbing PE neurons}
-%
-symmetry of nPE and pPE necessary for memory neuron to represent mean .. shown for uniform, normal, gamma distribution
-
-symmetry and effect = 1 necessary for variance neuron ... shown for uniform distribution, gamma distribution
-
-effect of population of nPE and pPE neurons on mean and variance
-
-effect of BL activity on mean and variance
-
-effect of perturbations of nPE and pPE neurons on mean and variance
-
-
 \subsection*{Comparison to Kalman filter and Bayes Factor surprise}
+%
+Kalman filter. Initialisation
+%
+\begin{align*}
+x_{0|init} &= 0 \\
+P_{0|init} &= \sigma^2\ I
+\end{align*}
+%
+with x being the system state (in my terms the prediction), P is the covariance matrix of the errors of x (in my terms the var of the predictions) and I is the identity matrix.
+%
+Then the "correction" is given by
+%
+\begin{align*}
+K_k &= P_{k|k-1}\ H_k^T\ \left( H_k\ P_{k|k-1}\ H_k^T + R_k \right)^{-1} \\
+x_k &= x_{k|k-1} + K_k\ \left( z_k - H_k\ x_{k|k-1}\right) \\
+P_k &= \left( I - K_k\ H_k\right)\ P_{k|k-1}
+\end{align*}
+%
+with K the kalman gain matrix, H the observation matrix ($z_k = H_k\ x_k + noise$), R the covaraince of the measurement noise and z a new observation. The last part of the Kalman filter is the "prediction":
+%
+\begin{align*}
+x_{k|k-1} &= F_{k-1}\ x_{k-1} + B_{k-1}\ u_{k-1} \\
+P_{k|k-1} &= F_{k-1}\ P_{k-1}\ F_{k-1}^T + Q_{k-1}
+\end{align*}
+%
+with F the transition matrix ($x_{k|k-1} = F_{k-1}\ x_{k-1}$, u a deterministic perturbation, B the dynamics of the deterministic perturbation. In our terms
+%
+\begin{align*}
+\alpha = K_k = \frac{P_{k|k-1}}{R_k + P_{k|k-1}}
+\end{align*}
+%
+$P_{k|k-1}$, is however $\sigma_P^2$ in my implementation and $R_k$ is fixed variance of inputs $\sigma_S^2$. Hence, my implementation represents (?) the Kalman filter. Important to note is, that in my implementation we estimate the variance of inputs dynamically, so it is not set! Another nice advantage here is that I don't need a good estimate for P. I can basically initiate it as I want. Another difference is that I consider the optimal weighting in my "output neuron" and not the prediction itself ... .
 
-Comparison to Kalman filter
-Comparison to Bayes Factor surprise
+XXX Comparison to Bayes Factor surprise
 
 
 \end{document}

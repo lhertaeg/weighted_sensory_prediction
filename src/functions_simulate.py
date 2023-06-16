@@ -250,7 +250,7 @@ def simulate_example_pe_circuit(mfn_flag, mean_stimuli, std_stimuli, file_for_da
 
 def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, file_for_data, 
                                     seed = 186, trial_duration = np.int32(100000), 
-                                    num_values_per_trial = np.int32(200)):
+                                    num_values_per_trial = np.int32(200), record_interneuron_activity = False):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -262,6 +262,7 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
     ### initialise
     mse_mean = np.zeros((len(means_tested), len(variances_tested), trial_duration), dtype=dtype)
     mse_variance = np.zeros((len(means_tested), len(variances_tested), trial_duration), dtype=dtype)
+    activity_interneurons = np.zeros((len(means_tested), len(variances_tested), trial_duration, 4), dtype=dtype)
     
     ### parameter sweep
     for i, mean_dist in enumerate(means_tested):
@@ -279,10 +280,19 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
                 stimuli = np.repeat(stimuli, repeats_per_value)
                 
                 ## run model
-                prediction, variance, _ = run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, 
-                                                          fixed_input, stimuli, VS=VS, VV=VV, w_PE_to_V = w_PE_to_V)
+                if record_interneuron_activity:
+                    prediction, variance, _ , rates_ints = run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, 
+                                                                           fixed_input, stimuli, VS=VS, VV=VV, w_PE_to_V = w_PE_to_V, 
+                                                                           record_interneuron_activity = record_interneuron_activity)
+                    
+                    # extract the activity of all the interneurons in the system
+                    activity_interneurons[i, j, :, :] = rates_ints
                 
-                ## compute mean squared error
+                else:
+                    prediction, variance, _,  = run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, 
+                                                              fixed_input, stimuli, VS=VS, VV=VV, w_PE_to_V = w_PE_to_V)
+                
+                ## compute mean squared error between running average/variance and m or v neuron
                 running_average = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1, dtype=dtype)
                 mse_mean[i, j, :] = (running_average - prediction)**2
                 
@@ -291,12 +301,25 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
                 running_variance = np.cumsum(momentary_variance)/np.arange(1,len(stimuli)+1, dtype=dtype)
                 mse_variance[i, j, :] = (running_variance - variance)**2
                 
+                
     ### save data for later
-    with open(file_for_data,'wb') as f:
-        pickle.dump([trial_duration, num_values_per_trial, means_tested, 
-                      variances_tested, mse_mean, mse_variance],f)
+    if record_interneuron_activity: 
         
-    return [trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance]
+        with open(file_for_data,'wb') as f:
+            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance, activity_interneurons],f)
+            
+    else:
+        
+        with open(file_for_data,'wb') as f:
+            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance],f)
+      
+    ### return results
+    ret = (trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance,)
+    
+    if record_interneuron_activity:
+        ret += (activity_interneurons, )     
+      
+    return ret
          
 
 def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = np.int32(186), n_trials = np.int32(100), 
@@ -342,7 +365,7 @@ def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = 
 
 def simulate_weighting_exploration(mfn_flag, variability_within, variability_across, mean_trials, m_sd, last_n = np.int32(30),
                                    seed = np.int32(186), n_trials = np.int32(100), trial_duration = np.int32(5000), 
-                                   num_values_per_trial = np.int32(10), file_for_data = None):
+                                   num_values_per_trial = np.int32(10), file_for_data = None, record_interneuron_activity=False):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -353,6 +376,8 @@ def simulate_weighting_exploration(mfn_flag, variability_within, variability_acr
     
     ### initialise
     weight = np.zeros((len(variability_within),len(variability_across)), dtype=dtype)
+    activity_interneurons_lower = np.zeros((len(variability_within),len(variability_across), 4), dtype=dtype)
+    activity_interneurons_higher = np.zeros((len(variability_within),len(variability_across), 4), dtype=dtype)
 
     ### exploration (run model for different input statistics)
     for col, std_mean in enumerate(variability_across):
@@ -373,23 +398,107 @@ def simulate_weighting_exploration(mfn_flag, variability_within, variability_acr
             stimuli = np.repeat(stimuli, n_repeats_per_stim)
 
             ## run model
-            [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
-             alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
-                                                                     v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
-                                                                     tc_var_pred, tau_pe, fixed_input, stimuli, 
-                                                                     VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
-                                                                     v_PE_to_V = v_PE_to_V)   
+            if record_interneuron_activity:
+                [m_neuron_lower, v_neuron_lower, m_neuron_higher, 
+                 v_neuron_higher, alpha, beta, weighted_output, 
+                 rates_int_lower, rates_int_higher] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                              v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                              tc_var_pred, tau_pe, fixed_input, stimuli, 
+                                                                              VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                                              v_PE_to_V = v_PE_to_V, record_interneuron_activity=record_interneuron_activity)   
+              
+                activity_interneurons_lower[row, col, :] = np.mean(rates_int_lower[-last_n * trial_duration:,:],0)
+                activity_interneurons_higher[row, col, :] = np.mean(rates_int_higher[-last_n * trial_duration:,:],0)
+                                                                         
+            else:
+                [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+                 alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                         v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                         tc_var_pred, tau_pe, fixed_input, stimuli, 
+                                                                         VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                                         v_PE_to_V = v_PE_to_V)  
+                                                                         
                                                                      
             ### fraction of sensory input in weighted output
             weight[row, col] = np.mean(alpha[-last_n * trial_duration:])
 
     
     ### save data for later
-    with open(file_for_data,'wb') as f:
-        pickle.dump([variability_within, variability_across, weight],f) 
+    if record_interneuron_activity: 
+        with open(file_for_data,'wb') as f:
+            pickle.dump([variability_within, variability_across, weight, 
+                         activity_interneurons_lower, activity_interneurons_higher],f) 
+    else:
+        with open(file_for_data,'wb') as f:
+            pickle.dump([variability_within, variability_across, weight],f) 
         
-    return [variability_within, variability_across, weight]
+        
+    ### return results
+    ret = (variability_within, variability_across, weight,)
+    
+    if record_interneuron_activity:
+        ret += (activity_interneurons_lower, activity_interneurons_higher, )     
+      
+    return ret    
+
+
+def simulate_weighting_interneurons(mfn_flag, variability_within, variability_across, mean_trials, m_sd, seeds,
+                                    last_n = np.int32(30), n_trials = np.int32(100), trial_duration = np.int32(5000), 
+                                    num_values_per_trial = np.int32(10), file_for_data = None):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### initialise
+    activity_interneurons_lower = np.zeros((len(variability_within),len(variability_across), len(seeds), 4), dtype=dtype)
+    activity_interneurons_higher = np.zeros((len(variability_within),len(variability_across), len(seeds), 4), dtype=dtype)
+
+    ### exploration (run model for different input statistics)
+    for k, seed in enumerate(seeds):
+        
+        print('Seed:', seed)
+    
+        for col, std_mean in enumerate(variability_across):
             
+            print('- Variability across trials:', std_mean)
+            
+            for row, n_sd in enumerate(variability_within):
+                
+                ## display progress
+                print('-- Variability within trial:', n_sd)
+        
+                ## define stimuli
+                np.random.seed(seed)
+                n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
+        
+                stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
+                                                       dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
+                stimuli = np.repeat(stimuli, n_repeats_per_stim)
+    
+                ## run model
+                [m_neuron_lower, v_neuron_lower, m_neuron_higher, 
+                 v_neuron_higher, alpha, beta, weighted_output, 
+                 rates_int_lower, rates_int_higher] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                              v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                              tc_var_pred, tau_pe, fixed_input, stimuli, 
+                                                                              VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                                              v_PE_to_V = v_PE_to_V, record_interneuron_activity=True)   
+              
+                activity_interneurons_lower[row, col, k, :] = np.mean(rates_int_lower[-last_n * trial_duration:,:],0)
+                activity_interneurons_higher[row, col, k,  :] = np.mean(rates_int_higher[-last_n * trial_duration:,:],0)
+                                                                             
+    
+    ### save data for later
+    with open(file_for_data,'wb') as f:
+        pickle.dump([variability_within, variability_across, activity_interneurons_lower, activity_interneurons_higher],f) 
+        
+    ### return results       
+    return [variability_within, variability_across, activity_interneurons_lower, activity_interneurons_higher]       
+      
      
         
 def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, m_sd_before, n_sd_before, 

@@ -16,7 +16,7 @@ import pandas as pd
 
 from src.functions_simulate import simulate_neuromod, simulate_moment_estimation_upon_changes_PE, simulate_neuromod_effect_on_neuron_properties
 from src.plot_data import plot_heatmap_neuromod, plot_combination_activation_INs, plot_neuromod_per_net, plot_points_of_interest_neuromod, plot_bar_neuromod
-from src.plot_data import plot_illustration_changes_upon_baseline_PE, plot_illustration_changes_upon_gain_PE, plot_changes_upon_input2PE_neurons
+from src.plot_data import plot_illustration_changes_upon_baseline_PE, plot_illustration_changes_upon_gain_PE, plot_changes_upon_input2PE_neurons, plot_bar_neuromod_stacked
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -32,7 +32,7 @@ plot_only = True
 if run_cell:
     
     ### choose mean-field network to simulate
-    mfn_flag = '01' # valid options are '10', '01', '11
+    mfn_flag = '10' # valid options are '10', '01', '11
     
     ### define target area and stimulus statistics
     column = 0      # 0: both, 1: lower level PE circuit, 2: higher level PE circuit
@@ -99,16 +99,17 @@ if run_cell:
     
 # %% Plot neuromodulation results in bar plots for VIP-PV and VIP-SOM
 
-run_cell = False
+run_cell = True
 mfn_flag = '10'
 
 if run_cell:
     
-    f, ax = plt.subplots(2, 3, figsize=(12,6))
+    f, ax = plt.subplots(1, 3, figsize=(15,3)) #  plt.subplots(2, 3, figsize=(12,6))
 
-    for flag_what in range(2): # 0: VIP-PV, 1: VIP-SOM
-        for column in range(3):
-            plot_bar_neuromod(column, mfn_flag, flag_what, dgrad = 0.001, axs=ax[flag_what,column])
+    #for flag_what in range(2): # 0: VIP-PV, 1: VIP-SOM
+    for column in range(3):
+        #plot_bar_neuromod(column, mfn_flag, flag_what, dgrad = 0.001, axs=ax[flag_what,column])
+        plot_bar_neuromod_stacked(column, mfn_flag, dgrad = 0.001, axs=ax[column])
     
 
 # %% XXX
@@ -122,7 +123,7 @@ if run_cell:
 run_cell = False
 
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap
-cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_prediction', colors=['#19535F','#fefee3','#D76A03'])
+cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_prediction', colors=['#19535F','#D6D6D6','#D76A03'])
 
 if run_cell:
     
@@ -347,7 +348,7 @@ if run_cell:
 # it actually depends on the mean and the std of the inputs (input statistics)
 # also, it is only true in the purely linear case (not taking rectifications into account)
 
-run_cell = True
+run_cell = False
 
 if run_cell:
     

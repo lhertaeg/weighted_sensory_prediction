@@ -58,8 +58,8 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
     return [rates, mean[0], var] # [rates, mean, var]
 
 
-def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, 
-                        stimuli, VS = 1, VV = 0, dt = dtype(1), w_PE_to_V = dtype([1,1]), n=2):
+def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, stimuli, VS = 1, VV = 0,
+                    dt = dtype(1), w_PE_to_V = dtype([1,1]), n=2, record_interneuron_activity = False):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -86,14 +86,19 @@ def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, f
                                                                    rates_lower[id_stim-1,:], m_neuron[id_stim-1], 
                                                                    v_neuron[id_stim-1], feedforward_input, dt, n)
 
-        
-    return m_neuron, v_neuron, rates_lower[:,:2]
+     
+    ret = (m_neuron, v_neuron, rates_lower[:,:2],)
+    
+    if record_interneuron_activity:
+        ret += (rates_lower[:,4:], )
+    
+    return ret                                                               
 
 
 def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
                             tc_var_pred, tau_pe, fixed_input, stimuli, VS = 1, VV = 0, dt = dtype(1), n = 2, 
                             w_PE_to_V = dtype([1,1]), v_PE_to_V  = dtype([1,1]), record_pe_activity = False,
-                            fixed_input_lower = None, fixed_input_higher = None):
+                            fixed_input_lower = None, fixed_input_higher = None, record_interneuron_activity = False):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -157,6 +162,9 @@ def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_
     
     if record_pe_activity:
         ret += (rates_lower[:,:2], rates_higher[:,:2], )
+        
+    if record_interneuron_activity:
+        ret += (rates_lower[:,4:], rates_higher[:,4:], )
     
     return ret
 

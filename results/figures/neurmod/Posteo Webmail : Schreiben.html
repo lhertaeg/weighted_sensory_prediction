@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Posteo Webmail :: Schreiben</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="skins/posteo_base_theme/images/favicon.ico?s=1681914940">
+
+<script>
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this page.
+
+Copyright (C) 2014 Posteo e.K.
+
+The JavaScript code in this page is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this page.
+*/
+</script>
+
+<link rel="preload" href="skins/posteo_green-light_theme/css/theme.css?s=1681914950" as="style">
+<link rel="stylesheet" type="text/css" href="skins/posteo_green-light_theme/css/theme.css?s=1681914950">
+<link rel="stylesheet" type="text/css" href="./skins/posteo_base_theme/css/ie11-theme-fallback.css?s=1681914951" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
+
+<link rel="preload" href="skins/posteo_base_theme/css/styles.css?s=1681914951" as="style">
+  <link rel="preload" href="skins/posteo_base_theme/css/mail.css?s=1681914951" as="style">
+<link rel="preload" href="./program/js/jquery.js?s=1681914940" as="script">
+<link rel="preload" href="./program/js/app.js?s=1681914940" as="script">
+<link rel="preload" href="skins/posteo_base_theme/fonts/font-awesome.css?s=1681914951" as="style">
+<link rel="stylesheet" type="text/css" href="skins/posteo_base_theme/css/styles.css?s=1681914951">
+<link rel="stylesheet" type="text/css" href="skins/posteo_base_theme/fonts/font-awesome.css?s=1681914951">
+<link rel="stylesheet" type="text/css" href="plugins/posteo/posteo-overrides.css?s=1681914940">
+<link rel="stylesheet" type="text/css" href="plugins/contextmenu/skins/posteo_base_theme/contextmenu.css?s=1681914952">
+<link rel="stylesheet" type="text/css" href="plugins/compose_addressbook/skins/posteo_base_theme/compose_addressbook.css?s=1681914952">
+<link rel="stylesheet" type="text/css" href="plugins/posteo_notification_style/posteo_notification_style.css?s=1681914940">
+<script defer type="text/javascript" src="skins/posteo_base_theme/js/p_polyfills.js?s=1681914940"></script>
+  <link rel="stylesheet" type="text/css" href="skins/posteo_base_theme/css/mail.css?s=1681914951">
+<script>window.MSInputMethodContext && document.documentMode && document.write('<script src="skins/posteo_base_theme/js/polyfills/ie11CustomProperties.js?s=1681914940"><\/script>');</script>
+<script defer type="text/javascript" src="skins/posteo_base_theme/js/ui.js?s=1681914940"></script>
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script src="program/js/jquery.js?s=1681914940" type="text/javascript"></script>
+<script src="program/js/common.js?s=1681914940" type="text/javascript"></script>
+<script src="program/js/app.js?s=1681914940" type="text/javascript"></script>
+<script src="program/js/list.js?s=1681914940" type="text/javascript"></script>
+<script src="program/js/tiny_mce/tiny_mce.js?s=1681914940" type="text/javascript"></script>
+<script src="program/js/editor.js?s=1681914940" type="text/javascript"></script>
+<script type="text/javascript">
+
+var rcmail = new rcube_webmail();
+rcmail.set_env({"task":"mail","x_frame_options":"sameorigin","standard_windows":false,"cookie_domain":"posteo.de","cookie_path":"\/","cookie_secure":true,"skin":"posteo_green-light_theme","refresh_interval":60,"session_lifetime":600,"action":"compose","comm_path":".\/?_task=mail","user_id":"6b4102bc307639ee482c370b8b9f365b","compose_extwin":false,"h":"e","date_format":"dd.mm.yy","calskin":"posteo_green-light_theme","ics_icon":"skins\/posteo_base_theme\/images\/ics.png","cal_backend":"caldav","compose_addressbook_mode":"full","mailvelope_client_pubkeyapi_url":"https:\/\/api.posteo.de\/v3\/public_keys?type=open_pgp","tlsstatus_api_url":"https:\/\/api.posteo.de\/v3\/domains\/%s\/dane-mx","browser_capabilities":{"pdf":"1","flash":"0","tif":"0"},"compose_id":"635638151644b70d07e777","session_id":"o5hn5dcftvil1f61p1fgc92n42","mailbox":"INBOX","top_posting":true,"recipients_separator":",","drafts_mailbox":"Drafts","draft_autosave":60,"default_font":"Verdana,Geneva,sans-serif","default_font_size":"10pt","compose_mode":null,"show_sig":true,"signatures":[],"identities":[],"autocomplete_max":15,"autocomplete_min_length":3,"composebody":"composebody","html_editor_init":{"mode":"","lang":"de","skin_path":"skins\/posteo_base_theme","spellcheck":0,"spelldict":0},"attachments":[],"filedrop":{"action":"upload","fieldname":"_attachments"},"max_filesize":52500000,"filesizeerror":"Die hochzuladende Datei \u00fcberschreitet die Maximalgr\u00f6\u00dfe von 50 MB.","textresponses":[],"request_token":"780580347ec3552909d5cdb1834561dd"});
+rcmail.gui_container("topline-center","topline-center");
+rcmail.gui_container("topline-right","topline-right");
+rcmail.gui_container("taskbar","taskbar");
+rcmail.gui_container("settings_button","settings_button");
+rcmail.gui_container("composeoptions","composeoptions");
+rcmail.add_label({"loading":"Wird geladen...","servererror":"Serverfehler!","connerror":"Verbindungsfehler (Fehler beim Erreichen des Servers)!","requesttimedout":"Zeit\u00fcberschreitung der Anforderung","refreshing":"Aktualisieren\u2026","errortitle":"Ein Fehler ist aufgetreten!","posteo.myaccount":"Mein Konto","posteo.contactsbackbtn":"Kontakte","posteo.contactlistbackbtn":"Zur\u00fcck zur Kontaktliste","posteo.searchlistbackbtn":"Zur\u00fcck zur Suchergebnisliste","posteo.ccshort":"CC","posteo.bccshort":"BCC","posteo.mailsortbtn":"Sortierung","posteo.showdropdownmenu":"Navigation einblenden","posteo.hidedropdownmenu":"Navigation ausblenden","posteo.searchresult_for":"Suchergebnis f\u00fcr","posteo.notification_header_small":"Kleineres Browser-Fenster: Bitte einmal neu laden!","posteo.notification_description_small":"Sie haben Ihr Browserfenster verkleinert. Bitte laden Sie die Seite noch einmal, damit wir die Darstellung anpassen k\u00f6nnen.","posteo.notification_header_big":"Gr\u00f6\u00dferes Browser-Fenster: Bitte einmal neu laden!","posteo.notification_description_big":"Sie haben Ihr Browserfenster vergr\u00f6\u00dfert. Bitte laden Sie die Seite noch einmal, damit wir die Darstellung anpassen k\u00f6nnen.","posteo.notification_reload":"Jetzt neu laden!","posteo.inbox":"Posteingang","posteo.drafts":"Entw\u00fcrfe","posteo.sent":"Gesendet","posteo.trash":"Gel\u00f6scht","posteo.junk":"Spam","posteo.support_path":"\/hilfe","posteo.please_reauthenticate":"Bitte melden Sie sich erneut an.","posteo.js_licenses_title":"JavaScript-Lizenzen","posteo.js_licenses_content":"Der JavaScript Code dieser Seiten ist freie Software: Sie k\u00f6nnen den Code unter Beachtung der <a href=\".\/js-licenses.html\">hier genannten Lizenzen<\/a> verteilen oder modifizieren.","carddav.settings":"Adressbuch-Einstellungen","carddav.settings_tab":"Adressbuch","carddav.settings_label":"Label","carddav.addressbook_contacts":"Adressbuch","carddav.addressbook_sync":"Adressbuch synchronisieren","carddav.settings_empty_values":"Bitte gebe ein Label und die URL an","carddav.settings_saved":"CardDAV-Server Einstellungen und vCards erfolgreich gespeichert","carddav.settings_save_failed":"Beim Speichern der CardDAV-Server Einstellungen ist ein Fehler aufgetreten","carddav.settings_delete_loading":"L&ouml;sche CardDAV-Server Einstellungen und dazugeh&ouml;rige lokale Kontakte","carddav.settings_deleted":"CardDAV-Server Einstellungen erfolgreich gel&ouml;scht","carddav.settings_delete_failed":"Beim L&ouml;schen der CardDAV-Server Einstellungen ist ein Fehler aufgetreten","carddav.settings_no_connection":"Konnte keine Verbindung zum CardDAV-Server aufbauen","carddav.settings_init_server":"\u00dcberpr&uuml;fe die Verbindung zum CardDAV-Server und importiere vCards","carddav.addressbook_synced":"CardDAV-Kontakte erfolgreich synchronisiert","carddav.addressbook_sync_failed":"Bei der Synchronisierung der CardDAV-Kontakte ist ein Fehler aufgetreten","carddav.addressbook_sync_loading":"Synchronisiere CardDAV-Kontakte","compose_addressbook.compose_addressbook_buttontitle":"Adressbuch anzeigen","compose_addressbook.compose_addressbook_title":"Adressbuch","compose_addressbook.compose_addressbook_close":"Schlie\u00dfen","compose_addressbook.compose_addressbook_noselect":"Sie haben keine Adresse ausgew\u00e4hlt","compose_addressbook.compose_addressbook_added":"Adresse wurde hinzugef\u00fcgt","cc":"Kopie","bcc":"Blindkopie","to":"An","mailvelope_client.compose_encrypted":"Schreiben und verschl\u00fcsseln","mailvelope_client.compose_encrypted_title":"Neue Nachricht schreiben und beim Versand verschl\u00fcsseln","mailvelope_client.encrypt_and_send":"Verschl\u00fcsseln und senden","mailvelope_client.reply_encrypted":"Verschl\u00fcsselt antworten","mailvelope_client.reply_encrypted_title":"Antwort verfassen und verschl\u00fcsseln","mailvelope_client.forward_encrypted":"Verschl\u00fcsselt weiterleiten","mailvelope_client.forward_encrypted_title":"Verschl\u00fcsseln und weiterleiten","mailvelope_client.sending_only_after_recipient_check":"Versand erst nach Empf\u00e4nger-Pr\u00fcfung m\u00f6glich","mailvelope_client.no_key_for_address":"Kein Schl\u00fcssel f\u00fcr %s vorhanden.","mailvelope_client.found_importable_keys":"Posteo hat \u00f6ffentliche Schl\u00fcssel der folgenden E-Mail-Adressen f\u00fcr den Import in Mailvelope gefunden:","mailvelope_client.found_importable_sender_key":"Posteo hat einen \u00f6ffentlichen Schl\u00fcssel Ihrer E-Mail-Adresse f\u00fcr den Import in Mailvelope gefunden:","mailvelope_client.found_importable_sender_key_suffix":"oder einen Schl\u00fcssel manuell importieren","mailvelope_client.found_verified_keys":"Posteo hat verifizierte \u00f6ffentliche Schl\u00fcssel der folgenden E-Mail-Adressen f\u00fcr den Import in Mailvelope gefunden:","mailvelope_client.found_verified_sender_key":"Posteo hat einen verifizierten \u00f6ffentlichen Schl\u00fcssel Ihrer E-Mail-Adresse f\u00fcr den Import in Mailvelope gefunden:","mailvelope_client.import":"hinzuf\u00fcgen","mailvelope_client.no_keys_found":"Bitte entfernen Sie die folgenden Empf\u00e4nger oder importieren Sie deren \u00f6ffentliche Schl\u00fcssel manuell:","mailvelope_client.no_sender_keys_found":"Automatisch konnte kein \u00f6ffentlicher Schl\u00fcssel f\u00fcr Ihre E-Mail-Adresse gefunden werden, bitte importieren Sie Ihren Schl\u00fcssel manuell.","mailvelope_client.switch_on_api":"Um die Verwendung von Mailvelope mit Posteo zu verbessern aktivieren sie bitte die Mailvelope-API f\u00fcr Posteo: <strong>Mailvelope -> Optionen -> Optionen -> Liste der E-Mail-Anbieter -> posteo.de<\/strong>","mailvelope_client.point_to_modern_skins":"Die Verwendung von Mailvelope wird in dem Classic-Oberfl\u00e4chendesign nicht unterst\u00fctzt. Bitte w\u00e4hlen sie ein modernes Oberfl\u00e4chendesign aus.","mailvelope_client.quote_header_reply":"%s schrieb:","mailvelope_client.quote_header_forward":"----- Weitergeleitete Nachricht von %s -----","mailvelope_client.bcc_not_empty_error":"Bcc wird beim verschl\u00fcsselten Senden nicht unterst\u00fctzt, bitte entfernen Sie die Adressen.","mailvelope_client.attachments_deleted":"Anh\u00e4nge wurden entfernt, bitte innerhalb des Mailvelope-Editors neu anh\u00e4ngen.","mailvelope_client.local_storage_required":"Posteos Mailvelope-Integration ben\u00f6tigt localStorage, bitte aktivieren sie dies in Ihrem Browser.","tlsstatus_client.transport_info_msg":"E-Mails an diesen Empf\u00e4nger werden garantiert \u00fcber einen mit [LINK:DANE] abgesicherten, verschl\u00fcsselten Transportweg \u00fcbertragen.","tlsstatus_client.transport_info_link_title":"\u00f6ffnet den Posteo-Hilfe Artikel zu DANE in einem neuen Fenster","tlsstatus_client.transport_info_link_url":"https:\/\/posteo.de\/hilfe\/warum-erhoeht-die-technologie-dane-die-sicherheit","posteo_skin_selection.high-contrast-description":"Bessere Lesbarkeit durch einen h\u00f6heren Kontrast der Farben.","posteo_skin_selection.dark-mode-description":"Ein dunkles Erscheinungsbild f\u00fcr eine angenehmere Verwendung unter schlechten Lichtbedingungen.","posteo_skin_selection.auto-dark-mode-description":"Automatische Umschaltung zwischen Hell- und Dunkelmodus abh\u00e4ngig von den Einstellungen in ihrem OS.","posteo_skin_selection.high-contrast":"Hoher Kontrast","posteo_skin_selection.dark-mode":"Dunkelmodus","posteo_skin_selection.auto-dark-mode":"Automatischer Dunkelmodus","posteo_skin_selection.skindescription_green":"Unser klassisches Posteo-Design","posteo_skin_selection.skindescription_gray":"F\u00fcr eine dezente Optik im Webmailer ist dieses vom Java-Nashorn inspirierte sanfte Grau die richtige Wahl.","posteo_skin_selection.skindescription_raspberry":"Andenflamingos haben ein lebendig farbenfrohes Federkleid - die Inspiration f\u00fcr dieses Design.","posteo_skin_selection.skindescription_strawberry":"In flachem Wasser k\u00f6nnen Korallen rosa werden. Die Farbe dient als ein nat\u00fcrlicher Sonnenschutz.","posteo_skin_selection.skindescription_cherry":"Ein warmes Design, das an die F\u00e4rbung des tropischen Fisches angelehnt ist.","posteo_skin_selection.skindescription_peach":"In der Sonne leuchtet das Fell der baumbewohnenden Menschenaffen in hellem Orange.","posteo_skin_selection.skindescription_lemon":"Ein hell strahlendes Design, welches an die Farbe der bl\u00fchenden Bananen-Orchidee angelehnt ist.","posteo_skin_selection.skindescription_sand":"Das an die sandfarbenen Kamele erinnernde Farbschema verleiht der Posteo-Oberfl\u00e4che eine ruhige Eleganz.","posteo_skin_selection.skindescription_brownie":"Der geheimnisvolle Vogel lebt in Madagaskar auf Waldb\u00f6den. In nat\u00fcrlichem Braun ist er dort bestens getarnt.","posteo_skin_selection.skindescription_caribic":"Mit einer intensiven Farbgebung fallen m\u00e4nnliche T\u00fcrkisblaue Kotingas in den Regenw\u00e4ldern S\u00fcdamerikas auf.","posteo_skin_selection.skindescription_blue":"Ein beruhigendes Blau, welches dem bis zu 30 Meter lang werdenden Blauwal gewidmet ist.","posteo_skin_selection.skindescription_blueberry":"Dieses tiefblaue Design wurde durch die Federn des cleveren Hyazinth-Aras beeinflusst.","posteo_skin_selection.skin_info":"Die Tiere und Pflanzen, nach denen wir unsere Oberfl\u00e4chendesigns benannt haben, stehen auf der Roten Liste vom Aussterben bedrohter Arten der IUCN. Mehr Informationen: ","posteo_skin_selection.skin_info-link":"https:\/\/www.iucnredlist.org\/","posteo_skin_selection.skin_info-link_text":"www.iucnredlist.org.","posteo_skin_selection.skin_info-link_title":"\u00d6ffnet die Website der 'Internationalen Union zur Bewahrung der Natur (IUCN)'.","posteo_skin_selection.skin_classic-skin_text":"zur\u00fcck zur Classic Oberfl\u00e4che","nosubject":"(kein Betreff)","nosenderwarning":"Bitte geben Sie die E-Mail-Adresse des Senders an.","norecipientwarning":"Bitte geben Sie mindestens einen Empf\u00e4nger an.","nosubjectwarning":"Die Betreffzeile ist leer. M\u00f6chten Sie jetzt einen Betreff eingeben?","cancel":"Abbrechen","nobodywarning":"Diese Nachricht ohne Inhalt senden?","notsentwarning":"Ihre Nachricht wurde nicht gesendet. Wollen Sie die Nachricht verwerfen?","notuploadedwarning":"Es wurden noch nicht alle Dateien hochgeladen. Bitte warten oder Upload abbrechen.","savingmessage":"Nachricht wird gespeichert...","sendingmessage":"Nachricht wird gesendet...","messagesaved":"Nachricht als Entwurf gespeichert.","converting":"Entferne Formatierungen...","editorwarning":"Beim Wechseln in den Texteditor gehen alle Textformatierungen verloren. M\u00f6chten Sie fortfahren?","searching":"Suche...","uploading":"Datei wird hochgeladen...","uploadingmany":"Dateien werden hochgeladen...","fileuploaderror":"Hochladen der Datei fehlgeschlagen.","sendmessage":"Nachricht jetzt senden","savenewresponse":"Neue Schnellantwort speichern","responsename":"Name","responsetext":"Text der Antwort","save":"Speichern","savingresponse":"Antwortvorlage wird gespeichert...","restoresavedcomposedata":"Es wurde ein nicht versandter Entwurf einer Nachricht gefunden.\n\nBetreff: $subject\nGespeichert am: $date\n\nM\u00f6chten Sie diese Nachricht wiederherstellen?","restoremessage":"Nachricht wiederherstellen?","delete":"L\u00f6schen","restore":"Wiederherstellen","ignore":"ignorieren","selectimportfile":"Bitte w\u00e4hlen Sie eine Datei zum Importieren aus.","autocompletechars":"Geben Sie mind. $min Zeichen f\u00fcr die Auto-Vervollst\u00e4ndigung ein.","autocompletemore":"Mehrere Treffer. Bitte geben Sie mehr Buchstaben ein."});
+rcmail.register_button('plugin.compose_addressbook', 'rcmbtn_compose_addressbook', 'image', 'plugins/compose_addressbook/skins/posteo_base_theme/compose_addressbook.png', '', '');
+rcmail.gui_object('compose_addressbook_list', 'compose_addressbook_table');
+rcmail.register_button('mail', 'rcmbtn100', 'link', '', 'button-mail button-selected', '');
+rcmail.register_button('addressbook', 'rcmbtn101', 'link', '', 'button-addressbook button-selected', '');
+rcmail.register_button('send', 'rcmbtn102', 'link', 'button send', 'button send pressed', '');
+rcmail.register_button('savedraft', 'rcmbtn103', 'link', 'button savedraft', 'button savedraft pressed', '');
+rcmail.register_button('insert-sig', 'rcmbtn105', 'link', 'button insertsig', 'button insertsig pressed', '');
+rcmail.register_button('plugin.compose_addressbook', 'rcmbtn106', 'link', '', '', '');
+rcmail.gui_object('messageform', 'form');
+rcmail.register_button('extwin', 'rcmbtn107', 'link', '', 'button extwin pressed', '');
+rcmail.gui_object('attachmentlist', 'attachment-list');
+rcmail.gui_object('filedrop', 'compose-attachments');
+rcmail.gui_object('uploadform', 'uploadformFrm');
+rcmail.register_button('send-attachment', 'rcmbtn109', 'input', '', '', '');
+rcmail.gui_object('responseslist', 'responseslist');
+rcmail.register_button('save-response', 'rcmbtn111', 'link', 'active', '', '');
+rcmail.register_button('responses', 'rcmbtn112', 'link', 'active', '', '');
+rcmail.gui_object('message', 'messagestack');
+</script>
+
+<script type="text/javascript" src="plugins/posteo/posteo.js?s=1681914940"></script>
+<script type="text/javascript" src="plugins/calendar/program/js/move_button.js?s=1681914940"></script>
+<script type="text/javascript" src="plugins/contextmenu/skins/posteo_base_theme/functions.js?s=1681914940"></script>
+<script type="text/javascript" src="plugins/compose_addressbook/skins/posteo_base_theme/compose_addressbook.js?s=1681914940"></script>
+<script type="text/javascript" src="plugins/mailvelope_client/mailvelope_client.js?s=1681914943"></script>
+</head>
+
+  <body class="p-wm_mail-compose p_js-hide__sidenav">
+
+  <div class="pagewrapper minwidth">
+    <div id='jslicense-link'>
+  <a rel='jslicense' href='./js-licenses.html'>Javascript license information</a>
+</div>
+
+
+<div id="header" class="p_page-header">
+  <h1 id="logo" class="p_toplogo">
+    <img src="skins/posteo_base_theme/images/posteo-logo.svg?s=1681914940" width="160" height="40" alt="Posteo" title="Posteo E-Mail" onclick="if(window.rcmail)rcmail.command('switch-task','mail')">
+  </h1>
+  <div id="topline" class="p_topline p_is-hidden">
+    
+    <div id="p-js_logged-in-user" class="p_logged-in-user">
+    
+          <span class="username">loreen.hertaeg@posteo.de</span>
+    
+    </div>
+
+        <nav id="topnav" class="p_resp-nav">
+      <ul id="taskbar">
+        <li class="p_topnav__mail" data-uselink="fa-envelope">
+          <a class="button-mail" id="rcmbtn100" href="./?_task=mail" onclick="return rcmail.command('switch-task','mail',this,event)"><span class="button-inner">E-Mail</span></a>
+        </li>
+        <li class="p_topnav__attachments" data-uselink="fa-paperclip">
+          <a id="attachments_button" class="button-attachments" href="https://posteo.de/attachments/">
+          <span class="button-inner">Anhänge</span></a>
+        </li>
+        <li class="p_topnav__addressbook" data-uselink="fa-book">
+          <a class="button-addressbook" id="rcmbtn101" href="./?_task=addressbook" onclick="return rcmail.command('switch-task','addressbook',this,event)"><span class="button-inner">Adressbuch</span></a>
+        </li>
+        <li class="p_topnav__calendar" data-uselink="fa-calendar">
+          <a class="button-calendar" href="./?_task=dummy&amp;_action=plugin.calendar" id="calendar_button" style="display: none;"><span class="button-inner">Kalender</span></a>
+
+        </li>
+        <li class="p_topnav__notes" data-uselink="fa-file-text-o">
+          <a id="notes_button" class="button-notes" href="https://posteo.de/notes">
+          <span class="button-inner">Notizen</span></a>
+        </li>
+        <li class="p_topnav__settings" data-uselink="fa-cogs">
+          <a class="button-settings" href="https://posteo.de/konto?menu=start" id="settings_button"><span class="button-inner">Einstellungen</span></a>
+
+        </li>
+        <li class="p_topnav__help" data-uselink="fa-question-circle">
+          <a id="help_button" class="button-help" href="https://posteo.de/hilfe">
+          <span class="button-inner">Hilfe</span></a>
+        </li>
+        <li id="p-js_logout" class="p_topnav__logout" data-uselink="fa-power-off">
+          <a id="logout_button" class="button-logout" href="https://posteo.de/logout">
+          <span class="button-inner">Abmelden</span></a>
+        </li>
+      </ul>
+      <button id="p-js_resp-nav__button" class="p_js-toggle-mainnav_btn p_resp-nav__button p_resp-nav__button--htx"><span class="p_resp-nav__button--inner">Menu ein- und ausblenden</span></button>
+    </nav>
+      </div>
+</div>
+
+
+    <div id="mainscreen">
+
+      <div class="p-wm_toolbar__wrapper p_clearfix">
+        <!-- toolbar -->
+        <div id="messagetoolbar" class="fullwidth">
+          <ul id="mailtoolbar" class="toolbar p-wm_toolbar">
+                        <li class="p_toolbar__btn-list">
+              <a class="button back p-js_historyback" href="#" title="back link"><span class="button-inner">Abbrechen</span></a>
+            </li>
+                                    <li class="p_toolbar__btn-send">
+              <a class="button send" title="Nachricht jetzt senden" id="rcmbtn102" href="#" onclick="return rcmail.command('send','',this,event)"><span class="button-inner">Senden</span></a>
+            </li>
+            <li class="p_toolbar__btn-savedraft">
+              <a class="button savedraft" title="Nachricht speichern" id="rcmbtn103" href="#" onclick="return rcmail.command('savedraft','',this,event)"><span class="button-inner">Speichern</span></a>
+            </li>
+                        <li class="p_toolbar__btn-addattachment">
+            <a class="button attach" title="Datei anfügen" onclick="UI.show_uploadform();return false" id="rcmbtn104" href="#"><span class="button-inner">Anhängen</span></a>
+            </li>
+            <li class="p_toolbar__btn-insert-sig">
+            <a class="button insertsig disabled" title="Signatur einfügen" id="rcmbtn105" href="#" onclick="return rcmail.command('insert-sig','',this,event)"><span class="button-inner">Signatur</span></a>
+            </li>
+            <li class="p_toolbar__btn-composeaddressbook">
+            <a class="button addresses" title="Adressbuch anzeigen" id="rcmbtn106" href="#" onclick="return rcmail.command('plugin.compose_addressbook','',this,event)"><span class="button-inner">Adressbuch</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="p-js_mainview-wrapper" class="p-wm_mainview__wrapper">
+
+        <div id="composeview-right">
+
+        <form name="form" method="post" id="compose-content" class="uibox" action="./?_task=mail">
+<input type="hidden" name="_token" value="780580347ec3552909d5cdb1834561dd">
+
+          <!-- message headers -->
+          <div id="composeheaders">
+          <a href="#options" id="composeoptionstoggle" class="moreheaderstoggle"><span class="iconlink" title="Optionen"></span></a>
+
+          <div class="headers-table compose-headers">
+            <div id="p_compose-from" class="p_compose-headers__row">
+              <label class="title" for="_from">Von</label>
+              <span class="editfield">
+                <input type="hidden" name="_task" value="mail"><input type="hidden" name="_action" value="send"><input type="hidden" name="_id" value="635638151644b70d07e777"><input type="hidden" name="_attachments"><select name="_from" id="_from" tabindex="1" onchange="rcmail.change_identity(this)">
+<option value="919463" selected="selected">loreen.hertaeg@posteo.de</option>
+</select>
+
+                <a href="#identities" onclick="return rcmail.command('identities')" class="iconlink edit">Absender ändern</a>
+              </span>
+            </div>
+            <div id="p_compose-to" class="p_compose-headers__row p_label-field-wrap_to">
+              <label class="title top" for="_to">An</label>
+              <span class="editfield">
+                <textarea name="_to" spellcheck="false" id="_to" tabindex="2" class="p_compose-textarea"></textarea>
+              </span>
+            </div>
+            <div id="compose-cc" class="p_compose-headers__row p_label-field-wrap_cc">
+              <span class="title top">
+                <label class="" for="_cc">Kopie</label>
+                <a href="#cc" onclick="return UI.hide_header_row('cc');" class="iconbutton cancel" title="Löschen">x</a>
+              </span>
+              <span class="editfield">
+                <textarea name="_cc" spellcheck="false" id="_cc" tabindex="3" class="p_compose-textarea"></textarea>
+              </span>
+            </div>
+            <div id="compose-bcc" class="p_compose-headers__row p_label-field-wrap_bcc">
+              <span class="title top">
+                <label class="" for="_bcc">Blindkopie</label>
+                <a href="#bcc" onclick="return UI.hide_header_row('bcc');" class="iconbutton cancel" title="Löschen">x</a>
+              </span>
+              <span class="editfield">
+                <textarea name="_bcc" spellcheck="false" id="_bcc" tabindex="4"></textarea>
+              </span>
+            </div>
+            <div id="compose-replyto" class="p_compose-headers__row">
+              <span class="title top">
+                <label class="" for="_replyto">Antwort an</label>
+                <a href="#replyto" onclick="return UI.hide_header_row('replyto');" class="iconbutton cancel" title="Löschen">x</a>
+              </span>
+              <span class="editfield">
+                <input name="_replyto" spellcheck="false" id="_replyto" size="70" tabindex="5" value="" type="text">
+              </span>
+            </div>
+            <div id="compose-followupto" class="p_compose-headers__row">
+              <span class="title top">
+                <label class="" for="_followupto">Followup-To</label>
+                <a href="#followupto" onclick="return UI.hide_header_row('followupto');" class="iconbutton cancel" title="Löschen">x</a>
+              </span>
+              <span class="editfield">
+                <input name="_followupto" spellcheck="false" id="_followupto" size="70" tabindex="7" value="" type="text">
+              </span>
+            </div>
+            <div id="p_formlinks__wrap" class="p_compose-headers__row">
+              <span class="title top"></span>
+              <span class="formlinks">
+                <a href="#cc" onclick="return UI.show_header_row('cc')" id="cc-link" class="iconlink add">Cc hinzufügen</a>
+                <a href="#bcc" onclick="return UI.show_header_row('bcc')" id="bcc-link" class="iconlink add">Bcc hinzufügen</a>
+                <a href="#reply-to" onclick="return UI.show_header_row('replyto')" id="replyto-link" class="iconlink add">Antwortadresse hinzufügen</a>
+                <a href="#followup-to" onclick="return UI.show_header_row('followupto')" id="followupto-link" class="iconlink add">Followup-To hinzufügen</a>
+              </span>
+            </div>
+            <div id="p_compose-subject__wrap" class="p_compose-headers__row">
+              <label class="title" for="compose-subject">Betreff</label>
+              <span class="editfield">
+                <input name="_subject" id="compose-subject" tabindex="8" spellcheck="true" value="" type="text">
+                <div id="p_js-compose-subject_display" class="p_input-styles" contenteditable="true" tabindex="8"></div>
+              </span>
+            </div>
+          </div>
+
+          <div id="composebuttons" class="pagenav formbuttons">
+            <a class="button extwin" title="In neuem Fenster öffnen" id="rcmbtn107" href="#" onclick="return rcmail.command('extwin','',this,event)"><span class="inner"> </span></a>
+          </div>
+
+          <!-- (collapsable) message options -->
+          <div id="composeoptions">
+                        <span class="composeoption p_editorSelector">
+              <label>Editor Typ
+                <select name="editorSelector" tabindex="14" onchange="return rcmail_toggle_editor(this, 'composebody', '_is_html')">
+<option value="html">HTML</option>
+<option value="plain" selected="selected">Nur-Text</option>
+</select>
+</label>
+            </span>
+                        <span class="composeoption p_prioritySelector">
+              <label for="rcmcomposepriority">Priorität
+                <select name="_priority" id="rcmcomposepriority">
+<option value="5">Niedrigste</option>
+<option value="4">Niedrig</option>
+<option value="0" selected="selected">Normal</option>
+<option value="2">Hoch</option>
+<option value="1">Höchste</option>
+</select>
+</label>
+            </span>
+            <span class="composeoption p_receiptCheckBox">
+              <label><input name="_receipt" id="rcmcomposereceipt" value="1" type="checkbox"> Empfangsbestätigung (MDN)</label>
+            </span>
+                        <span class="composeoption p_dsnCheckBox">
+              <label><input name="_dsn" id="rcmcomposedsn" value="1" type="checkbox"> Übermittlungsbestätigung (DSN)</label>
+            </span>
+                                    <span class="composeoption p_savesentmessagein">
+              <label>Nachricht speichern in <select name="_store_target" style="max-width:12em">
+<option value="">- nicht speichern -</option>
+<option value="INBOX">Posteingang</option>
+<option value="INBOX.Abrechnung">&nbsp;&nbsp;&nbsp;&nbsp;Abrechnung</option>
+<option value="INBOX.Bestellungen">&nbsp;&nbsp;&nbsp;&nbsp;Bestellungen</option>
+<option value="INBOX.ebase_proxalto">&nbsp;&nbsp;&nbsp;&nbsp;ebase_proxalto</option>
+<option value="INBOX.ECR seminar">&nbsp;&nbsp;&nbsp;&nbsp;ECR seminar</option>
+<option value="INBOX.Favorites">&nbsp;&nbsp;&nbsp;&nbsp;Favorites</option>
+<option value="INBOX.GLS">&nbsp;&nbsp;&nbsp;&nbsp;GLS</option>
+<option value="INBOX.Handy">&nbsp;&nbsp;&nbsp;&nbsp;Handy</option>
+<option value="INBOX.Krankenkasse">&nbsp;&nbsp;&nbsp;&nbsp;Krankenkasse</option>
+<option value="INBOX.Spenden">&nbsp;&nbsp;&nbsp;&nbsp;Spenden</option>
+<option value="INBOX.Tierarzt">&nbsp;&nbsp;&nbsp;&nbsp;Tierarzt</option>
+<option value="INBOX.Traveling">&nbsp;&nbsp;&nbsp;&nbsp;Traveling</option>
+<option value="INBOX.Triodos">&nbsp;&nbsp;&nbsp;&nbsp;Triodos</option>
+<option value="Drafts">Entwürfe</option>
+<option value="Sent" selected="selected">Gesendet</option>
+<option value="Trash">Gelöscht</option>
+</select>
+</label>
+            </span>
+                        
+
+            <div id="p_js-composeoption-toogle">
+              <div class="composeoption more-options"><span>Mehr Optionen</span></div>
+              <div class="composeoption less-options"><span>Weniger Optionen</span></div>
+            </div>
+          </div>
+
+          </div>
+
+          <!-- message compose body -->
+          <div id="composeview-bottom">
+            <div id="composebodycontainer" class="p_js-expanding-box">
+              <pre class="p_js-textarea-clone"><span></span><br></pre>
+              <input type="hidden" name="_draft_saveid"><input type="hidden" name="_draft" value="yes"><input type="hidden" name="_is_html" value="0"><input type="hidden" name="_framed" value="1"><textarea name="_message" id="composebody" class="p_js-textarea" cols="70" rows="20" tabindex="9"></textarea>
+            </div>
+            <div id="compose-attachments" class="rightcol">
+              <div style="text-align:center; margin-bottom:20px">
+                <input type="button" class="button" onclick="UI.show_uploadform();return false" id="rcmbtn108" value="Datei anfügen">
+              </div>
+              <ul id="attachment-list" class="attachmentslist">
+</ul>
+
+              
+            </div>
+          </div>
+
+        </form>
+
+        </div><!-- end mailview-right -->
+      </div><!-- end p-wm_mainview__wrapper -->
+    </div><!-- end mainscreen -->
+
+    <div id="upload-dialog" class="propform popupdialog" title="Datei anfügen">
+      <div id="uploadform"><form id="uploadformFrm" name="uploadform" method="post" enctype="multipart/form-data" action="./?_task=mail">
+<input type="hidden" name="_token" value="780580347ec3552909d5cdb1834561dd"><div><input type="file" name="_attachments[]" multiple="multiple"></div>
+<div class="hint">Maximal erlaubte Dateigröße ist 50 MB</div>
+</form>
+</div>
+
+      <div class="formbuttons">
+        <input type="button" class="button mainaction" id="rcmbtn109" onclick="return rcmail.command('send-attachment','',this,event)" value="Hochladen" disabled="disabled">
+        <input type="button" class="button" onclick="UI.show_uploadform()" id="rcmbtn110" value="Abbrechen">
+      </div>
+    </div>
+
+    <div id="spellmenu" class="popupmenu"></div>
+
+    <div id="responsesmenu" class="popupmenu">
+      <ul class="toolbarmenu" id="textresponsesmenu">
+        <li class="separator" id=""><label>Schnellantwort hinzufügen</label></li>
+        <ul id="responseslist"></ul>
+        <li class="separator"><label>Schnellantworten verwalten</label></li>
+        <li><a unselectable="on" id="rcmbtn111" href="#" onclick="return rcmail.command('save-response','',this,event)">Neue Schnellantwort speichern</a></li>
+        <li><a id="rcmbtn112" href="#" onclick="return rcmail.command('responses','',this,event)">Schnellantworten bearbeiten</a></li>
+      </ul>
+    </div>
+
+    <script defer src="skins/posteo_base_theme/js/p_mobile-behaviour.js?s=1681914940"></script>
+<script defer src="skins/posteo_base_theme/js/p_responsive-mainnav.js?s=1681914940"></script>
+
+<div id="messagestack"></div>
+
+<script defer src="skins/posteo_base_theme/js/p_footer.js?s=1681914940"></script>
+
+  </div>
+
+
+<script defer="defer" type="text/javascript" src="plugins/jqueryui/js/jquery-ui-1.9.2.custom.min.js?s=1681914940"></script>
+<script defer="defer" type="text/javascript" src="plugins/jqueryui/js/i18n/jquery.ui.datepicker-de.js?s=1681914940"></script>
+<script defer="defer" type="text/javascript" src="plugins/contextmenu/contextmenu.js?s=1681914940"></script>
+<div id="compose_addressbook_dialog" title="Adressbuch"><div id="compose_addressbook_quicksearchbar"><img id="compose_addressbook_searchmod" src="skins/posteo_base_theme/images/icons/glass.png?s=1681914940" alt=""><input type="text" class="compose_addressbook_filter" id="compose_addressbook_filter"><a id="compose_addressbook_searchreset" href="#"><img src="skins/posteo_base_theme/images/icons/reset.gif?s=1681914940" alt=""></a></div>
+<div id="compose_addressbook_container"><table id="compose_addressbook_table" class="records-table" cellspacing="0" summary="" border="0"><tbody></tbody></table>
+</div>
+</div>
+
+<script defer="defer" type="text/javascript" src="plugins/tlsstatus_client/skins/posteo_base_theme/tlsstatus_client.js?s=1681914940"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){ 
+rcmail.init();
+});
+</script>
+
+</body>
+</html>
