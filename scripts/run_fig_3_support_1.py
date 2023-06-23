@@ -143,7 +143,7 @@ if run_cell:
     
 # %% Impact of baseline activity (only PE neurons)
     
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:
@@ -193,7 +193,7 @@ if run_cell:
 
 # %% Impact of baseline activity of nPE OR pPE neuron
     
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:
@@ -202,7 +202,7 @@ if run_cell:
     mfn_flag = '10' # valid options are '10', '01', '11
     
     ### filename for data ... change PE neuron type to be tested here
-    id_cells_modulated = np.array([True,False,False,False,False,False,False,False])
+    id_cells_modulated = np.array([False,True,False,False,False,False,False,False])
     
     if id_cells_modulated[0]:
         file_for_data = '../results/data/weighting/data_weighting_baseline_nPE.pickle'

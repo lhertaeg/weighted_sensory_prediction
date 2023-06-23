@@ -8,5 +8,5 @@ recent_files = ['scripts/run_fig_5.py', 'src/plot_data.py', 'src/functions_simul
 
 [main]
 version = 0.2.0
-recent_files = ['src/default_parameters.py', 'src/plot_data.py', 'src/functions_simulate.py', 'src/functions_networks.py', 'scripts/run_fig_3.py', 'scripts/run_fig_2.py', 'scripts/run_fig_4.py']
+recent_files = ['src/plot_data.py', 'src/functions_simulate.py', 'src/functions_networks.py', 'scripts/run_fig_4.py']
 

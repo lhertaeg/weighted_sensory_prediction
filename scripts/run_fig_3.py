@@ -12,8 +12,8 @@ import numpy as np
 import pickle
 
 from src.functions_simulate import simulate_weighting_example, simulate_weighting_exploration, simulate_dynamic_weighting_eg
-from src.functions_simulate import simulate_weighting_interneurons
-from src.plot_data import plot_weighting_limit_case_example, plot_fraction_sensory_heatmap, plot_transitions_examples
+from src.functions_simulate import simulate_activity_neurons
+from src.plot_data import plot_weighting_limit_case_example, plot_fraction_sensory_heatmap, plot_transitions_examples, plot_neuron_activity_lower_higher
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -67,7 +67,7 @@ if run_cell:
                                       plot_legend = False)
     
     
-# %% Systematic exploration
+# %% Systematic exploration - record sensory weight
 
 run_cell = False
 plot_only = True
@@ -104,11 +104,7 @@ if run_cell:
                                 ylabel='variability within trial')
     
 
-# %% Systematic exploration - record interneurons as well 
-
-# are INs decreasing or increasing?
-# does this change with type of variability?
-# Do INs in lower or higher increase faster? Again, does this change with type of variabilty? ...
+# %% Systematic exploration - record neuron activity
 
 run_cell = True
 plot_only = True
@@ -119,8 +115,8 @@ if run_cell:
     mfn_flag = '10' # valid options are '10', '01', '11
     
     ### filename for data
-    file_for_data_within = '../results/data/weighting/data_weighting_activity_interneurons_exploration_within_' + mfn_flag + '.pickle'
-    file_for_data_across = '../results/data/weighting/data_weighting_activity_interneurons_exploration_across_' + mfn_flag + '.pickle'
+    file_for_data_within = '../results/data/weighting/data_activity_neurons_exploration_within_' + mfn_flag + '.pickle'
+    file_for_data_across = '../results/data/weighting/data_activity_neurons_exploration_across_' + mfn_flag + '.pickle'
     seeds = np.array([10,20,30,40,50])
     
     ### get data
@@ -133,15 +129,19 @@ if run_cell:
         mean_trials, m_sd = dtype(5), dtype(0)
         variability_within = np.linspace(0,3,5, dtype=dtype)
         variability_across = np.linspace(0,3,5, dtype=dtype)
-        
-        [_, _, activity_interneurons_lower_within,
-         activity_interneurons_higher_within] = simulate_weighting_interneurons(mfn_flag, variability_within, np.array([0], dtype=dtype), 
-                                                                               mean_trials, m_sd, seeds  = seeds,
-                                                                               file_for_data = file_for_data_within,
-                                                                               last_n = last_n, n_trials = n_trials)
+            
+        [_, _, activity_pe_neurons_lower_within, 
+         activity_pe_neurons_higher_within, 
+         activity_interneurons_lower_within, 
+         activity_interneurons_higher_within] = simulate_activity_neurons(mfn_flag, variability_within, np.array([0], dtype=dtype), 
+                                                                          mean_trials, m_sd, seeds  = seeds,
+                                                                          file_for_data = file_for_data_within,
+                                                                          last_n = last_n, n_trials = n_trials)
                                                                                
-        [_, _, activity_interneurons_lower_across,
-         activity_interneurons_higher_across] = simulate_weighting_interneurons(mfn_flag, np.array([0], dtype=dtype), variability_across,
+        [_, _, activity_pe_neurons_lower_across, 
+         activity_pe_neurons_higher_across,
+         activity_interneurons_lower_across,
+         activity_interneurons_higher_across] = simulate_activity_neurons(mfn_flag, np.array([0], dtype=dtype), variability_across,
                                                                                mean_trials, m_sd, seeds  = seeds,
                                                                                file_for_data = file_for_data_across,
                                                                                last_n = last_n, n_trials = n_trials)                                                                  
@@ -149,56 +149,21 @@ if run_cell:
     else: # load results from previous simulation
 
         with open(file_for_data_within,'rb') as f:
-            [variability_within, _, activity_interneurons_lower_within, activity_interneurons_higher_within] = pickle.load(f)
+            [variability_within, _, activity_pe_neurons_lower_within, activity_pe_neurons_higher_within, 
+             activity_interneurons_lower_within, activity_interneurons_higher_within] = pickle.load(f)
             
         with open(file_for_data_across,'rb') as f:
-            [_, variability_across, activity_interneurons_lower_across, activity_interneurons_higher_across] = pickle.load(f)
+            [_, variability_across, activity_pe_neurons_lower_across, activity_pe_neurons_higher_across, 
+             activity_interneurons_lower_across, activity_interneurons_higher_across] = pickle.load(f)
             
     ### plot data
-    import matplotlib.pyplot as plt
-    import seaborn as sns
+    plot_neuron_activity_lower_higher(variability_within, variability_across, activity_interneurons_lower_within,
+                                      activity_interneurons_higher_within, activity_interneurons_lower_across, 
+                                      activity_interneurons_higher_across, activity_pe_neurons_lower_within,
+                                      activity_pe_neurons_higher_within, activity_pe_neurons_lower_across,
+                                      activity_pe_neurons_higher_across)
     
-    ## 
-    color_INs = ['b','r','g','m']
-    f, axs = plt.subplots(2,4, sharex=True, sharey=True)   
-    
-    for i in range(4):
-        mean_lower = np.mean(activity_interneurons_lower_across[0,:,:,i],1)
-        std_lower = np.std(activity_interneurons_lower_across[0,:,:,i],1)
-        mean_higher = np.mean(activity_interneurons_higher_across[0,:,:,i],1)
-        std_higher = np.std(activity_interneurons_higher_across[0,:,:,i],1)
-        
-        axs[0,i].plot(variability_across, mean_lower, color=color_INs[i])
-        axs[0,i].fill_between(variability_across, mean_lower - std_lower/np.sqrt(len(seeds)), 
-                              mean_lower + std_lower/np.sqrt(len(seeds)), alpha=0.2, color=color_INs[i])
-        
-        axs[0,i].plot(variability_across, mean_higher, ':', color=color_INs[i])
-        axs[0,i].fill_between(variability_across, mean_higher - std_higher/np.sqrt(len(seeds)), 
-                              mean_higher + std_higher/np.sqrt(len(seeds)), alpha=0.2, color=color_INs[i])
-        
-        axs[0,i].set_xlabel('variability trial')
-    
-    for i in range(4):
-        mean_lower = np.mean(activity_interneurons_lower_within[:,0,:,i],1)
-        std_lower = np.std(activity_interneurons_lower_within[:,0,:,i],1)
-        mean_higher = np.mean(activity_interneurons_higher_within[:,0,:,i],1)
-        std_higher = np.std(activity_interneurons_higher_within[:,0,:,i],1)
-        
-        axs[1,i].plot(variability_within, mean_lower, color=color_INs[i])
-        axs[1,i].fill_between(variability_within, mean_lower - std_lower/np.sqrt(len(seeds)), 
-                              mean_lower + std_lower/np.sqrt(len(seeds)), alpha=0.2, color=color_INs[i])
-        
-        axs[1,i].plot(variability_within, mean_higher, ':', color=color_INs[i])
-        axs[1,i].fill_between(variability_within, mean_higher - std_higher/np.sqrt(len(seeds)), 
-                              mean_higher + std_higher/np.sqrt(len(seeds)), alpha=0.2, color=color_INs[i])
-        
-        
-        #axs[1,i].plot(variability_within, np.mean(activity_interneurons_lower_within[:,0,:,i],1), color=color_INs[i])
-        #axs[1,i].plot(variability_within, np.mean(activity_interneurons_higher_within[:,0,:,i],1), ':', color=color_INs[i])
-    
-        axs[1,i].set_xlabel('variability stimuli')
-         
-   
+
 # %% Test see above 
 
 # S, P, PP => S + |S-P|, P + |S-P|, P + |P-PP|, PP + |P-PP|
