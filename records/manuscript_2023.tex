@@ -98,49 +98,83 @@ blahhh blahhh blah
 \end{abstract}
 
 \section*{Introduction}
-
+%
 XXX
-with a special focus on the interneurons and how and hwy those may adapt yhe weighting XXX
+%
+Behavior of intelligent life is context-dependent and requires a constant adaptation to the ever-changing life. This must also be reflected in the underlying neural networks and the inputs that drive those. For instance, when you walk down your your basement stairs and the lighting is well, your brain might rely entirely on the feedforward sensory input your senses receive to take decisions and adapt your body in the environment/world (Fig 1a). However, when you walk down the same basement stairs you walked million of times before but suddenly the light bulb is broken and the visual input is absent, you don't freeze forever but walk the stairs almost as confidently as before. Your brain now relies on the prediction it had formed over the last years. (Fig. 1b). The former example resonates with the feedforward-centric view that has dominated the neuroscience literature for decades. However, in recent years, the importance of internally generated, feedback inputs has increased significantly. Not only because it was shown that top-down projects xxx outsize feedforward connections (ref) but also because these connection modulate (ref) or even drive (ref) neuron dynamics. These feedback projects have been hypothesized to carry expectations, predictions ... and may help us to navigate (in the physical and metaphysical sense) the world even in the absence of sensory input.  But how do our brains decide whether it follows more the sensory feedforward input or the feedback predictions?
+
+For instance, if you hike down a mountain for the first time under very foggy conditions, you brain may receive unreliable sensory input but at the same time can only have a very rough prediction about what to expect. In this case, your brain might be better off combining both the sensory input and the prediction thereof (Fig 1c). A common hypothesis is that the brain weights those signals according to their reliabilties, that is, a function of the variances of those signals (ref). These ideas come from Bayesian integration in which it is believed that xxx (ref). A prominent example of this is multisensory integration in which xxx (ref). Similarly, the brain must have mechanisms to estimate the variances of both the sensory input and the predictions thereof that allow it to weight those signals accordingly and context-dependent. But how this is implemented in the brain is still largely unknown.
+
+Here, we hypothesis that xxx. 
+We show that xxx
 
 
 \section*{Results}
 %
-XXX
 
 \subsection*{nPE and pPE neurons as the basis for computing mean and variance of sensory stimuli}
 %
-We hypothesis that the unique properties of nPE and pPE neurons put them in a perfect position to support both the computation of the mean and the variance of feedforward sensory stimuli. XXX Why is that XXX. 
+We hypothesise that the distinct response patterns of negative and positive prediction-error (nPE/pPE) neurons represent the backbone for estimating the mean and the variance of sensory stimuli. nPE neurons only increase their activity relative to a baseline when the sensory input is weaker than predicted, while pPE neurons only increase their activity relative to a baseline when the sensory input is stronger than predicted. Moreover, both nPE and pPE neurons remain at their baseline activity when the sensory input is fully predicted (XXX). Assuming that the prediction equals the mean of the sensory stimulus, the PE neurons, hence, encode the deviation from the mean. Thus, the squared sum of nPE and pPE activity represents the variance of the feedforward input. 
 
-To this end we simulated a rate-based mean-field network model the core of which represents a PE circuit with nPE and pPE neurons and three types of inhibitory interneurons (XXX). In addition, the PE circuits connect/project to a memory neuron that is modeled as perfect integrator. In accordance with XXX, we assume that the pPE neurons excite the memory neuron while the nPE neuron inhibit the memory neuron (for instance through lateral inhibition not modeled explicitly here). With this connectivity/setup/architecture, the memory neuron holds/encodes the mean of the feedforward sensory stimuli that drive the PE circuit. The memory neuron, on the other hand, connects to the apical dendrites of the PE neurons and some of the inhibitory interneurons (see methods for more details). It therefore serves as a prediction that is dynamically updated when new sensory information is available. We furthermore assume that the PE neurons excite another neuron, modeled as a leaky integrator, whose activity may represent that variance of the feedforward stimuli when both nPE and pPE neurons have a net excitatory effect on it.
+To test our hypothesis, we studied a rate-based mean-field network the core of which is a prediction-error (PE) circuit with excitatory nPE and pPE neurons, as well as inhibitory parvalbumin-expressing (PV), somatostatin-expressing (SOM), and vasoactive intestinal peptide-expressing (VIP) interneurons (Fig. xxx). While the excitatory neurons are simulated as two coupled point compartments to emulate the soma and dendrites of elongated pyramidal cells, respectively, all inhibitory cell types were modeled as point neurons. The connectivity of and inputs to the network were chosen such that the excitatory (E) and inhibitory (I) pathways onto the pyramidal cells were balanced because it has been shown that this E/I balance is necessary for nPE and pPE neurons to emerge (XXX, see Methods). 
 
-To show that such a network can indeed represent mean and variance in the respective neurons, we stimulate it with sequence of step-wise constant inputs drawn from xxx. As shown in Fig. XXX, the memory neuron's activity gradually approaches the mean of the sensory stimuli, while the v neuron approaches the variance of the inputs. This is true for a wide range of inputs statistics (Fig. XXX). Deviations from the true mean occur mainly for larger input variances. The estimated variance is fairly independent of the input statistics tested. Moreover, the precise input distribution does not have a significant effect on the network's ability to estimate the mean and the variance (Supp Fig. XXX).
+In addition to this core circuit, we model a memory (M) neuron that perfectly integrates the activity of the PE neurons. In accordance with XXX, we assume that the pPE neuron excites the memory neuron, while the nPE neuron inhibits this neuron (for instance, through lateral inhibition, here not modeled explicitly). The M neuron connects to the apical dendrites of the PE neurons and some of the interneurons (here, VIP and PV neurons, see Methods for more details). In this network, the M neuron serves as a prediction that is dynamically updated when new sensory information is available. We furthermore simulate a downstream neuron (termed V neuron), modeled as a leaky integrator with a squared activation function, that receives excitatory output synapses from the PE neurons. Hence, in this setting, the V neuron encodes the variance of the sensory stimuli. 
 
-XXX interneuron activity increases with mean but also with variance, some faster than the other ... XXX
+To show that this network can indeed represent mean and variance in the respective neurons, we stimulate it with a sequence of step-wise constant inputs drawn from a uniform distribution (Fig. 2aXX), assuming that the sensory stimulus varies over time. In line with the distinct response patterns for nPE and pPE neurons, these neurons change only slightly with increasing stimulus mean but increase strongly with input variance (Fig. 2bXXX). This is in contrast to the three interneurons that strongly increase with stimulus mean while they only moderately increase with stimulus variance (Fig. 2cxxx). The activity of the memory neuron M gradually approaches the mean of the sensory inputs (Fig. 2d, middle), while the activity of the V neuron approaches the variance of the inputs (Fig. 2e, middle). This is true for a wide range of input statistics (Fig. XXX) and input distributions (Fig. SXXX). Small deviations from the true mean occur mainly for larger input variances, while the estimated variance is fairly independent of the input statistics tested. 
 
 XXX validated that also correct for population network (beyond mean-field network) XXX
-
 XXX assumptions (BL, gain-nPE = gain-pPE = 1) and how important really (see above)
+
+XXX Summary paragraph XXX
+
 
 \subsection*{Weighting external and internal signals requires two sets of PE neurons}
 %
-Coming back to the question at hand/example ...
-Following up the same ideas, the weighting of internal and external signals requires a higher PE circuit that integrates over the prediction of the lower PE circuit. 
-XXX explain set-up XXX ...
-XXX stimulation protocol XXX
-XXX two limit cases XXX
-XXX validation for a wide range of input statistics XXX
-XXX mentioning the dynamic nature of this estimation (Supp material), if you find differences in time scales of adaptation, report here XXX
-XXX predictions: nPE/pPE BL increase, cognitive load + trial duration XXX
-XXX The network does not require on the squared activation function but it is important that updating is faster in lower than in higher PE circuit XXX
+Following the ideas of Bayesian multisensory integration (XXX), the weighting of sensory stimuli and predictions thereof would require knowledge of their variances. As we have shown in the previous section, the variance of the sensory stimulus can be estimated by means of PE neurons. We hypothesise that the same principles apply to estimating the variance of the prediction. Hence, we augment the network with a \textit{higher} PE circuit that receives output synapses from the M neuron of the \textit{lower} PE circuit (Fig. 1xxx). Both subnetworks are modeled the same, except that the M neuron in the higher PE circuit evolves more slowly than the M neuron in the lower PE circuit. 
 
-XXX Do we actually propose that predictions are sent up the hierarchy?
+To test the network's ability to estimate the variances correctly, we stimulated the network with a sequence of inputs. In each trial one stimulus is shown to the network. To account for the stimulus variance, each stimulus is composed of n constant values drawn from a normal distribution with mean $\mu_\mathrm{stimulus}$ and variance $\sigma_\mathrm{stimulus}^2$, and presented one after the other. To account for potential changes in the environment, in each trial, we draw $\mu_\mathrm{stimulus}$ from a uniform distribution (Fig. 2a). Hence, the inputs change on two different time scales, with stimulus variability (faster time scale) and trial variability (slower time scale).
 
-\subsubsection*{XXX IN influence, neuromodulators ... mechanisms XXX}
+As expected, the neurons' activity increase for both stimulus and trial variances (Fig. 2b). While the neurons in the lower PE circuit increase more strongly with stimulus variability, the neurons in the higher PE circuit increase more strongly with trial variability, indicating that the different subnetworks process different aspects of the inputs. We first consider two limit cases. In the first limit case, a different but low-variance stimulus is presented in each trial (Fig. 2c, left). In line with the ideas of multisensory integration (XXX), the network should therefore follow the sensory inputs closely and ignore the predictions. When we arithmetically calculate the weighted output (Fig. 2c, middle) based on the feedforward and feedback inputs, and the sensory weight (Fig. 2c, right), the network correctly represents mostly the sensory input (for more details, see Methods). In the second limit case, the same but high-variance stimulus is presented in each trial (Fig. 2d, left). According to theory (XXX), the network should downscale the sensory feedforward inputs and weight the prediction more strongly. Indeed, the weighted output of the network shows a clear tendency to the mean of the stimuli (Fig. 2d, middle), also reflected in the low sensory weight (Fig. 2d, right). 
+
+In a next step, to validate the network responses more broadly, we systematically varied the trial and stimulus variability independently. If both variances are similar, the sensory weight approaches 0.5, reflecting equal contribution of sensory inputs and predictions to the weighted output. Only if both variances are zero, the network represents the sensory input perfectly. In line with the limit case examples above, if the stimulus variance is larger than the trial variance, the network weighs the prediction more strongly than the sensory input. This is reversed if the stimulus variance is smaller than the trial variance (Fig. 2e). Because the network dynamically estimates the mean and variances of the sensory inputs and the prediction, the weighted output and the sensory weight changes accordingly when the input statistics changes (Fig. SX). 
+
+The first limit case (Fig. 2 c) shows that even in a sensory-driven input regime, the prediction is weighted more at the beginning of a new trial than in the steady state. This is further confirmed in simulations in which the trail duration was shortened. For those simulations, the prediction even outweighs the sensory input, reflected in a very low sensory weight (Fig. 2e). This suggests that predictions influence neural activity more significantly in experiments that rely on very fast stimulus changes. 
+
+For some psychiatric disorders, it has been shown that the weighting of sensory inputs and predictions thereof is impaired (XXX), leading to an overweighting of one of these signals. Moreover, it has been hypothesised that factors like stress or cognitive load may also influence the processing of feedforward and feedback inputs (XXX).  Naturally, we were wondering which factors might influence the estimation of the variances, and, consequently, the weighting of different input streams. In our network, the M neuron evolves faster in the lower PE circuit than in the higher PE circuit. When we xxxx, the network shows a bias for predictions, while when we xxx, the network shows a bias for the sensory stimuli (Fig. SXX). This indicates that a non-pathological weighting requires xxx. Another factor that may contribute to a distorted weighting is the baseline activity of PE neurons that was set to zero in our model, in line with very low spontaneous firing rates of excitatory neurons in rodent primary sensory areas (XXX). Increasing this baseline activity for the nPE neuron (Fig. SXXX), pPE neuron (Fig. SXXX) or both pushes the network to weight sensory stimuli and predictions more equally. We speculate that an increase of baseline activity may be a natural result of an increased cognitive load or stress. 
+
+XXX Summary XXX
+% I haven't talked about the different activation function but I don't see where this fits naturally ...
+
+% XXX Do we actually propose that predictions are sent up the hierarchy?
+
+\subsection*{XXX IN influence, neuromodulators ... mechanisms XXX}
 %
+The brain's flexibility and adaptability are not least due to the fact that a plethora of neuromodulators influence the activity of neurons in a variety of ways (XXX). A prominent target of neuromodulatory inputs are inhibitory neurons (Cardin 2019, XXX). Moreover, distinct interneuron types are differently (in-)activated by those neuromodulators. For instance, it has been shown that xxx. We were therefore wondering if and how the weighting of sensory inputs and predictions thereof may be biased when neuromodulators activate distinct interneuron types.
+
+To this end, we modeled the presence of neuromodulators by injecting an additional, excitatory input into one or two interneuron types. We reasoned that the network effect of a neuromodulator not only depends on the interneuron type it targets but also on the inputs this neuron receives and the connections it makes with other neurons in the network. We, therefore, tested three different mean-field networks that differ with respect to the distribution of sensory inputs and predictions onto the interneurons and the underlying connectivity. The commonality across those networks is that all of them exhibit an E/I balance of excitatory and inhibitory pathways onto the PE neurons (XXX). Across the different mean-field networks tested, activating a SOM or VIP neuron individually forces the networks to weigh both inputs more equally. As a consequence, in a sensory-driven input regime, predictions are overrated. Similarly, in a prediction-driven regime, sensory inputs are overrated. Interestingly, when both interneuron types are activated to the same degree, this effect disappears (Fig. 5axx, left). In contrast, activating PV neurons largely biases the network output towards predictions. This is even more pronounced when PV and SOM, or PV and VIP neurons are activated simultaneously (Fig. 5a, middle and right). 
+
+In the previous simulations, we assumed that a neuromodulator acts globally, that is, on the interneurons in both the lower and the higher PE circuit. While this is in line with experimental data showing that xxx (XXX), we note that neuromodulators may also act more locally. We hence tested how the weighting of sensory stimuli and predictions may change when a neuromodulator activates specific interneurons in the lower or higher PE circuit only. The effect of activating an interneuron type in the lower PE circuit on the sensory weight is mostly the opposite of activating the same interneuron in the higher PE circuit (Fig. SXXX). For instance, the sensory inputs are overrated when VIP neurons are activated in the higher PE circuit, while the prediction is overrated when VIP neurons in the lower PE circuit are activated. When VIP and SOM neurons are stimulated equally, the sensory weight remains unchanged, independently of which PE circuit is targeted by the neuromodulator. 
+
+What are the mechanisms that give rise to these effects? And how do the combined local changes give rise to the global one observed in our network simulations?
+
+% Mention that for V neuron (higher) the darker line is actually not horizontal (unaffected)!
+% Mention that in BL illustration you need a factor to increase visibility ... (in caption)
 
 
 
 \subsection*{XXX contraction bias}
+% 
+The weighting of sensory inputs and predictions thereof manifests in all-day behavior, in the form of a phenomenon called \textit{contraction bias}. The contraction bias describes the tendency to overestimate sensory stimuli that are at the lower end of a stimulus distribution and to underestimate stimuli that are at the upper end of the same distribution (Fig. 5aXX). This \textit{bias towards the mean} has been reported in different species and modalities (XXX). 
+
+The weighted output of our network can be interpreted as a neural manifestation of the contraction bias (see Methods for a thorough analysis). The bias increases with stimulus variance (Fig. 5bXX), decreasing the slope of the linear fit modeling the relationship between the true and estimated stimuli (Fig.5 b, right XXX, compare with Fig. 5a). In contrast, the bias decreases with trial variance, so that the slope of the linear fit approaches 1 (Fig. 5b rightXXX).
+
+What are the underlying network factors that contribute to this phenomenon? To disentangle the potentially different sources of the bias, we first simulated a network without stimulus variability (variance set to zero) for two different trial variabilities. In this case, a contraction bias emerges but is independent of the volatility of the environment (Fig. 5c, leftXXX). We show mathematically that the bias is a result of the recent stimulus history and vanishes if the trial duration approaches infinity (see Methods for more details, and Fig. 5d). We next resume the limit case in which the same but high-variance stimulus is shown in every trial. In this case, the weighted output exhibits a contraction bias that is largely independent of the exact stimulus variances tested. As shown mathematically (see Methods), the bias is a result of xxx and approaches xxx (Fig. 5dxxx). 
+% Maybe show the limit for both cases and show the theoretical values for each T as well ...
+
+So far, we assumed that the stimulus variance is independent of the trial mean. A consequence of this choice is that the bias on either end of the stimulus distribution is the same (but with reversed signs). However, behavioral (neural?) data (XXX) shows that the bias increases for stimuli drawn from the upper end of the distribution, a phenomenon usually attributed to \textit{scalar variability}. To capture this in the model, we assume that the stimulus standard deviation linearly increases with the trial mean. In these simulations, as expected, the bias increases for a stimulus distribution shifted to higher trial means (Fig. 5eXXX).
+
+XXX Summary XXX
+
 
 \section*{Discussion}
 
@@ -353,107 +387,130 @@ In a prediction-driven input regime ($alpha_\mathrm{S} \sim 0)$, the slope is in
 
 If the trail duration is short ($T \rightarrow 0$), the slope is given by the sensory weight. If the trail duration approaches infinity, the slope would be 1 again (however, this seems rather unrealistic, this would only be true in an ideal system without memory decay or reproduction and accumulation noise ...).
 
-\subsection*{Effect of nPE and pPE gain}
+\subsection*{Impact of PE neurons' gain on estimating mean and variance}
 %
-In the steady state, the averaged effect of nPE and pPE must be equal (so the gain must be equal):
+Only if the the gain of the nPE neuron ($g_{nPE}$) equals the gain of the pPE neuron ($g_{pPE}$) in the mean-field network, the activity of the M neuron represents the mean of the inputs,
 %
-\begin{align*}
+\begin{align}
+\label{eq:condition_mean_gain_equal}
 g_{pPE}\ \langle \mathrm{nPE}\rangle &= g_{nPE}\ \langle \mathrm{pPE}\rangle \\
-g_{pPE} \langle \left[ S-P\right]_+\rangle &= g_{nPE} \langle \left[ P-S\right]_+\rangle \\
-g_{pPE} \int\limits_P^b \left( x-P\right)\ f(x)\ dx &= g_{nPE} \int\limits_a^P \left( P-x\right)\ f(x)\ dx
-\end{align*}
+g_{pPE} \langle \left[ S-P\right]_+\rangle &= g_{nPE} \langle \left[ P-S\right]_+\rangle \nonumber \\
+g_{pPE} \int\limits_P^b \left( x-P\right)\ f(x)\ dx &= g_{nPE} \int\limits_a^P \left( P-x\right)\ f(x)\ dx. \nonumber
+\end{align}
 %
-Example, uniform distribution:
-\begin{align*}
-g_{pPE}\ \left[ \frac{1}{2} \left(b^2 - P^2\right) - P\left(b - P\right)\right] = g_{nPE}\ \left[  P\left(P - a\right) - \frac{1}{2} \left(P^2 - a^2\right)\right] 
-\end{align*}
+In case of a uniform distribution ($f(x) = 1/(b-a)$ when $x\in [a,b]$ and $0$ otherwise) from which the input values are drawn, this condition yields
 %
-which gives
-\begin{align*}
-P = \frac{g_{pPE}\ b - g_{nPE}\ a \pm \sqrt{g_{nPE}\ g_{pPE}} (a-b)}{g_{pPE} - g_{nPE}}
-\end{align*}
+\begin{align}
+\label{eq:condition_mean_gain_equal_4_uniform_dist_1}
+P = \int\limits_a^b x\, f(x)\ dx = \frac{a + b}{2}
+\end{align}
 %
-Only if $g_\mathrm{nPE}=g_\mathrm{pPE}$, the prediction $P$ is given by $\frac{a+b}{2}$.
-
-For variance, we need $g_{nPE}=g_{pPE}=1$. In case of a uniform distribution, we get
+for $g_{nPE} = g_{pPE} = g$, and 
 %
-\begin{align*}
+\begin{align}
+\label{eq:condition_mean_gain_equal_4_uniform_dist_21}
+g_{pPE}\ \left[ \frac{1}{2} \left(b^2 - P^2\right) - P\left(b - P\right)\right] = g_{nPE}\ \left[  P\left(P - a\right) - \frac{1}{2} \left(P^2 - a^2\right)\right]
+\end{align}
+%
+for $g_{nPE} \neq g_{pPE}$, which can be further summaries by
+%
+\begin{align}
+\label{eq:condition_mean_gain_equal_4_uniform_dist_21}
+P = \frac{g_{pPE}\ b - g_{nPE}\ a \pm \sqrt{g_{nPE}\ g_{pPE}} (a-b)}{g_{pPE} - g_{nPE}}.
+\end{align}
+%
+Hence, estimating the mean correctly requires $g_{nPE} = g_{pPE} = g$. For the V neuron to represent the variance of the inputs, this condition must be tightened to  $g_{nPE} = g_{pPE} = 1$. The variance is given by
+%
+\begin{align}
+\label{eq:condition_variance_gain}
 V &= \langle (S-P)^2\rangle \\
-   &= g_\mathrm{pPE}\ \langle \langle[ S-P \rangle]_+ \rangle + g_\mathrm{nPE}\ \langle \langle[ P-S \rangle]_+ \\
-   &= \frac{g_\mathrm{pPE}}{b-a} \int\limits_P^b (u-P)^2\ du + \frac{g_\mathrm{nPE}}{b-a} \int\limits_a^P (P-u)^2\ du \\
-   &= \frac{g_\mathrm{pPE}}{3} \cdot \frac{(b-P)^3}{b-a} + \frac{g_\mathrm{nPE}}{3} \cdot \frac{(P-a)^3}{b-a} 
-\end{align*}
+   &= g_\mathrm{pPE}\ \langle \left[ S-P \right]_+^2 \rangle + g_\mathrm{nPE}\ \langle \left[ P-S \right]_+^2 \rangle. \nonumber
+\end{align}
 %
-if $P = (b+a)/2$
+In case of a uniform distribution from which the input values are drawn, this condition yields
 %
-\begin{align*}
-V = \frac{g_\mathrm{pPE} + g_\mathrm{nPE}}{24} \cdot (b-a)^2
-\end{align*}
+\begin{align}
+\label{eq:condition_variance_gain_uniform_dist}
+V &= \frac{g_\mathrm{pPE}}{b-a} \int\limits_P^b (u-P)^2\ du + \frac{g_\mathrm{nPE}}{b-a} \int\limits_a^P (P-u)^2\ du \\
+   &= \frac{g_\mathrm{pPE}}{3} \cdot \frac{(b-P)^3}{b-a} + \frac{g_\mathrm{nPE}}{3} \cdot \frac{(P-a)^3}{b-a}. \nonumber
+\end{align}
 %
-Only if $g_\mathrm{nPE}=g_\mathrm{pPE}=1$, the V neuron encodes the variance, that for a uniform distribution is given by
+Only if $g_{nPE} = g_{pPE} = 1$ and $P = \frac{a + b}{2}$, the variance is given by $\frac{(b - a)^2}{12}$, otherwise the V neuron's activity is given by
 %
-\begin{align*}
-V = \frac{ (b-a)^2}{12}
-\end{align*}
+\begin{align}
+\label{eq:condition_variance_gain_uniform_dist_1}
+V = \frac{(b-a)^2}{3\ (g_\mathrm{pPE} - g_\mathrm{nPE})^3} \cdot \left[ g_\mathrm{nPE} \cdot( g_\mathrm{pPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3 - g_\mathrm{pPE} \cdot (g_\mathrm{nPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3\right].
+\end{align}
 %
-XXXXXXX add the version where P is given by the g version ...
-%
-Of course, P is also a function of the gains (see above). If we take this into account, V is given by
-%
-\begin{align*}
-V = \frac{(b-a)^2}{3\ (g_\mathrm{pPE} - g_\mathrm{nPE})^3} \cdot \left[ g_\mathrm{nPE} \cdot( g_\mathrm{pPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3 - g_\mathrm{pPE} \cdot (g_\mathrm{nPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3\right]
-\end{align*}
 
 
+\subsection*{Impact of PE neurons' baseline on estimating mean and variance}
+%
+Only if the the baseline of the nPE neuron ($n_0$) equals the baseline of the pPE neuron ($p_0$) in the mean-field network, the activity of the M neuron represents the mean of the inputs,
+%
+\begin{align}
+\label{eq:condition_baseline_mean}
+\langle \mathrm{pPE} \rangle &= \langle \mathrm{nPE} \rangle \\
+\langle \left[ S - P\right]_+ + p_0\rangle &= \langle \left[ P - S\right]_+ + n_0\rangle \nonumber\\
+\int\limits_P^b (x - P)\ f(x)\ dx + p_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1}  &= \int\limits_a^P (P - x)\ f(x)\ dx + n_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1} . \nonumber
+\end{align}
+%
+In case of a uniform distribution ($f(x) = 1/(b-a)$ when $x\in [a,b]$ and $0$ otherwise) from which the input values are drawn, this condition yields
+%
+\begin{align}
+\label{eq:condition_baseline_mean_1}
+P = \frac{b+a}{2} + \frac{p_0 - n_0}{b-a}.
+\end{align}
+%
+Hence, if $p_0 = n_0$, the mean can be estimated correctly. For the V neuron to represent the variance of the inputs, this condition must be tightened to $p_0 = n_0 = 0$. The variance is given by
+%
+\begin{align}
+\label{eq:condition_baseline_variance}
+V &= \langle \left( \mathrm{pPE} + \mathrm{nPE} \right)^2 \rangle \\
+&= \langle \left[ S-P\right]_+^2\rangle + \langle \left[ P-S\right]_+^2\rangle + (p_0 + n_0)^2 + 2\ (p_0 + n_0)\ \left( \langle \left[ S-P\right]_+\rangle + \langle \left[ P-S\right]_+ \rangle\right) \nonumber
+\end{align}
+%
+In case of a uniform distribution from which the inputs to the mean-field network are drawn, this expression simplifies to
+%
+\begin{align}
+\label{eq:condition_baseline_variance_1}
+V = \frac{1}{3\ (b-a)} \left[ (b-P)^3 + (P-a)^3\right] + (p_0 + n_0)^2 + \frac{(p_0 + n_0)}{b-a} \left[ (b-P)^2 + (a-P)^2\right].
+\end{align}
+%
+Inserting the expression for P (by itself modulated by the baseline activities of the PE neurons) yields
+%
+\begin{align}
+V =& \frac{1}{3\ (b-a)} \left[ \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^3 + \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^3\right] + (p_0 + n_0)^2 \nonumber \\
+&+ \frac{(p_0 + n_0)}{b-a} \left[ \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^2 + \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^2\right]
+\end{align}
+%
+Simplifying the expression, leads to
+%
+\begin{align}
+\label{eq:condition_baseline_variance_2}
+V =  \frac{(b-a)^2}{12} + \frac{(p_0-n_0)^2}{(b-a)^2} \left( 1 + 2\ \frac{p_0+n_0}{b-a}\right) + (p_0 + n_0) \left( p_0 + n_0 + \frac{b-a}{2}\right)
+\end{align}
+%
 
-\subsection*{Effect of BL activity on mean an variance}
-%
-\begin{align*}
-\langle pPE \rangle &= \langle nPE \rangle \\
-\langle \left[ S - P\right]_+ + p_0\rangle &= \langle \left[ P - S\right]_+ + n_0\rangle \\
-\int\limits_P^b (x - P)\ f(x)\ dx + p_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1}  &= \int\limits_a^P (P - x)\ f(x)\ dx + n_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1} 
-\end{align*}
-%
-In case of a uniform distribution, that is $f(x) = \frac{1}{b-a}$ for $x\in [a,b]$, 0 otherwise, this leads to
-%
-\begin{align*}
-P = \frac{b+a}{2} + \frac{p_0 + n_0}{b-a}
-\end{align*}
-%
+\subsection*{Modelling the impact of neuromodulators on the weighting of sensory inputs and predictions thereof}
+
+Assume that neuromodulator act through activating INs. INs on the other hand modulate both gain and BL of nPE and pPE neurons ... . Changes in gain and BL will affect the overall activity and the balance between nPE and pPE neurons => this will affect both the prediction and the variance. 
+
+Modulate PE in lower:
+variance in lower is combination of direct changes in PE and indirect through prediction (that is changed through PE mod)
+variance in higher is just because of differences in prediction
+
+
+Modulation in higher:
+variance in lower should be unaffected
+variance in higher is combination of direct changes in PE and indirect through prediction (that is changed through PE mod)
 
 Variance as function of bias in mean:
 \begin{align*}
-V &= \frac{1}{n} \sum_i \left( x - \left(\mu \pm \delta\mu\right)\right)^2 \\
-&= \frac{1}{n} \sum_i \lbrace  \left( x_i - \mu \right)^2 + \delta\mu^2 \mp 2\delta\mu (x_i - \mu)\rbrace \\
-&= V_\mathrm{uniform} + \delta\mu^2 \mp 2\ \delta\mu \left( \frac{1}{n} \sum_i x_i- \mu\right) \\
-&= V_\mathrm{uniform} + \delta\mu^2
-\end{align*}
-%
-
-Variance as a function of BL in nPE and pPE:
-%
-\begin{align*}
-V &= \langle \left( \mathrm{pPE} + \mathrm{nPE} \right)^2 \rangle \\
-&= \langle \left[ S-P\right]_+\rangle + \langle \left[ P-S\right]_+\rangle + (p_0 + n_0)^2 + 2\ (p_0 + n_0)\ \left( \langle \left[ S-P\right]_+\rangle + \langle \left[ P-S\right]_+ \rangle\right)
-\end{align*}
-%
-In case of a uniform distribution, this can be expressed by
-%
-\begin{align*}
-V = \frac{1}{3\ (b-a)} \left[ (b-P)^3 + (P-a)^3\right] + (p_0 + n_0)^2 + \frac{(p_0 + n_0)}{b-a} \left[ (b-P)^2 + (a-P)^2\right]
-\end{align*}
-%
-Since $P = \frac{b+a}{2} + \frac{p_0 + n_0}{b-a}$, this yields
-%
-\begin{align*}
-V =& \frac{1}{3\ (b-a)} \left[ \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^3 + \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^3\right] + (p_0 + n_0)^2 \\
-&+ \frac{(p_0 + n_0)}{b-a} \left[ \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^2 + \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^2\right]
-\end{align*}
-%
-Simplifying this expression, leads to
-%
-\begin{align*}
-V =  \frac{(b-a)^2}{12} + \frac{(p_0-n_0)^2}{(b-a)^2} \left( 1 + 2\ \frac{p_0+n_0}{b-a}\right) + (p_0 + n_0) \left( p_0 + n_0 + \frac{b-a}{2}\right)
+V &= \frac{1}{n} \sum_i \left( x_i - \left(\mu \pm \delta\mu\right)\right)^2 \\
+&= \frac{1}{n} \sum_i \lbrace  \left( x_i - \mu \right)^2 + \delta\mu^2 \mp 2\, \delta\mu\,  (x_i - \mu)\rbrace \\
+&= V_\mathrm{unmod} + \delta\mu^2 \mp 2\ \delta\mu \left( \frac{1}{n} \sum_i x_i- \mu\right) \\
+&= V_\mathrm{unmod} + \delta\mu^2
 \end{align*}
 %
 

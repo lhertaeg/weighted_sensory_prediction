@@ -32,47 +32,45 @@ if not os.path.exists(figPath):
 
 # %% Define figure structure
 
-figsize=(16/inch,12/inch)
+figsize=(18/inch,15/inch)
 fig = plt.figure(figsize=figsize)
 
-G = gridspec.GridSpec(3, 1, figure=fig, hspace=1.0)
-G1 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G[0,0], wspace=0.5, width_ratios=[1.2,1,1])
+G = gridspec.GridSpec(3, 1, figure=fig, hspace=1.2)
+G1 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G[0,0], wspace=0.4, width_ratios=[1,1,1])
 G11 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=G1[0,0])
-G12 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G1[0,1])
-G13 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G1[0,2])
+G12 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G1[0,1], wspace=0.3)
+G13 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G1[0,2], wspace=0.3)
 G2 = gridspec.GridSpecFromSubplotSpec(2, 3, subplot_spec=G[1,0], width_ratios=[1,5,2], height_ratios=[5, 1], wspace = 0.5)
 G3 = gridspec.GridSpecFromSubplotSpec(2, 3, subplot_spec=G[2,0], width_ratios=[1,5,2], height_ratios=[5, 1], wspace = 0.5)
 
 #ax_A = fig.add_subplot(G11[0,0])
 #ax_A.set_title('XXX', fontsize=fs, pad=1)
 
+ax_B = fig.add_subplot(G12[0,:])
+ax_B.axis('off')
+ax_B.set_title('PE neuron activity for \ndifferent input statistics', fontsize=fs, pad=10)
+
 ax_B1 = fig.add_subplot(G12[0,0])
 ax_B2 = fig.add_subplot(G12[0,1])
 plt.setp(ax_B2.get_yticklabels(), visible=False)
+
+ax_C = fig.add_subplot(G13[0,:])
+ax_C.axis('off')
+ax_C.set_title('Interneuron activity for \ndifferent input statistics', fontsize=fs, pad=10)
+
 ax_C1 = fig.add_subplot(G13[0,0])
 ax_C2 = fig.add_subplot(G13[0,1])
 plt.setp(ax_C2.get_yticklabels(), visible=False)
 
 #ax_D1 = fig.add_subplot(G2[:,0])
-ax_D21 = fig.add_subplot(G2[0,1])
-ax_D22 = fig.add_subplot(G2[1,1])
+ax_D21 = fig.add_subplot(G2[:,1])
+#ax_D22 = fig.add_subplot(G2[1,1])
 ax_D3 = fig.add_subplot(G2[:,2])
 
 #ax_E1 = fig.add_subplot(G3[:,0])
-ax_E21 = fig.add_subplot(G3[0,1])
-ax_E22 = fig.add_subplot(G3[1,1])
+ax_E21 = fig.add_subplot(G3[:,1])
+#ax_E22 = fig.add_subplot(G3[1,1])
 ax_E3 = fig.add_subplot(G3[:,2])
-
-# ax_C1 = fig.add_subplot(C[0,0])
-# ax_C2 = fig.add_subplot(C[0,1], sharey=ax_C1)
-# ax_C2.set_title('Distribution of inputs changes ratio of nPE & pPE neurons', fontsize=fs, pad=10) #Distribution of actual and predicted sensory \ninputs changes ratio of nPE and pPE neurons
-# plt.setp(ax_C2.get_yticklabels(), visible=False)
-# ax_C3 = fig.add_subplot(C[0,2], sharey=ax_C1)
-# plt.setp(ax_C3.get_yticklabels(), visible=False)
-
-# ax_B1.axis('off')
-# ax_B2.axis('off')
-# ax_B3.axis('off')
 
 
 # %% Neuron activity with increasing stimulus mean and variance
@@ -111,8 +109,8 @@ else:
         [_, _, trial_duration, _, stimuli, m_neuron, v_neuron] = pickle.load(f)
     
     # plot data
-    plot_example_mean(stimuli, trial_duration, m_neuron, ax1=ax_D21, ax2=ax_D22)
-    plot_example_variance(stimuli, trial_duration, v_neuron, ax1=ax_E21, ax2=ax_E22)  
+    plot_example_mean(stimuli, trial_duration, m_neuron, mse_flg = False, ax1=ax_D21)#, ax2=ax_D22)
+    plot_example_variance(stimuli, trial_duration, v_neuron, mse_flg = False, ax1=ax_E21)#, ax2=ax_E22)  
     
 
 # %% Systematic exploration
@@ -132,10 +130,10 @@ else:
     # plot data
     end_of_initial_phase = np.int32(trial_duration * 0.5)
     plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse_mean, 
-                      title='M neuron encodes mean \nfor a wide range of parameters', 
+                      title='M neuron encodes mean \nfor a wide range of input statistics', 
                       x_example=5, y_example=2**2, ax1=ax_D3) # vmax=0.3
     plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse_variance, 
-                      title='V neuron encodes variance \nfor a wide range of parameters', show_mean=False, 
+                      title='V neuron encodes variance \nfor a wide range of input statistics', show_mean=False, 
                       x_example=5, y_example=2**2, flg_var=True, digits_round=1, ax1=ax_E3)#, vmax=10)
 
 

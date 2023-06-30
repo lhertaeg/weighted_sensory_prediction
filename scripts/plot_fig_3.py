@@ -8,7 +8,6 @@ Created on Mon Jan  9 09:04:01 2023
 
 # %% import
 
-
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,35 +36,38 @@ if not os.path.exists(figPath):
 
 # %% Define figure structure
 
-figsize=(16/inch,12/inch)
+figsize=(18/inch,15/inch)
 fig = plt.figure(figsize=figsize)
 
 G = gridspec.GridSpec(3, 1, figure=fig, hspace=1.0)
 G1 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[0,0], wspace=0.3, width_ratios=[1,3])
 G11 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=G1[0,0])
 G12 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G1[0,1])
-G2 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[1,0], width_ratios=[2.7,1], wspace = 0.5)
-G21 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G2[0,0], width_ratios=[0.7,1,1], wspace = 0.5)
-G3 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[2,0], width_ratios=[2.7,1], wspace = 0.5)
-G31 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G3[0,0], width_ratios=[0.7,1,1], wspace = 0.5)
-
-#ax_A = fig.add_subplot(G11[0,0])
-#ax_A.set_title('XXX', fontsize=fs, pad=1)
+G2 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[1,0], width_ratios=[3,1], wspace = 0.3)
+G21 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G2[0,0], width_ratios=[0.7,1,1], wspace = 0.7)
+G3 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[2,0], width_ratios=[3,1], wspace = 0.3)
+G31 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G3[0,0], width_ratios=[0.7,1,1], wspace = 0.7)
 
 ax_B1 = fig.add_subplot(G12[0,0])
+ax_B1.set_title('Neurons activity increases \nwith trial variability', fontsize=fs, pad=10)
 ax_B2 = fig.add_subplot(G12[0,1])
+ax_B2.set_title('Neuron activity increases \nwith stimulus variability', fontsize=fs, pad=10)
 ax_B3 = fig.add_subplot(G12[0,2])
 plt.setp(ax_B2.get_yticklabels(), visible=False)
 
 #ax_D1 = fig.add_subplot(G21[0,0])
 ax_D2 = fig.add_subplot(G21[0,1])
+ax_D2.set_title('Example in which the network relies more strongly on prediction', fontsize=fs, pad=10)
 ax_D3 = fig.add_subplot(G21[0,2])
 ax_D4 = fig.add_subplot(G2[0,1])
+ax_D4.set_title('Sensory weight for different \ntrial and stimulus variabilities', fontsize=fs, pad=10)
 
 #ax_E1 = fig.add_subplot(G31[0,0])
 ax_E2 = fig.add_subplot(G31[0,1])
+ax_E2.set_title('Example in which the network relies more strongly on sensory inputs', fontsize=fs, pad=10)
 ax_E3 = fig.add_subplot(G31[0,2])
 ax_E4 = fig.add_subplot(G3[0,1])
+ax_E4.set_title('Sensory weight decreases \nwith shorter trials', fontsize=fs, pad=10)
 
 
 # %% Neuron activities
@@ -118,11 +120,11 @@ else:
     # plot data
     plot_weighting_limit_case_example(n_trials, trial_duration, stimuli_1, m_neuron_lower_1, m_neuron_higher_1, 
                                       v_neuron_lower_1, v_neuron_higher_1, alpha_1, beta_1, weighted_output_1,
-                                      ax1 = ax_D2, ax3 = ax_D3)
+                                      plot_legend = False, ax1 = ax_E2, ax3 = ax_E3)
     
     plot_weighting_limit_case_example(n_trials, trial_duration, stimuli_2, m_neuron_lower_2, m_neuron_higher_2, 
                                       v_neuron_lower_2, v_neuron_higher_2, alpha_2, beta_2, weighted_output_2, 
-                                      plot_legend = False, ax1 = ax_E2, ax3 = ax_E3)
+                                      plot_legend = True, ax1 = ax_D2, ax3 = ax_D3)
 
 # %% Systematic exploration - plot sensory weight
 
@@ -139,8 +141,8 @@ else:
         
     
     # plot data
-    plot_fraction_sensory_heatmap(alpha, variability_within, variability_across, 2, xlabel='variability across trial', 
-                                  ylabel='variability within trial', ax = ax_D4)
+    plot_fraction_sensory_heatmap(alpha, variability_within, variability_across, 2, xlabel='Trial variability', 
+                                  ylabel='Stimulus variability', ax = ax_D4)
 
 
 # %% Impact of trial duration
@@ -161,8 +163,8 @@ else:
         [n_trials, _, _, weight_shorter] = pickle.load(f)
         
     # plot data
-    plot_weight_over_trial(weight_control, weight_shorter, n_trials, ax = ax_E4,
-                            leg_text=['trial duration = T', 'trial duration = T/5'])
+    plot_weight_over_trial(weight_control, weight_shorter, n_trials, ax = ax_E4, lw=0.5,
+                            leg_text=['trial duration', 'trial duration / 5'])
     
     
 # %% save figure

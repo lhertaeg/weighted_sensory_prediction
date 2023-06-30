@@ -784,6 +784,88 @@ def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials 
     return [xp, xs, xv, alpha_before_pert, alpha_after_pert]
 
 
+def simulate_neuromod_combos(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials = dtype(5), m_sd = dtype(0), 
+                             last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), 
+                             trial_duration = np.int32(5000), num_values_per_trial = np.int32(10), 
+                             file_for_data = None, mult_input = dtype(1)):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+      v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### define stimuli
+    np.random.seed(seed)
+    n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
+
+    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
+                                            dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
+    stimuli = np.repeat(stimuli, n_repeats_per_stim)
+    
+    ### run model without perturbation
+    print('Without neuromodulation\n')
+    [_, _, _, _, alpha, _, _] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                        v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                        tc_var_pred, tau_pe, fixed_input, stimuli, 
+                                                        VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
+                                                        v_PE_to_V = v_PE_to_V)
+    
+    alpha_before_pert = np.mean(alpha[(n_trials - last_n) * trial_duration:])
+    
+    ### initialise
+    nums = len(xp)
+    alpha_after_pert = np.zeros(nums, dtype=dtype)
+
+    ### run model for different fractions of INs activated
+    print('With neuromodulation:\n')
+    
+    for i in range(nums):
+        
+        ## display progress
+        print('-- xp:', xp[i], 'xs:', xs[i], 'xv:', xv[i])
+        
+        ## add perturbation XXXX
+        perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
+        perturbation[(n_trials * trial_duration)//2:, 4:6] = xp[i] * mult_input
+        perturbation[(n_trials * trial_duration)//2:, 6] = xs[i] * mult_input
+        perturbation[(n_trials * trial_duration)//2:, 7] = xv[i] * mult_input
+        fixed_input_plus_perturbation = fixed_input + perturbation
+            
+        if column==1:
+            fixed_input_lower = fixed_input_plus_perturbation
+            fixed_input_higher = fixed_input
+        elif column==2:
+            fixed_input_lower = fixed_input
+            fixed_input_higher = fixed_input_plus_perturbation
+        elif column==0:
+            fixed_input_lower = fixed_input_plus_perturbation
+            fixed_input_higher = fixed_input_plus_perturbation
+
+        ## run model
+        [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+          alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                  v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                  tc_var_pred, tau_pe, None, stimuli, VS = VS,
+                                                                  VV = VV, w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V, 
+                                                                  fixed_input_lower = fixed_input_lower,
+                                                                  fixed_input_higher = fixed_input_higher)
+            
+            
+        ### comppute steady state
+        alpha_after_pert[i] = np.mean(alpha[-last_n * trial_duration:])
+                
+        
+    ### save data for later
+    if file_for_data is not None:
+        
+        with open(file_for_data,'wb') as f:
+            pickle.dump([xp, xs, xv, alpha_before_pert, alpha_after_pert],f) 
+            
+    return [xp, xs, xv, alpha_before_pert, alpha_after_pert]
+
+
 
 def simulate_moment_estimation_upon_changes_PE(mfn_flag, std_mean, n_sd, column, pert_stength, mean_trials = dtype(5), m_sd = dtype(0), 
                                                last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000), 

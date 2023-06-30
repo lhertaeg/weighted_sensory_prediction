@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  11 MAY 2023 10:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  30 JUN 2023 11:39
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -411,7 +411,12 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip59
-) (manuscript_2023.aux)
+) (manuscript_2023.aux
+
+LaTeX Warning: Label `eq:condition_mean_gain_equal_4_uniform_dist_21' multiply 
+defined.
+
+)
 \openout1 = `manuscript_2023.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
@@ -553,46 +558,51 @@ LaTeX Info: Redefining \nameref on input line 70.
 
 {/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/data/pdftex/co
 nfig/pdftex.map}]
-LaTeX Font Info:    Try loading font information for U+msa on input line 158.
+LaTeX Font Info:    Try loading font information for U+msa on input line 135.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 158.
+LaTeX Font Info:    Try loading font information for U+msb on input line 135.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
+) [2]
+Overfull \hbox (8.8385pt too wide) in paragraph at lines 156--157
+[]\OT1/cmr/m/n/10 In the previous simulations, we assumed that a neuromodulator
+ acts globally, that is, on the interneurons|
+ []
 
-Package natbib Warning: Citation `wilson1972excitatory' on page 2 undefined on 
-input line 158.
+[3]
+
+Package natbib Warning: Citation `wilson1972excitatory' on page 4 undefined on 
+input line 193.
 
 
-Overfull \hbox (1.58629pt too wide) in paragraph at lines 158--160
+Overfull \hbox (1.58629pt too wide) in paragraph at lines 193--195
 []\OT1/cmr/m/n/10 Each excitatory pyramidal cell (that is, nPE or pPE neuron) i
 s divided into two coupled compartments,|
  []
 
 
-Package natbib Warning: Citation `wilson1972excitatory' on page 2 undefined on 
-input line 166.
+Package natbib Warning: Citation `wilson1972excitatory' on page 4 undefined on 
+input line 201.
 
-
-Overfull \hbox (10.11563pt too wide) in paragraph at lines 170--173
+[4]
+Overfull \hbox (10.11563pt too wide) in paragraph at lines 205--208
 \OT1/cmr/m/n/10 where the weight $\OML/cmm/m/it/10 w[]$ \OT1/cmr/m/n/10 denotes
  the recurrent excitatory connections between PCs, including backpropagating|
  []
 
 
-Package natbib Warning: Citation `wilson1972excitatory' on page 2 undefined on 
-input line 174.
+Package natbib Warning: Citation `wilson1972excitatory' on page 5 undefined on 
+input line 209.
 
-[2]
 No file manuscript_2023.bbl.
-[3] [4] [5]
-Overfull \hbox (14.32506pt too wide) in paragraph at lines 497--500
+[5] [6] [7] [8]
+Overfull \hbox (14.32506pt too wide) in paragraph at lines 555--558
 $\OML/cmm/m/it/10 P[]$\OT1/cmr/m/n/10 , is however $\OML/cmm/m/it/10 []$ \OT1/
 cmr/m/n/10 in my implementation and $\OML/cmm/m/it/10 R[]$ \OT1/cmr/m/n/10 is f
 ixed variance of inputs $\OML/cmm/m/it/10 []$\OT1/cmr/m/n/10 . Hence, my imple
@@ -602,22 +612,26 @@ mentation|
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 504.
-[6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 504.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 562.
+[9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 562.
  (manuscript_2023.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 504.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 504.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 504.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 562.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 562.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 562.
  ) 
 Here is how much of TeX's memory you used:
- 9952 strings out of 494891
- 157838 string characters out of 3176446
- 282675 words of memory out of 3000000
- 13476 multiletter control sequences out of 15000+200000
- 7817 words of font info for 30 fonts, out of 3000000 for 9000
+ 9966 strings out of 494891
+ 158278 string characters out of 3176446
+ 286206 words of memory out of 3000000
+ 13489 multiletter control sequences out of 15000+200000
+ 8163 words of font info for 31 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
- 36i,15n,43p,1151b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,15n,43p,1526b,351s stack positions out of 5000i,500n,10000p,200000b,50000s
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/font
 s/type1/public/amsfonts/cm/cmbx10.pfb></Users/loreen.hertaeg/Library/Applicatio
 n Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Use
@@ -638,10 +652,11 @@ s/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/
 public/amsfonts/cm/cmr9.pfb></Users/loreen.hertaeg/Library/Application Support/
 MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/loreen.
 hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/am
-sfonts/cm/cmsy7.pfb>
-Output written on manuscript_2023.pdf (6 pages, 191461 bytes).
+sfonts/cm/cmsy7.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/t
+exmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on manuscript_2023.pdf (9 pages, 217260 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
+ 92 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
