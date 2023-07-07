@@ -48,6 +48,14 @@ G21 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G2[0,0], width_ratios=
 G3 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[2,0], width_ratios=[3,1], wspace = 0.3)
 G31 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G3[0,0], width_ratios=[0.7,1,1], wspace = 0.7)
 
+ax_A = fig.add_subplot(G1[0,0])
+ax_A.axis('off')
+ax_A.text(-0.45, 1.25, 'A', transform=ax_A.transAxes, fontsize=fs+1)
+
+ax_B = fig.add_subplot(G12[0,:])
+ax_B.axis('off')
+ax_B.text(-0.15, 1.25, 'B', transform=ax_B.transAxes, fontsize=fs+1)
+
 ax_B1 = fig.add_subplot(G12[0,0])
 ax_B1.set_title('Neurons activity increases \nwith trial variability', fontsize=fs, pad=10)
 ax_B2 = fig.add_subplot(G12[0,1])
@@ -55,19 +63,27 @@ ax_B2.set_title('Neuron activity increases \nwith stimulus variability', fontsiz
 ax_B3 = fig.add_subplot(G12[0,2])
 plt.setp(ax_B2.get_yticklabels(), visible=False)
 
-#ax_D1 = fig.add_subplot(G21[0,0])
+ax_C = fig.add_subplot(G21[0,:])
+ax_C.axis('off')
+ax_C.text(-0.15, 1.25, 'C', transform=ax_C.transAxes, fontsize=fs+1)
+
 ax_D2 = fig.add_subplot(G21[0,1])
 ax_D2.set_title('Example in which the network relies more strongly on prediction', fontsize=fs, pad=10)
 ax_D3 = fig.add_subplot(G21[0,2])
 ax_D4 = fig.add_subplot(G2[0,1])
 ax_D4.set_title('Sensory weight for different \ntrial and stimulus variabilities', fontsize=fs, pad=10)
+ax_D4.text(-0.4, 1.25, 'E', transform=ax_D4.transAxes, fontsize=fs+1)
 
-#ax_E1 = fig.add_subplot(G31[0,0])
+ax_D = fig.add_subplot(G31[0,:])
+ax_D.axis('off')
+ax_D.text(-0.15, 1.25, 'D', transform=ax_D.transAxes, fontsize=fs+1)
+
 ax_E2 = fig.add_subplot(G31[0,1])
 ax_E2.set_title('Example in which the network relies more strongly on sensory inputs', fontsize=fs, pad=10)
 ax_E3 = fig.add_subplot(G31[0,2])
 ax_E4 = fig.add_subplot(G3[0,1])
 ax_E4.set_title('Sensory weight decreases \nwith shorter trials', fontsize=fs, pad=10)
+ax_E4.text(-0.35, 1.25, 'F', transform=ax_E4.transAxes, fontsize=fs+1)
 
 
 # %% Neuron activities
@@ -170,49 +186,3 @@ else:
 # %% save figure
 
 plt.savefig(figPath + figure_name, bbox_inches='tight', transparent=True, dpi=600)
-
-# %% Barplots 
-
-# min_mean = 3 # 1, 5
-# max_mean = 5 # 10, 5
-
-# epsilon = 0.1
-# sd_stimuli = epsilon + 1 # 0, 2
-
-# num_bars = 20
-# nums = 1000
-
-# y = np.zeros((1000,num_bars))
-# x = np.ones_like(y)
-
-# for i in range(num_bars):
-    
-#     x[:,i] *= i
-    
-#     mean_trial = np.random.uniform(min_mean, max_mean)
-#     min_value = mean_trial - np.sqrt(3)*sd_stimuli
-#     max_value = mean_trial + np.sqrt(3)*sd_stimuli
-    
-#     y[:,i] = np.linspace(min_value, max_value, nums)
-
-# norm = plt.Normalize(y.min(), y.max())
-# fig, axs = plt.subplots(1, 1, sharex=True, sharey=True)
-
-# for i in range(num_bars):
-#     points = np.array([x[:,i], y[:,i]]).T.reshape(-1, 1, 2)
-#     segments = np.concatenate([points[:-1], points[1:]], axis=1)
-
-#     lc = LineCollection(segments, cmap='viridis', norm=norm)
-#     lc.set_array(y[:,i])
-#     lc.set_linewidth(10)
-#     line = axs.add_collection(lc)
-
-# axs.axhline(np.mean(y), color='k', ls=':')
-
-# axs.set_xlim(x.min()-1, x.max()+1)
-# axs.set_xticks([])
-# axs.set_yticks([])
-# axs.set_ylim(0, 11)
-# plt.show()
-
-# sns.despine(ax=axs, bottom=True, top=True, left=True, right=True)

@@ -50,6 +50,7 @@ G4 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=G_lower[0,3])
 ax_A = fig.add_subplot(G1[0,:])
 ax_A.axis('off')
 ax_A.set_title('Illustration of contraction bias', fontsize=fs, pad=10)
+ax_A.text(-0.2, 1.15,'A', transform=ax_A.transAxes, fontsize=fs+1)
 
 ax_A1 = fig.add_subplot(G1[0,0])
 ax_A2 = fig.add_subplot(G1[0,1])
@@ -57,6 +58,7 @@ ax_A2 = fig.add_subplot(G1[0,1])
 ax_B = fig.add_subplot(G2[0,:])
 ax_B.axis('off')
 ax_B.set_title('Contraction bias in the model', fontsize=fs, pad=10)
+ax_B.text(-0.2, 1.15,'B', transform=ax_B.transAxes, fontsize=fs+1)
 
 ax_B1 = fig.add_subplot(G2[0,0])
 ax_B2 = fig.add_subplot(G2[0,1])
@@ -64,16 +66,18 @@ ax_B2 = fig.add_subplot(G2[0,1])
 ax_C = fig.add_subplot(G31[0,:])
 ax_C.axis('off')
 ax_C.set_title('Bias independent of stimulus variability \nwhen trial variability is zero, or vice versa', fontsize=fs, pad=10)
+ax_C.text(-0.2, 1.15,'C', transform=ax_C.transAxes, fontsize=fs+1)
 
 ax_C1 = fig.add_subplot(G31[0,0])
 ax_C2 = fig.add_subplot(G31[0,1])
 
-
 ax_D = fig.add_subplot(G3[0,2])
 ax_D.set_title('Bias depends \non trial duration', fontsize=fs, pad=10)
+ax_D.text(-0.4, 1.15,'D', transform=ax_D.transAxes, fontsize=fs+1)
 
 ax_E = fig.add_subplot(G4[0,0])
 ax_E.set_title('Bias increases when \nvariability scales with mean', fontsize=fs, pad=10)
+ax_E.text(-0.45, 1.15,'E', transform=ax_E.transAxes, fontsize=fs+1)
 
 # %% Illustration contractin bias
 
@@ -221,7 +225,7 @@ else:
         [trial_durations, fitted_slopes_2] = pickle.load(f)
         
     # plot data
-    label_text = ['Stim', 'Trial']
+    label_text = ['Stim var = 0', 'Trial var = 0']
     plot_slope_trail_duration(trial_durations, fitted_slopes_1, fitted_slopes_2, label_text, fs=6, ax=ax_D)
     
 

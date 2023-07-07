@@ -43,12 +43,14 @@ G13 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G1[0,2], wspace=0.3)
 G2 = gridspec.GridSpecFromSubplotSpec(2, 3, subplot_spec=G[1,0], width_ratios=[1,5,2], height_ratios=[5, 1], wspace = 0.5)
 G3 = gridspec.GridSpecFromSubplotSpec(2, 3, subplot_spec=G[2,0], width_ratios=[1,5,2], height_ratios=[5, 1], wspace = 0.5)
 
-#ax_A = fig.add_subplot(G11[0,0])
-#ax_A.set_title('XXX', fontsize=fs, pad=1)
+ax_A = fig.add_subplot(G1[0,0])
+ax_A.axis('off')
+ax_A.text(-0.2, 1.25, 'A', transform=ax_A.transAxes, fontsize=fs+1)
 
 ax_B = fig.add_subplot(G12[0,:])
 ax_B.axis('off')
 ax_B.set_title('PE neuron activity for \ndifferent input statistics', fontsize=fs, pad=10)
+ax_B.text(-0.3, 1.25, 'B', transform=ax_B.transAxes, fontsize=fs+1)
 
 ax_B1 = fig.add_subplot(G12[0,0])
 ax_B2 = fig.add_subplot(G12[0,1])
@@ -57,15 +59,24 @@ plt.setp(ax_B2.get_yticklabels(), visible=False)
 ax_C = fig.add_subplot(G13[0,:])
 ax_C.axis('off')
 ax_C.set_title('Interneuron activity for \ndifferent input statistics', fontsize=fs, pad=10)
+ax_C.text(-0.2, 1.25, 'C', transform=ax_C.transAxes, fontsize=fs+1)
 
 ax_C1 = fig.add_subplot(G13[0,0])
 ax_C2 = fig.add_subplot(G13[0,1])
 plt.setp(ax_C2.get_yticklabels(), visible=False)
 
+ax_D = fig.add_subplot(G2[:,:])
+ax_D.axis('off')
+ax_D.text(-0.05, 1.25, 'D', transform=ax_D.transAxes, fontsize=fs+1)
+
 #ax_D1 = fig.add_subplot(G2[:,0])
 ax_D21 = fig.add_subplot(G2[:,1])
 #ax_D22 = fig.add_subplot(G2[1,1])
 ax_D3 = fig.add_subplot(G2[:,2])
+
+ax_E = fig.add_subplot(G3[:,:])
+ax_E.axis('off')
+ax_E.text(-0.05, 1.25, 'E', transform=ax_E.transAxes, fontsize=fs+1)
 
 #ax_E1 = fig.add_subplot(G3[:,0])
 ax_E21 = fig.add_subplot(G3[:,1])
