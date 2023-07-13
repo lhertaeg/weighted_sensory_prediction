@@ -27,7 +27,7 @@ inch = 2.54
 
 # %% Define files and paths
 
-figure_name = 'Fig_3.png'
+figure_name = 'Fig_3_partial.png'
 figPath = '../results/figures/final/'
 
 if not os.path.exists(figPath):
@@ -57,7 +57,7 @@ ax_B.axis('off')
 ax_B.text(-0.15, 1.25, 'B', transform=ax_B.transAxes, fontsize=fs+1)
 
 ax_B1 = fig.add_subplot(G12[0,0])
-ax_B1.set_title('Neurons activity increases \nwith trial variability', fontsize=fs, pad=10)
+ax_B1.set_title('Neuron activity increases \nwith trial variability', fontsize=fs, pad=10)
 ax_B2 = fig.add_subplot(G12[0,1])
 ax_B2.set_title('Neuron activity increases \nwith stimulus variability', fontsize=fs, pad=10)
 ax_B3 = fig.add_subplot(G12[0,2])

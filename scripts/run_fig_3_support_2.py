@@ -289,10 +289,10 @@ if run_cell:
             
     
     ### plot data
-    gain_ratio = np.round(gains_lower / 3.5,1) # in default network, higher/lower = 3.5
-    plot_impact_para(weight_ctrl, weights_mod_con_lower, para_range_tested=gains_lower,
-                     colorbar_title = r'gain$_\mathrm{PE\rightarrow M}$ ratio', fs=7, 
-                     colorbar_tick_labels = [gain_ratio[0] , gain_ratio[-1]])  
+    # gain_ratio = np.round(gains_lower / 3.5,1) # in default network, higher/lower = 3.5
+    # plot_impact_para(weight_ctrl, weights_mod_con_lower, para_range_tested=gains_lower,
+    #                  colorbar_title = r'gain$_\mathrm{PE\rightarrow M}$ ratio', fs=7, 
+    #                  colorbar_tick_labels = [gain_ratio[0] , gain_ratio[-1]])  
 
 
 # %% Impact of connectivity parameters (weight from PE neurons to M neuron in higher PE circuit)

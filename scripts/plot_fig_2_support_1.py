@@ -34,7 +34,7 @@ if not os.path.exists(figPath):
     
 # %% Define figure structure
 
-figsize=(9/inch,10/inch)
+figsize=(9/inch,7/inch)
 fig = plt.figure(figsize=figsize)
 
 G = gridspec.GridSpec(2, 1, figure=fig, hspace=0.4)#, hspace=1.2)
@@ -63,12 +63,17 @@ else:
     
     # plot data
     mean, std = 5, 2
-    sem_mean = np.std(mse_mean,2)/np.sqrt(num_reps)
-    sem_variance = np.std(mse_variance,2)/np.sqrt(num_reps)
+    var_tested = std**2
     
-    plot_mse_test_distributions(np.mean(mse_mean,2), SEM = sem_mean, fs=fs, mean=mean, std=std, dist_types=dist_types, 
+    mse_mean_normalised = mse_mean/mean**2 * 100
+    mse_variance_normalised = mse_variance/var_tested**2 * 100
+    
+    sem_mean = np.std(mse_mean_normalised,2)/np.sqrt(num_reps)
+    sem_variance = np.std(mse_variance_normalised,2)/np.sqrt(num_reps)
+    
+    plot_mse_test_distributions(np.mean(mse_mean_normalised,2), SEM = sem_mean, fs=fs, mean=mean, std=std, dist_types=dist_types, 
                                 inset_steady_state=True, plot_xlabel = False, ax=ax_A)
-    plot_mse_test_distributions(np.mean(mse_variance,2), SEM = sem_variance, fs = fs, inset_steady_state = True, ax=ax_B)
+    plot_mse_test_distributions(np.mean(mse_variance_normalised,2), SEM = sem_variance, fs = fs, inset_steady_state = True, ax=ax_B)
 
 
 # %% save figure

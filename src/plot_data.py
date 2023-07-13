@@ -319,13 +319,13 @@ def plot_neuromod_impact_inter(column, std_mean, n_std, figsize=(12,3), fs=6, lw
         
         if flg_plot_bars:
             ax1.annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
-                     arrowprops=dict(arrowstyle="wedge", color='#525252'))
+                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_VIP)) #'#525252'
             
             ax1.annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
-                     arrowprops=dict(arrowstyle="wedge", color='#525252')) 
+                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_SOM)) 
         
-            ax1.text(0, -0.6, 'SOM', fontsize=fs, transform=ax1.transAxes, horizontalalignment='left')
-            ax1.text(1, -0.2, 'VIP', fontsize=fs, transform=ax1.transAxes, horizontalalignment='right')
+            ax1.text(0, -0.6, 'SOM', fontsize=fs, transform=ax1.transAxes, horizontalalignment='left', color=Col_Rate_SOM)
+            ax1.text(1, -0.2, 'VIP', fontsize=fs, transform=ax1.transAxes, horizontalalignment='right', color=Col_Rate_VIP)
         
         ax1.set_xticks([])
         ax1.set_ylabel('Sensory weight', fontsize=fs)
@@ -343,13 +343,13 @@ def plot_neuromod_impact_inter(column, std_mean, n_std, figsize=(12,3), fs=6, lw
         
         if flg_plot_bars:
             ax2.annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
-                     arrowprops=dict(arrowstyle="wedge", color='#525252'))
+                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_PVv))
             
             ax2.annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
-                     arrowprops=dict(arrowstyle="wedge", color='#525252')) 
+                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_VIP)) 
         
-            ax2.text(0, -0.6, 'VIP', fontsize=fs, transform=ax2.transAxes, horizontalalignment='left')
-            ax2.text(1, -0.2, 'PV', fontsize=fs, transform=ax2.transAxes, horizontalalignment='right')
+            ax2.text(0, -0.6, 'VIP', fontsize=fs, transform=ax2.transAxes, horizontalalignment='left', color=Col_Rate_VIP)
+            ax2.text(1, -0.2, 'PV', fontsize=fs, transform=ax2.transAxes, horizontalalignment='right', color=Col_Rate_PVv)
         
         ax2.set_xticks([]) #ax2.set_xticks([0,0.5,1])
         if flg_plot_xlabel:
@@ -368,13 +368,13 @@ def plot_neuromod_impact_inter(column, std_mean, n_std, figsize=(12,3), fs=6, lw
         
         if flg_plot_bars:
             ax3.annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
-                     arrowprops=dict(arrowstyle="wedge", color='#525252'))
+                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_SOM))
             
             ax3.annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
-                     arrowprops=dict(arrowstyle="wedge", color='#525252')) 
+                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_PVv)) 
         
-            ax3.text(0, -0.6, 'PV', fontsize=fs, transform=ax3.transAxes, horizontalalignment='left')
-            ax3.text(1, -0.2, 'SOM', fontsize=fs, transform=ax3.transAxes, horizontalalignment='right')
+            ax3.text(0, -0.6, 'PV', fontsize=fs, transform=ax3.transAxes, horizontalalignment='left', color=Col_Rate_PVv)
+            ax3.text(1, -0.2, 'SOM', fontsize=fs, transform=ax3.transAxes, horizontalalignment='right', color=Col_Rate_SOM)
         
         ax3.set_xticks([]) #ax3.set_xticks([0,0.5,1])
         ax3.set_ylim([0,1])
@@ -512,6 +512,9 @@ def plot_changes_upon_input2PE_neurons(std_mean = 1, n_std = 1, mfn_flag = '10',
     ax2.plot(pert_strength, v_act_lower[:,1], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
     ax3.plot(pert_strength, v_act_higher[:,1], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
 
+    #ylims = ax3.get_ylim()
+    #ax3.plot(0,ylims[0],'*', zorder=10)
+
     ax1.tick_params(size=2.0) 
     ax1.tick_params(axis='both', labelsize=fs)
     ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
@@ -530,7 +533,7 @@ def plot_changes_upon_input2PE_neurons(std_mean = 1, n_std = 1, mfn_flag = '10',
     ax1.set_ylabel('M neuron', fontsize=fs)
     ax2.set_ylabel('V neuron (lower)', fontsize=fs, labelpad=10)
     ax3.set_ylabel('V neuron (higher)', fontsize=fs)
-    ax3.set_xlabel('Perturbation strength', fontsize=fs)
+    ax3.set_xlabel('Perturbation', fontsize=fs)
     
     sns.despine(ax=ax1)
     sns.despine(ax=ax2)
@@ -1087,7 +1090,11 @@ def plot_slope_trail_duration(trial_durations,fitted_slopes_1, fitted_slopes_2, 
         f, ax = plt.subplots(1,1, tight_layout=True, figsize=(3,2.5))    
     ax.plot(trial_durations / 5000, fitted_slopes_1, lw=lw, ls='-', color='k', label=label_text[0]) # color='k'
     ax.plot(trial_durations / 5000, fitted_slopes_2, lw=lw, ls='-', color='k', alpha=0.3, label=label_text[1]) # color='k', alpha = 0.5
-    ax.axhline(1, color='k', ls=':', lw=lw)
+    ax.axhline(1, color='k', ls='dashdot', lw=lw)
+    
+    # x = trial_durations / 5000
+    # y = (1 - np.exp(-x/0.8))
+    # ax.plot(x, y, color='k', ls='dashdot', lw=lw, alpha=0.3)
     
     ax.set_xlabel(r'trial duration / T$_0$', fontsize=fs)
     ax.set_ylabel('Slope', fontsize=fs)
@@ -1474,7 +1481,7 @@ def plot_schema_inputs_tested(figsize=(2,2), fs=7, lw=0.5):
     
     
 
-def plot_impact_para(variability_across, weight_ctrl, weight_act, para_range_tested = [], fs=6, 
+def plot_impact_para(variability_across, weight_ctrl, weight_act, para_range_tested = [], fs=6, legend_title= '',
                      ms = 5, lw=1, figsize=(3,3), alpha=0.1, plot_ylabel=True, label_text = None, ax=None):
     
         if ax is None:
@@ -1493,7 +1500,10 @@ def plot_impact_para(variability_across, weight_ctrl, weight_act, para_range_tes
                 ax.scatter(np.nan, np.nan, marker='o', s=(ms-1)**2, c='k', label=label_text[0])
                 ax.scatter(np.nan, np.nan, marker='s', s=(ms-1)**2, c='k', label=label_text[1])
                 
-                ax.legend(loc=0, frameon=False, fontsize=fs)
+                if label_text is not None:
+                    legend = ax.legend(loc=2, frameon=False, fontsize=fs, ncol=2, handletextpad=0.1, columnspacing=1,
+                                       title=legend_title, bbox_to_anchor=(-0.05, 1.45))
+                    plt.setp(legend.get_title(), fontsize=fs)
             
         else:
             ax.plot(variability_across, weight_ctrl, 'k-', lw=lw, alpha=alpha, zorder=0) 
@@ -1512,7 +1522,9 @@ def plot_impact_para(variability_across, weight_ctrl, weight_act, para_range_tes
                     ax.scatter(np.nan, np.nan, marker=markers[i], s=(ms-1)**2, c='k', label=label_text[i+1])
                     
             if label_text is not None:
-                ax.legend(loc=0, frameon=False, fontsize=fs, ncol=1)
+                legend = ax.legend(loc=2, frameon=False, fontsize=fs, ncol=3, handletextpad=0.1, columnspacing=1,
+                                   title=legend_title, bbox_to_anchor=(-0.05, 1.45))
+                plt.setp(legend.get_title(), fontsize=fs)
                 
                 
         ax.set_ylim([0, 1])
@@ -1751,7 +1763,7 @@ def plot_weighting_limit_case_example(n_trials, trial_duration, stimuli, predict
     
     # ax3.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], 
     #          color=color_m_neuron, lw=lw, label='feedback')
-    ax3.set_ylabel('Sensory weights', fontsize=fs)
+    ax3.set_ylabel('Sensory weight', fontsize=fs)
     ax3.set_xlabel('Time (#trials)', fontsize=fs)
     # if plot_legend:
     #     ax3.legend(loc=0, frameon=False, fontsize=fs)
@@ -1782,7 +1794,21 @@ def plot_mse_test_distributions(mse, dist_types=None, mean=None, std=None, SEM=N
     
     for i in range(num_rows):
         if dist_types is not None:
-            ax.plot(time/time[-1], mse[i,:], color=colors[i], label=dist_types[i])
+            
+            if dist_types[i]=='uniform':
+                dist_types_label = dist_types[i]
+            elif dist_types[i]=='normal':
+                dist_types_label = dist_types[i]
+            elif dist_types[i]=='lognormal':
+                dist_types_label = dist_types[i]
+            elif dist_types[i]=='gamma':
+                dist_types_label = dist_types[i]
+            elif dist_types[i]=='binary_equal_prop':
+                dist_types_label = 'binary' + r'(p$_a$=0.5)'
+            elif dist_types[i]=='binary_unequal_prop':
+                dist_types_label = 'binary' + r'(p$_a$=0.8)'
+            
+            ax.plot(time/time[-1], mse[i,:], color=colors[i], label=dist_types_label)
         else:
             ax.plot(time/time[-1], mse[i,:], color=colors[i])
             
@@ -1794,7 +1820,7 @@ def plot_mse_test_distributions(mse, dist_types=None, mean=None, std=None, SEM=N
             
     if inset_steady_state:
         
-        ax1 = ax.inset_axes([0.6,0.7,0.4,0.3])
+        ax1 = ax.inset_axes([0.5,0.4,0.5,0.6])
         f = 0.5
         
         for i in range(num_rows):
@@ -1803,20 +1829,23 @@ def plot_mse_test_distributions(mse, dist_types=None, mean=None, std=None, SEM=N
                 ax1.fill_between(time[time>time[-1]*f]/time[-1], mse[i,time>time[-1]*f] - SEM[i,time>time[-1]*f], 
                                 mse[i,time>time[-1]*f] + SEM[i,time>time[-1]*f], color=colors[i], alpha=0.3)
         
+        ylims = ax1.get_ylim()
+        if ylims[1]>50:
+            ax1.set_ylim([0,50])
         ax1.tick_params(size=2)
         ax1.locator_params(nbins=3)
         ax1.tick_params(axis='both', labelsize=fs)
         sns.despine(ax=ax1)
 
     if dist_types is not None:
-        ax.legend(loc=4, ncol=2, handlelength=1, frameon=False, fontsize=fs)
+        ax.legend(loc=2, ncol=1, handlelength=1, frameon=False, fontsize=fs, bbox_to_anchor=(0.05, 1))
     
     ax.tick_params(size=2)
     ax.tick_params(axis='both', labelsize=fs)
     if plot_xlabel:
         ax.set_xlabel('Time / trial duration', fontsize=fs)
     if plot_ylabel:
-        ax.set_ylabel('MSE', fontsize=fs)
+        ax.set_ylabel('normalised MSE (%)', fontsize=fs)
     if title is not None:
         ax.set_title(title, fontsize=fs)
     ax.set_ylim(bottom=0)

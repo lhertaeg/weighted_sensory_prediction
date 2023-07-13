@@ -42,11 +42,11 @@ fig = plt.figure(figsize=figsize)
 G = gridspec.GridSpec(1, 2, figure=fig, wspace=0.4)
 
 ax_A = fig.add_subplot(G[0,0])
-ax_A.text(-0.4, 1.2, 'A', transform=ax_A.transAxes, fontsize=fs+1)
+ax_A.text(-0.3, 1.35, 'A', transform=ax_A.transAxes, fontsize=fs+1)
 plt.setp(ax_A.get_xticklabels(), visible=False)
 
 ax_B = fig.add_subplot(G[0,1])
-ax_B.text(-0.2, 1.2, 'B', transform=ax_B.transAxes, fontsize=fs+1)
+ax_B.text(-0.2, 1.35, 'B', transform=ax_B.transAxes, fontsize=fs+1)
 plt.setp(ax_B.get_xticklabels(), visible=False)
 
 # ax_B1 = fig.add_subplot(G2[0,0])
@@ -85,10 +85,10 @@ else:
         [gains_lower, weights_mod_con_lower] = pickle.load(f)
         
     # plot data
-    label_text = ['ctrl', '1', '2']
+    label_text = ['1', '< 1', '> 1']
     weights_modulated = np.vstack((weights_mod_con_lower[:,0], weights_mod_con_lower[:,-1]))
     plot_impact_para(variability_across, weight_ctrl, weights_modulated, para_range_tested=[gains_lower[0], gains_lower[-1]], 
-                      label_text=label_text, ms=3, ax=ax_A)
+                     legend_title = r'w$_\mathrm{PE\rightarrow M, lower}$' + ' scaled by', label_text=label_text, ms=3, ax=ax_A)
 
 # %% Impact of activation function
 
@@ -106,7 +106,8 @@ else:
     
     # plot data
     label_text = [r'f(x) = x$^2$', 'f(x) = x']
-    plot_impact_para(variability_across, weight_ctrl, weight_act, plot_ylabel=False, ms=3, label_text=label_text, ax=ax_B)
+    plot_impact_para(variability_across, weight_ctrl, weight_act, plot_ylabel=False, ms=3, 
+                     legend_title = 'Impact of activation function', label_text=label_text, ax=ax_B)
 
 # %% save figure
 

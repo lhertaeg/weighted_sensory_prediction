@@ -4,9 +4,9 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['scripts/run_fig_5.py', 'src/plot_data.py', 'src/functions_simulate.py', 'src/functions_networks.py', 'src/default_parameters.py', 'scripts/run_fig_3.py']
+recent_files = ['src/functions_simulate.py', 'src/functions_networks.py', 'src/plot_data.py', 'scripts/plot_fig_4_support_2.py']
 
 [main]
 version = 0.2.0
-recent_files = ['src/functions_simulate.py', 'src/functions_networks.py', 'src/plot_data.py', 'scripts/plot_fig_4_support_2.py']
+recent_files = ['src/plot_data.py', 'src/functions_simulate.py', 'src/default_parameters.py', 'scripts/plot_fig_2_support_1.py', 'scripts/plot_fig_4_support_1.py']
 
