@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  11 JUL 2023 17:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  11 AUG 2023 16:49
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -363,6 +363,7 @@ Now handling font encoding PD1 ...
 atex/00miktex/hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
+Package hyperref Info: Option `draft' set `true' on input line 4383.
 Package hyperref Info: Hyper figures OFF on input line 4509.
 Package hyperref Info: Link nesting OFF on input line 4514.
 Package hyperref Info: Hyper index ON on input line 4517.
@@ -410,7 +411,12 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip59
-) (manuscript_2023.aux)
+) (manuscript_2023.aux
+
+LaTeX Warning: Label `eq:condition_mean_gain_equal_4_uniform_dist_21' multiply 
+defined.
+
+)
 \openout1 = `manuscript_2023.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
@@ -463,21 +469,11 @@ LaTeX Font Info:    ... okay on input line 73.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Info: Redefining \microtypecontext on input line 73.
-Package microtype Info: Generating PDF output.
-Package microtype Info: Character protrusion enabled (level 2).
-Package microtype Info: Using default protrusion set `alltext'.
-Package microtype Info: Automatic font expansion enabled (level 2),
-(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
-Package microtype Info: Using default expansion set `basictext'.
-Package microtype Info: No adjustment of tracking.
-Package microtype Info: No adjustment of interword spacing.
-Package microtype Info: No adjustment of character kerning.
 
-("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
-atex/microtype/mt-cmr.cfg"
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
-(RS)
-)
+Package microtype Warning: `draft' option active.
+(microtype)                Disabling all micro-typographic extensions.
+(microtype)                This might lead to different line and page breaks.
+
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: sidecap package is loaded.
@@ -539,6 +535,10 @@ LaTeX Info: Redefining \selectfont on input line 126.
 \JustifyingParindent=\skip73
 )
 \AtBeginShipoutBox=\box32
+
+
+Package hyperref Warning: Draft mode on.
+
 Package hyperref Info: Link coloring OFF on input line 73.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
@@ -554,134 +554,102 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 73.
 LaTeX Info: Redefining \pageref on input line 73.
 LaTeX Info: Redefining \nameref on input line 73.
- (manuscript_2023.out)
-(manuscript_2023.out)
-\@outlinefile=\write3
-\openout3 = `manuscript_2023.out'.
-
-<../results/figures/final/Fig_1.pdf, id=6, 330.44067pt x 322.46461pt>
-File: ../results/figures/final/Fig_1.pdf Graphic file (type pdf)
-<use ../results/figures/final/Fig_1.pdf>
-Package pdftex.def Info: ../results/figures/final/Fig_1.pdf  used on input line
- 118.
-(pdftex.def)             Requested size: 330.43987pt x 322.46382pt.
-<../results/figures/final/Fig_2.pdf, id=7, 507.91177pt x 434.23187pt>
-File: ../results/figures/final/Fig_2.pdf Graphic file (type pdf)
-<use ../results/figures/final/Fig_2.pdf>
-Package pdftex.def Info: ../results/figures/final/Fig_2.pdf  used on input line
- 140.
-(pdftex.def)             Requested size: 452.9679pt x 387.26024pt.
+<../results/figures/final/Fig_1.pdf, id=1, 330.44067pt x 322.46461pt>
+<../results/figures/final/Fig_2.pdf, id=2, 507.91177pt x 434.23187pt>
  [1
 
 {/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/data/pdftex/co
-nfig/pdftex.map}] [2 <../results/figures/final/Fig_1.pdf>] [3 <../results/figur
-es/final/Fig_2.pdf>]
-<../results/figures/final/Fig_3.pdf, id=139, 505.6787pt x 420.70474pt>
-File: ../results/figures/final/Fig_3.pdf Graphic file (type pdf)
-<use ../results/figures/final/Fig_3.pdf>
-Package pdftex.def Info: ../results/figures/final/Fig_3.pdf  used on input line
- 170.
-(pdftex.def)             Requested size: 452.9679pt x 376.86542pt.
+nfig/pdftex.map}] [2] [3]
+<../results/figures/final/Fig_3.pdf, id=23, 505.6787pt x 420.70474pt>
 LaTeX Font Info:    Try loading font information for U+msa on input line 178.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
-atex/microtype/mt-msa.cfg"
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
-)
 LaTeX Font Info:    Try loading font information for U+msb on input line 178.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
-atex/microtype/mt-msb.cfg"
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [4]
-<../results/figures/final/Fig_4.png, id=164, 473.00716pt x 452.28975pt>
-File: ../results/figures/final/Fig_4.png Graphic file (type png)
-<use ../results/figures/final/Fig_4.png>
-Package pdftex.def Info: ../results/figures/final/Fig_4.png  used on input line
- 203.
-(pdftex.def)             Requested size: 473.006pt x 452.28865pt.
- [5 <../results/figures/final/Fig_3.pdf>]
-[6] [7 <../results/figures/final/Fig_4.png>]
-<../results/figures/final/Fig_5.png, id=282, 454.5783pt x 271.2534pt>
-File: ../results/figures/final/Fig_5.png Graphic file (type png)
-<use ../results/figures/final/Fig_5.png>
-Package pdftex.def Info: ../results/figures/final/Fig_5.png  used on input line
- 239.
-(pdftex.def)             Requested size: 454.57718pt x 271.25273pt.
+<../results/figures/final/Fig_4.png, id=29, 473.00716pt x 452.28975pt>
+ [5] [6] [7]
+<../results/figures/final/Fig_5.png, id=43, 454.5783pt x 271.2534pt>
 
 Overfull \hbox (1.60928pt too wide) in paragraph at lines 239--246
- [][] 
+ [][] |
  []
 
-[8 <../results/figures/final/Fig_5.png>]
-<../results/figures/final/Fig_2_S1.png, id=299, 256.43805pt x 203.44005pt>
-File: ../results/figures/final/Fig_2_S1.png Graphic file (type png)
-<use ../results/figures/final/Fig_2_S1.png>
-Package pdftex.def Info: ../results/figures/final/Fig_2_S1.png  used on input l
-ine 268.
-(pdftex.def)             Requested size: 256.43741pt x 203.43954pt.
-<../results/figures/final/Fig_3_S1.png, id=300, 432.53595pt x 119.84775pt>
-File: ../results/figures/final/Fig_3_S1.png Graphic file (type png)
-<use ../results/figures/final/Fig_3_S1.png>
-Package pdftex.def Info: ../results/figures/final/Fig_3_S1.png  used on input l
-ine 279.
-(pdftex.def)             Requested size: 432.53488pt x 119.84744pt.
-<../results/figures/final/Fig_3_S2.png, id=303, 245.59755pt x 149.23755pt>
-File: ../results/figures/final/Fig_3_S2.png Graphic file (type png)
-<use ../results/figures/final/Fig_3_S2.png>
-Package pdftex.def Info: ../results/figures/final/Fig_3_S2.png  used on input l
-ine 290.
-(pdftex.def)             Requested size: 245.59694pt x 149.23717pt.
+[8]
+
+Package natbib Warning: Citation `wilson1972excitatory' on page 9 undefined on 
+input line 281.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Package natbib Warning: Citation `wilson1972excitatory' on page 9 undefined on 
+input line 290.
 
-<../results/figures/final/Fig_4_S1.png, id=304, 450.9648pt x 370.2633pt>
-File: ../results/figures/final/Fig_4_S1.png Graphic file (type png)
-<use ../results/figures/final/Fig_4_S1.png>
-Package pdftex.def Info: ../results/figures/final/Fig_4_S1.png  used on input l
-ine 301.
-(pdftex.def)             Requested size: 450.96368pt x 370.26239pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Overfull \hbox (10.11563pt too wide) in paragraph at lines 294--297
+\OT1/cmr/m/n/10 where the weight $\OML/cmm/m/it/10 w[]$ \OT1/cmr/m/n/10 denotes
+ the recurrent excitatory connections between PCs, including backpropagating|
+ []
 
-<../results/figures/final/Fig_4_S2.png, id=306, 242.8272pt x 161.8848pt>
-File: ../results/figures/final/Fig_4_S2.png Graphic file (type png)
-<use ../results/figures/final/Fig_4_S2.png>
-Package pdftex.def Info: ../results/figures/final/Fig_4_S2.png  used on input l
-ine 312.
-(pdftex.def)             Requested size: 242.8266pt x 161.8844pt.
+
+Package natbib Warning: Citation `wilson1972excitatory' on page 9 undefined on 
+input line 298.
+
+[9]
+No file manuscript_2023.bbl.
+[10] [11] [12] [13]
+Overfull \hbox (14.32506pt too wide) in paragraph at lines 654--657
+$\OML/cmm/m/it/10 P[]$\OT1/cmr/m/n/10 , is however $\OML/cmm/m/it/10 []$ \OT1/
+cmr/m/n/10 in my implementation and $\OML/cmm/m/it/10 R[]$ \OT1/cmr/m/n/10 is f
+ixed variance of inputs $\OML/cmm/m/it/10 []$\OT1/cmr/m/n/10 . Hence, my imple
+mentation|
+ []
+
+<../results/figures/final/Fig_2_S1.png, id=69, 256.43805pt x 203.44005pt>
+<../results/figures/final/Fig_3_S1.png, id=70, 432.53595pt x 119.84775pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 712.
-[9 <../results/figures/final/Fig_2_S1.png> <../results/figures/final/Fig_3_S1.p
-ng>] [10 <../results/figures/final/Fig_3_S2.png> <../results/figures/final/Fig_
-4_S1.png>] [11 <../results/figures/final/Fig_4_S2.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 712.
+<../results/figures/final/Fig_3_S2.png, id=71, 245.59755pt x 149.23755pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../results/figures/final/Fig_4_S1.png, id=72, 450.9648pt x 370.2633pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../results/figures/final/Fig_4_S2.png, id=73, 242.8272pt x 161.8848pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 719.
+[14] [15] [16]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 719.
  (manuscript_2023.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 712.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 712.
-Package rerunfilecheck Info: File `manuscript_2023.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 712.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 719.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 719.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 719.
  ) 
 Here is how much of TeX's memory you used:
- 10345 strings out of 494891
- 164667 string characters out of 3176446
- 317226 words of memory out of 3000000
- 13658 multiletter control sequences out of 15000+200000
- 15614 words of font info for 115 fonts, out of 3000000 for 9000
+ 10060 strings out of 494891
+ 160444 string characters out of 3176446
+ 310522 words of memory out of 3000000
+ 13560 multiletter control sequences out of 15000+200000
+ 11740 words of font info for 45 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
- 40i,8n,45p,2398b,410s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,15n,43p,2398b,366s stack positions out of 5000i,500n,10000p,200000b,50000s
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/font
 s/type1/public/amsfonts/cm/cmbx10.pfb></Users/loreen.hertaeg/Library/Applicatio
 n Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Use
@@ -689,23 +657,33 @@ rs/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1
 /public/amsfonts/cm/cmbx8.pfb></Users/loreen.hertaeg/Library/Application Suppor
 t/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx9.pfb></Users/loreen
 .hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/a
-msfonts/cm/cmmi10.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX
-/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi8.pfb></Users/loreen.hertaeg
-/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/
-cm/cmr10.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/i
-nstall/fonts/type1/public/amsfonts/cm/cmr12.pfb></Users/loreen.hertaeg/Library/
-Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr6.p
-fb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fon
-ts/type1/public/amsfonts/cm/cmr7.pfb></Users/loreen.hertaeg/Library/Application
- Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/
-loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pu
-blic/amsfonts/cm/cmr9.pfb></Users/loreen.hertaeg/Library/Application Support/Mi
-KTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/loreen.he
-rtaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsf
-onts/symbols/msam10.pfb>
-Output written on manuscript_2023.pdf (11 pages, 4309955 bytes).
+msfonts/cm/cmex10.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX
+/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/loreen.hertae
+g/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts
+/cm/cmmi5.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/
+install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/loreen.hertaeg/Library
+/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi8
+.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/f
+onts/type1/public/amsfonts/cm/cmr10.pfb></Users/loreen.hertaeg/Library/Applicat
+ion Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb></Us
+ers/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type
+1/public/amsfonts/cm/cmr5.pfb></Users/loreen.hertaeg/Library/Application Suppor
+t/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr6.pfb></Users/loreen.
+hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/am
+sfonts/cm/cmr7.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/te
+xmfs/install/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/loreen.hertaeg/Lib
+rary/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/c
+mr9.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/instal
+l/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/loreen.hertaeg/Library/Appl
+ication Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+</Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/
+type1/public/amsfonts/cm/cmti10.pfb></Users/loreen.hertaeg/Library/Application 
+Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users
+/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/p
+ublic/amsfonts/symbols/msam10.pfb>
+Output written on manuscript_2023.pdf (16 pages, 311044 bytes).
 PDF statistics:
- 378 PDF objects out of 1000 (max. 8388607)
- 29 named destinations out of 1000 (max. 500000)
- 16947 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 149 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

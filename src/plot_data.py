@@ -79,6 +79,62 @@ def lighten_color(color, amount=0.5):
     return colorsys.hls_to_rgb(c[0], 1 - amount * (1 - c[1]), c[2])
 
 
+def plot_deviation_in_population_net(x, num_seeds, M_steady_state, V_steady_state, xlabel, mean=5, var=4, 
+                                     ax=None, fs=6, lw=1, ylim=None, plt_ylabel=True):
+    
+    if ax is None:
+        _, ax = plt.subplots(1,1)
+    
+    M_avg = np.mean((M_steady_state - mean)/mean * 100, 1)
+    V_avg = np.mean((V_steady_state - var)/var * 100, 1)
+    
+    M_sem = np.std((M_steady_state - mean)/mean * 100, 1)/np.sqrt(num_seeds)
+    V_sem = np.std((V_steady_state - var)/var * 100, 1)/np.sqrt(num_seeds)
+    
+    ax.plot(x, M_avg, color=color_m_neuron, lw=lw)
+    ax.fill_between(x, M_avg - M_sem/2, M_avg + M_sem/2, color=color_m_neuron, alpha=0.5)
+    
+    ax.plot(x, V_avg, color=color_v_neuron, lw=lw)
+    ax.fill_between(x, V_avg - V_sem/2, V_avg + V_sem/2, color=color_v_neuron, alpha=0.5)
+    
+    ax.set_xlim([x[0], x[-1]])
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    ax.set_xlabel(xlabel, fontsize=fs)
+    if plt_ylabel:
+        ax.set_ylabel('Deviation (%)', fontsize=fs)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.locator_params(nbins=3, axis='both')
+    sns.despine(ax=ax)
+    
+
+
+def plot_M_and_V_for_population_example(t, r_mem, r_var, mean=5, var=4, ax=None, fs=6, lw=1):
+    
+    if ax is None:
+        _, ax = plt.subplots(1,1)
+
+    ax.plot(t, r_mem, color=color_m_neuron, lw=lw, label='M neuron')
+    ax.axhline(mean, color=color_m_neuron, ls='--', lw=lw)
+    ax.plot(t, r_var, color=color_v_neuron, lw=lw, label='V neuron')
+    ax.axhline(var, color=color_v_neuron, ls='--', lw=lw)
+    
+    ax.legend(loc=0, frameon=False, fontsize=fs, handlelength=1)
+    ax.set_ylabel('Activity (1/s)', fontsize=fs)
+    ax.set_xlabel('Time (time steps)', fontsize=fs)
+
+    ax.set_xlim([t[0],t[-1]])
+    ax.set_ylim(bottom=0)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.locator_params(nbins=3, axis='both')
+    sns.despine(ax=ax)
+
+
 def plot_legend_illustrations(ax, fs=6, mew=2):
     
     p1, = ax.plot(np.nan, np.nan, marker=10, color='k', ms=4, ls='None')
@@ -91,8 +147,6 @@ def plot_legend_illustrations(ax, fs=6, mew=2):
     ax.legend([p1, p2, (p3, p4), (p5, p6)], ['pPE neuron targeted', 'nPE neuron targeted', 'in lower PE circuit', 'in higher PE circuit'],
               handler_map={tuple: HandlerTuple(ndivide=None)}, loc=6, fontsize=fs, frameon=False, 
               bbox_to_anchor=(-0.6, 0.5), ncol=2)
-
-
 
 
 def plot_influence_interneurons_baseline_or_gain(plot_baseline=True, plot_annotation=True, ax=None, fs=6, s=10, lw=1):

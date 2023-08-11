@@ -9,12 +9,14 @@ Created on Mon Jan  9 09:31:58 2023
 # %% Import
 
 import numpy as np
-import pickle
+import os
+from numba import njit
 
 dtype = np.float32
 
 # %% functions
 
+## functions for mean-field network/s
 
 def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean, 
                       var, feedforward_input, dt, n):
@@ -169,3 +171,168 @@ def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_
     return ret
 
     
+## functions for population network/s
+
+#@njit(cache=True)
+def drdt(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, wSE, wSP, wSS, wSV, wVE, wVP, wVS, wVV,
+         wEM, wDM, wPM, wSM, wVM, wME, wVarE, rE, rD, rP, rS, rV, r_mem, r_var, StimSoma_E, StimSoma_P, StimSoma_S, StimSoma_V, StimDend): 
+    
+    drE = tau_inv_E * (-rE + wED @ rD + wEP @ rP + wEM @ r_mem + StimSoma_E)
+    drD = tau_inv_E * (-rD + wDE @ rE + wDS @ rS + wDM @ r_mem + StimDend)
+    drP = tau_inv_I * (-rP + wPE @ rE + wPP @ rP + wPS @ rS + wPV @ rV + wPM @ r_mem + StimSoma_P)
+    drS = tau_inv_I * (-rS + wSE @ rE + wSP @ rP + wSS @ rS + wSV @ rV + wSM @ r_mem + StimSoma_S)
+    drV = tau_inv_I * (-rV + wVE @ rE + wVP @ rP + wVS @ rS + wVV @ rV + wVM @ r_mem + StimSoma_V)
+    
+    dr_mem = tau_inv_E * (wME @ rE)
+    dr_var = tau_inv_var * (-r_var + (wVarE @ rE)**2)
+    
+    return drE, drD, drP, drS, drV, dr_mem, dr_var
+
+
+
+def rate_dynamics(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, wSE, wSP, wSS, wSV, wVE, wVP, wVS, wVV,
+                  wEM, wDM, wPM, wSM, wVM, wME, wVarE, rE, rD, rP, rS, rV, r_mem, r_var, StimSoma_E, StimSoma_P, StimSoma_S, 
+                  StimSoma_V, StimDend, dt):
+    
+    rE0 = rE.copy()
+    rD0 = rD.copy()
+    rP0 = rP.copy()
+    rS0 = rS.copy()
+    rV0 = rV.copy()
+    r_mem0 = r_mem.copy()
+    r_var0 = r_var.copy()
+    
+    drE1, drD1, drP1, drS1, drV1, dr_mem1, dr_var1 = drdt(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, 
+                                                          wSE, wSP, wSS, wSV, wVE, wVP, wVS, wVV, wEM, wDM, wPM, wSM, wVM, wME, wVarE, 
+                                                          rE0, rD0, rP0, rS0, rV0, r_mem0, r_var0, StimSoma_E, StimSoma_P, StimSoma_S, 
+                                                          StimSoma_V, StimDend)
+    
+    rE0[:] += dt * drE1
+    rD0[:] += dt * drD1
+    rP0[:] += dt * drP1
+    rS0[:] += dt * drS1
+    rV0[:] += dt * drV1
+    r_mem0[:] += dt * dr_mem1
+    r_var0[:] += dt * dr_var1
+    
+    drE2, drD2, drP2, drS2, drV2, dr_mem2, dr_var2 = drdt(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, 
+                                                          wSE, wSP, wSS, wSV, wVE, wVP, wVS, wVV, wEM, wDM, wPM, wSM, wVM, wME, wVarE, 
+                                                          rE0, rD0, rP0, rS0, rV0, r_mem0, r_var0, StimSoma_E, StimSoma_P, StimSoma_S, 
+                                                          StimSoma_V, StimDend)
+    
+    rE[:] += dt/2 * (drE1 + drE2)
+    rD[:] += dt/2 * (drD1 + drD2)
+    rP[:] += dt/2 * (drP1 + drP2) 
+    rS[:] += dt/2 * (drS1 + drS2) 
+    rV[:] += dt/2 * (drV1 + drV2) 
+    r_mem[:] += dt/2 * (dr_mem1 + dr_mem2)
+    r_var[:] += dt/2 * (dr_var1 + dr_var2)
+    
+    rE[rE<0] = 0
+    rP[rP<0] = 0
+    rS[rS<0] = 0
+    rV[rV<0] = 0
+    rD[rD<0] = 0
+
+    return
+
+
+def run_population_net(NeuPar, NetPar, StimPar, RatePar, dt, folder: str, fln: str = ''):
+    
+    ### Neuron parameters
+    NCells = NeuPar.NCells
+    N_total = np.int32(sum(NCells))
+    nE = NCells[0]
+    
+    ind_break = np.cumsum(NCells[1:],dtype=np.int32)[:-1]
+    
+    tau_inv_E = NeuPar.tau_inv_E
+    tau_inv_I = NeuPar.tau_inv_I
+    tau_inv_var = NeuPar.tau_inv_var
+    
+    ### Network parameters
+    wEP = NetPar.wEP
+    wED = NetPar.wED
+    wDE = NetPar.wDE
+    wDS = NetPar.wDS 
+    wPE = NetPar.wPE
+    wPP = NetPar.wPP
+    wPS = NetPar.wPS
+    wPV = NetPar.wPV
+    wSE = NetPar.wSE
+    wSP = NetPar.wSP
+    wSS = NetPar.wSS
+    wSV = NetPar.wSV
+    wVE = NetPar.wVE
+    wVP = NetPar.wVP
+    wVS = NetPar.wVS
+    wVV = NetPar.wVV
+    
+    wEM = NetPar.wEM
+    wDM = NetPar.wDM 
+    wPM = NetPar.wPM
+    wSM = NetPar.wSM
+    wVM = NetPar.wVM
+    wME = NetPar.wME
+    wVarE = NetPar.wVarE
+    
+    ## Stimulation protocol & Inputs
+    stimuli = iter(StimPar.stimuli)
+    neurons_visual = StimPar.neurons_visual
+    inp_ext_soma = StimPar.inp_ext_soma
+    inp_ext_dend = StimPar.inp_ext_dend 
+    
+    ### Initial activity levels
+    rE = RatePar.rE0
+    rD = RatePar.rD0
+    rP = RatePar.rP0
+    rS = RatePar.rS0
+    rV = RatePar.rV0
+    r_mem = RatePar.r_mem0
+    r_var = RatePar.r_var0
+    
+    ### Initialisation
+    StimSoma_E = np.zeros(nE, dtype=dtype)
+    StimSoma_P = np.zeros(NCells[1], dtype=dtype)
+    StimSoma_S = np.zeros(NCells[2], dtype=dtype)
+    StimSoma_V = np.zeros(NCells[3], dtype=dtype)
+    StimDend = np.zeros(NCells[0], dtype=dtype)
+    stim_IN = np.zeros(N_total-nE, dtype=dtype)
+    
+    ### Path & file for data to be stored
+    path = '../results/data/' + folder
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+    fp = open(path +'/Data_PopulationNetwork_' + fln + '.dat','w')
+    
+    ### Main loop
+    for id_stim, stim in enumerate(stimuli):
+        
+        stim_IN[:] = stim * neurons_visual[nE:] + inp_ext_soma[nE:]
+        StimSoma_P[:], StimSoma_S[:], StimSoma_V[:] = np.split(stim_IN, ind_break)
+        
+        StimSoma_E[:] = stim * neurons_visual[:nE] + inp_ext_soma[:nE]
+        StimDend[:] = inp_ext_dend
+    
+        rate_dynamics(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, wSE, wSP, wSS, wSV, wVE, wVP, wVS,
+                      wVV, wEM, wDM, wPM, wSM, wVM, wME, wVarE, rE, rD, rP, rS, rV, r_mem, r_var, 
+                      StimSoma_E, StimSoma_P, StimSoma_S, StimSoma_V, StimDend, dt)
+        
+        fp.write("%f" % ((id_stim+1) * dt))
+        for i in range(NCells[0]):
+            fp.write(" %f" % rE[i])
+        for i in range(NCells[1]):
+            fp.write(" %f" % rP[i])
+        for i in range(NCells[2]):
+            fp.write(" %f" % rS[i])
+        for i in range(NCells[3]):
+            fp.write(" %f" % rV[i])
+        for i in range(NCells[0]):
+            fp.write(" %f" % rD[i])
+        fp.write(" %f" % r_mem[0])
+        fp.write(" %f" % r_var[0])
+        fp.write("\n") 
+        
+    fp.closed
+    return
