@@ -281,38 +281,47 @@ The mean-field network model consists of a \textit{lower} and \textit{higher} PE
 Each excitatory pyramidal cell (that is, nPE or pPE neuron) is divided into two coupled compartments, representing the soma and the dendrites, respectively. The dynamics of the firing rates of the somatic compartments~$r_{\mathrm{nE}}$ (nPE neuron) and~$r_{\mathrm{pE}}$ (pPE neuron) obey \citep{wilson1972excitatory}
 %
 \begin{align}
-\tau_E\ \frac{dr_\mathrm{nE}}{dt} &= - r_\mathrm{nE} + w_\mathrm{nEnD}\cdot  r_\mathrm{nD}  -  w_\mathrm{nEP_1}\cdot r_\mathrm{P_1}  -  w_\mathrm{nEP_2}\cdot r_\mathrm{P_2} + I_\mathrm{nE}, \nonumber\\
-\tau_E\ \frac{dr_\mathrm{pE}}{dt} &= - r_\mathrm{pE} + w_\mathrm{pEpD}\cdot  r_\mathrm{pD}  -  w_\mathrm{pEP_1}\cdot r_\mathrm{P_1}  -  w_\mathrm{pEP_2}\cdot r_\mathrm{P_2} + I_\mathrm{pE}
+r_\mathrm{nE} = [h_\mathrm{nE}]_+ \ \mbox{ with }\ \tau_E\ \frac{dh_\mathrm{nE}}{dt} &= - h_\mathrm{nE} + w_\mathrm{nEnD}\cdot  r_\mathrm{nD}  -  w_\mathrm{nEP_1}\cdot r_\mathrm{P_1}  -  w_\mathrm{nEP_2}\cdot r_\mathrm{P_2} + I_\mathrm{nE}, \nonumber\\
+r_\mathrm{pE} = [h_\mathrm{pE}]_+ \ \mbox{ with }\ \tau_E\ \frac{dh_\mathrm{pE}}{dt} &= - h_\mathrm{pE} + w_\mathrm{pEpD}\cdot  r_\mathrm{pD}  -  w_\mathrm{pEP_1}\cdot r_\mathrm{P_1}  -  w_\mathrm{pEP_2}\cdot r_\mathrm{P_2} + I_\mathrm{pE}
 \end{align}
 %
-where $\tau_\mathrm{E}$ denotes the excitatory rate time constant ($\tau_\mathrm{E}$=60 ms), the weights $w_{\mathrm{nEnD}}$ and $w_{\mathrm{pEpD}}$ describe the connection strength between the dendritic compartment and the soma of the same neuron, and $w_{\mathrm{nEP_1}}$, $w_{\mathrm{nEP_2}}$, $w_{\mathrm{pEP_1}}$ and $w_{\mathrm{pEP_2}}$ denote the strength of somatic inhibition from PV neurons. The overall input $I_\mathrm{nE}$ and $I_\mathrm{pE}$ comprise the external background and feedforward inputs (see ``Inputs" below). Firing rates are rectified to ensure positivity. 
+where $\tau_\mathrm{E}$ denotes the excitatory rate time constant ($\tau_\mathrm{E}$=60 ms), the weights $w_{\mathrm{nEnD}}$ and $w_{\mathrm{pEpD}}$ describe the connection strength between the dendritic compartment and the soma of the same neuron, and $w_{\mathrm{nEP_1}}$, $w_{\mathrm{nEP_2}}$, $w_{\mathrm{pEP_1}}$ and $w_{\mathrm{pEP_2}}$ denote the strength of somatic inhibition from PV neurons. The overall input $I_\mathrm{nE}$ and $I_\mathrm{pE}$ comprise the external background and feedforward inputs (see ``Inputs" below). Firing rates are rectified to ensure positivity ($[\bullet]_+$). 
 
-XXX continue here in the same spirit as above XXX The dynamics of the activity~$r_\mathrm{D}$ of the dendritic compartment obeys \citep{wilson1972excitatory}
+The dynamics of the activity of the dendritic compartments~$r_\mathrm{nD}$ (nPE neuron) and~$r_\mathrm{pD}$ (pPE neuron) obey \citep{wilson1972excitatory}
 %
 \begin{align}
-\tau_E\ \frac{dr_\mathrm{D}}{dt} &= - r_\mathrm{D} +  w_\mathrm{DE}\cdot r_\mathrm{E}  - w_\mathrm{DS}\cdot r_\mathrm{S} + I_\mathrm{D},
+r_\mathrm{nE} = [h_\mathrm{nD}]_+ \ \mbox{ with }\ \tau_E\ \frac{dh_\mathrm{nD}}{dt} &= - h_\mathrm{nD} +  w_\mathrm{nDnE}\cdot r_\mathrm{nE} +  w_\mathrm{nDpE}\cdot r_\mathrm{pE}  - w_\mathrm{nDS}\cdot r_\mathrm{S} + I_\mathrm{nD}, \nonumber\\
+r_\mathrm{pD} = [h_\mathrm{pD}]_+ \ \mbox{ with }\ \tau_E\ \frac{dh_\mathrm{pD}}{dt} &= - h_\mathrm{pD} +  w_\mathrm{pDnE}\cdot r_\mathrm{pE} +  w_\mathrm{pDpE}\cdot r_\mathrm{pE}  - w_\mathrm{pDS}\cdot r_\mathrm{S} + I_\mathrm{pD}
 \end{align}
 %
-where the weight $w_{\mathrm{DE}}$ denotes the recurrent excitatory connections between PCs, including backpropagating activity from the soma to the dendrites. $w_{\mathrm{DS}}$ represents the strength of dendritic inhibition from SOM neurons. The overall input $I_\mathrm{D}$ comprises fixed, external background inputs and feedback predictions (see ``Inputs" below). We assume that any excess of inhibition in a dendrite does not affect the soma, that is, the dendritic compartment is rectified at zero. 
+where the weights $w_{\mathrm{nDnE}}$, $w_{\mathrm{nDpE}}$, $w_{\mathrm{pDnE}}$ and $w_{\mathrm{pDpE}}$ denote the recurrent excitatory connections between PCs, including backpropagating activity from the soma to the dendrites. $w_{\mathrm{nDS}}$ and $w_{\mathrm{pDS}}$ represent the strength of dendritic inhibition from SOM neurons. The overall inputs $I_\mathrm{nD}$ and $I_\mathrm{pD}$ comprise fixed, external background inputs and feedback predictions (see ``Inputs" below). We assume that any excess of inhibition in a dendrite does not affect the soma, that is, the dendritic compartment is rectified at zero. 
 
-Just as for the excitatory neurons, the firing rate dynamics of each interneuron is modeled by a rectified, linear differential equation \citep{wilson1972excitatory},
+Similarly, the firing rate dynamics of each interneuron is modeled by a rectified, linear differential equation,
 %
 \begin{align}
 \label{eq:RateEqINs}
-\tau_I\ \frac{dr_\mathrm{X}}{dt} =& - r_\mathrm{X} + I_{\mathrm{X}} + w_\mathrm{XE}\cdot r_\mathrm{E} - w_\mathrm{XP}\cdot r_\mathrm{P}  - w_\mathrm{XS}\cdot r_\mathrm{S} -  w_\mathrm{XV}\cdot r_\mathrm{V}, 
+r_\mathrm{X} =& [h_\mathrm{X}]_+ \ \mbox{ with }\ \tau_I\ \frac{dh_\mathrm{X}}{dt} = -h_\mathrm{X} + I_{\mathrm{X}} + w_\mathrm{XE}\cdot r_\mathrm{E} - w_\mathrm{XP_1}\cdot r_\mathrm{P_1} - w_\mathrm{XP_2}\cdot r_\mathrm{P_2}  - w_\mathrm{XS}\cdot r_\mathrm{S} -  w_\mathrm{XV}\cdot r_\mathrm{V},
 \end{align}
 %
-where $r_\mathrm{X}$ denotes the firing rate of neuron type $X$, and the weight matrices $w_\mathrm{XY}$ denote the strength of connection between the presynaptic neuron population $Y$ and the postsynaptic neuron population $X$ ($X, Y\in \lbrace P,S,V\rbrace$). The rate time constant $\tau_I$ was chosen to resemble a fast GABA\textsubscript{A} time constant, and set to 2 ms for all interneuron types included. The overall input $I_\mathrm{X}$ comprises fixed, external background inputs, as well as feedforward sensory inputs and feedback predictions (see ``Inputs" below).
+where $r_\mathrm{X}$ denotes the firing rate of interneuron type $X$, and the weight $w_\mathrm{XY}$ denotes the strength of connection between the presynaptic neuron $Y$ and the postsynaptic neuron $X$ ($X, Y\in \lbrace P_1, P_2, S, V\rbrace$). The rate time constant $\tau_I$ was chosen to resemble a fast GABA\textsubscript{A} time constant, and set to 2 ms for all interneuron types included. The overall input $I_\mathrm{X}$ comprises fixed, external background inputs, as well as feedforward sensory inputs and feedback predictions (see ``Inputs" below).
 
 \subsubsection*{Memory and variance neuron}
 %
-\begin{align}
-\tau_m \cdot \frac{dr_\mathrm{M}}{dt} = w_\mathrm{M\leftarrow pPE} \cdot r_\mathrm{pPE} - w_\mathrm{M\leftarrow nPE} \cdot r_\mathrm{nPE} 
-\end{align}
+In addition to the core PE circuit, we simulate a memory neuron \textit{M} and a variance neuron \textit{V}. The memory neuron is modeled as a perfect integrator, receiving the output synapses from the nPE and pPE neurons,
 %
 \begin{align}
-\tau_v \cdot \frac{dr_\mathrm{V}}{dt} = -r_\mathrm{V} + (w_\mathrm{V\leftarrow pPE} \cdot r_\mathrm{pPE} - w_\mathrm{V\leftarrow nPE} \cdot r_\mathrm{nPE})^2 
+\tau_M \cdot \frac{dr_\mathrm{M}}{dt} = w_\mathrm{MpE} \cdot r_\mathrm{pE} - w_\mathrm{MnE} \cdot r_\mathrm{nE}.
 \end{align}
+%
+$w_\mathrm{MpE}$ denotes the connection strength between the pPE neuron and the memory neuron, and  $w_\mathrm{MnE}$ denotes the connection strength between the nPE neuron and the memory neuron. The time constant XXX.
+
+The dynamics of the variance neuron obeys a non-linear differential equation with leak term,
+%
+\begin{align}
+\tau_V \cdot \frac{dr_\mathrm{V}}{dt} = -r_\mathrm{V} + (w_\mathrm{VpE} \cdot r_\mathrm{pE} + w_\mathrm{VnE} \cdot r_\mathrm{nE})^2.
+\end{align}
+%
+The weight $w_\mathrm{VpE}$ represents the connection strength between the pPE neuron and the variance neuron, while  $w_\mathrm{VnE}$ denotes the connection strength between the nPE neuron and the variance neuron.  XXXX contiue here XXXX We chose a squared activation function ... but in xxx we also use a xxx this then is not the variance but xxx. the time constant was chosen to be xxx.
 
 \subsubsection*{Weighted output}
 %

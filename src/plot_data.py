@@ -79,6 +79,110 @@ def lighten_color(color, amount=0.5):
     return colorsys.hls_to_rgb(c[0], 1 - amount * (1 - c[1]), c[2])
 
 
+def plot_deviation_spatial(deviation, means_tested, stds_tested, vmin=0, vmax=1, fs=6, show_mean = True, show_xlabel=True, ax=None):
+    
+    if ax is None:
+        _, ax = plt.subplots(1,1)
+        
+    if show_mean:
+        color_cbar = LinearSegmentedColormap.from_list(name='mse_mean', colors=['#FEFAE0', color_m_neuron])
+    else:
+        color_cbar = LinearSegmentedColormap.from_list(name='mse_variance', colors=['#FEFAE0', color_v_neuron])
+    
+    data = pd.DataFrame(abs(deviation)*100, index=np.round(means_tested,1), columns=np.round(stds_tested**2,1))
+    sns.heatmap(data, cmap = color_cbar, vmin=vmin, vmax=vmax, xticklabels=2, yticklabels=2,
+                cbar_kws={'label': '|Deviation| (%)', 'ticks':[vmin, vmax]}, ax=ax)
+    
+    cbar = ax.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=fs)
+    cbar.ax.tick_params(size=2.0)
+    cbar.ax.yaxis.label.set_size(fs)
+    
+    ax.invert_yaxis()
+    if show_xlabel:
+        ax.set_xlabel('Mean', fontsize=fs) 
+    ax.set_ylabel('Variance', fontsize=fs) 
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.locator_params(nbins=3, axis='both')
+    
+    
+
+def plot_examples_spatial_V(num_time_steps, v_neuron_before, v_neuron_after, std_before, std_after, labels, ax=None, fs=6, lw=1):
+    
+    if ax is None:
+        _, ax = plt.subplots(1,1)
+    
+    colors = ['#FFBB33', '#E9724C']
+
+    ndim = v_neuron_after.ndim
+    
+    ax.plot(np.arange(num_time_steps), v_neuron_before, c=color_v_neuron, label=labels[0], lw=lw)
+    ax.axhline(std_before, 0, 0.5, ls=':', c=color_v_neuron, lw=lw)
+    
+    if ndim==1:
+        ax.plot(np.arange(num_time_steps, 2*num_time_steps), v_neuron_after, c=colors[0], label=labels[1], lw=lw)
+        ax.axhline(std_after, 0.5, 1, ls=':', color=colors[0], lw=lw)
+    else:
+        
+        for idim in range(ndim):
+            ax.plot(np.arange(num_time_steps, 2*num_time_steps), v_neuron_after[idim,:], c=colors[idim], label=labels[idim+1], lw=lw)
+            ax.axhline(std_after[idim], 0.5, 1, ls=':', color=colors[idim], lw=lw)
+    
+    ax.axvspan(num_time_steps,2*num_time_steps, color='k', alpha=0.03, zorder=0)
+    ax.legend(loc=0, frameon=False, handlelength=1, fontsize=fs)
+    ax.set_xlim([0,2*num_time_steps])
+    ax.set_xticks([0,num_time_steps,2*num_time_steps])
+    ax.set_xticklabels([0,1,2])
+    
+    ax.set_xlabel('Time / # stimuli', fontsize=fs)
+    ax.set_ylabel('Activity (1/s)', fontsize=fs)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.locator_params(nbins=3, axis='y')
+    sns.despine(ax=ax)
+
+
+def plot_examples_spatial_M(num_time_steps, m_neuron_before, m_neuron_after, mean_before, mean_after, labels, 
+                            show_xlabel = True, ax=None, fs=6, lw=1):
+    
+    if ax is None:
+        _, ax = plt.subplots(1,1)
+    
+    colors = ['#FFBB33', '#E9724C']
+
+    ndim = m_neuron_after.ndim
+    
+    ax.plot(np.arange(num_time_steps), m_neuron_before, c=color_m_neuron, label=labels[0], lw=lw)
+    ax.axhline(mean_before, 0, 0.5, ls=':', c=color_m_neuron, lw=lw)
+    
+    if ndim==1:
+        ax.plot(np.arange(num_time_steps, 2*num_time_steps), m_neuron_after, c=colors[0], label=labels[1], lw=lw)
+        ax.axhline(mean_after, 0.5, 1, ls=':', color=colors[0], lw=lw)
+    else:
+        
+        for idim in range(ndim):
+            ax.plot(np.arange(num_time_steps, 2*num_time_steps), m_neuron_after[idim,:], c=colors[idim], label=labels[idim+1], lw=lw)
+            ax.axhline(mean_after[idim], 0.5, 1, ls=':', color=colors[idim], lw=lw)
+    
+    ax.axvspan(num_time_steps,2*num_time_steps, color='k', alpha=0.03, zorder=0)
+    ax.legend(loc=0, frameon=False, handlelength=1, fontsize=fs)
+    ax.set_xlim([0,2*num_time_steps])
+    ax.set_xticks([0,num_time_steps,2*num_time_steps])
+    ax.set_xticklabels([0,1,2])
+    
+    if show_xlabel:
+        ax.set_xlabel('Time / number of timesteps', fontsize=fs)
+    ax.set_ylabel('Activity (1/s)', fontsize=fs)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.locator_params(nbins=3, axis='y')
+    sns.despine(ax=ax)
+
+
 def plot_deviation_in_population_net(x, num_seeds, M_steady_state, V_steady_state, xlabel, mean=5, var=4, 
                                      ax=None, fs=6, lw=1, ylim=None, plt_ylabel=True):
     

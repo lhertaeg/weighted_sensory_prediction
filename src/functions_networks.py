@@ -16,6 +16,95 @@ dtype = np.float32
 
 # %% functions
 
+## functions for "selective" uncoupled mean-field nets that share one M and V neuron
+
+def rate_dynamics_spatial_mfn(tau_E, tau_I, tc_var, Q, U, V, W, rates, mean, 
+                              var, feedforward_input, dt):
+    
+    # Initialise
+    rates_new = rates.copy() 
+    mean_new = mean.copy()
+    dr_1 = np.zeros(len(rates_new), dtype=dtype)
+    dr_2 = np.zeros(len(rates_new), dtype=dtype)
+    var_new = var.copy() 
+
+    # RK 2nd order
+    dr_mem_1 = (U @ rates_new) / tau_E
+    
+    dr_var_1 = (-var_new + (Q @ rates_new)**2) / tc_var 
+    #dr_var_1 = (-var_new + (Q @ rates_new**2)) / tc_var  
+    
+    dr_1 = -rates_new + W @ rates_new + V @ np.array([mean_new]) + feedforward_input
+    dr_1[:4] /= tau_E 
+    dr_1[4:] /= tau_I 
+
+    rates_new[:] += dt * dr_1 
+    rates_new[rates_new<0] = 0 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    mean_new += dt * dr_mem_1
+    var_new += dt * dr_var_1
+    
+    dr_mem_2 = (U @ rates_new) / tau_E
+    
+    dr_var_2 = (-var_new + (Q @ rates_new)**2) / tc_var
+    #dr_var_2 = (-var_new + (Q @ rates_new**2)) / tc_var
+    
+    dr_2 = -rates_new + W @ rates_new + V @ mean_new + feedforward_input
+    dr_2[:4] /= tau_E 
+    dr_2[4:] /= tau_I
+    
+    rates[:] += dt/2 * (dr_1 + dr_2)
+    mean += dt/2 * (dr_mem_1 + dr_mem_2)
+    var += dt/2 * (dr_var_1 + dr_var_2)
+    
+    # Rectify
+    rates[rates<0] = 0
+    
+    # print((Q @ rates_new**2))
+    # print(var)
+
+    return [rates, mean[0], var] # [rates, mean, var]
+
+
+def run_spatial_mfn_circuit(W_PE_to_V, W_PE_to_P, W_P_to_PE, W_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, stimulus, spatial_noise, 
+                            VS = 1, VV = 0, dt = dtype(1), num_time_steps = np.int32(1000), num_sub_nets = np.int32(100),
+                            M_init = None, V_init = None, rates_init = None):
+    
+    ### neuron and network parameters
+    tau_E, tau_I  = tau_pe
+    neurons_feedforward = np.array([1, 1, 0, 0, 1, 0, VS, VV], dtype=dtype)
+    neurons_feedforward = np.tile(neurons_feedforward, num_sub_nets)
+    
+    ### initialise
+    if rates_init is None:
+        m_neuron = np.zeros(num_time_steps, dtype=dtype)
+        v_neuron = np.zeros(num_time_steps, dtype=dtype)
+        rates_lower = np.zeros((num_time_steps, 8 * num_sub_nets), dtype=dtype)
+    else:
+        m_neuron = M_init * np.ones(num_time_steps, dtype=dtype)
+        v_neuron = V_init * np.ones(num_time_steps, dtype=dtype)
+        rates_lower = np.zeros((num_time_steps, 8 * num_sub_nets), dtype=dtype)
+        rates_lower[-1,:] = rates_init
+    
+    if fixed_input.ndim==1:
+        fixed_input = np.tile(fixed_input, (num_time_steps, num_sub_nets))
+    
+    ### run mean-field network
+    for step in range(num_time_steps):
+        
+        feedforward_input = fixed_input[step,:] + (stimulus + spatial_noise) * neurons_feedforward
+        
+        ## rates of PE circuit and M neuron
+        [rates_lower[step,:], 
+         m_neuron[step], 
+         v_neuron[step]] = rate_dynamics_spatial_mfn(tau_E, tau_I, tc_var_per_stim, W_PE_to_V, W_PE_to_P, W_P_to_PE, W_PE_to_PE, 
+                                                     rates_lower[step-1,:], m_neuron[step-1], v_neuron[step-1], feedforward_input, dt)
+    
+                                                                                                      
+    return m_neuron, v_neuron, rates_lower[-1,:]
+
+
+
 ## functions for mean-field network/s
 
 def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean, 
@@ -237,7 +326,7 @@ def rate_dynamics(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wP
     return
 
 
-def run_population_net(NeuPar, NetPar, StimPar, RatePar, dt, folder: str, fln: str = ''):
+def run_population_net(NeuPar, NetPar, StimPar, RatePar, dt, folder: str, fln: str = '', mean_spatial = 0, std_spatial = 0):
     
     ### Neuron parameters
     NCells = NeuPar.NCells
@@ -277,7 +366,7 @@ def run_population_net(NeuPar, NetPar, StimPar, RatePar, dt, folder: str, fln: s
     wVarE = NetPar.wVarE
     
     ## Stimulation protocol & Inputs
-    stimuli = iter(StimPar.stimuli)
+    stimuli = StimPar.stimuli # iter(StimPar.stimuli)
     neurons_visual = StimPar.neurons_visual
     inp_ext_soma = StimPar.inp_ext_soma
     inp_ext_dend = StimPar.inp_ext_dend 
@@ -306,13 +395,17 @@ def run_population_net(NeuPar, NetPar, StimPar, RatePar, dt, folder: str, fln: s
 
     fp = open(path +'/Data_PopulationNetwork_' + fln + '.dat','w')
     
+    ### spatial noise
+    spatial_noise_IN = np.random.normal(mean_spatial, std_spatial, size = N_total-nE)
+    spatial_noise_E = np.random.normal(mean_spatial, std_spatial, size = nE)
+    
     ### Main loop
     for id_stim, stim in enumerate(stimuli):
         
-        stim_IN[:] = stim * neurons_visual[nE:] + inp_ext_soma[nE:]
+        stim_IN[:] = (stim + spatial_noise_IN) * neurons_visual[nE:] + inp_ext_soma[nE:]
         StimSoma_P[:], StimSoma_S[:], StimSoma_V[:] = np.split(stim_IN, ind_break)
         
-        StimSoma_E[:] = stim * neurons_visual[:nE] + inp_ext_soma[:nE]
+        StimSoma_E[:] = (stim + spatial_noise_E) * neurons_visual[:nE] + inp_ext_soma[:nE]
         StimDend[:] = inp_ext_dend
     
         rate_dynamics(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, wSE, wSP, wSS, wSV, wVE, wVP, wVS,

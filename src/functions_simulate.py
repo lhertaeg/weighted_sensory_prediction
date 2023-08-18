@@ -13,7 +13,7 @@ import pickle
 import matplotlib.pyplot as plt
 
 from src.default_parameters import default_para_mfn
-from src.functions_networks import run_mfn_circuit, run_mfn_circuit_coupled
+from src.functions_networks import run_mfn_circuit, run_mfn_circuit_coupled, run_spatial_mfn_circuit
 
 dtype = np.float32
 
@@ -84,6 +84,68 @@ def random_uniform_from_moments(mean, sd, num):
     rnd = dtype(np.random.uniform(a, b, size = num))
         
     return rnd
+
+
+
+def simulate_spatial_example(mfn_flag, mean_stimulus, spatial_std, file_for_data, num_sub_nets = np.int32(100), seed = 186, 
+                             num_time_steps = np.int32(1000), dist_type = 'uniform', pa=0.8, M_init = None, V_init = None, rates_init = None):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag)
+    
+    ### create spatial noise
+    np.random.seed(seed)
+
+    if dist_type=='uniform':
+        spatial_noise = random_uniform_from_moments(0, spatial_std, num_sub_nets)
+        scaling = 2/(num_sub_nets * np.sqrt(3))
+    elif dist_type=='normal':
+        spatial_noise = np.random.normal(0, spatial_std, size=num_sub_nets)
+        scaling = 1/num_sub_nets # needs to be computed
+        #scaling = 2/(num_sub_nets * np.sqrt(3))
+    elif dist_type=='lognormal':
+        spatial_noise = random_lognormal_from_moments(0, spatial_std, num_sub_nets)
+        scaling = 1/num_sub_nets # needs to be computed
+    elif dist_type=='gamma':
+        spatial_noise = random_gamma_from_moments(0, spatial_std, num_sub_nets)
+        scaling = 1/num_sub_nets # needs to be computed
+    elif dist_type=='binary_equal_prop':
+        spatial_noise = random_binary_from_moments(0, spatial_std, num_sub_nets)
+        scaling = 1/num_sub_nets # needs to be computed
+    elif dist_type=='binary_unequal_prop':
+        spatial_noise = random_binary_from_moments(0, spatial_std, num_sub_nets, pa=pa)
+        scaling = 1/num_sub_nets # needs to be computed
+        
+    spatial_noise = np.repeat(spatial_noise, 8)
+
+    ### connectivity matrices
+    W_PE_to_V = np.tile(np.array([1.015,1.023,0,0,0,0,0,0]), (1,num_sub_nets)) * scaling
+    W_PE_to_P = 100 * np.tile(w_PE_to_P, (1,num_sub_nets)) / num_sub_nets
+    W_P_to_PE = np.tile(w_P_to_PE, (num_sub_nets,1))
+    W_PE_to_PE = np.kron(np.eye(num_sub_nets,dtype=dtype),w_PE_to_PE)
+    
+    tc_var_per_stim /= 10 # !!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    ### run model
+    if rates_init is None:
+        m_neuron, v_neuron, rates_final = run_spatial_mfn_circuit(W_PE_to_V, W_PE_to_P, W_P_to_PE, W_PE_to_PE, tc_var_per_stim, tau_pe, 
+                                                                  fixed_input, mean_stimulus, spatial_noise, VS=VS, VV=VV, 
+                                                                  num_time_steps = num_time_steps, num_sub_nets = num_sub_nets)
+    else:
+        m_neuron, v_neuron, rates_final = run_spatial_mfn_circuit(W_PE_to_V, W_PE_to_P, W_P_to_PE, W_PE_to_PE, tc_var_per_stim, tau_pe, 
+                                                                  fixed_input, mean_stimulus, spatial_noise, VS=VS, VV=VV, 
+                                                                  num_time_steps = num_time_steps, num_sub_nets = num_sub_nets,
+                                                                  M_init = M_init, V_init = V_init, rates_init = rates_init)
+
+    ### save data for later
+    with open(file_for_data,'wb') as f:
+        pickle.dump([mean_stimulus, spatial_std, spatial_noise, num_time_steps, m_neuron, v_neuron, rates_final],f)    
+        
+    return [mean_stimulus, spatial_std, spatial_noise, num_time_steps, m_neuron, v_neuron, rates_final]
 
 
 
