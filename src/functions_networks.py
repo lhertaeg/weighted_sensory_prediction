@@ -304,6 +304,12 @@ def rate_dynamics(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wP
     r_mem0[:] += dt * dr_mem1
     r_var0[:] += dt * dr_var1
     
+    rE0[rE0<0] = 0
+    rP0[rP0<0] = 0
+    rS0[rS0<0] = 0
+    rV0[rV0<0] = 0
+    rD0[rD0<0] = 0
+    
     drE2, drD2, drP2, drS2, drV2, dr_mem2, dr_var2 = drdt(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, 
                                                           wSE, wSP, wSS, wSV, wVE, wVP, wVS, wVV, wEM, wDM, wPM, wSM, wVM, wME, wVarE, 
                                                           rE0, rD0, rP0, rS0, rV0, r_mem0, r_var0, StimSoma_E, StimSoma_P, StimSoma_S, 

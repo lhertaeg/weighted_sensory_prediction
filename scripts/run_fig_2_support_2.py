@@ -21,8 +21,8 @@ dtype = np.float32
 
 # %% Sparsity 
 
-run_cell = False
-plot_only = True
+run_cell = True
+plot_only = False
 
 if run_cell:
     
@@ -113,7 +113,7 @@ if run_cell:
 
 # %% Correlated deviations  
 
-run_cell = False
+run_cell = True
 plot_only = False
 
 if run_cell:
@@ -309,8 +309,8 @@ if run_cell:
     NetPar = Network(NeuPar, Dict_w, Dict_t, weight_name, neurons_visual, gain_factors_nPE = gain_factors_nPE_5, 
                      gain_factors_pPE = gain_factors_pPE_5, nPE_true = nPE_true, pPE_true = pPE_true)
     
-    StimPar = Stimulation(5, 2, inp_ext_soma, inp_ext_dend, neurons_visual, trial_duration = np.int32(100000), 
-                          num_values_per_trial = np.int32(200)) # 20000, 20
+    StimPar = Stimulation(5, 2, inp_ext_soma, inp_ext_dend, neurons_visual, trial_duration = np.int32(200000), 
+                          num_values_per_trial = np.int32(400)) # 20000, 20
     
     # run network
     run_population_net(NeuPar, NetPar, StimPar, RatePar, 0.1, folder='population', fln='Example')
