@@ -102,14 +102,18 @@ plt.setp(ax_B24.get_yticklabels(), visible=False)
 
 # %% Neuromodulators acting on interneurons in lower PE circuit for 2 limit cases
     
-plot_neuromod_impact_inter(1, 1, 0, s=7, ax1=ax_A12, ax2=ax_A13, ax3=ax_A14, flg_plot_xlabel=False, flg_plot_bars=False)
-plot_neuromod_impact_inter(1, 0, 1, s=7, ax1=ax_A22, ax2=ax_A23, ax3=ax_A24, flg_plot_xlabel=False)
+plot_neuromod_impact_inter(1, 1, 0, s=7, ax1=ax_A12, ax2=ax_A13, ax3=ax_A14, flg_plot_xlabel=False, 
+                           flg_plot_bars=False, highlight=False)
+plot_neuromod_impact_inter(1, 0, 1, s=7, ax1=ax_A22, ax2=ax_A23, ax3=ax_A24, flg_plot_xlabel=False, 
+                           highlight=False)
 
 
 # %% Neuromodulators acting on interneurons in higher PE circuit for 2 limit cases
     
-plot_neuromod_impact_inter(2, 1, 0, s=7, ax1=ax_B12, ax2=ax_B13, ax3=ax_B14, flg_plot_xlabel=False, flg_plot_bars=False)
-plot_neuromod_impact_inter(2, 0, 1, s=7, ax1=ax_B22, ax2=ax_B23, ax3=ax_B24, flg_plot_xlabel=False)
+plot_neuromod_impact_inter(2, 1, 0, s=7, ax1=ax_B12, ax2=ax_B13, ax3=ax_B14, flg_plot_xlabel=False, 
+                           flg_plot_bars=False, highlight=False)
+plot_neuromod_impact_inter(2, 0, 1, s=7, ax1=ax_B22, ax2=ax_B23, ax3=ax_B24, flg_plot_xlabel=False, 
+                           highlight=False)
 
 # %% save figure
 

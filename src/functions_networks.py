@@ -150,7 +150,7 @@ def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean,
 
 
 def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, stimuli, VS = 1, VV = 0,
-                    dt = dtype(1), w_PE_to_V = dtype([1,1]), n=2, record_interneuron_activity = False):
+                    dt = dtype(1), w_PE_to_V = dtype([1,1]), n=2, record_interneuron_activity = False, pred_ini=0):
     
     ### neuron and network parameters
     tau_E, tau_I  = tau_pe
@@ -158,7 +158,7 @@ def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, f
     
     ### initialise
     num_points = len(stimuli)
-    m_neuron = np.zeros_like(stimuli, dtype=dtype)
+    m_neuron = dtype(pred_ini) * np.ones_like(stimuli, dtype=dtype)
     v_neuron = np.zeros_like(stimuli, dtype=dtype)
     rates_lower = np.zeros((num_points, 8), dtype=dtype)
     

@@ -17,7 +17,8 @@ import seaborn as sns
 
 from matplotlib.collections import LineCollection
 
-from src.plot_data import plot_weighting_limit_case_example, plot_fraction_sensory_heatmap, plot_weight_over_trial, plot_neuron_activity_lower_higher
+from src.plot_data import plot_weighting_limit_case_example, plot_fraction_sensory_heatmap, plot_weight_over_trial
+from src.plot_data import plot_neuron_activity_lower_higher, plot_standalone_colorbar
 
 # %% Universal parameters
 
@@ -54,14 +55,15 @@ ax_A.text(-0.45, 1.25, 'A', transform=ax_A.transAxes, fontsize=fs+1)
 
 ax_B = fig.add_subplot(G12[0,:])
 ax_B.axis('off')
-ax_B.text(-0.15, 1.25, 'B', transform=ax_B.transAxes, fontsize=fs+1)
+ax_B.text(-0.13, 1.25, 'B', transform=ax_B.transAxes, fontsize=fs+1)
 
 ax_B1 = fig.add_subplot(G12[0,0])
-ax_B1.set_title('Neuron activity increases \nwith trial variability', fontsize=fs, pad=10)
-ax_B2 = fig.add_subplot(G12[0,1])
-ax_B2.set_title('Neuron activity increases \nwith stimulus variability', fontsize=fs, pad=10)
-ax_B3 = fig.add_subplot(G12[0,2])
-plt.setp(ax_B2.get_yticklabels(), visible=False)
+ax_B1.axis('off')
+#ax_B1.set_title('Neuron activity increases \nwith trial variability', fontsize=fs, pad=10)
+# ax_B2 = fig.add_subplot(G12[0,1])
+# ax_B2.set_title('Neuron activity increases \nwith stimulus variability', fontsize=fs, pad=10)
+# ax_B3 = fig.add_subplot(G12[0,2])
+# plt.setp(ax_B2.get_yticklabels(), visible=False)
 
 ax_C = fig.add_subplot(G21[0,:])
 ax_C.axis('off')
@@ -89,29 +91,40 @@ ax_E4.text(-0.35, 1.25, 'F', transform=ax_E4.transAxes, fontsize=fs+1)
 # %% Neuron activities
 
 # data files
-file_for_data_within = '../results/data/weighting/data_activity_neurons_exploration_within_10.pickle'
-file_for_data_across = '../results/data/weighting/data_activity_neurons_exploration_across_10.pickle'
+# file_for_data_within = '../results/data/weighting/data_activity_neurons_exploration_within_10.pickle'
+# file_for_data_across = '../results/data/weighting/data_activity_neurons_exploration_across_10.pickle'
 
-if (not os.path.exists(file_for_data_within) or not os.path.exists(file_for_data_across)):
-    print('Data does not exist yet. Please run corresponding file.')
-else:
+# if (not os.path.exists(file_for_data_within) or not os.path.exists(file_for_data_across)):
+#     print('Data does not exist yet. Please run corresponding file.')
+# else:
     
-    # load data
-    with open(file_for_data_within,'rb') as f:
-        [variability_within, _, activity_pe_neurons_lower_within, activity_pe_neurons_higher_within, 
-         activity_interneurons_lower_within, activity_interneurons_higher_within] = pickle.load(f)
+#     # load data
+#     with open(file_for_data_within,'rb') as f:
+#         [variability_within, _, activity_pe_neurons_lower_within, activity_pe_neurons_higher_within, 
+#          activity_interneurons_lower_within, activity_interneurons_higher_within] = pickle.load(f)
             
-    with open(file_for_data_across,'rb') as f:
-        [_, variability_across, activity_pe_neurons_lower_across, activity_pe_neurons_higher_across, 
-         activity_interneurons_lower_across, activity_interneurons_higher_across] = pickle.load(f)
+#     with open(file_for_data_across,'rb') as f:
+#         [_, variability_across, activity_pe_neurons_lower_across, activity_pe_neurons_higher_across, 
+#          activity_interneurons_lower_across, activity_interneurons_higher_across] = pickle.load(f)
         
-    # plot data
-    plot_neuron_activity_lower_higher(variability_within, variability_across, activity_interneurons_lower_within,
-                                      activity_interneurons_higher_within, activity_interneurons_lower_across, 
-                                      activity_interneurons_higher_across, activity_pe_neurons_lower_within,
-                                      activity_pe_neurons_higher_within, activity_pe_neurons_lower_across,
-                                      activity_pe_neurons_higher_across, ax1=ax_B1, ax2=ax_B2, ax3=ax_B3)
+#     # plot data
+#     plot_neuron_activity_lower_higher(variability_within, variability_across, activity_interneurons_lower_within,
+#                                       activity_interneurons_higher_within, activity_interneurons_lower_across, 
+#                                       activity_interneurons_higher_across, activity_pe_neurons_lower_within,
+#                                       activity_pe_neurons_higher_within, activity_pe_neurons_lower_across,
+#                                       activity_pe_neurons_higher_across, ax1=ax_B1, ax2=ax_B2, ax3=ax_B3)
 
+
+text_equation_part_1 = r'Weighted output = $\alpha \cdot$ Stimulus + (1-$\alpha$) $\cdot$ Prediction'
+text_equation_part_2 = r'= $\left(1 + \frac{V_\mathrm{lower}}{V_\mathrm{higher}}\right)^{-1} \cdot$ Stimulus + $\left(1 + \frac{V_\mathrm{higher}}{V_\mathrm{lower}}\right)^{-1} \cdot$ M'
+ax_B1.text(-0.0,1.05, text_equation_part_1, fontsize=fs+1)
+ax_B1.text(0.79,0.82, text_equation_part_2, fontsize=fs+1)
+
+ax_B1.text(0.0,0.1, r'$\alpha$: Sensory weight $\in$ [0,1]', fontsize=fs+1)
+ax_B1.text(1.8,0.25, r'$\alpha$ = 0: Prediction-driven', fontsize=fs+1, color='white')
+ax_B1.text(1.8,-0.05, r'$\alpha$ = 1: Sensory-driven', fontsize=fs+1, color='white')
+
+#plot_standalone_colorbar(ax_B1)
 
 # %% Example limit cases
 

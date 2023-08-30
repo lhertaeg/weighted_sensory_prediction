@@ -87,6 +87,41 @@ def random_uniform_from_moments(mean, sd, num):
 
 
 
+def simulate_PE_circuit_P_fixed_S_constant(mfn_flag, initial_prediction, constant_stimuli, file_for_data, 
+                                           trial_duration = np.int32(100000), num_values_per_trial = np.int32(200)):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, _, _, _, _, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag)
+    
+    ### take out w_PE_to_P
+    w_PE_to_P *= 0
+    
+    ### initialise
+    nPE = np.zeros(len(constant_stimuli))
+    pPE = np.zeros(len(constant_stimuli))
+    
+    ### test all stimuli
+    for i, stimulus in enumerate(constant_stimuli):
+    
+        repeats_per_value = trial_duration//num_values_per_trial
+        stimuli = random_uniform_from_moments(stimulus, 0, num_values_per_trial)
+        stimuli = np.repeat(stimuli, repeats_per_value)
+    
+        ## run model
+        prediction, variance, rate_pe = run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, 
+                                                        fixed_input, stimuli, VS=VS, VV=VV, w_PE_to_V = w_PE_to_V,
+                                                        pred_ini = initial_prediction)
+
+        ## save 
+        nPE[i] = rate_pe[-1,0]
+        pPE[i] = rate_pe[-1,1]
+  
+    return nPE, pPE
+
+
 def simulate_spatial_example(mfn_flag, mean_stimulus, spatial_std, file_for_data, num_sub_nets = np.int32(100), seed = 186, 
                              num_time_steps = np.int32(1000), dist_type = 'uniform', pa=0.8, M_init = None, V_init = None, rates_init = None):
     

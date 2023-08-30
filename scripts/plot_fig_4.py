@@ -31,9 +31,10 @@ import seaborn as sns
 
 from matplotlib.collections import LineCollection
 
-from src.plot_data import plot_neuromod_impact_inter, illustrate_sensory_weight_variance, plot_changes_upon_input2PE_neurons
+from src.plot_data import plot_neuromod_impact_inter, illustrate_sensory_weight_variance, plot_changes_upon_input2PE_neurons, plot_illustration_neuromod_results
 from src.plot_data import plot_illustration_changes_upon_baseline_PE, plot_illustration_changes_upon_gain_PE, plot_influence_interneurons_gain_baseline
-from src.plot_data import plot_legend_illustrations
+from src.plot_data import plot_legend_illustrations, plot_changes_upon_input2PE_neurons_new, plot_influence_interneurons_baseline_or_gain, plot_influence_interneurons_baseline_or_gain
+from src.plot_data import plot_standalone_colorbar
 
 # %% Universal parameters
 
@@ -52,79 +53,52 @@ if not os.path.exists(figPath):
 
 # %% Define figure structure
 
-figsize=(18/inch,18/inch)
+figsize=(18/inch,14/inch)
 fig = plt.figure(figsize=figsize)
 
-G = gridspec.GridSpec(2, 1, figure=fig, hspace=0.6, height_ratios=[1.2,2])
+G = gridspec.GridSpec(2, 1, figure=fig, hspace=0.7) #, hspace=0.6, height_ratios=[1.2,2])
+A = gridspec.GridSpecFromSubplotSpec(2, 4, subplot_spec=G[0,0])#, width_ratios=[3,1], hspace=0.5)
 
-G1 = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=G[0,0], width_ratios=[3,1], hspace=0.5)
-G2 = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[1,0], width_ratios=[2.5,1], wspace=0.4)
+G_sub = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=G[1,0], width_ratios=[0.7,1], wspace=0.3)
+C_and_D = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=G_sub[0,1], wspace=0.7, hspace=0.5)
 
-G11 = gridspec.GridSpecFromSubplotSpec(2,3, subplot_spec=G1[:,0])#, height_ratios=[1,3], hspace=0.7)
-
-ax_A = fig.add_subplot(G11[:,:])
+ax_A = fig.add_subplot(A[:,:4])
 ax_A.axis('off')
 ax_A.set_title('Neuromodulators acting on interneurons can bias the weighting of sensory inputs and predictions', fontsize=fs, pad=10)
-ax_A.text(-0.15, 1.15, 'A', transform=ax_A.transAxes, fontsize=fs+1)
+ax_A.text(-0.1, 1.15, 'A', transform=ax_A.transAxes, fontsize=fs+1)
 
-ax_A12 = fig.add_subplot(G11[0,0])
+ax_A12 = fig.add_subplot(A[0,0])
 plt.setp(ax_A12.get_xticklabels(), visible=False)
-ax_A13 = fig.add_subplot(G11[0,1])
+ax_A13 = fig.add_subplot(A[0,1])
 plt.setp(ax_A13.get_yticklabels(), visible=False)
 plt.setp(ax_A13.get_xticklabels(), visible=False)
-ax_A14 = fig.add_subplot(G11[0,2])
+ax_A14 = fig.add_subplot(A[0,2])
 plt.setp(ax_A14.get_yticklabels(), visible=False)
 plt.setp(ax_A14.get_xticklabels(), visible=False)
 
-ax_A22 = fig.add_subplot(G11[1,0])
-ax_A23 = fig.add_subplot(G11[1,1])
+ax_A22 = fig.add_subplot(A[1,0])
+ax_A23 = fig.add_subplot(A[1,1])
 plt.setp(ax_A23.get_yticklabels(), visible=False)
-ax_A24 = fig.add_subplot(G11[1,2])
+ax_A24 = fig.add_subplot(A[1,2])
 plt.setp(ax_A24.get_yticklabels(), visible=False)
 
-ax_A_legend = fig.add_subplot(G1[0,1])
+ax_A_legend = fig.add_subplot(A[1,3])
 ax_A_legend.axis('off')
 
-ax_B = fig.add_subplot(G1[1,1])
-ax_B.text(-0.6, 1.15, 'B', transform=ax_B.transAxes, fontsize=fs+1)
-#ax_B.set_title('Sensory weight as a function \nof stimulus and trial variance', fontsize=fs, pad=10)
+ax_B = fig.add_subplot(G_sub[0,0])
+ax_B.text(-0.3, 1.1, 'B', transform=ax_B.transAxes, fontsize=fs+1)
 
-G21 = gridspec.GridSpecFromSubplotSpec(2,1, subplot_spec=G2[0,1], height_ratios=[1,3], hspace=0.7)
+ax_CD = fig.add_subplot(C_and_D[:,:])
+ax_CD.axis('off')
+ax_CD.set_title(r'Sensory weight $\longleftarrow$ variance neuron $\longleftarrow$ PE neurons $\longleftarrow$ interneurons', fontsize=fs, pad=20)
 
-ax_F = fig.add_subplot(G21[1,0])
-ax_F.set_title('Effect of interneuron activation \non baseline and gain of PE neurons', fontsize=fs, pad=10)
-ax_F.text(-0.4, 1.15, 'E', transform=ax_F.transAxes, fontsize=fs+1)
-
-G22 = gridspec.GridSpecFromSubplotSpec(1,2, subplot_spec=G2[0,0], width_ratios=[1,2], wspace=0.6)#, wspace=0.3, hspace=0.5)
-G221 = gridspec.GridSpecFromSubplotSpec(3,1, subplot_spec=G22[0,0])
-G222 = gridspec.GridSpecFromSubplotSpec(3,2, subplot_spec=G22[0,1])
-
-ax_C = fig.add_subplot(G221[:,0])
-ax_C.axis('off')
-ax_C.set_title('Perturbing PE neurons', fontsize=fs, pad=10)
-ax_C.text(-0.5, 1.15, 'C', transform=ax_C.transAxes, fontsize=fs+1)
-
-ax_C1 = fig.add_subplot(G221[0,0])
+ax_C1 = fig.add_subplot(C_and_D[0,0])
+ax_C1.text(-0.45, 1.15, 'C', transform=ax_C1.transAxes, fontsize=fs+1)
+ax_D1 = fig.add_subplot(C_and_D[0,1])
+ax_D1.text(-0.55, 1.15, 'D', transform=ax_D1.transAxes, fontsize=fs+1)
+ax_C2 = fig.add_subplot(C_and_D[1,0])
 plt.setp(ax_C1.get_xticklabels(), visible=False)
-ax_C2 = fig.add_subplot(G221[1,0])
-plt.setp(ax_C2.get_xticklabels(), visible=False)
-ax_C3 = fig.add_subplot(G221[2,0])
-
-ax_D = fig.add_subplot(G222[:,:])
-ax_D.axis('off')
-ax_D.set_title('Illustration of changes in mean and variance \nwith changes in baseline (left) and gain (right)', fontsize=fs, pad=10)
-ax_D.text(-0.2, 1.15, 'D', transform=ax_D.transAxes, fontsize=fs+1)
-
-ax_D1 = fig.add_subplot(G222[0,0])
-ax_D2 = fig.add_subplot(G222[1,0])
-ax_D3 = fig.add_subplot(G222[2,0])
-
-ax_E1 = fig.add_subplot(G222[0,1])
-ax_E2 = fig.add_subplot(G222[1,1])
-ax_E3 = fig.add_subplot(G222[2,1])
-
-ax_E_legend = fig.add_subplot(G21[0,0])
-ax_E_legend.axis('off')
+ax_D2 = fig.add_subplot(C_and_D[1,1])
 
 # %% Neuromodulators acting on interneurons for 2 limit cases
     
@@ -133,36 +107,35 @@ plot_neuromod_impact_inter(0, 0, 1, s=7, ax1=ax_A22, ax2=ax_A23, ax3=ax_A24, flg
 
 # plot legend
 markers = ['o', 's', 'd']
-label_text = [r'MFN 1 (SOM$\leftarrow$ S, VIP$\leftarrow$ P)', 
-              r'MFN 2 (SOM$\leftarrow$ P, VIP$\leftarrow$ S)', 
-              r'MFN 3 (SOM$\leftarrow$ S, VIP$\leftarrow$ S)']
+label_text = [r'#1 (SOM$\leftarrow$ S, VIP$\leftarrow$ P)', 
+              r'#2 (SOM$\leftarrow$ P, VIP$\leftarrow$ S)', 
+              r'#3 (SOM$\leftarrow$ S, VIP$\leftarrow$ S)']
 
 for i in range(3):
     ax_A_legend.plot(np.nan,np.nan, marker=markers[i], color='k', label=label_text[i], ms=2.5, ls='None')
     
-ax_A_legend.legend(loc=2, fontsize=fs, frameon=False, bbox_to_anchor=(-0.3, 0.9))
+ax_A_legend.legend(loc=2, fontsize=fs, frameon=False, bbox_to_anchor=(-0.1, 1), 
+                   title='Mean-field networks tested', title_fontsize=fs)
 
-# %% Sensory weight as a function of variance
 
-illustrate_sensory_weight_variance(ax=ax_B)
-
-# %% How are the v & m neurons influenced by changes in nPE and pPE neurons in the lower and higher PE circuit?
-
-plot_changes_upon_input2PE_neurons(ax1 = ax_C1, ax2 = ax_C2, ax3 = ax_C3)
-
-# %%  How is the variance influenced by BL of nPE and pPE in lower and higher PE circuit?    
+# plot colorbar
+plot_standalone_colorbar(ax_A_legend)
  
-plot_illustration_changes_upon_baseline_PE(BL = np.linspace(0,3,7), ax1 = ax_D1, ax2 = ax_D2, ax3 = ax_D3)
 
-# %%  How is the variance influenced by gain of nPE and pPE in lower and higher PE circuit?    
- 
-plot_illustration_changes_upon_gain_PE(gains=np.linspace(0.5,1.5,7), ax1 = ax_E1, ax2 = ax_E2, ax3 = ax_E3)
-plot_legend_illustrations(ax_E_legend)
+# %% Illustrate main results
+
+plot_illustration_neuromod_results(ax=ax_B)
+
+
+# %% How are the vv neurons influenced by changes in nPE and pPE neurons in the lower and higher PE circuit?
+
+plot_changes_upon_input2PE_neurons_new(ax1 = ax_C1, ax2 = ax_C2)
 
 
 # %% How do the interneurons influence the PE neuron properties?
 
-plot_influence_interneurons_gain_baseline(ax=ax_F)
+plot_influence_interneurons_baseline_or_gain(ax=ax_D1, plot_annotation=False)
+plot_influence_interneurons_baseline_or_gain(plot_baseline=False, plot_annotation=False, ax=ax_D2)
 
 # %% save figure
 
