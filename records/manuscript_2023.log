@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  24 AUG 2023 16:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  7 SEP 2023 16:44
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -419,20 +419,20 @@ defined.
 )
 \openout1 = `manuscript_2023.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -468,7 +468,7 @@ LaTeX Font Info:    ... okay on input line 73.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 73.
+LaTeX Info: Redefining \microtypecontext on input line 76.
 
 Package microtype Warning: `draft' option active.
 (microtype)                Disabling all micro-typographic extensions.
@@ -539,7 +539,7 @@ LaTeX Info: Redefining \selectfont on input line 126.
 
 Package hyperref Warning: Draft mode on.
 
-Package hyperref Info: Link coloring OFF on input line 73.
+Package hyperref Info: Link coloring OFF on input line 76.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/hyperref/nameref.sty"
@@ -551,9 +551,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count132
 )
-LaTeX Info: Redefining \ref on input line 73.
-LaTeX Info: Redefining \pageref on input line 73.
-LaTeX Info: Redefining \nameref on input line 73.
+LaTeX Info: Redefining \ref on input line 76.
+LaTeX Info: Redefining \pageref on input line 76.
+LaTeX Info: Redefining \nameref on input line 76.
 <../results/figures/final/Fig_1.pdf, id=1, 330.44067pt x 322.46461pt>
 <../results/figures/final/Fig_2.pdf, id=2, 507.91177pt x 434.23187pt>
  [1
@@ -561,28 +561,23 @@ LaTeX Info: Redefining \nameref on input line 73.
 {/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/data/pdftex/co
 nfig/pdftex.map}] [2] [3]
 <../results/figures/final/Fig_3.pdf, id=23, 505.6787pt x 420.70474pt>
-LaTeX Font Info:    Try loading font information for U+msa on input line 178.
+LaTeX Font Info:    Try loading font information for U+msa on input line 181.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 178.
+LaTeX Font Info:    Try loading font information for U+msb on input line 181.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [4]
-<../results/figures/final/Fig_4.png, id=29, 473.00716pt x 452.28975pt>
- [5] [6] [7]
-<../results/figures/final/Fig_5.png, id=43, 454.5783pt x 271.2534pt>
-
-Overfull \hbox (1.60928pt too wide) in paragraph at lines 239--246
- [][] |
- []
-
-[8]
-Overfull \hbox (6.05951pt too wide) in paragraph at lines 277--279
+<../results/figures/final/Fig_4.png, id=29, 458.79405pt x 368.21565pt>
+ [5] [6]
+<../results/figures/final/Fig_5.png, id=39, 229.45724pt x 442.2924pt>
+ [7] [8]
+Overfull \hbox (6.05951pt too wide) in paragraph at lines 280--281
 []\OT1/cmr/m/n/10 The excitatory neurons in the PE circuit are simulated as two
  coupled point compartments, representing|
  []
@@ -591,31 +586,31 @@ Overfull \hbox (6.05951pt too wide) in paragraph at lines 277--279
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-) [10]
+) [10] (manuscript_2023.toc)
+\tf@toc=\write3
+\openout3 = `manuscript_2023.toc'.
+
+
 
 Package natbib Warning: Citation `wilson1972excitatory' on page 11 undefined on
- input line 369.
+ input line 377.
 
 
 Package natbib Warning: Citation `wilson1972excitatory' on page 11 undefined on
- input line 378.
+ input line 386.
 
+[11
 
-Overfull \hbox (9.2271pt too wide) in paragraph at lines 395--398
+]
+Overfull \hbox (9.2271pt too wide) in paragraph at lines 403--406
 \OT1/cmr/m/n/10 connection between the presynaptic neuron $\OML/cmm/m/it/10 Y$ 
 \OT1/cmr/m/n/10 and the postsynaptic neuron $\OML/cmm/m/it/10 X$ \OT1/cmr/m/n/1
 0 ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10 ; []; []; []\OMS/
 cmsy/m/n/10 g$\OT1/cmr/m/n/10 ,|
  []
 
-[11] [12] [13] [14] [15]
-Overfull \hbox (1.11299pt too wide) in paragraph at lines 708--708
-[][]\OT1/cmr/bx/n/10 Modelling the impact of neuromodulators on the weighting o
-f sensory inputs and predictions|
- []
-
-[16]
-Overfull \hbox (14.32506pt too wide) in paragraph at lines 770--773
+[12] [13] [14] [15] [16]
+Overfull \hbox (14.32506pt too wide) in paragraph at lines 785--788
 $\OML/cmm/m/it/10 P[]$\OT1/cmr/m/n/10 , is however $\OML/cmm/m/it/10 []$ \OT1/
 cmr/m/n/10 in my implementation and $\OML/cmm/m/it/10 R[]$ \OT1/cmr/m/n/10 is f
 ixed variance of inputs $\OML/cmm/m/it/10 []$\OT1/cmr/m/n/10 . Hence, my imple
@@ -623,6 +618,9 @@ mentation|
  []
 
 <../results/figures/final/Fig_2_S1.png, id=78, 256.43805pt x 203.44005pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 <../results/figures/final/Fig_3_S1.png, id=79, 432.53595pt x 119.84775pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -635,30 +633,34 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S2.png, id=82, 242.8272pt x 161.8848pt>
+<../results/figures/final/Fig_4_S2.png, id=82, 267.1581pt x 230.17995pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 835.
-[17] [18] [19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 835.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 850.
+[17]
+
+LaTeX Warning: Text page 18 contains only floats.
+
+[18] [19]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 850.
  (manuscript_2023.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 835.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 835.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 850.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 850.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 835.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 850.
  ) 
 Here is how much of TeX's memory you used:
- 10066 strings out of 494891
- 160623 string characters out of 3176446
- 309531 words of memory out of 3000000
- 13564 multiletter control sequences out of 15000+200000
+ 10070 strings out of 494891
+ 160773 string characters out of 3176446
+ 310497 words of memory out of 3000000
+ 13565 multiletter control sequences out of 15000+200000
  11740 words of font info for 45 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
  36i,15n,43p,2398b,366s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -693,7 +695,7 @@ type1/public/amsfonts/cm/cmti10.pfb></Users/loreen.hertaeg/Library/Application
 Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users
 /loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/p
 ublic/amsfonts/symbols/msam10.pfb>
-Output written on manuscript_2023.pdf (19 pages, 339532 bytes).
+Output written on manuscript_2023.pdf (19 pages, 341022 bytes).
 PDF statistics:
  159 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
