@@ -104,6 +104,8 @@ if run_cell:
                                 ylabel='variability within trial')
     
 
+# %% Probably all below can be erased ....
+
 # %% Systematic exploration - record neuron activity
 
 run_cell = True

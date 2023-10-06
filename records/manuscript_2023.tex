@@ -267,6 +267,24 @@ In summary, the weighted integration of sensory inputs and predictions can be in
 
 We solved the brain.
 
+% summary of principal question, hypothesis and our findings
+
+% multisensory integration --> general idea that this can be applied to S and P ... Firth? link to psychiatric disorders
+
+% evidence for the model (PE neurons, connectivity PE --> M, predictions or P neurons exist, P neurons may hold the mean, time constants chnage along hierarchy)
+
+% alternative implementations (P in weights ... => plasticity), also we dont implement weighting explicitely -- has been shown that divisive inhibiton can be done with INs (look in the one theoretical paper on neural implemnetation of Kalman filter)
+
+% Prediction update not weighted by uncertainty, discuss evidence fo that
+
+% neuromodulators, does it fit the current literature Lawson etc.? How is it different from expected and unexpected uncertainty ..., and then give more details on local vs. global neuromodulators
+
+% link to Kalman filter and maybe Bayes surprise factor
+
+
+
+% ################
+
 % At the end, or in between talk about changes in PE neurons directly that you have currently in Fig. 3 SX ... I copy the part of the last paragraph here as inspiration :
 % For some psychiatric disorders, it has been shown that the weighting of sensory inputs and predictions thereof is impaired (XXX), leading to an overweighting of one of these signals. Moreover, it has been hypothesised that factors like stress or cognitive load may also influence the processing of feedforward and feedback inputs (XXX). ... Another factor that may contribute to a distorted weighting is the baseline activity of PE neurons that was set to zero in our model, in line with very low spontaneous firing rates of excitatory neurons in rodent primary sensory areas (XXX). Increasing this baseline activity for the nPE neuron (Fig. SXXX), pPE neuron (Fig. SXXX) or both pushes the network to weight sensory stimuli and predictions more equally. We speculate that an increase of baseline activity may be a natural result of an increased cognitive load or stress. 
 
@@ -296,7 +314,7 @@ T \cdot \underline{\dot{h}}_\mathrm{PE}^\mathrm{high} =& -\underline{h}_\mathrm{
 %
 \end{align}
 %
-We follow the notation that column and row vectors are indicated by small letters with an underscore $\underline{\bullet}$, matrices are denoted by capital letters, and scalars are given by small letters without an underscore. Furthermore, a time derivative (e.g., $\frac{dx}{dt}$) is denoted by a dot above the letter (e.g., $\dot{x}$). The rate vector $\underline{r}_\mathrm{PE}^\mathrm{loc} = \left[r_\mathrm{nE}^\mathrm{loc},\ r_\mathrm{pE}^\mathrm{loc},\ r_\mathrm{nD}^\mathrm{loc},\ r_\mathrm{pD}^\mathrm{loc},\ r_\mathrm{PV_1}^\mathrm{loc}, r_\mathrm{PV_2}^\mathrm{loc},\ r_\mathrm{SOM}^\mathrm{loc}, r_\mathrm{VIP}^\mathrm{loc} \right]$  with $\mathrm{loc} \in [\mathrm{low}, \mathrm{high}]$ contains the activities of all neurons or compartments in the PE circuit (soma of nPE/pPE neurons: nE/pE, dendrites of nPE/pPE neurons: nD/pD). The network receives time-dependent stimuli $s$ and neuron/compartment-specific external background input $\underline{I}_\mathrm{PE}$. The connection strengths between the \textit{pre}-synaptic neuron (population) and the neurons of the PE circuit are denoted by $W_\mathrm{PE\leftarrow pre}$ and $\underline{w}_{\mathrm{PE} \leftarrow pre}$, respectively. The activities of the neurons evolve with time constants contained in $T$.
+We follow the notation that column and row vectors are indicated by small letters with an underscore $\underline{\bullet}$, matrices are denoted by capital letters, and scalars are given by small letters without an underscore. Furthermore, a time derivative (e.g., $\frac{dx}{dt}$) is denoted by a dot above the letter (e.g., $\dot{x}$). The rate vector $\underline{r}_\mathrm{PE}^\mathrm{loc} = \left[r_\mathrm{nE}^\mathrm{loc},\ r_\mathrm{pE}^\mathrm{loc},\ r_\mathrm{nD}^\mathrm{loc},\ r_\mathrm{pD}^\mathrm{loc},\ r_\mathrm{PV_1}^\mathrm{loc}, r_\mathrm{PV_2}^\mathrm{loc},\ r_\mathrm{SOM}^\mathrm{loc}, r_\mathrm{VIP}^\mathrm{loc} \right]$  with $\mathrm{loc} \in [\mathrm{low}, \mathrm{high}]$ contains the activities of all neurons or compartments in the PE circuit (soma of nPE/pPE neurons: nE/pE, dendrites of nPE/pPE neurons: nD/pD). The network receives time-dependent stimuli $s$ and neuron/compartment-specific external background input $\underline{I}_\mathrm{PE}$. The connection strengths between the \textit{pre}-synaptic neuron (population) and the neurons of the PE circuit are denoted by $W_\mathrm{PE\leftarrow pre}$ and $\underline{w}_{\mathrm{PE} \leftarrow pre}$, respectively. The activities of the neurons evolve with time constants summarized in $T$.
 
 The activities of the lower and higher M neuron evolve according to a perfect integrator. The memory neurons receive synapses from both nPE and pPE neurons of the same subnetwork,
 %
@@ -315,17 +333,17 @@ The activities of the lower and higher V neuron evolve according to a leaky inte
 \tau_\mathrm{V}^\mathrm{high} \cdot \dot{r}_\mathrm{V}^\mathrm{high} =& - r_\mathrm{V}^\mathrm{high} + \left( \underline{w}_\mathrm{V \leftarrow PE} \cdot \underline{r}_\mathrm{PE}^\mathrm{high}\right)^2 = - r_\mathrm{V}^\mathrm{high} + \left( w_\mathrm{V \leftarrow pPE} \cdot r_\mathrm{pPE}^\mathrm{high}\ + w_\mathrm{V \leftarrow nPE} \cdot r_\mathrm{nPE}^\mathrm{high}\right)^2.
 \end{align} 
 %
-All values for neuron and network parameters, details on the model equations, as well as supporting analyses can be found in SI XXX.
+All values for neuron and network parameters, details on the model equations, as well as supporting analyses can be found in the supplementary material.
 
 \subsection*{Weighting of sensory inputs and predictions}
 %
-We arithmetically calculate the weighted output of sensory inputs and predictions, $r_\mathrm{out}$, based on Bayesian multisensory integration (XXX),
+We arithmetically calculated the weighted output of sensory inputs and predictions, $r_\mathrm{out}$, based on Bayesian multisensory integration (XXX),
 %
 \begin{align}
 r_\mathrm{out} = \alpha \cdot s + (1-\alpha) \cdot r_\mathrm{M}^\mathrm{low},
 \end{align}
 %
-where $\alpha$ denotes the reliability of the sensory input and is given by 
+where $\alpha$ denotes the sensory weight (that is, the reliability of the sensory input) and is given by 
 %
 \begin{align}
 \alpha &= \left( 1 + \frac{r_\mathrm{V}^\mathrm{low}}{r_\mathrm{V}^\mathrm{high}} \right)^{-1}.
@@ -334,11 +352,11 @@ where $\alpha$ denotes the reliability of the sensory input and is given by
 
 \subsection*{Inputs}
 %
-The network receives feedforward stimuli of duration XXX that can change from trial to trial (one stimulus per trial). To account for noise, each stimulus is composed of N$_\mathrm{val}$ piece-wise constant values drawn from a normal distribution with mean XXX and standard deviation XXX. To account for changes in the environment, the mean of the normal distribution is drawn from a uniform distribution with mean XXX and standard deviation XXX. The parameterisation of both distributions varies across the experiments. All stimulus/input parameters can be found in SI XXX.
+The network receives feedforward stimuli $s$ that may vary between trials. To account for noise, each stimulus is composed of N$_\mathrm{in}$ piece-wise constant values drawn from a normal distribution with mean $\mu_\mathrm{in}$ and standard deviation $\sigma_\mathrm{in}$. To account for changes in the environment, $\mu_\mathrm{in}$ is drawn from a uniform distribution $U(a,b)$ with mean $\mu_\mathrm{trial} = \frac{a+b}{2}$ and standard deviation $\sigma_\mathrm{trial} = \frac{b-a}{\sqrt{12}}$. The parameterisation of both distributions varies across the experiments. All stimulus/input parameters can be found in the supplementary material.
 
 \subsection*{Simulations}
 %
-All simulations were performed in customized Python code written by LH. Differential equations were numerically integrated using a 2\textsuperscript{nd}-order Runge-Kutta method with time steps ranging between $xx$ and $xxx$ ms. All neurons were initialized with $r=0/s$. We defined the steady-state firing rate per stimulus as the activity in the last XXXX ms of stimulus presentation. Further details and values for simulation parameters can be found in SI XXX.
+All simulations were performed in customized Python code written by LH. Source code to reproduce the simulations, analyses and figures will be available after publication at \url{XXXX}. Differential equations were numerically integrated using a 2\textsuperscript{nd}-order Runge-Kutta method. Neurons were initialized with $r=0/s$. Further details and values for simulation parameters can be found in the supplementary material.
 
 
 \section*{Acknowledgments}
@@ -361,16 +379,19 @@ All simulations were performed in customized Python code written by LH. Differen
 
 \tableofcontents
 \section{Detailed Methods}
+%
+In the following, we describe in more detail the equations describing the dynamics of the neurons in the prediction-error circuit, as well as the memory and variance neurons. We then provide the connectivity of the network and the inputs to the neurons for both the mean-field and population model. Finally, to ensure reproducibility, we give all simulation parameters used for the results shown in the figures.  
 
-XXX
+XXX Please note that xxx model parameters chosen do not change overall results are not particular to get the results xxx. Important factors are: 1) long enough to get to steady state (as PE circuits used were learned for steady state, 2) lower M updates faster than higher M, 3) update speed for M and V (see lambda and theta etc.) must be chosen in accordance with trial duration stimulus duration. XXX
+
 
 \subsection{Network model}
 %
 The network model consists of a \textit{lower} and \textit{higher} mean-field PE circuit (Fig. \ref{fig:Fig_1}). Each PE circuit contains an excitatory nPE neuron and pPE neuron ($\mathrm{N}_\mathrm{nPE} = \mathrm{N}_\mathrm{pPE} = 1$), as well as inhibitory neurons. The inhibitory neurons comprise PV, SOM and VIP neurons ($\mathrm{N}_\mathrm{SOM} = \mathrm{N}_\mathrm{VIP} = 1$, $\mathrm{N}_\mathrm{PV} = 2$). In addition to the core PE circuit, each subnetwork also includes one memory neuron $M$ and one variance neuron $V$. 
 
-For the results in Figure 2, only the lower subnetwork is simulated. In Supp Fig XXX, we replaced each mean-field PE circuit with a heterogeneous population model with $N_\mathrm{total} = 200$ neurons ($\mathrm{N}_\mathrm{SOM} = \mathrm{N}_\mathrm{VIP} = \mathrm{N}_\mathrm{PV} = 20$, the remaining neurons are excitatory). In Supp Fig. XXX, the PE circuit comprises $\mathrm{N}_\mathrm{copies} = XXX$ copies of the mean-field network to account for selectivity.
+In Figure \ref{fig:Fig_2} and the corresponding supporting figures, only the lower subnetwork is simulated. In Fig. \ref{fig:Fig_2_S2}, we replaced this lower mean-field PE circuit with a heterogeneous population model containing $200$ neurons ($\mathrm{N}_\mathrm{SOM} = \mathrm{N}_\mathrm{VIP} = \mathrm{N}_\mathrm{PV} = 20$, $140$ excitatory neurons). In Fig. \ref{fig:Fig_2_S3}, the lower PE circuit comprises $1000$ copies of the mean-field network to account for selectivity.
 
-In the following, we describe the dynamics of the neuron types for the mean-field network. The equations for the population PE circuit can be deduced from the mean-field equations and can also be found in XXX.
+In the following, we describe the dynamics of the neurons/compartments in the mean-field network. The equations for the population PE circuit (Fig. \ref{fig:Fig_2_S2}) are directly deduced from the mean-field equations and can also be found in XXXref your own paperXXX.
 
 \subsubsection{Prediction-error network model}
 %
@@ -406,13 +427,13 @@ where $r_\mathrm{X}$ denotes the firing rate of interneuron type $X$, and the we
 
 \subsubsection{Memory and variance neuron}
 %
-In addition to the core PE circuit, we simulate a memory neuron \textit{M} and a variance neuron \textit{V}. The memory neuron is modeled as a perfect integrator, receiving the output synapses from the nPE and pPE neurons,
+In addition to the core PE circuit, we simulate a memory neuron \textit{M} and a variance neuron \textit{V}. The memory neuron is modeled as a perfect integrator, receiving synapses from both the nPE and pPE neuron,
 %
 \begin{align}
-\tau_M \cdot \frac{dr_\mathrm{M}}{dt} = w_\mathrm{M\leftarrow pE} \cdot r_\mathrm{pE} - w_\mathrm{M\leftarrow nE} \cdot r_\mathrm{nE}.
+\tau_E \cdot \frac{dr_\mathrm{M}}{dt} = w_\mathrm{M\leftarrow pE} \cdot r_\mathrm{pE} - w_\mathrm{M\leftarrow nE} \cdot r_\mathrm{nE}.
 \end{align}
 %
-$w_\mathrm{M\leftarrow pE}$ denotes the connection strength between the pPE neuron and the memory neuron, and  $w_\mathrm{M\leftarrow nE}$ denotes the connection strength between the nPE neuron and the memory neuron. The time constant XXX.
+$w_\mathrm{M\leftarrow pE}$ denotes the connection strength between the pPE neuron and the memory neuron, and  $w_\mathrm{M\leftarrow nE}$ denotes the connection strength between the nPE neuron and the memory neuron. The time constant $\tau_E = 60$ ms.
 
 The dynamics of the variance neuron obeys a non-linear differential equation with leak term,
 %
@@ -420,7 +441,7 @@ The dynamics of the variance neuron obeys a non-linear differential equation wit
 \tau_V \cdot \frac{dr_\mathrm{V}}{dt} = -r_\mathrm{V} + (w_\mathrm{V\leftarrow pE} \cdot r_\mathrm{pE} + w_\mathrm{V\leftarrow nE} \cdot r_\mathrm{nE})^2.
 \end{align}
 %
-The weight $w_\mathrm{V\leftarrow pE}$ represents the connection strength between the pPE neuron and the variance neuron, while  $w_\mathrm{V\leftarrow nE}$ denotes the connection strength between the nPE neuron and the variance neuron. To ensure that the V neuron encodes the variance, we chose a squared activation function. In Fig. XXX, to investigate the necessity of a squared activation function in the context of weighting sensory inputs and predictions, we used a linear activation function. The time constant  $\tau_V$ was set to XXX.
+The weight $w_\mathrm{V\leftarrow pE}$ represents the connection strength between the pPE neuron and the variance neuron, while  $w_\mathrm{V\leftarrow nE}$ denotes the connection strength between the nPE neuron and the variance neuron. To ensure that the V neuron encodes the variance, we chose a quadratic activation function. In Fig. \ref{fig:Fig_3_S2}, we used a linear activation function to investigate the impact of the input-output transfer function on the weighting of sensory inputs and predictions. The time constant $\tau_V = 5$ s.
 
 \subsubsection{Weighted output}
 %
@@ -434,7 +455,7 @@ How strongly either the sensory input or the prediction thereof contributes to t
 %
 \begin{align}
 \alpha &= \frac{r_\mathrm{V_{lower}}^{-1}}{r_\mathrm{V_{lower}}^{-1} + r_\mathrm{V_{higher}}^{-1}}\nonumber\\
-& = \left( 1 + \frac{r_\mathrm{V_{lower}}}{r_\mathrm{V_{higher}}} \right)^{-1}
+& = \left( 1 + \frac{r_\mathrm{V_{lower}}}{r_\mathrm{V_{higher}}} \right)^{-1}.
 \end{align}
 
 \subsection{Connectivity}
@@ -442,22 +463,22 @@ How strongly either the sensory input or the prediction thereof contributes to t
 %
 \subsubsection{Connections between neurons of the PE circuit}
 %
-The connectivity between neurons of the PE circuit, both for the mean-field and the population network, was taken from XXX. XXX ADD heatmaps for the connectivity? XXX
+The connectivity between neurons of the PE circuit, both for the mean-field and the population network, was taken from XXX. XXX ADD heatmaps for the connectivity? or simply refer to the 2022 paper (maybe rather that)
 
 \subsubsection{Connections between the PE circuit and the M neuron}
 %
-While the nPE neurons inhibit the M neuron, the pPE neurons excite it. To ensure that the activities of the memory neurons represent the mean of the sensory stimuli in the lower PE circuit and the mean of the prediction in the higher subnetwork, respectively, the net effect of nPE and pPE neurons must cancel in the steady state. Hence, the weights need to account for the neurons' potentially different gain factors ($g_\mathrm{nPE}$ and $g_\mathrm{pPE}$, see Table XXX) and the neuron numbers ($N_\mathrm{nPE}$ and $N_\mathrm{pPE}$, see Table XXX):
+While the nPE neurons inhibit the M neuron, the pPE neurons excite it. To ensure that the activities of the memory neurons represent the mean of the sensory stimuli in the lower PE circuit and the mean of the prediction in the higher subnetwork, respectively, the net effect of nPE and pPE neurons must cancel in the steady state (see Analysis in \ref{sec:gain_impact}). Hence, the weights need to account for the neurons' potentially different gain factors ($g_\mathrm{nPE}$ and $g_\mathrm{pPE}$, see Table XXX) and the neuron numbers ($N_\mathrm{nPE}$ and $N_\mathrm{pPE}$, see Table XXX):
 %
 \begin{align*}
 w_\mathrm{M\leftarrow nE}\  &=\ \frac{-\lambda}{g_\mathrm{nPE} \cdot N_\mathrm{nPE}} \nonumber\\
 w_\mathrm{M\leftarrow pE}\  &=\ \frac{\lambda}{g_\mathrm{pPE} \cdot N_\mathrm{pPE}}
 \end{align*}
 %
-where $\lambda$ denotes the speed at which the perfect integrator evolves (lower PE circuit: $\lambda$=XXX, higher PE circuit:  $\lambda$=XXX). 
+where $\lambda$ denotes the speed at which the perfect integrator evolves (lower PE circuit: $\lambda=3\cdot 10^{-3}$  in Fig. \ref{fig:Fig_2} and $\lambda=4.5\cdot 10^{-2}$ otherwise, higher PE circuit:  $\lambda = 7\cdot 10^{-4}$). 
 
 XXX Here you must say that this is true for the MFN and the one in which you copied the MFN but in case of the population, each neuron has a different gain, lambda is xxx for allXXX not sure how to show all the different gain factors? Also, you must say that the weights were systematically changed in Supp Fig. XXX to investigate correlated and uncorrelated changes XXX
 
-The memory neuron connects to a number of neurons in the PE circuit. Each connection from \textit{M} to a postsynaptic neuron \textit{X} is set to $w_\mathrm{X\leftarrow M} = 1$. In all mean-field networks and the population network, the dendrites of nPE and pPE neurons and one of the two (populations of) PV neurons receive connections from the memory neuron. We considered three mean-field networks that differed in terms of the inputs onto the SOM and VIP neurons:
+The memory neuron \textit{M} connects to the post-synaptic neurons \textit{X} in the PE circuit with the connection strength $w_\mathrm{X\leftarrow M}$. If a connection exists, we assume $w_\mathrm{X\leftarrow M} = 1$. In all mean-field networks and the population network, the dendrites of nPE and pPE neurons and one of the two (populations of) PV neurons receive connections from the memory neuron. We considered three mean-field networks that differed in terms of the inputs onto the SOM and VIP neurons:
 %
 \begin{table}[h!]
 \centering
@@ -471,6 +492,7 @@ VIP & 1 & 0 & 0 \\
 \hline
 \end{tabular}
 \caption{XXX Table shows $w_\mathrm{X\leftarrow M}$ ... .}
+\label{tab:wXM}
 \end{table}
 %
 
@@ -478,7 +500,7 @@ In the population model, 30\% of the SOM neurons and 70\% of the VIP neurons rec
 
 \subsubsection{Connections between the PE circuit and the V neuron}
 %
-Both nPE and pPE neurons excite the \textit{V} neuron. To ensure that the activity of the V neuron represents the variance of the input, the weights must account for differences in the gains ($g_\mathrm{nPE}$ and $g_\mathrm{pPE}$, see Table XXX) and numbers ($N_\mathrm{nPE}$ and $N_\mathrm{pPE}$) of the PE neurons,
+Both nPE and pPE neurons excite the \textit{V} neuron. To ensure that the activity of the V neuron represents the variance of the input (see Analysis in \ref{sec:gain_impact}), the weights must account for differences in the gains ($g_\mathrm{nPE}$ and $g_\mathrm{pPE}$, see Table XXX) and numbers ($N_\mathrm{nPE}$ and $N_\mathrm{pPE}$) of the PE neurons,
 %
 \begin{align*}
 w_\mathrm{V\leftarrow nE}\  &=\ \frac{\theta}{g_\mathrm{nPE} \cdot N_\mathrm{nPE}} \nonumber\\
@@ -500,175 +522,210 @@ Hence, to ensure the variance of a uniform distribution given by $\frac{(b-a)^2}
 
 \subsection{Inputs}
 %
-Each neuron (type) receives an overall input $I_i$
+Each neuron (type) receives an overall input $I_i$,
 %
 \begin{align*}
 I_i = I_i^{BL} + w_i \cdot I_{i}^{FF}
 \end{align*}
 %
-where 
-Feedforward is either the direct sensory input S for the lower PE circuit or the rM for the higher PE circuit.
+where $I_{i}^{FF}$ denotes a feedforward input and $I_i^{BL}$ represents an external background input that ensures reasonable baseline firing rates in the absence of sensory inputs and predictions thereof. In the case of the mean-field network, these inputs were set such that the baseline firing rates are $r_\mathrm{pE}=r_\mathrm{pD}=r_\mathrm{nE}=r_\mathrm{nD}=0\, s^{-1}$ and $r_\mathrm{P} = r_\mathrm{S}=r_\mathrm{V}=4\, s^{-1}$. In the case of the population network, we set the external inputs of all neuron types to $5\, s^{-1}$, while the background inputs to the dendrites were computed such that the dendrites are inactive during baseline.
 
-baseline input is XXX.
-
-show Wzs in form as table from above (rows different MFN, ...). Mention that population model is row 1, all of the SOM and VIP receive S or P, respectively then. Or simply write 1-wXM???
-%
-\begin{table}[h!]
-\centering
-\begin{tabular}{ |c|c|c|c|  }
-\hline
-Network name & MFN 1 & MFN 2 & MFN 3  \\
-\hline
-\hline
-SOM & 1 & 0 & 1\\
-VIP & 0 & 1 & 1 \\
-\hline
-\end{tabular}
-\caption{XXX Table shows $w_\mathrm{X\leftarrow input}$ ... .}
-\end{table}
-%
-
-
-Each stimulus was presented for $1$ second.
-
-%All neurons receive external background input that ensures reasonable baseline firing rates in the absence of sensory inputs and predictions thereof. In the case of non-plastic networks, these inputs were set such that the baseline firing rates are $r_\mathrm{E}=1\, s^{-1}$, $r_\mathrm{P} = r_\mathrm{S}=r_\mathrm{V}=4\, s^{-1}$ and $r_\mathrm{D}=0\, s^{-1}$. In the case of plastic networks, we set the external inputs of all neuron types to $x_\mathrm{E}=x_\mathrm{P}=x_\mathrm{S}=x_\mathrm{V}=5\, s^{-1}$, while the background input to the dendrites is dynamically computed during training such that $r_\mathrm{D}=0\, s^{-1}$.
-%
-%In addition to the external background inputs, the neurons receive either sensory input~($S$), a prediction thereof ($P$), or both. We distinguish between phases of fully predicted ($P=S>0$), overpredicted ($P>S$) and underpredicted ($P<S$) sensory stimuli, as well as baseline phases ($P=S=0$). During training, the network is exposed to baseline phases and fully predicted sensory inputs (Figs.~\ref{fig:Fig_Plasticity} and \ref{fig:Fig_Experience}), or in addition to over- and underpredicted sensory stimuli (Fig.~\ref{figsupp:Fig_Experience_Predictability}). Stimuli are drawn from a uniform distribution from the interval $[0, 5\, s^{-1}]$. Mean and SD of test stimuli for each simulation are listed below (see ``Simulations").
-
+The feedforward input is either the direct sensory input $s$ for the lower PE circuit, or the activity of the M neuron $r_\mathrm{M}$ for the higher PE circuit. In general, for the three mean-field networks tested, we chose $w_i = 1 - w_\mathrm{X\leftarrow M}$  (see Table \ref{tab:wXM}). In the population network, 70\% of the SOM neurons and 30\% of the VIP neurons receive the feedforward input.
 
 
 \subsection{Simulations}
 %
-%All simulations were performed in customized Python code written by LH. Differential equations were numerically integrated using a 2\textsuperscript{nd}-order Runge-Kutta method with time steps ranging between $0.1$ and $0.2$ ms. Neurons in the PE circuits were initialized with $r=0/s$. The memory neurons were initialized at the mean of the two distributions (see above), and each prediction neuron was either set to the mean of the distribution it is associated with if the stimulus at $t=0\ \mathrm{ms}$ was drawn from that distribution, or set to zero otherwise. Each stimulus was presented for $1$ second. During training of the PE circuit, we presented 350 stimuli alternated with 350 zero-input (baseline) phases. We made sure that the weights converged to a configuration that satisfied the objective given by our homeostatic plasticity rules (see Eqs.~\ref{eq:Plasticity_I}-\ref{eq:Plasticity_II} in ``Plasticity model"). We defined the steady-state firing rate per stimulus as the activity in the last 500 ms of stimulus presentation. The onset firing rate was computed as the activity of the first 10 ms.\\\\
-%%
-%\textbf{Figures 1 \& S2:} Test stimulus was set to $5/s$ with a SD of $1/s$. Stimulus to compute total excitatory and inhibitory inputs was set to $1/s$.\\
-%%
-%\textbf{Figures 2 \& S3:} Test stimulus was set to $3/s$ with a SD of $1/s$. The perturbation stimuli ranged from $-1.5/s$ to $1.5/s$.\\
-%%
-%\textbf{Figures 3, S4 \& S5:} Test stimulus was set to $5/s$ with a SD of $1.5/s$. 50\% of the PV neurons, 70\% of the SOM neurons and 30\% of the VIP neurons receive the actual sensory input, while the remaining ones of each population received a prediction thereof. Perturbation stimulus was $\pm 2/s$. Panels D \& G of Fig. 3 show the median over all PE neurons and the SEM.\\
-%%
-%\textbf{Figures 4 \& S6:} Test stimulus was set to $5/s$ with a SD of $1.5/s$. In main figure, square: $w_\mathrm{EP}\in[2,4]$, $w_\mathrm{PS}\in[0.5,1]$, $w_\mathrm{PV}\in[1.5,2.5]$; circle: $w_\mathrm{EP}\in[2.5,8]$, $w_\mathrm{PS}\in[1.5,2.5]$, $w_\mathrm{PV}\in[0.5,1]$; triangle: $w_\mathrm{EP}\in[2.5,8]$, $w_\mathrm{PS}\in[1,2.5]$, $w_\mathrm{PV}\in[0.5,2]$. Half of the PV neurons and all SOM neurons receive the actual sensory input, while the remaining PV and SOM neurons as well as all VIP neurons receive a prediction thereof.
-%In supporting figure: Total number of stimuli presented during training was increased, so that the number of fully predicted sensory stimuli was constant at 350. Results were averaged over 5 simulations, mean and SD are shown.\\
-%%
-%\textbf{Figure 5:} For panel E, the performance error was computed as the squared difference between the activity of the respective line attractor and the stimulus presented. For panel F, the initial weight between the stimulus and the representation neuron was set to $0.5$. The basis learning rate (fixed) was set to $5e^{-4}$. And the initial speed was computed as the derivative of the rate with respect to time, averaged over the first 50 ms. 
+All simulations were performed in customized Python code written by LH. Source code to reproduce the simulations, analyses and figures will be available after publication at \url{XXXX}. Differential equations were numerically integrated using a 2\textsuperscript{nd}-order Runge-Kutta method. Neurons were initialized with $r=0/s$.
+
+In the following, we give all figure-specific parameters not directly visible or mentioned in the Figures and captions. Please note that the qualitative results are robust to the choice of the simulation parameters and are here stated merely to ensure the reproducibility of all figures. Furthermore, to increase readability, we do not include units for the parameters. All units can be deduced from the equations above.\newline\\ 
 %
-%Source code to reproduce the simulations, analyses and figures will be available after publication at \url{github.com/lhertaeg/SourceCode_Hertaeg2021}. 
+\textbf{Figure 1:} Simulation time steps = $10^5$, constant prediction (fixed) = $5$, input mean $\in [0,10]$, input standard deviation $0$.\\
+%
+\textbf{Figure 2:} Simulation time steps = $10^5$, $200$ constant values (each $500$ time steps long) drawn from a uniform distribution, B and C: input standard deviation fixed at $5$ when mean is varied, input mean fixed at $4.5$ when input variance is varied.\\
+%
+\textbf{Figure 2 Supplementary Fig. 1:} Simulation time steps = $10^5$, $200$ constant values (each $500$ time steps long) drawn from a uniform distribution with mean of $5$ and variance of $4$. Number of repetitions with different seeds: 20.\\
+%
+\textbf{Figure 2 Supplementary Fig. 2:} Number of time steps were $10^5$ (C-E) or $2\cdot 10^5$ (B) with $400$ (C-E) or $200$ (B) constant values drawn from a uniform distribution with mean of $5$ and variance of $4$. Time step was $0.1$. The connections from the PE neurons to the M or V neuron were altered by a factor $\gamma$ drawn from a normal distribution. If not stated otherwise (in the Figure), the mean of this normal distribution was $1$ and the variance $0$, while the connection probability was $1$. Number of repetitions with different seeds: 10.\\
+%
+\textbf{Figure 2 Supplementary Fig. 3:} Number of identical mean-field networks: $1000$.  Simulation time steps = $10^5$.\\
+%
+\textbf{Figure 3:} $100$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution (each $500$ time steps long). The variance of this distribution was $0$ (C, F)  and $5.3$ XXX (D). In each trial, the stimulus mean was drawn from an uniform distribution $U(a, b)$ (C: $U(1,9)$, D: $U(5,5)$). In F, $U$ was parameterized such that the trail variability was $3$.\\
+%
+\textbf{Figure 3 Supplementary Fig. 1:}  $120$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution $N(\mu_\mathrm{in}, \sigma_\mathrm{in})$, each $500$ time steps long. In each trial, the stimulus mean was drawn from an uniform distribution $U(a, b)$. Switch of input statistics occurs after 60 trails. State 1: stimulus $\in N(\mu_\mathrm{in}, 0)$ with $\mu_\mathrm{in} \in U(5,5)$, State 2:  stimulus $\in N(\mu_\mathrm{in}, 3)$ with $\mu_\mathrm{in} \in U(5,5)$, State 3: stimulus $\in N(\mu_\mathrm{in}, 3)$ with $\mu_\mathrm{in} \in U(0,10)$, State 4: stimulus $\in N(\mu_\mathrm{in}, 0)$ with $\mu_\mathrm{in} \in U(0,10)$.\\
+%
+\textbf{Figure 3 Supplementary Fig. 2:} $200$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution with variance $\sigma^2_\mathrm{in}$, each $500$ time steps long. In each trial, the stimulus mean was drawn from an uniform distribution with mean of $5$ and a variance of $\sigma^2_\mathrm{trial}$. $\sigma^2_\mathrm{trial} \in \lbrace0, 0.75, 1.5, 2.25, 3\rbrace$, $\sigma^2_\mathrm{in} \in \lbrace 3, 2.25, 1.5,0.75, 0\rbrace$. A: scaling factors of $w_\mathrm{M\leftarrow PE}$ were 0.3 and 6.7 XXX.\\
+%
+\textbf{Figure 4:} $100-200$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution with variance $\sigma^2_\mathrm{in}$, each $500$ time steps long. In each trial, the stimulus mean was drawn from an uniform distribution with mean of $5$ and a variance of $\sigma^2_\mathrm{trial}$. A, top: $\sigma^2_\mathrm{in} = 0$ and $\sigma^2_\mathrm{trial} = 1$. A, bottom: $\sigma^2_\mathrm{in} = 1$ and $\sigma^2_\mathrm{trial} = 0$. C: $\sigma^2_\mathrm{in} = 1$ and $\sigma^2_\mathrm{trial} = 1$. D: $\sigma^2_\mathrm{in} = 5.3 XXX$ and $\sigma^2_\mathrm{trial} = 0$. Additional input (perturbation) was either fixed at $1$ (A, D) or systematically varied between $-1$ and $1$ (C). To estimate changes in baseline and gain of nPE and pPE neurons, we fitted a linear function to the PE neuron activity for the input range $[0, 2.5]$.\\
+%
+\textbf{Figure 4 Supplementary Fig. 1:} All parameters are from Figure 4 A.\\
+%
+\textbf{Figure 4 Supplementary Fig. 2:} In the default setting baseline was $0$ and gain of PE neurons was $1$ (see Eqs. XXX). The results (left) were computed for baselines $\in [0, 3]$, while the results (right) were computed for gains $\in [0.5, 1.5]$. XXX Here refer to equations XXX. \\
+%
+\textbf{Figure 4 Supplementary Fig. 3:} All parameters are from Figure 4 D.\\
+%
+\textbf{Figure 5:} $200$ trials, each simulated for $5000$ time steps (except in panel E). In a trail, $10$ constant values were drawn from a normal distribution (each $500$ time steps long) with standard deviation $\sigma_\mathrm{in}$. In each trial, the stimulus mean $\mu_\mathrm{in}$ was drawn from an uniform distribution $U(a, b)$. A: $\sigma_\mathrm{in} \in \lbrace1,7\rbrace$, $\mu_\mathrm{in} \in U(15, 25)$. B: $\sigma_\mathrm{in} \in [0,8]$, $\mu_\mathrm{in} \in U(15, 25)$, and $\sigma_\mathrm{in} = 5$, $\mu_\mathrm{in} \in U(15, b)$ with $b\in [20, 48]$. C: $\sigma_\mathrm{in} \in \lbrace2,5\rbrace$, $\mu_\mathrm{in} \in U(15, 15)$. D: $\sigma_\mathrm{in} = 0$, $\mu_\mathrm{in} \in U(15, 25)$ or $U(10, 30)$. E: $\sigma_\mathrm{in} = 0$, $\mu_\mathrm{in} \in U(15, 25)$, or $\sigma_\mathrm{in} = 5$, $\mu_\mathrm{in} \in U(15, 15)$,  Time steps per trail increased from $5000$ to $10^4$.\\
+%
+\textbf{Figure 5 Supplementary Fig. 1:} $200$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution (each $500$ time steps long) with standard deviation $\sigma_\mathrm{in}$. In each trial, the stimulus mean $\mu_\mathrm{in}$ was drawn from an uniform distribution $U(a,b)$. We used two different uniform distributions $U(15, 25)$ and  $U(25, 35)$, and introduced scalar variability so that $\sigma_\mathrm{in}$ is a linear function of $\mu_\mathrm{in}$. Specifically, we chose $\sigma_\mathrm{in} = \mu_\mathrm{in} -14$.
 
 
 \section{Supporting analyses}
 
-%3. Sensory weight and contraction bias
-%4. Comparison to Kalman filter and Bayes Factor surprise
+We first describe a simplified model and show that the M neuron represents the mean, while the V neuron represents the variance of the feedforward input. We then investigate the impact of the gain and baseline of PE neurons on estimating the mean and variance. Furthermore, we use the simplified model to discuss the effect of neuromodulators in our network. Finally, we reveal the connection between the sensory weight and the contraction bias, and compare our network with the Kalman filter as well as Bayes factor surprise. XXX
 
-\subsection{XXX}
-%0. rM exponential average, rV exponential average (see iPad, currently page 107)
-
-\subsection{Impact of PE neurons' gain on estimating mean and variance}
+\subsection{Activity of M and V neuron in a simplified model}\label{sec:toy}
 %
-Only if the the gain of the nPE neuron ($g_{nPE}$) equals the gain of the pPE neuron ($g_{pPE}$) in the mean-field network, the activity of the M neuron represents the mean of the inputs,
+To show that the M neuron encodes the mean, while the V neuron encodes the variance of the feedforward input, we resume a toy model in which the activity of the nPE and pPE neuron is replaced by its ideal output
+%
+\begin{align}
+r_\mathrm{nE} = \left[ r_\mathrm{M} - s_\mathrm{FF}\right]_+ \nonumber \\
+r_\mathrm{pE} = \left[ s_\mathrm{FF} - r_\mathrm{M} \right]_+
+\end{align}
+%
+with $s_\mathrm{FF}$ denoting the time-dependent feedforward input. The activity of the M neuron can then be described as
+%
+\begin{align}
+\tau_M \cdot \frac{dr_\mathrm{M}}{dt} = r_\mathrm{pE} - r_\mathrm{nE}
+\end{align}
+%
+If $r_\mathrm{M} \geq s_\mathrm{FF}$, we get
+%
+\begin{align}
+\tau_M \cdot \frac{dr_\mathrm{M}}{dt} = -r_\mathrm{nE} = -r_\mathrm{M} + s_\mathrm{FF}.
+\end{align}
+%
+If $r_\mathrm{M} \leq s_\mathrm{FF}$, we also get
+%
+\begin{align}
+\tau_M \cdot \frac{dr_\mathrm{M}}{dt} = r_\mathrm{pE} = -r_\mathrm{M} + s_\mathrm{FF}.\nonumber
+\end{align}
+%
+Hence, the activity of $r_\mathrm{M}$ is given by
+%
+\begin{align}
+r_\mathrm{M} = \frac{1}{\tau_M} \int\limits_0^t e^{-(t-x)/\tau_M}\cdot s_\mathrm{FF}(x)\ dx
+\end{align}  
+%
+for zero activity at time $t=0$. In the limit of $t\rightarrow \infty$ (steady state), this is exactly the exponential average of the feedforward input, $E(s_\mathrm{FF})$.
+
+With the simplified activity of the nPE and pPE neuron, the activity of the V neuron can then be described as
+%
+\begin{align}
+\tau_V \cdot \frac{dr_\mathrm{V}}{dt} = -r_\mathrm{V} + (r_\mathrm{pE} +  r_\mathrm{nE})^2 = -r_\mathrm{V}  + (r_\mathrm{M} -  s_\mathrm{FF})^2,
+\end{align}
+%
+leading to the time-dependent solution
+%
+\begin{align}
+r_\mathrm{V} = \frac{1}{\tau_V} \int\limits_0^t e^{-(t-x)/\tau_V}\cdot \left[r_\mathrm{M}(x) -  s_\mathrm{FF}(x)\right]^2\ dx.
+\end{align}  
+%
+In the limit of $t\rightarrow \infty$, $r_\mathrm{V}$ approaches $E(s_\mathrm{FF} - E(s_\mathrm{FF}))$.
+
+
+\subsection{Impact of PE neurons' gain on estimating mean and variance}\label{sec:impact_gain}\label{sec:gain_impact}
+%
+The gains of the PE neurons, if not equal between nPE and pPE neuron on average, can bias the activity of both the M and V neuron. To show this, we resume the toy model from section \ref{sec:toy}. 
 %
 \begin{align}
 \label{eq:condition_mean_gain_equal}
-g_{pPE}\ \langle \mathrm{nPE}\rangle &= g_{nPE}\ \langle \mathrm{pPE}\rangle \\
-g_{pPE} \langle \left[ S-P\right]_+\rangle &= g_{nPE} \langle \left[ P-S\right]_+\rangle \nonumber \\
-g_{pPE} \int\limits_P^b \left( x-P\right)\ f(x)\ dx &= g_{nPE} \int\limits_a^P \left( P-x\right)\ f(x)\ dx. \nonumber
+g_\mathrm{pPE}\ \langle r_\mathrm{nPE}\rangle &= g_\mathrm{nPE}\ \langle r_\mathrm{pPE}\rangle \\
+g_\mathrm{pPE}\ \langle \left[ s_\mathrm{FF}-P\right]_+\rangle &= g_\mathrm{nPE}\ \langle \left[ P-s_\mathrm{FF}\right]_+\rangle \nonumber\\
+g_\mathrm{pPE} \int\limits_P^{\infty} \left( x-P\right)\ f(x)\ dx &= g_\mathrm{nPE} \int\limits_{-\infty}^P \left( P-x\right)\ f(x)\ dx. \nonumber
 \end{align}
 %
-In case of a uniform distribution ($f(x) = 1/(b-a)$ when $x\in [a,b]$ and $0$ otherwise) from which the input values are drawn, this condition yields
+Here, $P$ denotes the prediction encoded in the M neuron, and $f(x)$ is the distribution of feedforward inputs. In case of a uniform distribution, $f(x) = 1/(b-a)$ for $x\in [a,b]$ and $0$ otherwise, we get
 %
-\begin{align}
-\label{eq:condition_mean_gain_equal_4_uniform_dist_1}
-P = \int\limits_a^b x\, f(x)\ dx = \frac{a + b}{2}
-\end{align}
+\begin{equation}
+\label{eq:prediction_gain}
+    P=
+    \begin{cases}
+      \frac{a + b}{2} & \text{if}\ g_\mathrm{nPE} = g_\mathrm{pPE} = g \\
+      \frac{g_\mathrm{pPE}\cdot b - g_\mathrm{nPE}\cdot a \pm \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}} (a-b)}{g_\mathrm{pPE} - g_\mathrm{nPE}} & \text{otherwise.}
+    \end{cases}
+\end{equation}
 %
-for $g_{nPE} = g_{pPE} = g$, and 
-%
-\begin{align}
-\label{eq:condition_mean_gain_equal_4_uniform_dist_21}
-g_{pPE}\ \left[ \frac{1}{2} \left(b^2 - P^2\right) - P\left(b - P\right)\right] = g_{nPE}\ \left[  P\left(P - a\right) - \frac{1}{2} \left(P^2 - a^2\right)\right]
-\end{align}
-%
-for $g_{nPE} \neq g_{pPE}$, which can be further summaries by
-%
-\begin{align}
-\label{eq:condition_mean_gain_equal_4_uniform_dist_21}
-P = \frac{g_{pPE}\ b - g_{nPE}\ a \pm \sqrt{g_{nPE}\ g_{pPE}} (a-b)}{g_{pPE} - g_{nPE}}.
-\end{align}
-%
-Hence, estimating the mean correctly requires $g_{nPE} = g_{pPE} = g$. For the V neuron to represent the variance of the inputs, this condition must be tightened to  $g_{nPE} = g_{pPE} = 1$. The variance is given by
+XXX Maybe mention the SuppFig. in which you show the function XXX and explain what you see for gnPE > gpPE or vice versa ...
+
+
+Similarly, the variance is affected by the gain of the nPE and pPE neuron,
 %
 \begin{align}
 \label{eq:condition_variance_gain}
-V &= \langle (S-P)^2\rangle \\
-   &= g_\mathrm{pPE}\ \langle \left[ S-P \right]_+^2 \rangle + g_\mathrm{nPE}\ \langle \left[ P-S \right]_+^2 \rangle. \nonumber
+V &= g_\mathrm{pPE}\ \langle \left[ s_\mathrm{FF}-P \right]_+^2 \rangle + g_\mathrm{nPE}\ \langle \left[ P-s_\mathrm{FF} \right]_+^2 \rangle.
 \end{align}
 %
-In case of a uniform distribution from which the input values are drawn, this condition yields
+In case of a uniform distribution, we get
 %
 \begin{align}
-\label{eq:condition_variance_gain_uniform_dist}
-V &= \frac{g_\mathrm{pPE}}{b-a} \int\limits_P^b (u-P)^2\ du + \frac{g_\mathrm{nPE}}{b-a} \int\limits_a^P (P-u)^2\ du \\
+V &= \frac{g_\mathrm{pPE}}{b-a} \int\limits_P^b (x-P)^2\ dx + \frac{g_\mathrm{nPE}}{b-a} \int\limits_a^P (P-x)^2\ dx \\
    &= \frac{g_\mathrm{pPE}}{3} \cdot \frac{(b-P)^3}{b-a} + \frac{g_\mathrm{nPE}}{3} \cdot \frac{(P-a)^3}{b-a}. \nonumber
 \end{align}
 %
-Only if $g_{nPE} = g_{pPE} = 1$ and $P = \frac{a + b}{2}$, the variance is given by $\frac{(b - a)^2}{12}$, otherwise the V neuron's activity is given by
+Inserting eqs. (\ref{eq:prediction_gain}) yields
 %
-\begin{align}
-\label{eq:condition_variance_gain_uniform_dist_1}
-V = \frac{(b-a)^2}{3\ (g_\mathrm{pPE} - g_\mathrm{nPE})^3} \cdot \left[ g_\mathrm{nPE} \cdot( g_\mathrm{pPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3 - g_\mathrm{pPE} \cdot (g_\mathrm{nPE} \mp \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}})^3\right].
-\end{align}
+\begin{equation}
+\label{eq:variance_gain}
+    V=
+    \begin{cases}
+      \frac{(b - a)^2}{12} & \text{if}\ g_\mathrm{nPE} = g_\mathrm{pPE} = 1 \\
+      \frac{(b-a)^2}{3\ (g_\mathrm{pPE} - g_\mathrm{nPE})^3} \cdot \left[ g_\mathrm{nPE} \cdot( g_\mathrm{pPE} \mp \gamma)^3 - g_\mathrm{pPE} \cdot (g_\mathrm{nPE} \mp \gamma)^3\right] & \text{otherwise.}
+    \end{cases}
+\end{equation}
 %
+with $\gamma = \sqrt{g_\mathrm{nPE}\ g_\mathrm{pPE}}$. 
+XXX As above, discuss cases from the Supp Figs. XXX Important: for P and V please check with sign is correct!
 
 
 \subsection{Impact of PE neurons' baseline on estimating mean and variance}
 %
-Only if the the baseline of the nPE neuron ($n_0$) equals the baseline of the pPE neuron ($p_0$) in the mean-field network, the activity of the M neuron represents the mean of the inputs,
+The baselines of the PE neurons, if not equal between nPE and pPE neuron on average, can bias the activity of both the M and V neuron. By means of the toy model from section \ref{sec:toy}, we can write
 %
 \begin{align}
 \label{eq:condition_baseline_mean}
-\langle \mathrm{pPE} \rangle &= \langle \mathrm{nPE} \rangle \\
-\langle \left[ S - P\right]_+ + p_0\rangle &= \langle \left[ P - S\right]_+ + n_0\rangle \nonumber\\
-\int\limits_P^b (x - P)\ f(x)\ dx + p_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1}  &= \int\limits_a^P (P - x)\ f(x)\ dx + n_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1} . \nonumber
+\langle r_\mathrm{pPE} \rangle &= \langle r_\mathrm{nPE} \rangle \\
+\langle \left[s_\mathrm{FF} - P\right]_+ + p_0\rangle &= \langle \left[P - s_\mathrm{FF}\right]_+ + n_0\rangle \nonumber\\
+\int\limits_P^\infty (x - P)\ f(x)\ dx + p_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1}  &= \int\limits_{-\infty}^P (P - x)\ f(x)\ dx + n_0 \underbrace{\int\limits_a^b f(x)\ dx}_{=1} . \nonumber
 \end{align}
 %
-In case of a uniform distribution ($f(x) = 1/(b-a)$ when $x\in [a,b]$ and $0$ otherwise) from which the input values are drawn, this condition yields
+$n_0$ and $p_0$ denote the baseline activity of the nPE and pPE neuron, respectively.
+In case of a uniform distribution (c.f. \ref{sec:impact_gain}), we get 
+%
 %
 \begin{align}
 \label{eq:condition_baseline_mean_1}
 P = \frac{b+a}{2} + \frac{p_0 - n_0}{b-a}.
 \end{align}
 %
-Hence, if $p_0 = n_0$, the mean can be estimated correctly. For the V neuron to represent the variance of the inputs, this condition must be tightened to $p_0 = n_0 = 0$. The variance is given by
+Thus, the M neuron encodes the true mean of the feedforward input only if $p_0 = n_0$. Otherwise, XXX refer to Suppfig and state briefly the cases n > p or n<p XXX.
+
+With non-zero baseline activities, the steady state activity of the V neuron is given by
 %
 \begin{align}
 \label{eq:condition_baseline_variance}
-V &= \langle \left( \mathrm{pPE} + \mathrm{nPE} \right)^2 \rangle \\
-&= \langle \left[ S-P\right]_+^2\rangle + \langle \left[ P-S\right]_+^2\rangle + (p_0 + n_0)^2 + 2\ (p_0 + n_0)\ \left( \langle \left[ S-P\right]_+\rangle + \langle \left[ P-S\right]_+ \rangle\right) \nonumber
+V &= \langle \left( r_\mathrm{pPE} + r_\mathrm{nPE} \right)^2 \rangle \\
+&= \langle \left[ s_\mathrm{FF}-P\right]_+^2\rangle + \langle \left[ P-s_\mathrm{FF}\right]_+^2\rangle + (p_0 + n_0)^2 + 2\ (p_0 + n_0)\ \left( \langle \left[ s_\mathrm{FF}-P\right]_+\rangle + \langle \left[ P-s_\mathrm{FF}\right]_+ \rangle\right) \nonumber
 \end{align}
 %
-In case of a uniform distribution from which the inputs to the mean-field network are drawn, this expression simplifies to
+In case of a uniform distribution, this expression yields
 %
 \begin{align}
 \label{eq:condition_baseline_variance_1}
 V = \frac{1}{3\ (b-a)} \left[ (b-P)^3 + (P-a)^3\right] + (p_0 + n_0)^2 + \frac{(p_0 + n_0)}{b-a} \left[ (b-P)^2 + (a-P)^2\right].
 \end{align}
 %
-Inserting the expression for P (by itself modulated by the baseline activities of the PE neurons) yields
-%
-\begin{align}
-V =& \frac{1}{3\ (b-a)} \left[ \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^3 + \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^3\right] + (p_0 + n_0)^2 \nonumber \\
-&+ \frac{(p_0 + n_0)}{b-a} \left[ \left( \frac{b-a}{2} + \frac{p_0-n_0}{b-a}\right)^2 + \left( \frac{b-a}{2} - \frac{p_0 - n_0}{b-a}\right)^2\right]
-\end{align}
-%
-Simplifying the expression, leads to
+Inserting the expression for P (Eg. \ref{eq:condition_baseline_mean_1}) which is itself a function of the baseline activities, gives
 %
 \begin{align}
 \label{eq:condition_baseline_variance_2}
-V =  \frac{(b-a)^2}{12} + \frac{(p_0-n_0)^2}{(b-a)^2} \left( 1 + 2\ \frac{p_0+n_0}{b-a}\right) + (p_0 + n_0) \left( p_0 + n_0 + \frac{b-a}{2}\right)
+V =  \frac{(b-a)^2}{12} + \frac{(p_0-n_0)^2}{(b-a)^2} \left( 1 + 2\ \frac{p_0+n_0}{b-a}\right) + (p_0 + n_0) \left( p_0 + n_0 + \frac{b-a}{2}\right).
 \end{align}
 %
+Thus, for the V neuron to encode the variance unbiased, $n_0 = p_0 = 0$. If XXX discuss what you see in the supplementary figures ... .
+
 
 \subsection{Modelling the impact of neuromodulators on the sensory weight}
+
+- also note here that while prediction and variance might be biased, no necessarilty lead to changes in sensory weight ... explain why
 
 Assume that neuromodulator act through activating INs. INs on the other hand modulate both gain and BL of nPE and pPE neurons ... . Changes in gain and BL will affect the overall activity and the balance between nPE and pPE neurons => this will affect both the prediction and the variance. 
 
@@ -692,52 +749,55 @@ V &= \frac{1}{n} \sum_i \left( x_i - \left(\mu \pm \delta\mu\right)\right)^2 \\
 
 
 
-\subsection*{Sensory weight and contraction bias}
+\subsection{Sensory weight and contraction bias}
 %
-If P is rather constant, the slope in the contraction bias is exactly the sensory weight
+The contraction bias can be formalized through the slope in a linear equation describing the relationship between the estimated and true sensory stimulus. If the slope is close to 1, the bias is small. In contrast, if the slope is close to zero, the bias is large. 
+
+If the prediction encoded in the activity of the M neuron changes very slowly, the bias is well-captured by the sensory weight, 
 %
- \begin{align*}
- r_\mathrm{out} = \alpha_\mathrm{S} \cdot S + \left( 1 -\alpha_\mathrm{S} \right) \cdot P \equiv m \cdot S + n
- \end{align*}
+ \begin{align}
+ r_\mathrm{out} = \alpha_\mathrm{S} \cdot s_\mathrm{FF} + \mathrm{constant}
+ \end{align}
 %
-However, P is usually/normally a function of $S$. For simplicity, let's assume that P decays exponentially to a new value of $S$:
+However, the prediction is normally a function of the history of sensory stimuli the network received, and cannot be approximated by a constant. To investigate how the slope (describing the contraction bias) depends on the sensory weight and other factors, let us resume an approximation in which the prediction decays exponentially to a presented constant stimulus value, $s$,
+%
+\begin{align}
+P = P_\mathrm{0} \cdot \mathrm{e}^{-t/\tau_M} +  s \cdot \left( 1 -   \mathrm{e}^{-t/\tau} \right)
+\end{align}
+%
+with $P_0$ describing the initial value at time $t=0$. Let us assume that within a trial with trial duration $T$, the stimulus value changes $n$ times ($T = n\cdot \Delta t$).  The prediction during the presentation of the $n$th stimulus value can be expressed as
+%
+\begin{align}
+P_\mathrm{n} = P_\mathrm{0} \cdot \mathrm{e}^{-\Delta t/\tau_M}  + \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} s_i \cdot \mathrm{e}^{-(n-1)\cdot \Delta t/ \tau_M}
+\end{align}
+%
+To obtain an estimate for the prediction at the end of a trial, $P_\mathrm{n}$ must be averaged over the stimulus distribution, $\langle P_\mathrm{n} \rangle_s$. For the sake of simplicity, let us assume the stimulus values are drawn from a uniform distribution $U\left( s - \frac{\sigma_\mathrm{S}}{12}, s + \frac{\sigma_\mathrm{S}}{12} \right)$. Moreover, we assume that the initial state, $P_0$, at the beginning of a new trial is drawn from a uniform distribution $U\left( \mu - \frac{\sigma_\mathrm{P}}{12}, \mu + \frac{\sigma_\mathrm{P}}{12} \right)$. With these assumptions, $\langle P_\mathrm{n} \rangle_s$ is given by
+%
+\begin{align}
+\langle P_\mathrm{n} \rangle_s = \mathrm{e}^{-\Delta t/\tau_M}  \int\limits_{\mu - \frac{\sigma_\mathrm{P}}{12}}^{\mu + \frac{\sigma_\mathrm{P}}{12}} P_\mathrm{0} \ f(P_\mathrm{0})\ dP_0+ \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} \cdot \mathrm{e}^{-(n-1)\cdot \Delta t/ \tau_M} \int\limits_{s - \frac{\sigma_\mathrm{S}}{12}}^{s + \frac{\sigma_\mathrm{S}}{12}} x\ f(x)\ dx
+\end{align}
+%
+Solving the integrals yield
+%
+\begin{align}
+\langle P_\mathrm{n} \rangle_s = \mu \cdot \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} \mathrm{e}^{-(n-i)\cdot \Delta t/ \tau_M} \cdot s
+\end{align}
+%
+Making use of the geometric series, the expression simplifies to
 %
 \begin{align*}
-P = P_\mathrm{0} \cdot \mathrm{e}^{-t/\tau} + f(S) \cdot \left( 1 -   \mathrm{e}^{-t/\tau} \right)
+\langle P_\mathrm{n} \rangle_s =  \mu \cdot \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-T/\tau_M} \right) \cdot s
 \end{align*}
 %
-Within each trial with trial duration T, P can be expressed by n sections of length t in which the stimulus is constant and, for the sake of simplicity, drawn from a uniform distribution $U\left( s - \frac{\sigma_\mathrm{S}}{12}, s + \frac{\sigma_\mathrm{S}}{12} \right)$. $P_\mathrm{0}$ is drawn from $U\left( \mu - \frac{\sigma_\mathrm{P}}{12}, \mu + \frac{\sigma_\mathrm{P}}{12} \right)$. $P_\mathrm{n}$ is then given by
+Inserting the expression in the equation for the weighted output yields
 %
 \begin{align*}
-P_\mathrm{n} = P_\mathrm{0} \cdot \mathrm{e}^{-t/\tau}  + \left( 1 -   \mathrm{e}^{-t/\tau} \right) \sum_{i=1}^{n} s_i \cdot \mathrm{e}^{-(n-1)\cdot t/ \tau}
-\end{align*}
-%
-This needs to be averaged over all possible states
-%
-\begin{align*}
-P_\mathrm{n} = \mathrm{e}^{-t/\tau}  \int\limits_{\mu - \frac{\sigma_\mathrm{P}}{12}}^{\mu + \frac{\sigma_\mathrm{P}}{12}} P_\mathrm{0} \ f(P_\mathrm{0})\ dP_0+ \left( 1 -   \mathrm{e}^{-t/\tau} \right) \sum_{i=1}^{n} \cdot \mathrm{e}^{-(n-1)\cdot t/ \tau} \int\limits_{s - \frac{\sigma_\mathrm{S}}{12}}^{s + \frac{\sigma_\mathrm{S}}{12}} s\ f(s)\ ds
-\end{align*}
-%
-This gives
-%
-\begin{align*}
-P_\mathrm{n} = \mu \cdot \mathrm{e}^{-T/\tau} + \left( 1 -   \mathrm{e}^{-t/\tau} \right) \sum_{i=1}^{n} \mathrm{e}^{-(n-i)\cdot t/ \tau} \cdot S
-\end{align*}
-%
-By making use of the geometric series, this simplifies to
-%
-\begin{align*}
-P_\mathrm{n} =  \mu \cdot \mathrm{e}^{-T/\tau} + \left( 1 -   \mathrm{e}^{-T/\tau} \right) \cdot S
-\end{align*}
-%
-Together, this yields for the weighted output
-%
-\begin{align*}
- r_\mathrm{out} = \left[ \alpha_\mathrm{S}\  \mathrm{e}^{-T/\tau} + \left( 1 -   \mathrm{e}^{-T/\tau} \right)\right] \cdot S + \left( 1 -\alpha_\mathrm{S} \right)\ \mathrm{e}^{-T/\tau}\ \mu
+ r_\mathrm{out} = \left[ \alpha_\mathrm{S}\  \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-T/\tau_M} \right)\right] \cdot s + \left( 1 -\alpha_\mathrm{S} \right)\ \mathrm{e}^{-T/\tau_M}\ \mu
 \end{align*}
 %
 Hence, the slope is a function of both the sensory weight and the trial duration. 
  
+XXX check the derivation above and then polish the below XXX Also, it might be important to state that alpha itself is a function of the trial duration!? xx
 In a prediction-driven input regime ($alpha_\mathrm{S} \sim 0)$, the slope is independent of the sensory weight and only determined by the trial duration, $m \sim \left( 1 -   \mathrm{e}^{-T/\tau} \right)$. In a sensory-driven input regime ($alpha_\mathrm{S} \sim 0)$, the contraction bias vanishes ($m \sim 1$). 
 
 If the trail duration is short ($T \rightarrow 0$), the slope is given by the sensory weight. If the trail duration approaches infinity, the slope would be 1 again (however, this seems rather unrealistic, this would only be true in an ideal system without memory decay or reproduction and accumulation noise ...).

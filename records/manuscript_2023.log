@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  7 SEP 2023 16:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  6 OCT 2023 10:59
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -411,12 +411,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip59
-) (manuscript_2023.aux
-
-LaTeX Warning: Label `eq:condition_mean_gain_equal_4_uniform_dist_21' multiply 
-defined.
-
-)
+) (manuscript_2023.aux)
 \openout1 = `manuscript_2023.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 76.
@@ -577,7 +572,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
  [5] [6]
 <../results/figures/final/Fig_5.png, id=39, 229.45724pt x 442.2924pt>
  [7] [8]
-Overfull \hbox (6.05951pt too wide) in paragraph at lines 280--281
+Overfull \hbox (6.05951pt too wide) in paragraph at lines 298--299
 []\OT1/cmr/m/n/10 The excitatory neurons in the PE circuit are simulated as two
  coupled point compartments, representing|
  []
@@ -592,78 +587,96 @@ Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
 
 
-Package natbib Warning: Citation `wilson1972excitatory' on page 11 undefined on
- input line 377.
+LaTeX Warning: Reference `fig:Fig_2_S2' on page 11 undefined on input line 392.
 
 
+
+LaTeX Warning: Reference `fig:Fig_2_S3' on page 11 undefined on input line 392.
+
+
+
+LaTeX Warning: Reference `fig:Fig_2_S2' on page 11 undefined on input line 394.
+
+
+
 Package natbib Warning: Citation `wilson1972excitatory' on page 11 undefined on
- input line 386.
+ input line 398.
 
 [11
 
 ]
-Overfull \hbox (9.2271pt too wide) in paragraph at lines 403--406
+
+Package natbib Warning: Citation `wilson1972excitatory' on page 12 undefined on
+ input line 407.
+
+
+Overfull \hbox (9.2271pt too wide) in paragraph at lines 424--427
 \OT1/cmr/m/n/10 connection between the presynaptic neuron $\OML/cmm/m/it/10 Y$ 
 \OT1/cmr/m/n/10 and the postsynaptic neuron $\OML/cmm/m/it/10 X$ \OT1/cmr/m/n/1
 0 ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10 ; []; []; []\OMS/
 cmsy/m/n/10 g$\OT1/cmr/m/n/10 ,|
  []
 
-[12] [13] [14] [15] [16]
-Overfull \hbox (14.32506pt too wide) in paragraph at lines 785--788
+[12] [13]
+Underfull \hbox (badness 10000) in paragraph at lines 540--569
+
+ []
+
+[14] [15] [16] [17] [18]
+Overfull \hbox (14.32506pt too wide) in paragraph at lines 845--848
 $\OML/cmm/m/it/10 P[]$\OT1/cmr/m/n/10 , is however $\OML/cmm/m/it/10 []$ \OT1/
 cmr/m/n/10 in my implementation and $\OML/cmm/m/it/10 R[]$ \OT1/cmr/m/n/10 is f
 ixed variance of inputs $\OML/cmm/m/it/10 []$\OT1/cmr/m/n/10 . Hence, my imple
 mentation|
  []
 
-<../results/figures/final/Fig_2_S1.png, id=78, 256.43805pt x 203.44005pt>
+<../results/figures/final/Fig_2_S1.png, id=84, 256.43805pt x 203.44005pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S1.png, id=79, 432.53595pt x 119.84775pt>
+<../results/figures/final/Fig_3_S1.png, id=85, 432.53595pt x 119.84775pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S2.png, id=80, 245.59755pt x 149.23755pt>
+<../results/figures/final/Fig_3_S2.png, id=86, 245.59755pt x 149.23755pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S1.png, id=81, 450.9648pt x 370.2633pt>
+<../results/figures/final/Fig_4_S1.png, id=87, 450.9648pt x 370.2633pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S2.png, id=82, 267.1581pt x 230.17995pt>
+<../results/figures/final/Fig_4_S2.png, id=88, 267.1581pt x 230.17995pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 850.
-[17]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 910.
+[19]
 
-LaTeX Warning: Text page 18 contains only floats.
+LaTeX Warning: Text page 20 contains only floats.
 
-[18] [19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 850.
+[20] [21]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 910.
  (manuscript_2023.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 850.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 850.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 910.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 910.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 850.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 910.
  ) 
 Here is how much of TeX's memory you used:
- 10070 strings out of 494891
- 160773 string characters out of 3176446
- 310497 words of memory out of 3000000
- 13565 multiletter control sequences out of 15000+200000
+ 10074 strings out of 494891
+ 160712 string characters out of 3176446
+ 313605 words of memory out of 3000000
+ 13569 multiletter control sequences out of 15000+200000
  11740 words of font info for 45 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
- 36i,15n,43p,2398b,366s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,15n,43p,2398b,370s stack positions out of 5000i,500n,10000p,200000b,50000s
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/font
 s/type1/public/amsfonts/cm/cmbx10.pfb></Users/loreen.hertaeg/Library/Applicatio
 n Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Use
@@ -695,9 +708,9 @@ type1/public/amsfonts/cm/cmti10.pfb></Users/loreen.hertaeg/Library/Application
 Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users
 /loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/p
 ublic/amsfonts/symbols/msam10.pfb>
-Output written on manuscript_2023.pdf (19 pages, 341022 bytes).
+Output written on manuscript_2023.pdf (21 pages, 355486 bytes).
 PDF statistics:
- 159 PDF objects out of 1000 (max. 8388607)
+ 165 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

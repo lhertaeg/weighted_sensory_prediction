@@ -2,16 +2,18 @@
 \contentsline {subsection}{\numberline {A.1}Network model}{11}{subsection.A.1}
 \contentsline {subsubsection}{\numberline {A.1.1}Prediction-error network model}{11}{subsubsection.A.1.1}
 \contentsline {subsubsection}{\numberline {A.1.2}Memory and variance neuron}{12}{subsubsection.A.1.2}
-\contentsline {subsubsection}{\numberline {A.1.3}Weighted output}{12}{subsubsection.A.1.3}
+\contentsline {subsubsection}{\numberline {A.1.3}Weighted output}{13}{subsubsection.A.1.3}
 \contentsline {subsection}{\numberline {A.2}Connectivity}{13}{subsection.A.2}
 \contentsline {subsubsection}{\numberline {A.2.1}Connections between neurons of the PE circuit}{13}{subsubsection.A.2.1}
 \contentsline {subsubsection}{\numberline {A.2.2}Connections between the PE circuit and the M neuron}{13}{subsubsection.A.2.2}
-\contentsline {subsubsection}{\numberline {A.2.3}Connections between the PE circuit and the V neuron}{13}{subsubsection.A.2.3}
+\contentsline {subsubsection}{\numberline {A.2.3}Connections between the PE circuit and the V neuron}{14}{subsubsection.A.2.3}
 \contentsline {subsection}{\numberline {A.3}Inputs}{14}{subsection.A.3}
 \contentsline {subsection}{\numberline {A.4}Simulations}{14}{subsection.A.4}
-\contentsline {section}{\numberline {B}Supporting analyses}{14}{appendix.B}
-\contentsline {subsection}{\numberline {B.1}Impact of PE neurons' gain on estimating mean and variance}{14}{subsection.B.1}
-\contentsline {subsection}{\numberline {B.2}Impact of PE neurons' baseline on estimating mean and variance}{15}{subsection.B.2}
-\contentsline {subsection}{\numberline {B.3}Modelling the impact of neuromodulators on the sensory weight}{16}{subsection.B.3}
-\contentsline {subsection}{\numberline {B.4}Comparison to Kalman filter and Bayes Factor surprise}{17}{subsection.B.4}
-\contentsline {section}{\numberline {C}Supplementary Figures}{17}{appendix.C}
+\contentsline {section}{\numberline {B}Supporting analyses}{16}{appendix.B}
+\contentsline {subsection}{\numberline {B.1}Activity of M and V neuron in a simplified model}{16}{subsection.B.1}
+\contentsline {subsection}{\numberline {B.2}Impact of PE neurons' gain on estimating mean and variance}{16}{subsection.B.2}
+\contentsline {subsection}{\numberline {B.3}Impact of PE neurons' baseline on estimating mean and variance}{17}{subsection.B.3}
+\contentsline {subsection}{\numberline {B.4}Modelling the impact of neuromodulators on the sensory weight}{18}{subsection.B.4}
+\contentsline {subsection}{\numberline {B.5}Sensory weight and contraction bias}{18}{subsection.B.5}
+\contentsline {subsection}{\numberline {B.6}Comparison to Kalman filter and Bayes Factor surprise}{19}{subsection.B.6}
+\contentsline {section}{\numberline {C}Supplementary Figures}{19}{appendix.C}
