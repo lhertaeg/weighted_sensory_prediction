@@ -32,20 +32,15 @@ if not os.path.exists(figPath):
 
 # %% Define figure structure
 
-figsize=(5.5/inch,2/inch)
+figsize=(3/inch,2/inch)
 fig = plt.figure(figsize=figsize)
 
-A = gridspec.GridSpec(1, 2, figure=fig, wspace=0.6)
-
-# ax_A =  fig.add_subplot(A[:,:])
-# ax_A.axis('off')
-# ax_A.set_xlabel('Sens - Pred (1/s)', fontsize=fs)
+A = gridspec.GridSpec(1, 1, figure=fig, wspace=0.6)
 
 ax_1 = fig.add_subplot(A[0,0])
-ax_2 = fig.add_subplot(A[0,1])
 
 
-# %% Show Activity of nPE and pPE, compare with (S-P)**2
+# %% Show Activity of nPE and pPE
 
 # data files
 file_for_data = '../results/data/moments/data_mfn_10_PE_neurons_constant_stimuli_P_fixed.pickle'
@@ -59,7 +54,8 @@ else:
         [prediction_initial, stimulus_tested, nPE, pPE] = pickle.load(f)
     
     # plot data
-    plot_nPE_pPE_activity_compare(prediction_initial, stimulus_tested, nPE, pPE, ax1 = ax_1, ax2 = ax_2, ms=3, lw=2, fs=fs)
+    plot_nPE_pPE_activity_compare(prediction_initial, stimulus_tested, nPE, pPE, ax1 = ax_1, ms=3, lw=2, fs=fs+1)
+
 
 # %% save figure
 

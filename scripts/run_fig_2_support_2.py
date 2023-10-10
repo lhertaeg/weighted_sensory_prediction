@@ -16,12 +16,43 @@ from src.default_parameters import Neurons, Activity_Zero, Network, Stimulation
 from src.functions_save import load_network_para
 from src.functions_networks import run_population_net
 
+from src.plot_data import plot_gain_factors
+
 dtype = np.float32
 
 
-# %% Sparsity 
+# %% plot gain factors
 
 run_cell = True
+
+if run_cell:
+    
+    import seaborn as sns
+    import pandas as pd
+    
+    with open('../results/data/population/data_population_network_para4corr_gain.pickle','rb') as f:
+            [_, _, gain_factors_nPE_5, gain_factors_pPE_5, nPE_true, pPE_true] = pickle.load(f)
+
+
+    gains_nPE = np.round(gain_factors_nPE_5,1)
+    gains_nPE[~nPE_true] = np.nan
+    
+    gains_pPE = np.round(gain_factors_pPE_5,1)
+    gains_pPE[~pPE_true] = np.nan
+    
+    inch = 2.54
+    figsize=(10/inch,2/inch)
+    
+    plot_gain_factors(np.log(gains_nPE), np.log(gains_pPE), figsize=figsize)
+
+    figure_name = 'Figure_gains.png'
+    figPath = '../results/figures/final/'
+    plt.savefig(figPath + figure_name, bbox_inches='tight', transparent=False, dpi=600)
+   
+
+# %% Sparsity 
+
+run_cell = False
 plot_only = True
 
 if run_cell:

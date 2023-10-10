@@ -21,49 +21,45 @@ dtype = np.float32
 def rate_dynamics_spatial_mfn(tau_E, tau_I, tc_var, Q, U, V, W, rates, mean, 
                               var, feedforward_input, dt):
     
-    # Initialise
+    ### Initialise
     rates_new = rates.copy() 
     mean_new = mean.copy()
     dr_1 = np.zeros(len(rates_new), dtype=dtype)
     dr_2 = np.zeros(len(rates_new), dtype=dtype)
     var_new = var.copy() 
 
-    # RK 2nd order
+    ### RK 2nd order
+    # first run
     dr_mem_1 = (U @ rates_new) / tau_E
-    
     dr_var_1 = (-var_new + (Q @ rates_new)**2) / tc_var 
-    #dr_var_1 = (-var_new + (Q @ rates_new**2)) / tc_var  
     
     dr_1 = -rates_new + W @ rates_new + V @ np.array([mean_new]) + feedforward_input
     dr_1[:4] /= tau_E 
     dr_1[4:] /= tau_I 
 
+    # add and rectify if possible
     rates_new[:] += dt * dr_1 
-    rates_new[rates_new<0] = 0 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    rates_new[rates_new<0] = 0
     
     mean_new += dt * dr_mem_1
     var_new += dt * dr_var_1
     
+    # second run
     dr_mem_2 = (U @ rates_new) / tau_E
-    
     dr_var_2 = (-var_new + (Q @ rates_new)**2) / tc_var
-    #dr_var_2 = (-var_new + (Q @ rates_new**2)) / tc_var
     
     dr_2 = -rates_new + W @ rates_new + V @ mean_new + feedforward_input
     dr_2[:4] /= tau_E 
     dr_2[4:] /= tau_I
     
+    # add and rectify if necessray
     rates[:] += dt/2 * (dr_1 + dr_2)
     mean += dt/2 * (dr_mem_1 + dr_mem_2)
     var += dt/2 * (dr_var_1 + dr_var_2)
     
-    # Rectify
     rates[rates<0] = 0
-    
-    # print((Q @ rates_new**2))
-    # print(var)
 
-    return [rates, mean[0], var] # [rates, mean, var]
+    return [rates, mean[0], var]
 
 
 def run_spatial_mfn_circuit(W_PE_to_V, W_PE_to_P, W_P_to_PE, W_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, stimulus, spatial_noise, 
@@ -110,43 +106,42 @@ def run_spatial_mfn_circuit(W_PE_to_V, W_PE_to_P, W_P_to_PE, W_PE_to_PE, tc_var_
 def rate_dynamics_mfn(tau_E, tau_I, tc_var, w_var, U, V, W, rates, mean, 
                       var, feedforward_input, dt, n):
     
-    # Initialise
+    ### Initialise
     rates_new = rates.copy() 
     mean_new = mean.copy()
     dr_1 = np.zeros(len(rates_new), dtype=dtype)
-    dr_2 = np.zeros(len(rates_new), dtype=dtype)
-    #dr_mem_1 = np.zeros((1,1), dtype=dtype)
-    #dr_mem_2 = np.zeros((1,1), dtype=dtype)
-    
+    dr_2 = np.zeros(len(rates_new), dtype=dtype) 
     var_new = var.copy() 
-    #dr_var_1 = np.zeros((1,1), dtype=dtype) 
-    #dr_var_2 = np.zeros((1,1), dtype=dtype) 
     
-    # RK 2nd order
+    ### RK 2nd order
+    # first run
     dr_mem_1 = (U @ rates_new) / tau_E
     dr_var_1 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var 
     dr_1 = -rates_new + W @ rates_new + V @ np.array([mean_new]) + feedforward_input
     dr_1[:4] /= tau_E 
     dr_1[4:] /= tau_I 
 
+    # add and rectify if necessary
     rates_new[:] += dt * dr_1
+    rates_new[rates_new<0] = 0
+    
     mean_new += dt * dr_mem_1
     var_new += dt * dr_var_1
     
+    # second run
     dr_mem_2 = (U @ rates_new) / tau_E
     dr_var_2 = (-var_new + sum(w_var * rates_new[:2])**n) / tc_var
     dr_2 = -rates_new + W @ rates_new + V @ mean_new + feedforward_input
     dr_2[:4] /= tau_E 
     dr_2[4:] /= tau_I
     
+    # add and rectify if necessary
     rates[:] += dt/2 * (dr_1 + dr_2)
     mean += dt/2 * (dr_mem_1 + dr_mem_2)
     var += dt/2 * (dr_var_1 + dr_var_2)
-    
-    # Rectify
     rates[rates<0] = 0
 
-    return [rates, mean[0], var] # [rates, mean, var]
+    return [rates, mean[0], var]
 
 
 def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, fixed_input, stimuli, VS = 1, VV = 0,

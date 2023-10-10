@@ -23,13 +23,8 @@ dtype = np.float32
 def default_para_mfn(mfn_flag, baseline_activity = dtype([0, 0, 0, 0, 4, 4, 4, 4]), one_column=True):
     
     ### time constants
-    #if one_column:
     tc_var_per_stim = dtype(5000)
     tc_var_pred = dtype(5000)
-    # else:
-    #     tc_var_per_stim = dtype(1000)
-    #     tc_var_pred = dtype(1000)
-    
     tau_pe = [dtype(60), dtype(2)]
     
     ### weights

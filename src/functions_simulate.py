@@ -105,6 +105,8 @@ def simulate_PE_circuit_P_fixed_S_constant(mfn_flag, initial_prediction, constan
     
     ### test all stimuli
     for i, stimulus in enumerate(constant_stimuli):
+        
+        print('Stimulus ', i+1, '/', len(constant_stimuli))
     
         repeats_per_value = trial_duration//num_values_per_trial
         stimuli = random_uniform_from_moments(stimulus, 0, num_values_per_trial)
@@ -358,10 +360,13 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
       tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag)
     
     ### initialise
-    mse_mean = np.zeros((len(means_tested), len(variances_tested), trial_duration), dtype=dtype)
-    mse_variance = np.zeros((len(means_tested), len(variances_tested), trial_duration), dtype=dtype)
+    dev_mean = np.zeros((len(means_tested), len(variances_tested)), dtype=dtype)
+    dev_variance = np.zeros((len(means_tested), len(variances_tested)), dtype=dtype)
     activity_interneurons = np.zeros((len(means_tested), len(variances_tested), trial_duration, 4), dtype=dtype)
     activity_pe_neurons = np.zeros((len(means_tested), len(variances_tested), trial_duration, 2), dtype=dtype)
+    
+    ### parameter to compute the steady state quantities
+    n_ss = 3 * trial_duration//4
     
     ### parameter sweep
     for i, mean_dist in enumerate(means_tested):
@@ -397,39 +402,39 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
                 
                 ## compute mean squared error between running average/variance and m or v neuron
                 running_average = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1, dtype=dtype)
-                mse_mean[i, j, :] = (running_average - prediction)**2
+                dev_mean[i, j] = (np.mean(running_average[n_ss:]) - np.mean(prediction[n_ss:])) / np.mean(running_average[n_ss:])
                 
                 mean_running = np.cumsum(stimuli)/np.arange(1,len(stimuli)+1, dtype=dtype)
                 momentary_variance = (stimuli - mean_running)**2
                 running_variance = np.cumsum(momentary_variance)/np.arange(1,len(stimuli)+1, dtype=dtype)
-                mse_variance[i, j, :] = (running_variance - variance)**2
+                dev_variance[i, j] = (np.mean(running_variance[n_ss:]) - np.mean(variance[n_ss:])) / np.mean(running_variance[n_ss:])
                 
                 
     ### save data for later
     if (record_pe_activity & record_interneuron_activity):
         
         with open(file_for_data,'wb') as f:
-            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance, 
+            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, dev_mean, dev_variance, 
                          activity_pe_neurons, activity_interneurons],f)
         
     elif (record_pe_activity & ~record_interneuron_activity): 
         
         with open(file_for_data,'wb') as f:
-            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance, 
+            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, dev_mean, dev_variance, 
                          activity_pe_neurons],f)
             
     elif (~record_pe_activity & record_interneuron_activity): 
         
         with open(file_for_data,'wb') as f:
-            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance, 
+            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, dev_mean, dev_variance, 
                          activity_interneurons],f)          
     else:
         
         with open(file_for_data,'wb') as f:
-            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance],f)
+            pickle.dump([trial_duration, num_values_per_trial, means_tested, variances_tested, dev_mean, dev_variance],f)
       
     ### return results
-    ret = (trial_duration, num_values_per_trial, means_tested, variances_tested, mse_mean, mse_variance)
+    ret = (trial_duration, num_values_per_trial, means_tested, variances_tested, dev_mean, dev_variance)
     
     if record_pe_activity:
         ret += (activity_pe_neurons, )

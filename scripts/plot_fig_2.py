@@ -29,10 +29,9 @@ figPath = '../results/figures/final/'
 if not os.path.exists(figPath):
     os.mkdir(figPath)
     
-
 # %% Define figure structure
 
-figsize=(18/inch,15/inch)
+figsize=(18/inch,13/inch)
 fig = plt.figure(figsize=figsize)
 
 G = gridspec.GridSpec(3, 1, figure=fig, hspace=1.2)
@@ -69,25 +68,21 @@ ax_D = fig.add_subplot(G2[:,:])
 ax_D.axis('off')
 ax_D.text(-0.05, 1.25, 'D', transform=ax_D.transAxes, fontsize=fs+1)
 
-#ax_D1 = fig.add_subplot(G2[:,0])
 ax_D21 = fig.add_subplot(G2[:,1])
-#ax_D22 = fig.add_subplot(G2[1,1])
 ax_D3 = fig.add_subplot(G2[:,2])
 
 ax_E = fig.add_subplot(G3[:,:])
 ax_E.axis('off')
 ax_E.text(-0.05, 1.25, 'E', transform=ax_E.transAxes, fontsize=fs+1)
 
-#ax_E1 = fig.add_subplot(G3[:,0])
 ax_E21 = fig.add_subplot(G3[:,1])
-#ax_E22 = fig.add_subplot(G3[1,1])
 ax_E3 = fig.add_subplot(G3[:,2])
 
 
 # %% Neuron activity with increasing stimulus mean and variance
 
 # data files
-file_for_data = '../results/data/moments/data_neuron_activity_heatmap_mfn_10.pickle'
+file_for_data = '../results/data/moments/data_heatmap_mfn_10.pickle' 
 
 if not os.path.exists(file_for_data):
     print('Data does not exist yet. Please run corresponding file.')
@@ -96,10 +91,10 @@ else:
     # load data
     with open(file_for_data,'rb') as f:
         [trial_duration, num_values_per_trial, means_tested, variances_tested, 
-         mse_mean, mse_variance, activity_pe_neurons, activity_interneurons] = pickle.load(f)
+         dev_mean, dev_variance, activity_pe_neurons, activity_interneurons] = pickle.load(f)
     
     # plot data
-    end_of_initial_phase = np.int32(trial_duration * 0.5)
+    end_of_initial_phase = np.int32(trial_duration * 0.75)
     plot_neuron_activity(end_of_initial_phase, means_tested, variances_tested, activity_interneurons, None, id_fixed=3,
                          ax1=ax_C1, ax2=ax_C2)
     plot_neuron_activity(end_of_initial_phase, means_tested, variances_tested, None, activity_pe_neurons, id_fixed=3,
@@ -120,8 +115,8 @@ else:
         [_, _, trial_duration, _, stimuli, m_neuron, v_neuron] = pickle.load(f)
     
     # plot data
-    plot_example_mean(stimuli, trial_duration, m_neuron, mse_flg = False, ax1=ax_D21)#, ax2=ax_D22)
-    plot_example_variance(stimuli, trial_duration, v_neuron, mse_flg = False, ax1=ax_E21)#, ax2=ax_E22)  
+    plot_example_mean(stimuli, trial_duration, m_neuron, mse_flg = False, ax1=ax_D21)
+    plot_example_variance(stimuli, trial_duration, v_neuron, mse_flg = False, ax1=ax_E21)
     
 
 # %% Systematic exploration
@@ -135,17 +130,16 @@ else:
     
     # load data
     with open(file_for_data,'rb') as f:
-        [trial_duration, num_values_per_trial, means_tested, 
-          variances_tested, mse_mean, mse_variance] = pickle.load(f)
+        [trial_duration, num_values_per_trial, means_tested, variances_tested, 
+         dev_mean, dev_variance, _, _] = pickle.load(f)
         
     # plot data
-    end_of_initial_phase = np.int32(trial_duration * 0.5)
-    plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse_mean, 
-                      title='M neuron encodes mean \nfor a wide range of input statistics', 
-                      x_example=5, y_example=2**2, ax1=ax_D3) # vmax=0.3
-    plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse_variance, 
-                      title='V neuron encodes variance \nfor a wide range of input statistics', show_mean=False, 
-                      x_example=5, y_example=2**2, flg_var=True, digits_round=1, ax1=ax_E3)#, vmax=10)
+    plot_mse_heatmap(means_tested, variances_tested, dev_mean, 
+                     title='M neuron encodes mean \nfor a wide range of input statistics', 
+                     x_example=5, y_example=2**2, ax1=ax_D3)
+    plot_mse_heatmap(means_tested, variances_tested, dev_variance, show_mean=False, 
+                     title='V neuron encodes variance \nfor a wide range of input statistics', 
+                     x_example=5, y_example=2**2, digits_round=1, ax1=ax_E3)
 
 
 # %% save figure

@@ -34,7 +34,7 @@ if not os.path.exists(figPath):
     
 # %% Define figure structure
 
-figsize=(9/inch,7/inch)
+figsize=(8/inch,6/inch)
 fig = plt.figure(figsize=figsize)
 
 G = gridspec.GridSpec(2, 1, figure=fig, hspace=0.4)#, hspace=1.2)
@@ -59,21 +59,15 @@ else:
     
     # load data
     with open(file_for_data,'rb') as f:
-        [trial_duration, dist_types, num_reps, mse_mean, mse_variance] = pickle.load(f)
+        [trial_duration, dist_types, num_reps, dev_mean, dev_variance] = pickle.load(f)
     
     # plot data
-    mean, std = 5, 2
-    var_tested = std**2
+    sem_mean = np.std(dev_mean * 100,2)/np.sqrt(num_reps)
+    sem_variance = np.std(dev_variance * 100,2)/np.sqrt(num_reps)
     
-    mse_mean_normalised = mse_mean/mean**2 * 100
-    mse_variance_normalised = mse_variance/var_tested**2 * 100
-    
-    sem_mean = np.std(mse_mean_normalised,2)/np.sqrt(num_reps)
-    sem_variance = np.std(mse_variance_normalised,2)/np.sqrt(num_reps)
-    
-    plot_mse_test_distributions(np.mean(mse_mean_normalised,2), SEM = sem_mean, fs=fs, mean=mean, std=std, dist_types=dist_types, 
-                                inset_steady_state=True, plot_xlabel = False, ax=ax_A)
-    plot_mse_test_distributions(np.mean(mse_variance_normalised,2), SEM = sem_variance, fs = fs, inset_steady_state = True, ax=ax_B)
+    plot_mse_test_distributions(np.mean(dev_mean * 100,2), SEM = sem_mean, fs=fs, dist_types=dist_types, 
+                                plot_xlabel = False, ax=ax_A)
+    plot_mse_test_distributions(np.mean(dev_variance * 100,2), SEM = sem_variance, fs = fs, ax=ax_B)
 
 
 # %% save figure

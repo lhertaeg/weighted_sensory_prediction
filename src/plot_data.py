@@ -87,10 +87,48 @@ def lighten_color(color, amount=0.5):
 
 
 
-def plot_nPE_pPE_activity_compare(P, S, nPE, pPE, fs = 6, lw = 1, ms = 1, ax1 = None, ax2 = None):
+def plot_gain_factors(gains_nPE, gains_pPE, figsize=(10,1), fs = 6):
     
-    if ((ax1 is None) or (ax2 is None)):
-        _, (ax1, ax2) = plt.subplots(1,2)
+    fig = plt.figure(figsize=figsize)
+    
+    G = gridspec.GridSpec(1, 2, figure=fig, hspace=1, width_ratios=[19,1])
+    G1 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=G[0,0], hspace=0.5)
+
+    ax_B = fig.add_subplot(G1[1,0])
+    ax_A = fig.add_subplot(G1[0,0], sharex=ax_B)
+    plt.setp(ax_A.get_xticklabels(), visible=False)
+    ax_C = fig.add_subplot(G[0,1])
+    
+    ax_B.tick_params(size=2.0) 
+    ax_B.tick_params(axis='both', labelsize=fs)
+    ax_A.tick_params(size=2.0) 
+    ax_A.tick_params(axis='both', labelsize=fs)
+    ax_C.tick_params(size=2.0) 
+    ax_C.tick_params(axis='both', labelsize=fs)
+    
+    max_gain = max(np.nanmax(gains_nPE), np.nanmax(gains_pPE))
+    min_gain = min(np.nanmin(gains_nPE), np.nanmin(gains_pPE))
+    
+    data = pd.DataFrame(gains_nPE)
+    g = sns.heatmap(data.T, xticklabels=20, yticklabels=0, vmin=min_gain, vmax=max_gain, ax = ax_A, 
+                    cbar_ax = ax_C, cbar_kws={'label': r'log(gain)'})
+    g.set_facecolor('#EBEBEB')
+    
+    data = pd.DataFrame(gains_pPE)
+    g = sns.heatmap(data.T, xticklabels=20, yticklabels=0, vmin=min_gain, vmax=max_gain, 
+                    ax = ax_B, cbar = False)
+    g.set_facecolor('#EBEBEB')
+    
+    ax_C.tick_params(labelsize=fs)
+    ax_C.tick_params(size=2.0)
+    ax_C.yaxis.label.set_size(fs)
+    
+    
+
+def plot_nPE_pPE_activity_compare(P, S, nPE, pPE, fs = 6, lw = 1, ms = 1, ax1 = None):
+    
+    if ax1 is None:
+        _, ax1 = plt.subplots(1,1)
         
     # activity
     ax1.plot(S-P, nPE, color=Col_Rate_nE, lw=lw)
@@ -101,31 +139,13 @@ def plot_nPE_pPE_activity_compare(P, S, nPE, pPE, fs = 6, lw = 1, ms = 1, ax1 = 
     ax1.locator_params(nbins=3, axis='x')
     ax1.set_yticks([5])
     
-    ax1.set_xlabel('Sensory - Prediction (1/s)', fontsize=fs)
-    ax1.set_ylabel('Activity (1/s)', fontsize=fs, rotation=0)
+    ax1.set_xlabel('Sensory - Prediction', fontsize=fs)
+    ax1.set_ylabel('Activity', fontsize=fs, rotation=0)
     ax1.spines['left'].set_position('center')
     ax1.set_ylim(bottom=0)
     ax1.yaxis.set_label_coords(0.5, 1.1)
-    ax1.xaxis.set_label_coords(1.3, -0.4)
+    #ax1.xaxis.set_label_coords(1.3, -0.4)
     sns.despine(ax=ax1)
-    
-    # compare to (S-P)**2
-    ax2.plot(S-P, nPE**2, color=Col_Rate_nE, lw=lw)
-    ax2.plot(S-P, pPE**2, color=Col_Rate_pE, lw=lw)
-    ax2.plot(S-P, (S-P)**2, marker='o', ls="None", color='k', markerfacecolor="None", ms=ms, markeredgewidth=0.7, label=r'(S-P)$^2$', markevery=2)
-    
-    ax2.tick_params(size=2.0) 
-    ax2.tick_params(axis='both', labelsize=fs)
-    ax2.locator_params(nbins=3, axis='x')
-    ax2.set_yticks([20])
-    ax2.legend(loc=2, fontsize=fs, frameon=False, handletextpad=0, bbox_to_anchor=(0.65,0.4))
-    
-    #ax2.set_xlabel('Sens - Pred (1/s)', fontsize=fs)
-    ax2.set_ylabel(r'Activity$^2$ (1/s$^2$)', fontsize=fs, rotation=0)
-    ax2.spines['left'].set_position('center')
-    ax2.set_ylim(bottom=0)
-    ax2.yaxis.set_label_coords(0.5, 1.1)
-    sns.despine(ax=ax2)
 
 
 
@@ -1237,9 +1257,9 @@ def plot_illustration_changes_upon_gain_PE(gains = np.linspace(0.5, 1.5, 11), me
     P_lower_pPE = (gains*b - a + np.sqrt(gains) * (a-b)) / (gains-1)
     P_lower_pPE[np.isnan(P_lower_pPE)] = (b+a)/2
     
-    V_lower_nPE = (b-a)**2/(3*(1-gains)**3) * (gains*(1 - np.sqrt(gains))**3 - (gains - np.sqrt(gains))**3)
+    V_lower_nPE = (b-a)**2/(3*(1-gains)**3) * (gains**2 * (1 - np.sqrt(gains))**3 - (gains - np.sqrt(gains))**3)
     V_lower_nPE[np.isnan(V_lower_nPE)] = (b-a)**2/12
-    V_lower_pPE = (b-a)**2/(3*(gains-1)**3) * ((gains - np.sqrt(gains))**3 - gains * (1 - np.sqrt(gains))**3)
+    V_lower_pPE = (b-a)**2/(3*(gains-1)**3) * ((gains - np.sqrt(gains))**3 - gains**2 * (1 - np.sqrt(gains))**3)
     V_lower_pPE[np.isnan(V_lower_pPE)] = (b-a)**2/12
     
     V_higher_nPE = (b-a)**2 / 12 + factor_for_visibility * (P_lower_nPE - P_lower_nPE[gains==1])**2
@@ -2372,19 +2392,19 @@ def plot_weighting_limit_case_example(n_trials, trial_duration, stimuli, predict
     
     
 
-def plot_mse_test_distributions(mse, dist_types=None, mean=None, std=None, SEM=None, title=None,
-                                plot_dists=False, x_lim = None, pa=0.8, inset_steady_state=False,
-                                fig_size=(5,3), fs = 5, plot_ylabel = True, plot_xlabel = True, 
-                                figsize=(5,5), ax = None):
+def plot_mse_test_distributions(dev, dist_types=None, mean=None, std=None, SEM=None, title=None,
+                                plot_dists=False, x_lim = None, pa=0.8, fig_size=(5,3), fs = 5, 
+                                plot_ylabel = True, plot_xlabel = True, figsize=(5,5), ax = None): # inset_steady_state=False
     
     ### show mean squared error
     if ax is None:
         f, ax = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
     ax.locator_params(nbins=3)
     
-    time = np.arange(0, np.size(mse,1), 1)
+    time = np.arange(0, np.size(dev,1), 1)
+    f = 0.25
         
-    num_rows = np.size(mse,0)
+    num_rows = np.size(dev,0)
     colors = ['#093A3E', '#E0A890', '#99C24D', '#6D213C', '#0E9594'] #sns.color_palette("tab10", n_colors=num_rows)
     
     for i in range(num_rows):
@@ -2399,52 +2419,53 @@ def plot_mse_test_distributions(mse, dist_types=None, mean=None, std=None, SEM=N
             elif dist_types[i]=='gamma':
                 dist_types_label = dist_types[i]
             elif dist_types[i]=='binary_equal_prop':
-                dist_types_label = 'binary' + r'(p$_a$=0.5)'
+                dist_types_label = 'binary ' + r'(p$_a$=0.5)'
             elif dist_types[i]=='binary_unequal_prop':
-                dist_types_label = 'binary' + r'(p$_a$=0.8)'
+                dist_types_label = 'binary ' + r'(p$_a$=0.8)'
             
-            ax.plot(time/time[-1], mse[i,:], color=colors[i], label=dist_types_label)
+            ax.plot(time[time>time[-1]*f]/time[-1], dev[i,time>time[-1]*f], color=colors[i], label=dist_types_label)
         else:
-            ax.plot(time/time[-1], mse[i,:], color=colors[i])
+            ax.plot(time[time>time[-1]*f]/time[-1], dev[i,time>time[-1]*f], color=colors[i])
             
         if SEM is not None:
-            ax.fill_between(time/time[-1], mse[i,:] - SEM[i,:], mse[i,:] + SEM[i,:], 
-                            color=colors[i], alpha=0.3)
+            ax.fill_between(time[time>time[-1]*f]/time[-1], dev[i,time>time[-1]*f] - SEM[i,time>time[-1]*f], 
+                            dev[i,time>time[-1]*f] + SEM[i,time>time[-1]*f], color=colors[i], alpha=0.3)
     if x_lim is not None:   
         ax.set_xlim(x_lim/time[-1])
             
-    if inset_steady_state:
+    # if inset_steady_state:
         
-        ax1 = ax.inset_axes([0.5,0.4,0.5,0.6])
-        f = 0.5
+    #     ax1 = ax.inset_axes([0.5,0.4,0.5,0.6])
+    #     f = 0.5
         
-        for i in range(num_rows):
-            ax1.plot(time[time>time[-1]*f]/time[-1], mse[i,time>time[-1]*f], color=colors[i])
-            if SEM is not None:
-                ax1.fill_between(time[time>time[-1]*f]/time[-1], mse[i,time>time[-1]*f] - SEM[i,time>time[-1]*f], 
-                                mse[i,time>time[-1]*f] + SEM[i,time>time[-1]*f], color=colors[i], alpha=0.3)
+    #     for i in range(num_rows):
+    #         ax1.plot(time[time>time[-1]*f]/time[-1], dev[i,time>time[-1]*f], color=colors[i])
+    #         if SEM is not None:
+    #             ax1.fill_between(time[time>time[-1]*f]/time[-1], dev[i,time>time[-1]*f] - SEM[i,time>time[-1]*f], 
+    #                             dev[i,time>time[-1]*f] + SEM[i,time>time[-1]*f], color=colors[i], alpha=0.3)
         
-        ylims = ax1.get_ylim()
-        if ylims[1]>50:
-            ax1.set_ylim([0,50])
-        ax1.tick_params(size=2)
-        ax1.locator_params(nbins=3)
-        ax1.tick_params(axis='both', labelsize=fs)
-        sns.despine(ax=ax1)
+    #     ylims = ax1.get_ylim()
+    #     if ylims[1]>50:
+    #         ax1.set_ylim([0,50])
+    #     ax1.tick_params(size=2)
+    #     ax1.locator_params(nbins=3)
+    #     ax1.tick_params(axis='both', labelsize=fs)
+    #     sns.despine(ax=ax1)
 
     if dist_types is not None:
-        ax.legend(loc=2, ncol=1, handlelength=1, frameon=False, fontsize=fs, bbox_to_anchor=(0.05, 1))
+        ax.legend(loc=0, ncol=2, handlelength=1, frameon=False, fontsize=fs)#, bbox_to_anchor=(0.05, 1))
     
     ax.tick_params(size=2)
     ax.tick_params(axis='both', labelsize=fs)
     if plot_xlabel:
-        ax.set_xlabel('Time / trial duration', fontsize=fs)
+        ax.set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
     if plot_ylabel:
-        ax.set_ylabel('normalised MSE (%)', fontsize=fs)
+        ax.set_ylabel('Normalised \nerror (%)', fontsize=fs)
     if title is not None:
         ax.set_title(title, fontsize=fs)
     ax.set_ylim(bottom=0)
-    ax.set_xlim(left=0)
+    ax.set_xlim(left=f)
+    ax.set_xticks([f, 0.5, f+0.5, 1])
     sns.despine(ax=ax)
     
     ### show different distributions
@@ -2532,8 +2553,8 @@ def plot_neuron_activity(end_of_initial_phase, means_tested, variances_tested, a
         for i in range(2):
             ax1.plot(means_tested, pe_activity[:,id_fixed,i], color=colors_pe[i], linewidth=lw)
             
-        ax1.text(means_tested[0], 0.8 * np.min(pe_activity[:,id_fixed,:]),'nPE', fontsize=fs, color=Col_Rate_nE)
-        ax1.text(means_tested[0], 1.1 * np.max(pe_activity[:,id_fixed,:]),'pPE', fontsize=fs, color=Col_Rate_pE)
+        ax1.text(means_tested[0], 0.9 * np.min(pe_activity[:,id_fixed,:]),'nPE', fontsize=fs, color=Col_Rate_nE)
+        ax1.text(means_tested[0], 1.05 * np.max(pe_activity[:,id_fixed,:]),'pPE', fontsize=fs, color=Col_Rate_pE)
             
     
     ax1.tick_params(size=2)
@@ -2685,8 +2706,8 @@ def plot_neuron_activity_lower_higher(variability_within, variability_across, ac
 
 
 
-def plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse, vmax = None, lw = 1, flg_var=False, ax1=None,
-                     title=None, show_mean=True, fs=6, figsize=(5,5), x_example = None, y_example = None, digits_round = 10):
+def plot_mse_heatmap(means_tested, variances_tested, dev, vmax = None, lw = 1, ax1=None, title=None, 
+                     show_mean=True, fs=6, figsize=(5,5), x_example = None, y_example = None, digits_round = 10):
     
     if ax1 is None:
         f, ax1 = plt.subplots(1,1, figsize=figsize, tight_layout=True)
@@ -2696,28 +2717,23 @@ def plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse, 
     else:
         color_cbar = LinearSegmentedColormap.from_list(name='mse_variance', colors=['#FEFAE0', color_v_neuron])
     
-    MSE_steady_state = np.mean(mse[:, :, end_of_initial_phase:],2)
-    if flg_var:
-        MSE_norm = 100 * MSE_steady_state.T/variances_tested[:,None]**2
-    else:
-        MSE_norm = 100 * MSE_steady_state.T/means_tested**2
-        
-    data = pd.DataFrame(MSE_norm, index=variances_tested, columns=means_tested)
+    dev_abs = 100 * np.abs(dev.T)
+    data = pd.DataFrame(dev_abs, index=variances_tested, columns=means_tested)
     if vmax is None:
-        vmax = np.ceil(digits_round * np.max(MSE_norm))/digits_round 
+        vmax = np.ceil(digits_round * np.max(dev_abs))/digits_round 
     
-    vmin = np.floor(digits_round * np.min(MSE_norm))/digits_round 
+    vmin = np.floor(digits_round * np.min(dev_abs))/digits_round 
     
     sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=color_cbar, xticklabels=3, yticklabels=2, ax=ax1,
-                      cbar_kws={'label': r'normalised MSE$_\mathrm{\infty}$ (%)', 'ticks': [vmin, vmax]})
+                      cbar_kws={'label': 'Normalised \nerror (%)', 'ticks': [vmin, vmax]})
     
     ax1.invert_yaxis()
     
     mx, nx = np.polyfit([means_tested.min()-0.5, means_tested.max()+0.5], ax1.get_xlim(), 1)
     my, ny = np.polyfit([variances_tested.min()-0.5, variances_tested.max()+0.5], ax1.get_ylim(), 1)
     
-    ax1.plot(mx * np.array([means_tested.min()-0.5, means_tested.max()+0.5]) + nx, 
-             my * np.array([means_tested.min()-0.5, means_tested.max()+0.5]) + ny, color='k', ls=':')
+    # ax1.plot(mx * np.array([means_tested.min()-0.5, means_tested.max()+0.5]) + nx, 
+    #          my * np.array([means_tested.min()-0.5, means_tested.max()+0.5]) + ny, color='k', ls=':')
     
     
     if x_example is not None:
@@ -2730,6 +2746,7 @@ def plot_mse_heatmap(end_of_initial_phase, means_tested, variances_tested, mse, 
     ax1.set_ylabel('Input variance', fontsize=fs)
     ax1.figure.axes[-1].yaxis.label.set_size(fs)
     ax1.figure.axes[-1].tick_params(labelsize=fs)
+    ax1.locator_params(nbins=3)
     
     if title is not None:
         ax1.set_title(title, fontsize=fs, pad=10)
@@ -2766,7 +2783,7 @@ def plot_example_mean(stimuli, trial_duration, m_neuron, perturbation_time = Non
     ax1.set_ylabel('Activity (1/s)', fontsize=fs)
     
     if ~mse_flg:
-        ax1.set_xlabel('Time / stimulus duration', fontsize=fs)
+        ax1.set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
         
     ax1.set_title('Activity of M neuron encodes input mean', fontsize=fs, pad=10)
     ax1.tick_params(axis='both', labelsize=fs)
@@ -2785,7 +2802,7 @@ def plot_example_mean(stimuli, trial_duration, m_neuron, perturbation_time = Non
             ax2.set_ylim(ylim_mse)
         ax2.set_xlim([0,max(trials)])
         ax2.set_ylabel('MSE', fontsize=fs)
-        ax2.set_xlabel('Time / stimulus duration', fontsize=fs)
+        ax2.set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
         ax2.tick_params(size=2.0) 
         ax2.tick_params(axis='both', labelsize=fs)
         sns.despine(ax=ax2)
@@ -2817,7 +2834,7 @@ def plot_example_variance(stimuli, trial_duration, v_neuron, perturbation_time =
     ax1.set_xlim([0,max(trials)])
     ax1.set_ylabel('Activity (1/s)', fontsize=fs)
     if ~mse_flg:
-        ax1.set_xlabel('Time / stimulus duration', fontsize=fs)
+        ax1.set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
     ax1.set_title('Activity of V neuron encodes input variance', fontsize=fs, pad=10)
     ax1.tick_params(axis='both', labelsize=fs)
     if legend_flg:
@@ -2829,7 +2846,7 @@ def plot_example_variance(stimuli, trial_duration, v_neuron, perturbation_time =
         ax2.plot(trials, (variance_running - v_neuron)**2, color=color_v_neuron) # color_mse
         ax2.set_xlim([0,max(trials)])
         ax2.set_ylabel('MSE', fontsize=fs)
-        ax2.set_xlabel('Time / trial duration', fontsize=fs)
+        ax2.set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
         ax2.tick_params(size=2.0)
         ax2.tick_params(axis='both', labelsize=fs)
         sns.despine(ax=ax2)

@@ -14,7 +14,7 @@ import pickle
 
 from src.functions_simulate import simulate_PE_circuit_P_fixed_S_constant
 from src.plot_data import plot_example_mean, plot_example_variance, plot_mse_heatmap, plot_interneuron_activity_heatmap
-from src.plot_data import plot_neuron_activity
+from src.plot_data import plot_neuron_activity, plot_nPE_pPE_activity_compare
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -22,10 +22,10 @@ warnings.filterwarnings("ignore")
 dtype = np.float32
 
 
-# %% How do the interneurons & PE neurons behave with different input statistics? (later you could combine it with the one above!)
+# %% Illustrate activity of nPE and pPE neurons
 
 run_cell = True
-plot_only = False
+plot_only = True
 
 if run_cell:
     
@@ -56,12 +56,4 @@ if run_cell:
             [prediction_initial, stimulus_tested, nPE, pPE] = pickle.load(f)
         
     ### plot 
-    plt.figure()
-    plt.plot(stimulus_tested - prediction_initial, nPE)
-    plt.plot(stimulus_tested - prediction_initial, pPE)
-    
-    plt.figure()
-    plt.plot(stimulus_tested - prediction_initial, nPE**2)
-    plt.plot(stimulus_tested - prediction_initial, pPE**2)
-    plt.plot(stimulus_tested - prediction_initial, (stimulus_tested - prediction_initial)**2)
-
+    plot_nPE_pPE_activity_compare(prediction_initial, stimulus_tested, nPE, pPE)
