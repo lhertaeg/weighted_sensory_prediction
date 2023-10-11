@@ -124,8 +124,8 @@ def simulate_PE_circuit_P_fixed_S_constant(mfn_flag, initial_prediction, constan
     return nPE, pPE
 
 
-def simulate_spatial_example(mfn_flag, mean_stimulus, spatial_std, file_for_data, num_sub_nets = np.int32(100), seed = 186, 
-                             num_time_steps = np.int32(1000), dist_type = 'uniform', pa=0.8, M_init = None, V_init = None, rates_init = None):
+def simulate_spatial_example(mfn_flag, mean_stimulus, spatial_std, file_for_data, num_sub_nets = np.int32(1000), seed = 186, 
+                             num_time_steps = np.int32(4000), dist_type = 'uniform', pa=0.8, M_init = None, V_init = None, rates_init = None):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -160,12 +160,12 @@ def simulate_spatial_example(mfn_flag, mean_stimulus, spatial_std, file_for_data
     spatial_noise = np.repeat(spatial_noise, 8)
 
     ### connectivity matrices
-    W_PE_to_V = np.tile(np.array([1.015,1.023,0,0,0,0,0,0]), (1,num_sub_nets)) * scaling
-    W_PE_to_P = 100 * np.tile(w_PE_to_P, (1,num_sub_nets)) / num_sub_nets
+    W_PE_to_V = np.tile(np.array([w_PE_to_V[0],w_PE_to_V[1],0,0,0,0,0,0]), (1,num_sub_nets)) * scaling
+    W_PE_to_P = 100 * np.tile(w_PE_to_P, (1,num_sub_nets)) / num_sub_nets # make faster
     W_P_to_PE = np.tile(w_P_to_PE, (num_sub_nets,1))
     W_PE_to_PE = np.kron(np.eye(num_sub_nets,dtype=dtype),w_PE_to_PE)
     
-    tc_var_per_stim /= 10 # !!!!!!!!!!!!!!!!!!!!!!!!!
+    tc_var_per_stim /= 10 # make faster
     
     ### run model
     if rates_init is None:

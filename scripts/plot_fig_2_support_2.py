@@ -98,7 +98,7 @@ else:
     with open(file_data,'rb') as f:
         [num_seeds, SDs, M_steady_state, V_steady_state] = pickle.load(f)
 
-    plot_deviation_in_population_net(SDs, num_seeds, M_steady_state, V_steady_state, 'Uncorrelated deviations (SD)', ax=ax_C, ylim=None)
+    plot_deviation_in_population_net(SDs, num_seeds, M_steady_state, V_steady_state, r'Uncorrelated dev, SD of $\gamma$', ax=ax_C, ylim=None)
     
 
 # %% Correlated changes
@@ -114,7 +114,7 @@ else:
     with open(file_data,'rb') as f:
         [num_seeds, means, M_steady_state, V_steady_state] = pickle.load(f)
 
-    plot_deviation_in_population_net(means, num_seeds, M_steady_state, V_steady_state, 'Correlated deviations (mean)', ax=ax_D, 
+    plot_deviation_in_population_net(means, num_seeds, M_steady_state, V_steady_state, r'Correlated dev, mean of $\gamma$', ax=ax_D, 
                                      plt_ylabel=False, ylim=None)
     
 

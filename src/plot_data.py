@@ -445,7 +445,8 @@ def plot_illustration_input_cond(std_stims, mean_trails, std_trails, slopes = No
     
     
 
-def plot_deviation_spatial(deviation, means_tested, stds_tested, vmin=0, vmax=1, fs=6, show_mean = True, show_xlabel=True, ax=None):
+def plot_deviation_spatial(deviation, means_tested, stds_tested, vmin=0, vmax=1, fs=6, show_mean = True, show_xlabel=True, 
+                           x_examples = None, y_examples = None, markers_examples = None, ms = 1, ax=None):
     
     if ax is None:
         _, ax = plt.subplots(1,1)
@@ -455,9 +456,10 @@ def plot_deviation_spatial(deviation, means_tested, stds_tested, vmin=0, vmax=1,
     else:
         color_cbar = LinearSegmentedColormap.from_list(name='mse_variance', colors=['#FEFAE0', color_v_neuron])
     
-    data = pd.DataFrame(abs(deviation)*100, index=np.round(means_tested,1), columns=np.round(stds_tested**2,1))
+    #print(np.max(abs(deviation)*100))
+    data = pd.DataFrame(abs(deviation.T)*100, index=np.round(means_tested,1), columns=np.round(stds_tested**2,1))
     sns.heatmap(data, cmap = color_cbar, vmin=vmin, vmax=vmax, xticklabels=2, yticklabels=2,
-                cbar_kws={'label': '|Deviation| (%)', 'ticks':[vmin, vmax]}, ax=ax)
+                cbar_kws={'label': 'Normalised \nerror (%)', 'ticks':[vmin, vmax]}, ax=ax)
     
     cbar = ax.collections[0].colorbar
     cbar.ax.tick_params(labelsize=fs)
@@ -465,6 +467,19 @@ def plot_deviation_spatial(deviation, means_tested, stds_tested, vmin=0, vmax=1,
     cbar.ax.yaxis.label.set_size(fs)
     
     ax.invert_yaxis()
+    
+    if markers_examples is not None:
+        
+        variances_tested = stds_tested**2
+        dx = np.diff(means_tested)[0]/2
+        dy = np.diff(variances_tested)[0]/2
+        mx, nx = np.polyfit([means_tested.min()-dx, means_tested.max()+dx], ax.get_xlim(), 1)
+        my, ny = np.polyfit([variances_tested.min()-dy, variances_tested.max()+dy], ax.get_ylim(), 1)
+        
+        for i, x in enumerate(x_examples):
+            y = y_examples[i]
+            ax.plot(mx * x + nx, my * y + ny, marker=markers_examples[i], color='k', ms=ms)
+    
     if show_xlabel:
         ax.set_xlabel('Mean', fontsize=fs) 
     ax.set_ylabel('Variance', fontsize=fs) 
@@ -497,12 +512,12 @@ def plot_examples_spatial_V(num_time_steps, v_neuron_before, v_neuron_after, std
             ax.axhline(std_after[idim], 0.5, 1, ls=':', color=colors[idim], lw=lw)
     
     ax.axvspan(num_time_steps,2*num_time_steps, color='k', alpha=0.03, zorder=0)
-    ax.legend(loc=0, frameon=False, handlelength=1, fontsize=fs)
+    ax.legend(loc=0, frameon=False, handlelength=1, fontsize=fs, borderaxespad=0, borderpad=0.2)
     ax.set_xlim([0,2*num_time_steps])
     ax.set_xticks([0,num_time_steps,2*num_time_steps])
     ax.set_xticklabels([0,1,2])
     
-    ax.set_xlabel('Time / # stimuli', fontsize=fs)
+    ax.set_xlabel('Time (fraction of stimuli)', fontsize=fs)
     ax.set_ylabel('Activity (1/s)', fontsize=fs)
     
     ax.tick_params(size=2.0) 
@@ -534,13 +549,13 @@ def plot_examples_spatial_M(num_time_steps, m_neuron_before, m_neuron_after, mea
             ax.axhline(mean_after[idim], 0.5, 1, ls=':', color=colors[idim], lw=lw)
     
     ax.axvspan(num_time_steps,2*num_time_steps, color='k', alpha=0.03, zorder=0)
-    ax.legend(loc=0, frameon=False, handlelength=1, fontsize=fs)
+    ax.legend(loc=0, frameon=False, handlelength=1, fontsize=fs, borderaxespad=0, borderpad=0.2)
     ax.set_xlim([0,2*num_time_steps])
     ax.set_xticks([0,num_time_steps,2*num_time_steps])
     ax.set_xticklabels([0,1,2])
     
     if show_xlabel:
-        ax.set_xlabel('Time / number of timesteps', fontsize=fs)
+        ax.set_xlabel('Time (fraction of stimuli)', fontsize=fs)
     ax.set_ylabel('Activity (1/s)', fontsize=fs)
     
     ax.tick_params(size=2.0) 
@@ -573,7 +588,7 @@ def plot_deviation_in_population_net(x, num_seeds, M_steady_state, V_steady_stat
 
     ax.set_xlabel(xlabel, fontsize=fs)
     if plt_ylabel:
-        ax.set_ylabel('Deviation (%)', fontsize=fs)
+        ax.set_ylabel('Normalised error (%)', fontsize=fs)
     
     ax.tick_params(size=2.0) 
     ax.tick_params(axis='both', labelsize=fs)
@@ -587,16 +602,16 @@ def plot_M_and_V_for_population_example(t, r_mem, r_var, mean=5, var=4, ax=None,
     if ax is None:
         _, ax = plt.subplots(1,1)
 
-    ax.plot(t, r_mem, color=color_m_neuron, lw=lw, label='M neuron')
+    ax.plot(t/t[-1], r_mem, color=color_m_neuron, lw=lw, label='M neuron')
     ax.axhline(mean, color=color_m_neuron, ls='--', lw=lw)
-    ax.plot(t, r_var, color=color_v_neuron, lw=lw, label='V neuron')
+    ax.plot(t/t[-1], r_var, color=color_v_neuron, lw=lw, label='V neuron')
     ax.axhline(var, color=color_v_neuron, ls='--', lw=lw)
     
     ax.legend(loc=0, frameon=False, fontsize=fs, handlelength=1)
     ax.set_ylabel('Activity (1/s)', fontsize=fs)
-    ax.set_xlabel('Time (time steps)', fontsize=fs)
+    ax.set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
 
-    ax.set_xlim([t[0],t[-1]])
+    ax.set_xlim([t[0]/t[-1],t[-1]/t[-1]])
     ax.set_ylim(bottom=0)
     
     ax.tick_params(size=2.0) 

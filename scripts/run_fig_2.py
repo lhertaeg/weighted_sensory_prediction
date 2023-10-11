@@ -68,7 +68,7 @@ if run_cell:
     
         ## define parameters ranges tested:
         means_tested = np.linspace(3,6,7, dtype=dtype)
-        variances_tested = np.linspace(3,6,7, dtype=dtype) #np.linspace(2,9,8, dtype=dtype)
+        variances_tested = np.linspace(3,6,7, dtype=dtype) 
         
         ## run simulations
         [trial_duration, num_values_per_trial, means_tested, variances_tested, dev_mean, dev_variance, 

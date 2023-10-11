@@ -8,4 +8,5 @@ recent_files = ['src/plot_data.py', 'scripts/plot_fig_4_support_2.py', 'src/func
 
 [main]
 version = 0.2.0
+recent_files = ['src/default_parameters.py', 'src/functions_simulate.py', 'src/plot_data.py', 'scripts/run_fig_2_support_2.py', 'scripts/plot_fig_2_support_2.py']
 

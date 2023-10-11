@@ -113,7 +113,7 @@ class Neurons(NamedTuple):
     NCells: list = np.array([140,20,20,20], dtype=np.int32)
     tau_inv_E: dtype = dtype(1.0/60.0)
     tau_inv_I: dtype = dtype(1.0/2.0)
-    tau_inv_var: dtype = dtype(1.0/1000) # might need to be adpated
+    tau_inv_var: dtype = dtype(1.0/2000) # might need to be adpated
 
 
 class Network:
@@ -159,9 +159,6 @@ class Network:
         if pPE_true is None:
             pPE_true = np.ones((1, NE))==1
         
-        speed = dtype(0.2)
-        scaling_factor = dtype(1)
-        
         if p_conn is not None:
             sparisty_bool = np.random.choice([0,1], p=[1-p_conn,p_conn], size=NE) == 1
             nPE_true[~sparisty_bool] = False
@@ -173,8 +170,9 @@ class Network:
         gain[pPE_true] *= 1/sum(pPE_true)
         gain[~(nPE_true+pPE_true)] = 0
         
+        speed = dtype(0.05)
         self.wME = speed * gain
-        self.wVarE = abs(gain * scaling_factor)
+        self.wVarE = abs(gain)
                                             
  
                 

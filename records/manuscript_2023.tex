@@ -444,7 +444,7 @@ The dynamics of the variance neuron obeys a non-linear differential equation wit
 \tau_V \cdot \frac{dr_\mathrm{V}}{dt} = -r_\mathrm{V} + (w_\mathrm{V\leftarrow pE} \cdot r_\mathrm{pE} + w_\mathrm{V\leftarrow nE} \cdot r_\mathrm{nE})^2.
 \end{align}
 %
-The weight $w_\mathrm{V\leftarrow pE}$ represents the connection strength between the pPE neuron and the variance neuron, while  $w_\mathrm{V\leftarrow nE}$ denotes the connection strength between the nPE neuron and the variance neuron. To ensure that the V neuron encodes the variance, we chose a quadratic activation function. In Fig. \ref{fig:Fig_3_S2}, we used a linear activation function to investigate the impact of the input-output transfer function on the weighting of sensory inputs and predictions. The time constant $\tau_V = 5$ s.
+The weight $w_\mathrm{V\leftarrow pE}$ represents the connection strength between the pPE neuron and the variance neuron, while  $w_\mathrm{V\leftarrow nE}$ denotes the connection strength between the nPE neuron and the variance neuron. To ensure that the V neuron encodes the variance, we chose a quadratic activation function. In Fig. \ref{fig:Fig_3_S2}, we used a linear activation function to investigate the impact of the input-output transfer function on the weighting of sensory inputs and predictions. The time constant $\tau_V$ was 5 s in the mean-field model, and 2 s in the population model (Fig. \ref{fig:Fig_2_S2})., XXX and 0.5 s in 2S3 --> put everything for the not mean field model in the figure captions I would recommend, you can here say that it is only for the mean-field model ... XXX
 
 \subsubsection{Weighted output}
 %
@@ -477,7 +477,7 @@ w_\mathrm{M\leftarrow nE}\  &=\ \frac{-\lambda}{g_\mathrm{nPE} \cdot N_\mathrm{n
 w_\mathrm{M\leftarrow pE}\  &=\ \frac{\lambda}{g_\mathrm{pPE} \cdot N_\mathrm{pPE}}
 \end{align*}
 %
-where $\lambda$ denotes the speed at which the perfect integrator evolves (lower PE circuit: $\lambda=3\cdot 10^{-3}$  in Fig. \ref{fig:Fig_2} and $\lambda=4.5\cdot 10^{-2}$ otherwise, higher PE circuit:  $\lambda = 7\cdot 10^{-4}$). 
+where $\lambda$ denotes the speed at which the perfect integrator evolves (lower PE circuit: $\lambda=3\cdot 10^{-3}$ for the mean-field model in Fig. \ref{fig:Fig_2},  $\lambda=5\cdot 10^{-2}$ for the population model in Fig. \ref{fig:Fig_2_S2}, and $\lambda=4.5\cdot 10^{-2}$ otherwise; higher PE circuit:  $\lambda = 7\cdot 10^{-4}$). XXX in Fig. \ref{fig:Fig_2_S3} wPE2PE * 100 => I think it is best to put this is the captions, I mean for 2S2 and 2S3 ... for mean field network can be shown here and said "if not stated otherwise in the figures/captions"
 
 For the mean-field networks ($ N_\mathrm{nPE} = N_\mathrm{pPE} = 1 $), the gain factors are given in Table~\ref{tab:gain_factors_MFN}. For the population network, the gain factors for all PE neurons are shown in Fig. \ref{fig:Fig_gains}. 
 %
@@ -580,9 +580,9 @@ In the following, we give all figure-specific parameters not directly visible or
 %
 \textbf{Figure 2 Supplementary Fig. 1:} Simulation time steps = $10^5$, $200$ constant values (each $500$ time steps long) drawn from a uniform distribution with mean of $5$ and variance of $4$. Number of repetitions with different seeds: 20.\\
 %
-\textbf{Figure 2 Supplementary Fig. 2:} Number of time steps were $10^5$ (C-E) or $2\cdot 10^5$ (B) with $400$ (C-E) or $200$ (B) constant values drawn from a uniform distribution with mean of $5$ and variance of $4$. Time step was $0.1$. The connections from the PE neurons to the M or V neuron were altered by a factor $\gamma$ drawn from a normal distribution. If not stated otherwise (in the Figure), the mean of this normal distribution was $1$ and the variance $0$, while the connection probability was $1$. Number of repetitions with different seeds: 10.\\
+\textbf{Figure 2 Supplementary Fig. 2:} Number of time steps were $10^5$ with $200$ constant values drawn from a uniform distribution with mean of $5$ and variance of $4$. Time step was $0.1$. The connections from the PE neurons to the M or V neuron were altered by a factor $\gamma$ drawn from a normal distribution. If not stated otherwise (in the Figure), the mean of this normal distribution was $1$ and the variance $0$, while the connection probability was $1$. Number of repetitions with different seeds: 10.\\
 %
-\textbf{Figure 2 Supplementary Fig. 3:} Number of identical mean-field networks: $1000$.  Simulation time steps = $10^5$.\\
+\textbf{Figure 2 Supplementary Fig. 3:} Number of time steps were $4000$ (XXX maybe mention here and other above stating "except otherwise stated" or so XXX). Number of identical mean-field networks: $1000$.  Simulation time steps = $10^5$.\\
 %
 \textbf{Figure 3:} $100$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution (each $500$ time steps long). The variance of this distribution was $0$ (C, F)  and $5.3$ XXX (D). In each trial, the stimulus mean was drawn from an uniform distribution $U(a, b)$ (C: $U(1,9)$, D: $U(5,5)$). In F, $U$ was parameterized such that the trail variability was $3$.\\
 %

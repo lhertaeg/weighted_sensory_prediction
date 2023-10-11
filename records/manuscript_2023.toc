@@ -7,7 +7,7 @@
 \contentsline {subsubsection}{\numberline {A.2.1}Connections between neurons of the PE circuit}{14}{subsubsection.A.2.1}
 \contentsline {subsubsection}{\numberline {A.2.2}Connections between the PE circuit and the M neuron}{14}{subsubsection.A.2.2}
 \contentsline {subsubsection}{\numberline {A.2.3}Connections between the PE circuit and the V neuron}{15}{subsubsection.A.2.3}
-\contentsline {subsection}{\numberline {A.3}Inputs}{15}{subsection.A.3}
+\contentsline {subsection}{\numberline {A.3}Inputs}{16}{subsection.A.3}
 \contentsline {subsection}{\numberline {A.4}Simulations}{16}{subsection.A.4}
 \contentsline {section}{\numberline {B}Supporting analyses}{17}{appendix.B}
 \contentsline {subsection}{\numberline {B.1}Activity of M and V neuron in a simplified model}{17}{subsection.B.1}

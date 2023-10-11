@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  9 OCT 2023 10:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  11 OCT 2023 09:55
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -618,16 +618,25 @@ Overfull \hbox (9.2271pt too wide) in paragraph at lines 427--430
 cmsy/m/n/10 g$\OT1/cmr/m/n/10 ,|
  []
 
+
+LaTeX Warning: Reference `fig:Fig_2_S2' on page 13 undefined on input line 447.
+
+
 [13]
 
 LaTeX Warning: Reference `XXX' on page 14 undefined on input line 469.
 
+
+LaTeX Warning: Reference `fig:Fig_2_S2' on page 14 undefined on input line 480.
+
+
+
+LaTeX Warning: Reference `fig:Fig_2_S3' on page 14 undefined on input line 480.
+
+
 <../results/figures/final/Figure_gains.png, id=68, 255.354pt x 69.49965pt>
 
 LaTeX Warning: Reference `XX' on page 14 undefined on input line 506.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -666,7 +675,7 @@ ixed variance of inputs $\OML/cmm/m/it/10 []$\OT1/cmr/m/n/10 . Hence, my imple
 mentation|
  []
 
-<../results/figures/final/Fig_2_S1.png, id=93, 256.43805pt x 203.44005pt>
+<../results/figures/final/Fig_2_S1.png, id=93, 248.24745pt x 181.51814pt>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -690,11 +699,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Package natbib Warning: There were undefined citations.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 937.
-[21]
-
-LaTeX Warning: Text page 22 contains only floats.
-
-[22] [23]
+[21] [22] [23]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 937.
  (manuscript_2023.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 937.
@@ -708,11 +713,11 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 937.
 Here is how much of TeX's memory you used:
  10104 strings out of 494891
  161373 string characters out of 3176446
- 302786 words of memory out of 3000000
+ 303786 words of memory out of 3000000
  13595 multiletter control sequences out of 15000+200000
  11740 words of font info for 45 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
- 36i,15n,43p,2398b,359s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,15n,43p,2398b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/font
 s/type1/public/amsfonts/cm/cmbx10.pfb></Users/loreen.hertaeg/Library/Applicatio
 n Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Use
@@ -745,7 +750,7 @@ upport/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/
 loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pu
 blic/amsfonts/cm/cmtt10.pfb></Users/loreen.hertaeg/Library/Application Support/
 MiKTeX/texmfs/install/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on manuscript_2023.pdf (23 pages, 375402 bytes).
+Output written on manuscript_2023.pdf (23 pages, 376077 bytes).
 PDF statistics:
  176 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
