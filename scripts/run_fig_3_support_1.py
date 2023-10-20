@@ -25,7 +25,7 @@ dtype = np.float32
 
 # 5,5,0,0 --> 5,5,0,3 --> 0,10,0,3 --> 0,10,0,0 --> 5,5,0,0
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:
@@ -37,10 +37,10 @@ if run_cell:
     min_mean_before = 0
     max_mean_before = 10
     m_sd_before = 0
-    n_sd_before = 3
+    n_sd_before = 0
     
-    min_mean_after = 0
-    max_mean_after = 10
+    min_mean_after = 5
+    max_mean_after = 5
     m_sd_after = 0
     n_sd_after = 0
 
@@ -65,5 +65,5 @@ if run_cell:
             
     ### plot data    
     plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
-                              time_plot=0, ylim=[-15,20], figsize=(4,3), xlim=[50,70], plot_only_weights=True)
+                              time_plot=0, ylim=[-15,20], figsize=(4,3), xlim=[40,60], plot_only_weights=True)
 

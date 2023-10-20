@@ -2235,7 +2235,7 @@ def plot_weight_over_trial(weight_ctrl, weight_mod, n_trials, fs=6, lw=1, leg_te
 
 def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
                               time_plot = 0, ylim=None, xlim=None, plot_ylable=True, lw=1, 
-                              figsize=(3.5,5), plot_only_weights=False, fs=6, transition_point=60, ax2=None):
+                              figsize=(3.5,5), plot_only_weights=False, fs=6, transition_point=50, ax2=None):
     
     if ax2 is None:
         f1, ax2 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
@@ -2283,7 +2283,7 @@ def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, we
     #     ax2.set_ylabel('Weights', color='white', fontsize=fs)
     #     ax2.tick_params(axis='y', colors='white')
     ax2.axvline(transition_point, color='k', ls='--', lw=lw, zorder=10)
-    ax2.set_xlabel('Time (#trials)', fontsize=fs)
+    ax2.set_xlabel('Time (number of trials)', fontsize=fs)
     ax2.set_xlim([time_plot * time[-1],time[-1]])
     ax2.set_ylim([0,1.05])
     if xlim is not None:
@@ -2344,15 +2344,15 @@ def plot_weighting_limit_case_example(n_trials, trial_duration, stimuli, predict
     ax1.plot(time[time > time_plot * time[-1]], weighted_output[time > time_plot * time[-1]], 
              color=color_weighted_output, lw=lw)#, label='weighted \noutput')  
     ax1.set_ylabel('Weighted output (1/s)', fontsize=fs)
-    ax1.set_xlabel('Time (#trials)', fontsize=fs)
+    ax1.set_xlabel('Time (number of trials)', fontsize=fs)
     
     if plot_legend:
         #ax1.legend(loc=0, frameon=False, fontsize=fs, handlelength=1)
         #ax1.text(time_plot * time[-1] + 1, 0.85 * np.max(weighted_output[time > time_plot * time[-1]]), 
         #        'weighted \noutput', color=color_weighted_output, fontsize=fs)
         ax1.plot(np.nan, np.nan, color=color_stimuli_background, ms=6, marker='_', 
-                 markeredgewidth = 2,ls="None", label='Stimulus \nvalues')
-        ax1.legend(loc=2, fontsize=fs, frameon=False, handletextpad=0.1, bbox_to_anchor=(-0.1,1.05))
+                 markeredgewidth = 2,ls="None", label='Input')
+        ax1.legend(loc=2, fontsize=fs, frameon=True, handletextpad=0.1, bbox_to_anchor=(0,1.05))
         
     ax1.set_xlim([time_plot * time[-1],time[-1]])
     ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
@@ -2369,7 +2369,7 @@ def plot_weighting_limit_case_example(n_trials, trial_duration, stimuli, predict
         ax2.plot(time[time > time_plot * time[-1]], mean_of_prediction[time > time_plot * time[-1]], 
                  color=color_mean_prediction, lw=lw, label='mean of prediction')
         ax2.set_ylabel('Activity (1/s)', fontsize=fs)
-        ax2.set_xlabel('Time (#trials)')
+        ax2.set_xlabel('Time (number of trials)')
         if plot_legend:
             ax2.legend(loc=0, frameon=False, fontsize=fs)
         ax2.set_xlim([time_plot * time[-1],time[-1]])
@@ -2394,7 +2394,7 @@ def plot_weighting_limit_case_example(n_trials, trial_duration, stimuli, predict
     # ax3.plot(time[time > time_plot * time[-1]], beta[time > time_plot * time[-1]], 
     #          color=color_m_neuron, lw=lw, label='feedback')
     ax3.set_ylabel('Sensory weight', fontsize=fs)
-    ax3.set_xlabel('Time (#trials)', fontsize=fs)
+    ax3.set_xlabel('Time (number of trials)', fontsize=fs)
     # if plot_legend:
     #     ax3.legend(loc=0, frameon=False, fontsize=fs)
     ax3.set_xlim([time_plot * time[-1],time[-1]])

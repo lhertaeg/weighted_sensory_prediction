@@ -34,9 +34,11 @@ def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_m
         inputs_per_stimulus = np.random.normal(mean_stimuli[id_stim], sd_stimuli[id_stim], size=num_values_per_trial)
         stimuli = np.concatenate((stimuli, inputs_per_stimulus))
      
-    results = (dtype(stimuli),)
     if out_trial_means:
+        results = (dtype(stimuli),)
         results += (mean_stimuli,)
+    else:
+        results = dtype(stimuli)
         
     return results
 
@@ -634,7 +636,7 @@ def simulate_activity_neurons(mfn_flag, variability_within, variability_across, 
         
 def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, m_sd_before, n_sd_before, 
                                   min_mean_after, max_mean_after, m_sd_after, n_sd_after, seed = np.int32(186),
-                                  n_trials = np.int32(120), trial_duration = np.int32(5000), num_values_per_trial = np.int32(10),
+                                  n_trials = np.int32(100), trial_duration = np.int32(5000), num_values_per_trial = np.int32(10),
                                   file_for_data = None):
     
     ### load default parameters

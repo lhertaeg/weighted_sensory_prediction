@@ -131,8 +131,10 @@ if run_cell:
 
 # %% Sparsity 
 
+# continue here
+
 run_cell = True
-plot_only = False
+plot_only = True
 
 if run_cell:
     
@@ -149,7 +151,7 @@ if run_cell:
             [_, _, gain_factors_nPE_5, gain_factors_pPE_5, nPE_true, pPE_true] = pickle.load(f)
         
         # conditions to be tested
-        p_conns = np.linspace(0.6, 1, 5)
+        p_conns = np.linspace(0.7, 1, 7)
         num_seeds = 10
         
         # initialise arrays
@@ -160,7 +162,7 @@ if run_cell:
             for seed in range(num_seeds):
                 
                 print('p_conn = ', p_conn, ', seed = ', seed)
-            
+                
                 # parametrisation neurons, network and rates
                 NeuPar = Neurons()
                 RatePar = Activity_Zero(NeuPar)
@@ -186,6 +188,9 @@ if run_cell:
                 avg_start = len(r_mem)//2
                 M_steady_state[cond_num,seed] = np.mean(r_mem[-avg_start:])
                 V_steady_state[cond_num,seed] = np.mean(r_var[-avg_start:])
+                
+                print(np.mean(r_mem[-avg_start:]))
+                print(np.mean(r_var[-avg_start:]))
         
         # save data
         with open(file_data,'wb') as f:

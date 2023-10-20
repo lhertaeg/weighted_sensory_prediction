@@ -124,7 +124,7 @@ for i in range(4):
          v_neuron_higher, alpha, beta, weighted_output] = pickle.load(f)
     
     plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, time_plot=0, plot_ylable=boolean, 
-                              ylim=[-15,20], figsize=(4,3), xlim=[50,70], plot_only_weights=True, ax2=axs[i])    
+                              ylim=[-15,20], figsize=(4,3), xlim=[40,60], plot_only_weights=True, ax2=axs[i])    
 
 
 # %% save figure
