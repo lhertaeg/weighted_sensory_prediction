@@ -79,25 +79,26 @@ else:
     
     # plot data
     plot_fraction_sensory_heatmap(alpha, variability_within, variability_across, 2, xlabel='Trial variability', 
-                                  ylabel='Stimulus variability', square=True, ax = ax_A)
+                                  ylabel='Stimulus variability', square=True, xticklabels=['low', 'high'],
+                                  yticklabels=['low', 'high'], ax = ax_A)
     
     
-    ax_A.annotate("", xy=(0.5, 4.4), xycoords='data', xytext=(0.5, 0.7), textcoords='data', fontsize=fs,
+    ax_A.annotate("", xy=(0.5, 5.4), xycoords='data', xytext=(0.5, 0.7), textcoords='data', fontsize=fs,
                  arrowprops=dict(arrowstyle="->", connectionstyle="arc3", lw=1 , ec='k'))
     
-    ax_A.annotate("", xy=(0.7, 4.5), xycoords='data', xytext=(4.4, 4.5), textcoords='data', fontsize=fs,
+    ax_A.annotate("", xy=(0.7, 5.5), xycoords='data', xytext=(5.4, 5.5), textcoords='data', fontsize=fs,
                  arrowprops=dict(arrowstyle="<-", connectionstyle="arc3", lw=1 , ec='k'))
     
-    ax_A.annotate("", xy=(4.5, 4.4), xycoords='data', xytext=(4.5, 0.7), textcoords='data', fontsize=fs,
+    ax_A.annotate("", xy=(5.5, 5.4), xycoords='data', xytext=(5.5, 0.7), textcoords='data', fontsize=fs,
                  arrowprops=dict(arrowstyle="<-", connectionstyle="arc3", lw=1 , ec='k'))
     
-    ax_A.annotate("", xy=(0.7, 0.5), xycoords='data', xytext=(4.4, 0.5), textcoords='data', fontsize=fs,
+    ax_A.annotate("", xy=(0.7, 0.5), xycoords='data', xytext=(5.4, 0.5), textcoords='data', fontsize=fs,
                  arrowprops=dict(arrowstyle="->", connectionstyle="arc3", lw=1 , ec='k'))
 
     ax_A.text(0.5, 0.5, '1', fontsize=fs, verticalalignment='center', horizontalalignment='center')
-    ax_A.text(0.5, 4.5, '2', fontsize=fs, verticalalignment='center', horizontalalignment='center')
-    ax_A.text(4.5, 4.5, '3', fontsize=fs, verticalalignment='center', horizontalalignment='center')
-    ax_A.text(4.5, 0.5, '4', fontsize=fs, verticalalignment='center', horizontalalignment='center')
+    ax_A.text(0.5, 5.5, '2', fontsize=fs, verticalalignment='center', horizontalalignment='center')
+    ax_A.text(5.5, 5.5, '3', fontsize=fs, verticalalignment='center', horizontalalignment='center')
+    ax_A.text(5.5, 0.5, '4', fontsize=fs, verticalalignment='center', horizontalalignment='center')
     
 # %% Plot transitions
 
@@ -124,7 +125,7 @@ for i in range(4):
          v_neuron_higher, alpha, beta, weighted_output] = pickle.load(f)
     
     plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, time_plot=0, plot_ylable=boolean, 
-                              ylim=[-15,20], figsize=(4,3), xlim=[40,60], plot_only_weights=True, ax2=axs[i])    
+                              ylim=[-15,20], figsize=(4,3), xlim=[40,60], plot_only_weights=True, plot_xlabel = boolean, ax2=axs[i])    
 
 
 # %% save figure

@@ -337,7 +337,7 @@ def plot_illustration_bias_results(fs=6, lw=1, ax1 = None, ax2 = None):
 
 
 def plot_illustration_input_cond(std_stims, mean_trails, std_trails, slopes = None, ms = 1,
-                                 fs=6, lw=1, ax_1 = None, ax_2 = None, labels=False):
+                                 fs=6, lw=1, ax_1 = None, ax_2 = None, color = None, labels=False):
     
     if ax_1 is None:
         _, ax1 = plt.subplots(1,1)
@@ -365,7 +365,10 @@ def plot_illustration_input_cond(std_stims, mean_trails, std_trails, slopes = No
         ax2 = ax_2
 
     # colors
-    colors = [color_running_average_stimuli, '#6A2E35']
+    if color is None:
+        colors = [color_running_average_stimuli, '#6A2E35']
+    else:
+        colors = [color, color]
 
     # trail distribution
     for i in range(len(mean_trails)):
@@ -391,10 +394,16 @@ def plot_illustration_input_cond(std_stims, mean_trails, std_trails, slopes = No
     x_lims = ax1.get_xlim()
     if labels:
         ax1.set_title('Distributions', fontsize=fs)
-        ax1.text(-0.2,0.3, 'Trial', fontsize=fs, rotation=90, va='bottom', transform = ax1.transAxes)
+        ax1.text(-0.1,0.6, 'Trial', fontsize=fs, rotation=90, va='bottom', transform = ax1.transAxes)
 
     # stimulus distribution
     x = np.linspace(x_lims[0], x_lims[1], 1000)
+    
+    # colors
+    if color is None:
+        colors = [color_running_average_stimuli, '#6A2E35']
+    else:
+        colors = [lighten_color(color, 0.5), lighten_color(color, 0.5)]
 
     for i in range(len(std_stims)):
         
@@ -409,7 +418,7 @@ def plot_illustration_input_cond(std_stims, mean_trails, std_trails, slopes = No
             #ax2.axvline(mean_stims_tested[j], ls=':', color='k', zorder=0)
     
     if labels:
-        ax2.text(-0.2,0, 'Stimulus', fontsize=fs, rotation=90, va='bottom', transform = ax2.transAxes)
+        ax2.text(-0.1,0, 'Stimulus', fontsize=fs, rotation=90, va='bottom', transform = ax2.transAxes)
     
     # eqlaize x range
     xlim_1 = ax1.get_xlim()
@@ -429,7 +438,7 @@ def plot_illustration_input_cond(std_stims, mean_trails, std_trails, slopes = No
     ax1.set_xticklabels([])
     ax2.set_xticklabels([])
     sns.despine(ax=ax1, top=True, right=True, left=True, bottom=True)
-    sns.despine(ax=ax2, top=True, right=True, left=True)
+    sns.despine(ax=ax2, top=True, right=True, left=True, bottom=True)
     
     if slopes is not None:
         ax3.bar(np.array([1]), slopes[0], color=colors[0], width=0.4)
@@ -2222,7 +2231,7 @@ def plot_weight_over_trial(weight_ctrl, weight_mod, n_trials, fs=6, lw=1, leg_te
     if leg_text is not None:
         ax.plot(np.nan, np.nan, 'o', color='k', label=leg_text[0], ms=4)
         ax.plot(np.nan, np.nan, 's', color='k', label=leg_text[1], ms=4)
-        ax.legend(loc=4, frameon=False, handlelength=2, fontsize=fs, borderpad=2)
+        ax.legend(loc=10, frameon=False, handlelength=2, fontsize=fs, borderpad=2, bbox_to_anchor=[0.8,0.4])
     
     ax.xaxis.set_major_locator(plt.MaxNLocator(3))
     ax.yaxis.set_major_locator(plt.MaxNLocator(3))
@@ -2234,8 +2243,8 @@ def plot_weight_over_trial(weight_ctrl, weight_mod, n_trials, fs=6, lw=1, leg_te
 
 
 def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
-                              time_plot = 0, ylim=None, xlim=None, plot_ylable=True, lw=1, 
-                              figsize=(3.5,5), plot_only_weights=False, fs=6, transition_point=50, ax2=None):
+                              time_plot = 0, ylim=None, xlim=None, plot_ylable=True, lw=1, plot_xlabel = True, 
+                              figsize=(3.5,5), plot_only_weights=False, fs=6, transition_point=50, ax2 = None):
     
     if ax2 is None:
         f1, ax2 = plt.subplots(1, 1, figsize=figsize, tight_layout=True)
@@ -2283,7 +2292,8 @@ def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, we
     #     ax2.set_ylabel('Weights', color='white', fontsize=fs)
     #     ax2.tick_params(axis='y', colors='white')
     ax2.axvline(transition_point, color='k', ls='--', lw=lw, zorder=10)
-    ax2.set_xlabel('Time (number of trials)', fontsize=fs)
+    if plot_xlabel:
+        ax2.set_xlabel('Time (number of trials)', fontsize=fs)
     ax2.set_xlim([time_plot * time[-1],time[-1]])
     ax2.set_ylim([0,1.05])
     if xlim is not None:
@@ -2297,8 +2307,9 @@ def plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, we
 
 
 def plot_fraction_sensory_heatmap(fraction_sensory_median, para_tested_first, para_tested_second, every_n_ticks, xlabel='', 
-                                ylabel='', vmin=0, vmax=1, decimal = 1e2, title='', cmap = cmap_sensory_prediction,
-                                figsize=(6,4.5), fs=6, square=False, ax=None):
+                                  ylabel='', vmin=0, vmax=1, decimal = 1e2, title='', cmap = cmap_sensory_prediction,
+                                  figsize=(6,4.5), fs=6, data_example = None, data_text = None, square = False, 
+                                  xticklabels = None, yticklabels = None, ax = None):
     
     if ax is None:
         plt.figure(tight_layout=True, figsize=figsize)
@@ -2311,6 +2322,19 @@ def plot_fraction_sensory_heatmap(fraction_sensory_median, para_tested_first, pa
     sns.heatmap(data, vmin=vmin, vmax=vmax, cmap=cmap, xticklabels=every_n_ticks, square=square,
                 yticklabels=every_n_ticks, cbar_kws={'label': 'Sensory weight', 'ticks':[0, 0.5, 1]}, ax=ax)
     
+    ax.invert_yaxis()
+    
+    if data_example is not None:
+        
+        x = data_example[0,:]
+        y = data_example[1,:]
+        
+        mx, nx = np.polyfit([columns.min()-0.5, columns.max()+0.5], ax.get_xlim(), 1)
+        my, ny = np.polyfit([index.min()-0.5, index.max()+0.5], ax.get_ylim(), 1)
+        
+        for i in range(len(x)):
+            ax.text(mx * x[i] + nx, my * y[i] + ny, data_text[i], fontsize=fs, ha='center', va='center')
+    
     ax.locator_params(nbins=2)
     ax.tick_params(size=2.0) 
     ax.tick_params(axis='both', labelsize=fs)
@@ -2319,7 +2343,12 @@ def plot_fraction_sensory_heatmap(fraction_sensory_median, para_tested_first, pa
     cbar.ax.tick_params(size=2.0)
     cbar.ax.yaxis.label.set_size(fs)
     
-    ax.invert_yaxis()
+    ax.set_xticks([columns.min()+0.5, columns.max()+0.5])
+    ax.set_yticks([index.min()+0.5, index.max()+0.5])
+    if xticklabels is not None:
+        ax.set_xticklabels(xticklabels)
+    if yticklabels is not None:
+        ax.set_yticklabels(yticklabels)    
     ax.set_xlabel(xlabel, fontsize=fs)
     ax.set_ylabel(ylabel, fontsize=fs)
     #ax.set_title(title, fontsize=fs)
