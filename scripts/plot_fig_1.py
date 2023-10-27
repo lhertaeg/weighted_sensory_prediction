@@ -9,7 +9,6 @@ Created on Mon Jan  9 09:04:01 2023
 # %% Import
 
 import pickle
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path

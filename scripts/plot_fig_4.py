@@ -6,35 +6,16 @@ Created on Mon Jan  9 09:04:01 2023
 @author: loreen.hertaeg
 """
 
-# %% Import
-
-import numpy as np
-import pickle
-
-from src.functions_simulate import simulate_neuromod
-from src.plot_data import plot_heatmap_neuromod, plot_combination_activation_INs
-
-import warnings
-warnings.filterwarnings("ignore")
-
-dtype = np.float32
-
-
 # %% import
 
-import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
-import seaborn as sns
 
-from matplotlib.collections import LineCollection
+from src.plot_data import plot_neuromod_impact_inter, plot_illustration_neuromod_results, plot_standalone_colorbar
+from src.plot_data import plot_changes_upon_input2PE_neurons_new, plot_influence_interneurons_baseline_or_gain
 
-from src.plot_data import plot_neuromod_impact_inter, illustrate_sensory_weight_variance, plot_changes_upon_input2PE_neurons, plot_illustration_neuromod_results
-from src.plot_data import plot_illustration_changes_upon_baseline_PE, plot_illustration_changes_upon_gain_PE, plot_influence_interneurons_gain_baseline
-from src.plot_data import plot_legend_illustrations, plot_changes_upon_input2PE_neurons_new, plot_influence_interneurons_baseline_or_gain, plot_influence_interneurons_baseline_or_gain
-from src.plot_data import plot_standalone_colorbar
 
 # %% Universal parameters
 

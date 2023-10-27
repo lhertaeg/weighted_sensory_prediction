@@ -9,12 +9,10 @@ Created on Mon Jan  9 09:04:01 2023
 # %% Import
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pickle
 
 from src.functions_simulate import simulate_PE_circuit_P_fixed_S_constant
-from src.plot_data import plot_example_mean, plot_example_variance, plot_mse_heatmap, plot_interneuron_activity_heatmap
-from src.plot_data import plot_neuron_activity, plot_nPE_pPE_activity_compare
+from src.plot_data import plot_nPE_pPE_activity_compare
 
 import warnings
 warnings.filterwarnings("ignore")

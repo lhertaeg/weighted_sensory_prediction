@@ -274,7 +274,7 @@ We solved the brain.
 
 % multisensory integration --> general idea that this can be applied to S and P ... Firth? link to psychiatric disorders
 
-% evidence for the model (PE neurons, connectivity PE --> M, predictions or P neurons exist, P neurons may hold the mean, time constants chnage along hierarchy)
+% evidence for the model (PE neurons, connectivity PE --> M, predictions or P neurons exist, P neurons may hold the mean, time constants change along hierarchy)
 
 % alternative implementations (P in weights ... => plasticity), also we dont implement weighting explicitely -- has been shown that divisive inhibiton can be done with INs (look in the one theoretical paper on neural implemnetation of Kalman filter)
 
@@ -282,9 +282,12 @@ We solved the brain.
 
 % neuromodulators, does it fit the current literature Lawson etc.? How is it different from expected and unexpected uncertainty ..., and then give more details on local vs. global neuromodulators
 
+% selectivity? One-dimensional system (wahrscheinlich nicht)
+
 % link to Kalman filter and maybe Bayes surprise factor
 
-
+----
+% Katha feedback: predictions, postdictions, experiments vorschlagen, limitations, grosserer kontext, abgrenzung zu reward prediction error
 
 % ################
 
@@ -384,9 +387,6 @@ All simulations were performed in customized Python code written by LH. Source c
 \section{Detailed Methods}
 %
 In the following, we describe in more detail the equations for the dynamics of the neurons in the prediction-error circuit, as well as the memory and variance neurons. We then provide the connectivity of the network and the inputs to the neurons for both the mean-field and population model. Finally, to ensure reproducibility, we give all simulation parameters used for the results shown in the figures.  
-
-XXX Please note that xxx model parameters chosen do not change overall results are not particular to get the results xxx. Important factors are: 1) long enough to get to steady state (as PE circuits used were learned for steady state, 2) lower M updates faster than higher M, 3) update speed for M and V (see lambda and theta etc.) must be chosen in accordance with trial duration stimulus duration. XXX This could also go to the section Simulations xxx
-
 
 \subsection{Network model}
 %
@@ -570,27 +570,29 @@ The feedforward input is either the direct sensory input $s$ for the lower PE ci
 
 \subsection{Simulations}
 %
-All simulations were performed in customized Python code written by LH. Source code to reproduce the simulations, analyses and figures will be available after publication at \url{XXXX}. Differential equations were numerically integrated using a 2\textsuperscript{nd}-order Runge-Kutta method. Neurons were initialized with $r=0/s$.
+All simulations were performed in customized Python code written by LH. Source code to reproduce the simulations, analyses and figures will be available after publication at \url{XXXX}. Differential equations were numerically integrated using a 2\textsuperscript{nd}-order Runge-Kutta method. Neurons were initialized with $r=0/s$. 
 
-In the following, we give all figure-specific parameters not directly visible or mentioned in the Figures and captions. Please note that the qualitative results are robust to the choice of the simulation parameters and are here stated merely to ensure the reproducibility of all figures. Furthermore, to increase readability, we do not include units for the parameters. All units can be deduced from the equations above.\newline\\ 
+The qualitative results were fairly robust to the choice of the simulation parameters and are here stated merely to ensure the reproducibility of all figures. However, we note that we made use of PE circuits that had been trained on steady state inputs \ref{XXX}. Hence, we must simulate the network long enough to ensure that the PE neurons reach their steady state. Moreover, the lower-level M neuron must evolve faster than the higher-level M neuron as indicated in Fig. \ref{XXX}. Finally, the time constant of the V neurons must be of the same magnitude as the trial duration.
+
+In the following, we give all figure-specific parameters not directly visible or mentioned in the figures and captions. Furthermore, to increase readability, we do not include units for the parameters. All units can be deduced from the equations above. We simulated the network in Figures \ref{fig:Fig_1} and \ref{fig:Fig_2} for $10^5$ simulation time steps. In Figure \ref{fig:Fig_2}, we presented $200$ constant values, each $500$ time steps long. In Figure \ref{fig:Fig_3} (including supporting figures) we simulated $100$ trials, while in Figures \ref{fig:Fig_4} to \ref{fig:Fig_5} (including supporting figures), we simulated $200$ trials, each $5000$ time steps long. In a trail, $10$ constant values were drawn from a normal distribution $N(\mu_\mathrm{in}, \sigma^2_\mathrm{in})$, each $500$ time steps long. The stimulus mean was drawn from an uniform distribution, $U(a, b)$, with mean $\mu_\mathrm{in}$ and variance $\sigma^2_\mathrm{trial}$.\newline\\ 
 %
-\textbf{Figure 1:} Simulation time steps = $10^5$, constant prediction (fixed) = $5$, input mean $\in [0,10]$, input standard deviation $0$.\\
+\textbf{Figure 1:} Constant prediction (fixed) = $5$, input mean $\in [0,10]$, input standard deviation $0$.\\
 %
-\textbf{Figure 2:} Simulation time steps = $10^5$, $200$ constant values (each $500$ time steps long) drawn from a uniform distribution, B and C: input standard deviation fixed at $4.5$ when mean is varied, input mean fixed at $4.5$ when input variance is varied.\\
+\textbf{Figure 2:} Inputs drawn from a uniform distribution. B and C: input standard deviation fixed at $4.5$ when mean is varied, input mean fixed at $4.5$ when input variance is varied.\\
 %
-\textbf{Figure 2 Supplementary Fig. 1:} Simulation time steps = $10^5$, $200$ constant values (each $500$ time steps long) drawn from a uniform distribution with mean of $5$ and variance of $4$. Number of repetitions with different seeds: 20.\\
+\textbf{Figure 2 Supplementary Fig. 1:} Inputs drawn from different distributions with mean of $5$ and variance of $4$. Number of repetitions with different seeds: 20.\\
 %
-\textbf{Figure 2 Supplementary Fig. 2:} Number of time steps were $10^5$ with $200$ constant values drawn from a uniform distribution with mean of $5$ and variance of $4$. Time step was $0.1$. The connections from the PE neurons to the M or V neuron were altered by a factor $\gamma$ drawn from a normal distribution. If not stated otherwise (in the Figure), the mean of this normal distribution was $1$ and the variance $0$, while the connection probability was $1$. Number of repetitions with different seeds: 10.\\
+\textbf{Figure 2 Supplementary Fig. 2:} Inputs drawn from a uniform distribution with mean of $5$ and variance of $4$. Time step was $0.1$. The connections from the PE neurons to the M or V neuron were altered by a factor $\gamma$ drawn from a normal distribution. If not stated otherwise, the mean of this normal distribution was $1$ and the variance $0$, while the connection probability was $1$. Number of repetitions with different seeds: 10.\\
 %
-\textbf{Figure 2 Supplementary Fig. 3:} Number of time steps were $4000$ (XXX maybe mention here and other above stating "except otherwise stated" or so XXX). Number of identical mean-field networks: $1000$.  Simulation time steps = $10^5$.\\
+\textbf{Figure 2 Supplementary Fig. 3:} Number of time steps were $4000$. Number of identical mean-field networks: $1000$. \\
 %
-\textbf{Figure 3:} $100$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution (each $500$ time steps long). The variance of this distribution was $0$ (C, F)  and $5$ (D). In each trial, the stimulus mean was drawn from an uniform distribution $U(a, b)$ (C: $U(1,9)$, D: $U(5,5)$). In F, $U(a,b)$ was parameterized such that the trail variability was $3$.\\
+\textbf{Figure 3:} C: $\sigma^2_\mathrm{in} = 0$ and $U(1,9)$, D:  $\sigma^2_\mathrm{in} = 5$ and $U(5,5)$, F: $\sigma^2_\mathrm{in} = 0$ and $U(a,b)$ was parameterized such that the trail variability was $3$.\\
 %
-\textbf{Figure 3 Supplementary Fig. 1:}  $100$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution $N(\mu_\mathrm{in}, \sigma_\mathrm{in})$, each $500$ time steps long. In each trial, the stimulus mean was drawn from an uniform distribution $U(a, b)$. Switch of input statistics occurs after 50 trails. State 1: stimulus $\in N(\mu_\mathrm{in}, 0)$ with $\mu_\mathrm{in} \in U(5,5)$, State 2:  stimulus $\in N(\mu_\mathrm{in}, 3)$ with $\mu_\mathrm{in} \in U(5,5)$, State 3: stimulus $\in N(\mu_\mathrm{in}, 3)$ with $\mu_\mathrm{in} \in U(0,10)$, State 4: stimulus $\in N(\mu_\mathrm{in}, 0)$ with $\mu_\mathrm{in} \in U(0,10)$.\\
+\textbf{Figure 3 Supplementary Fig. 1:}  Switch of input statistics occurs after 50 trails. State 1: stimulus $\in N(\mu_\mathrm{in}, 0)$ with $\mu_\mathrm{in} \in U(5,5)$, State 2:  stimulus $\in N(\mu_\mathrm{in}, 3)$ with $\mu_\mathrm{in} \in U(5,5)$, State 3: stimulus $\in N(\mu_\mathrm{in}, 3)$ with $\mu_\mathrm{in} \in U(0,10)$, State 4: stimulus $\in N(\mu_\mathrm{in}, 0)$ with $\mu_\mathrm{in} \in U(0,10)$.\\
 %
-\textbf{Figure 3 Supplementary Fig. 2:} $200$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution with variance $\sigma^2_\mathrm{in}$, each $500$ time steps long. In each trial, the stimulus mean was drawn from an uniform distribution with mean of $5$ and a variance of $\sigma^2_\mathrm{trial}$. $\sigma^2_\mathrm{trial} \in \lbrace0, 0.75, 1.5, 2.25, 3\rbrace$, $\sigma^2_\mathrm{in} \in \lbrace 3, 2.25, 1.5,0.75, 0\rbrace$. A: scaling factors of $w_\mathrm{M\leftarrow PE}$ were 0.3 and 6.7 XXX.\\
+\textbf{Figure 3 Supplementary Fig. 2:} $\mu_\mathrm{in} = 5$ and $\sigma^2_\mathrm{trial} \in \lbrace0, 0.75, 1.5, 2.25, 3\rbrace$, $\sigma^2_\mathrm{in} \in \lbrace 3, 2.25, 1.5,0.75, 0\rbrace$. A: scaling factors of $w_\mathrm{M\leftarrow PE}$ were 0.3 and 7.\\
 %
-\textbf{Figure 4:} $100-200$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution with variance $\sigma^2_\mathrm{in}$, each $500$ time steps long. In each trial, the stimulus mean was drawn from an uniform distribution with mean of $5$ and a variance of $\sigma^2_\mathrm{trial}$. A, top: $\sigma^2_\mathrm{in} = 0$ and $\sigma^2_\mathrm{trial} = 1$. A, bottom: $\sigma^2_\mathrm{in} = 1$ and $\sigma^2_\mathrm{trial} = 0$. C: $\sigma^2_\mathrm{in} = 1$ and $\sigma^2_\mathrm{trial} = 1$. D: $\sigma^2_\mathrm{in} = 5.3 XXX$ and $\sigma^2_\mathrm{trial} = 0$. Additional input (perturbation) was either fixed at $1$ (A, D) or systematically varied between $-1$ and $1$ (C). To estimate changes in baseline and gain of nPE and pPE neurons, we fitted a linear function to the PE neuron activity for the input range $[0, 2.5]$.\\
+\textbf{Figure 4:} $\mu_\mathrm{in} = 5$. A, top: $\sigma^2_\mathrm{in} = 0$ and $\sigma^2_\mathrm{trial} = 1$. A, bottom: $\sigma^2_\mathrm{in} = 1$ and $\sigma^2_\mathrm{trial} = 0$. C: $\sigma^2_\mathrm{in} = 1$ and $\sigma^2_\mathrm{trial} = 1$. D: $\sigma^2_\mathrm{in} = 5$ and $\sigma^2_\mathrm{trial} = 0$. Additional input (perturbation) was either fixed at $0.5$ (A, D) or systematically varied between $-1$ and $1$ (C), and was \textit{on} for the last 50\% of the trials. To estimate changes in baseline and gain of nPE and pPE neurons, we fitted a linear function to the PE neuron activity for the input range $[0, 2.5]$.\\
 %
 \textbf{Figure 4 Supplementary Fig. 1:} All parameters are from Figure 4 A.\\
 %
@@ -598,9 +600,9 @@ In the following, we give all figure-specific parameters not directly visible or
 %
 \textbf{Figure 4 Supplementary Fig. 3:} All parameters are from Figure 4 D.\\
 %
-\textbf{Figure 5:} $200$ trials, each simulated for $5000$ time steps (except in panel E). In a trail, $10$ constant values were drawn from a normal distribution (each $500$ time steps long) with standard deviation $\sigma_\mathrm{in}$. In each trial, the stimulus mean $\mu_\mathrm{in}$ was drawn from an uniform distribution $U(a, b)$. A: $\sigma_\mathrm{in} \in \lbrace1,7\rbrace$, $\mu_\mathrm{in} \in U(15, 25)$. B: $\sigma_\mathrm{in} \in [0,8]$, $\mu_\mathrm{in} \in U(15, 25)$, and $\sigma_\mathrm{in} = 5$, $\mu_\mathrm{in} \in U(15, b)$ with $b\in [20, 48]$. C: $\sigma_\mathrm{in} \in \lbrace2,5\rbrace$, $\mu_\mathrm{in} \in U(15, 15)$. D: $\sigma_\mathrm{in} = 0$, $\mu_\mathrm{in} \in U(15, 25)$ or $U(10, 30)$. E: $\sigma_\mathrm{in} = 0$, $\mu_\mathrm{in} \in U(15, 25)$, or $\sigma_\mathrm{in} = 5$, $\mu_\mathrm{in} \in U(15, 15)$,  Time steps per trail increased from $5000$ to $10^4$.\\
+\textbf{Figure 5:} A: $\sigma_\mathrm{in} \in \lbrace1,7\rbrace$, $\mu_\mathrm{in} \in U(15, 25)$. B: $\sigma_\mathrm{in} \in [0,8]$, $\mu_\mathrm{in} \in U(15, 25)$, and $\sigma_\mathrm{in} = 5$, $\mu_\mathrm{in} \in U(15, b)$ with $b\in [20, 48]$. C: $\sigma_\mathrm{in} \in \lbrace2,5\rbrace$, $\mu_\mathrm{in} \in U(15, 15)$. D: $\sigma_\mathrm{in} = 0$, $\mu_\mathrm{in} \in U(15, 25)$ or $U(10, 30)$. E: $\sigma_\mathrm{in} = 0$, $\mu_\mathrm{in} \in U(15, 25)$, or $\sigma_\mathrm{in} = 5$, $\mu_\mathrm{in} \in U(15, 15)$,  Time steps per trail increased from $5000$ to $10^4$.\\
 %
-\textbf{Figure 5 Supplementary Fig. 1:} $200$ trials, each simulated for $5000$ time steps. In a trail, $10$ constant values were drawn from a normal distribution (each $500$ time steps long) with standard deviation $\sigma_\mathrm{in}$. In each trial, the stimulus mean $\mu_\mathrm{in}$ was drawn from an uniform distribution $U(a,b)$. We used two different uniform distributions $U(15, 25)$ and  $U(25, 35)$, and introduced scalar variability so that $\sigma_\mathrm{in}$ is a linear function of $\mu_\mathrm{in}$. Specifically, we chose $\sigma_\mathrm{in} = \mu_\mathrm{in} -14$.
+\textbf{Figure 5 Supplementary Fig. 1:} We used two different uniform distributions $U(15, 25)$ and  $U(25, 35)$, and introduced scalar variability so that $\sigma_\mathrm{in}$ is a linear function of $\mu_\mathrm{in}$. Specifically, we chose $\sigma_\mathrm{in} = \left[\mu_\mathrm{in} -14\right]_+$.
 
 
 \section{Supporting analyses}
@@ -839,41 +841,41 @@ Likewise, if the variance of the sensory stimulus is zero (that is, in a stimulu
 Moreover, the toy model also reveals that if $T\rightarrow \infty$, the slope $m$ goes to 1, suggesting that without further noise in the system, the network can perfectly represent the sensory stimulus (the prediction would approach the current stimulus). 
 
 
-\subsection{Comparison to Kalman filter and Bayes Factor surprise}
+%\subsection{Comparison to Kalman filter and Bayes Factor surprise}
+%%
+%Kalman filter. Initialisation
+%%
+%\begin{align*}
+%x_{0|init} &= 0 \\
+%P_{0|init} &= \sigma^2\ I
+%\end{align*}
+%%
+%with x being the system state (in my terms the prediction), P is the covariance matrix of the errors of x (in my terms the var of the predictions) and I is the identity matrix.
+%%
+%Then the "correction" is given by
+%%
+%\begin{align*}
+%K_k &= P_{k|k-1}\ H_k^T\ \left( H_k\ P_{k|k-1}\ H_k^T + R_k \right)^{-1} \\
+%x_k &= x_{k|k-1} + K_k\ \left( z_k - H_k\ x_{k|k-1}\right) \\
+%P_k &= \left( I - K_k\ H_k\right)\ P_{k|k-1}
+%\end{align*}
+%%
+%with K the kalman gain matrix, H the observation matrix ($z_k = H_k\ x_k + noise$), R the covaraince of the measurement noise and z a new observation. The last part of the Kalman filter is the "prediction":
+%%
+%\begin{align*}
+%x_{k|k-1} &= F_{k-1}\ x_{k-1} + B_{k-1}\ u_{k-1} \\
+%P_{k|k-1} &= F_{k-1}\ P_{k-1}\ F_{k-1}^T + Q_{k-1}
+%\end{align*}
+%%
+%with F the transition matrix ($x_{k|k-1} = F_{k-1}\ x_{k-1}$, u a deterministic perturbation, B the dynamics of the deterministic perturbation. In our terms
+%%
+%\begin{align*}
+%\alpha = K_k = \frac{P_{k|k-1}}{R_k + P_{k|k-1}}
+%\end{align*}
+%%
+%$P_{k|k-1}$, is however $\sigma_P^2$ in my implementation and $R_k$ is fixed variance of inputs $\sigma_S^2$. Hence, my implementation represents (?) the Kalman filter. Important to note is, that in my implementation we estimate the variance of inputs dynamically, so it is not set! Another nice advantage here is that I don't need a good estimate for P. I can basically initiate it as I want. Another difference is that I consider the optimal weighting in my "output neuron" and not the prediction itself ... .
 %
-Kalman filter. Initialisation
-%
-\begin{align*}
-x_{0|init} &= 0 \\
-P_{0|init} &= \sigma^2\ I
-\end{align*}
-%
-with x being the system state (in my terms the prediction), P is the covariance matrix of the errors of x (in my terms the var of the predictions) and I is the identity matrix.
-%
-Then the "correction" is given by
-%
-\begin{align*}
-K_k &= P_{k|k-1}\ H_k^T\ \left( H_k\ P_{k|k-1}\ H_k^T + R_k \right)^{-1} \\
-x_k &= x_{k|k-1} + K_k\ \left( z_k - H_k\ x_{k|k-1}\right) \\
-P_k &= \left( I - K_k\ H_k\right)\ P_{k|k-1}
-\end{align*}
-%
-with K the kalman gain matrix, H the observation matrix ($z_k = H_k\ x_k + noise$), R the covaraince of the measurement noise and z a new observation. The last part of the Kalman filter is the "prediction":
-%
-\begin{align*}
-x_{k|k-1} &= F_{k-1}\ x_{k-1} + B_{k-1}\ u_{k-1} \\
-P_{k|k-1} &= F_{k-1}\ P_{k-1}\ F_{k-1}^T + Q_{k-1}
-\end{align*}
-%
-with F the transition matrix ($x_{k|k-1} = F_{k-1}\ x_{k-1}$, u a deterministic perturbation, B the dynamics of the deterministic perturbation. In our terms
-%
-\begin{align*}
-\alpha = K_k = \frac{P_{k|k-1}}{R_k + P_{k|k-1}}
-\end{align*}
-%
-$P_{k|k-1}$, is however $\sigma_P^2$ in my implementation and $R_k$ is fixed variance of inputs $\sigma_S^2$. Hence, my implementation represents (?) the Kalman filter. Important to note is, that in my implementation we estimate the variance of inputs dynamically, so it is not set! Another nice advantage here is that I don't need a good estimate for P. I can basically initiate it as I want. Another difference is that I consider the optimal weighting in my "output neuron" and not the prediction itself ... .
-
-XXX Comparison to Bayes Factor surprise
+%XXX Comparison to Bayes Factor surprise
 
 \section{Supplementary Figures}
 \setcounter{figure}{0}

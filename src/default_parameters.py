@@ -18,7 +18,7 @@ dtype = np.float32
 
 # %% functions
 
-## default parameters for the mean-field networks
+### default parameters for the mean-field networks
 
 def default_para_mfn(mfn_flag, baseline_activity = dtype([0, 0, 0, 0, 4, 4, 4, 4]), one_column=True):
     
@@ -97,7 +97,7 @@ def default_para_mfn(mfn_flag, baseline_activity = dtype([0, 0, 0, 0, 4, 4, 4, 4
             tc_var_per_stim, tc_var_pred, tau_pe, fixed_input]
 
 
-## parameters for the population network
+### parameters for the population network
 
 def random_uniform_from_moments(mean, sd, num):
     
@@ -113,7 +113,7 @@ class Neurons(NamedTuple):
     NCells: list = np.array([140,20,20,20], dtype=np.int32)
     tau_inv_E: dtype = dtype(1.0/60.0)
     tau_inv_I: dtype = dtype(1.0/2.0)
-    tau_inv_var: dtype = dtype(1.0/2000) # might need to be adpated
+    tau_inv_var: dtype = dtype(1.0/2000)
 
 
 class Network:
@@ -154,21 +154,26 @@ class Network:
             gain_factors_nPE = np.ones((1, NE), dtype=dtype) 
         if gain_factors_pPE is None:
             gain_factors_pPE = np.ones((1, NE), dtype=dtype)
+        
         if nPE_true is None:
-            nPE_true = np.ones((1, NE))==1
+            nPE_true_bool = np.ones((1, NE))==1
+        else:
+            nPE_true_bool = np.copy(nPE_true)
         if pPE_true is None:
-            pPE_true = np.ones((1, NE))==1
+            pPE_true_bool = np.ones((1, NE))==1
+        else:
+            pPE_true_bool = np.copy(pPE_true)
         
         if p_conn is not None:
             sparisty_bool = np.random.choice([0,1], p=[1-p_conn,p_conn], size=NE) == 1
-            nPE_true[~sparisty_bool] = False
-            pPE_true[~sparisty_bool] = False
+            nPE_true_bool[~sparisty_bool] = False
+            pPE_true_bool[~sparisty_bool] = False
         
         gain_scaling = dtype(np.random.normal(mean, std, size=NE))
         gain = gain_factors_nPE * gain_factors_pPE * gain_scaling
-        gain[nPE_true] *= -1/sum(nPE_true)
-        gain[pPE_true] *= 1/sum(pPE_true)
-        gain[~(nPE_true+pPE_true)] = 0
+        gain[nPE_true_bool] *= -1/sum(nPE_true_bool)
+        gain[pPE_true_bool] *= 1/sum(pPE_true_bool)
+        gain[~(nPE_true_bool+pPE_true_bool)] = 0
         
         speed = dtype(0.05)
         self.wME = speed * gain
@@ -213,8 +218,8 @@ class Activity_Zero:
         else:
             self.rE0, self.rP0, self.rS0, self.rV0 , self.rD0  = np.split(r0,Nb)  
             
-        self.r_mem0 = r_mem_init * np.ones(1) # might need to change to a column vector?
-        self.r_var0 = r_var_init * np.ones(1) # might need to change to a column vector?
+        self.r_mem0 = r_mem_init * np.ones(1)
+        self.r_var0 = r_var_init * np.ones(1)
         
         
 

@@ -10,13 +10,7 @@ Created on Mon Aug 14 10:50:33 2023
 
 import pickle
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
 
-from src.default_parameters import Neurons, Activity_Zero, Network, Stimulation
-from src.functions_save import load_network_para
-from src.functions_networks import run_population_net
 from src.functions_simulate import simulate_spatial_example
 from src.plot_data import plot_examples_spatial_M, plot_examples_spatial_V, plot_deviation_spatial
 
@@ -172,13 +166,3 @@ if run_cell:
         with open(file_for_data,'rb') as f:
             [mean_stimulus, spatial_std, spatial_noise, num_time_steps, m_neuron, v_neuron, rates_final] = pickle.load(f)
 
-
-    # plt.figure()
-    # plt.plot(np.arange(num_time_steps), m_neuron)
-    # ax = plt.gca()
-    # ax.axhline(mean_stimulus)
-    
-    # plt.figure()
-    # plt.plot(np.arange(num_time_steps), v_neuron)
-    # ax = plt.gca()
-    # ax.axhline(spatial_std**2)

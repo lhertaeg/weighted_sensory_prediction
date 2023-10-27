@@ -6,30 +6,11 @@ Created on Mon Jan  9 09:04:01 2023
 @author: loreen.hertaeg
 """
 
-# %% Import
-
-import numpy as np
-import pickle
-
-from src.functions_simulate import simulate_neuromod
-from src.plot_data import plot_heatmap_neuromod, plot_combination_activation_INs
-
-import warnings
-warnings.filterwarnings("ignore")
-
-dtype = np.float32
-
-
 # %% import
 
-import pickle
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
-import seaborn as sns
-
-from matplotlib.collections import LineCollection
 
 from src.plot_data import plot_influence_interneurons_gain_baseline
 
@@ -50,7 +31,7 @@ if not os.path.exists(figPath):
 
 # %% Define figure structure
 
-figsize=(5/inch,4/inch)
+figsize=(6/inch,5/inch)
 fig = plt.figure(figsize=figsize, tight_layout=True)
 
 G = gridspec.GridSpec(1, 1, figure=fig)

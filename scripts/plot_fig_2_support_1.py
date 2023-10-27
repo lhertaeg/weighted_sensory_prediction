@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
 
-from src.plot_data import plot_mse_test_distributions, plot_mse_test_distributions
+from src.plot_data import plot_mse_test_distributions
 
 
 # %% Universal parameters

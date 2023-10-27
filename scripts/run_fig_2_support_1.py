@@ -87,8 +87,7 @@ if run_cell:
     sem_variance = np.std(dev_variance * 100,2)/np.sqrt(num_reps)
     
     plot_mse_test_distributions(np.mean(dev_mean * 100,2), SEM = sem_mean, title = 'Mean of stimuli', fs=8, 
-                                mean=mean, std=std, dist_types=dist_types, inset_steady_state=True) # x_lim=[0,50000]
+                                mean=mean, std=std, dist_types=dist_types, inset_steady_state=True)
     plot_mse_test_distributions(np.mean(dev_variance * 100,2), SEM = sem_variance, fs = 8,
-                                title = 'Variance of stimuli', inset_steady_state = True) #  , x_lim=[0,50000]
+                                title = 'Variance of stimuli', inset_steady_state = True)
     
-        

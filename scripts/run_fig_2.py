@@ -12,8 +12,7 @@ import numpy as np
 import pickle
 
 from src.functions_simulate import simulate_example_pe_circuit, simulate_pe_uniform_para_sweep
-from src.plot_data import plot_example_mean, plot_example_variance, plot_mse_heatmap, plot_interneuron_activity_heatmap
-from src.plot_data import plot_neuron_activity
+from src.plot_data import plot_example_mean, plot_example_variance, plot_mse_heatmap, plot_neuron_activity
 
 import warnings
 warnings.filterwarnings("ignore")

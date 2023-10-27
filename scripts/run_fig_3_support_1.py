@@ -11,9 +11,7 @@ Created on Mon Jan  9 09:04:01 2023
 import numpy as np
 import pickle
 
-from src.functions_simulate import simulate_weighting_example, simulate_weighting_exploration, simulate_dynamic_weighting_eg
-from src.functions_simulate import simulate_activity_neurons
-from src.plot_data import plot_weighting_limit_case_example, plot_fraction_sensory_heatmap, plot_transitions_examples, plot_neuron_activity_lower_higher
+from src.functions_simulate import simulate_dynamic_weighting_eg, plot_transitions_examples
 
 import warnings
 warnings.filterwarnings("ignore")

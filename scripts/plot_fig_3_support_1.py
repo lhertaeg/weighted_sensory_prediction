@@ -13,9 +13,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
-import seaborn as sns
-
-from matplotlib.collections import LineCollection
 
 from src.plot_data import plot_fraction_sensory_heatmap, plot_transitions_examples
 

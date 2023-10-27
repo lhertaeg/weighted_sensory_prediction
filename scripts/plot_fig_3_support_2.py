@@ -13,9 +13,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
-import seaborn as sns
-
-from matplotlib.collections import LineCollection
 
 from src.plot_data import plot_impact_para
 
@@ -49,11 +46,6 @@ ax_B = fig.add_subplot(G[0,1])
 ax_B.text(-0.2, 1.35, 'B', transform=ax_B.transAxes, fontsize=fs+1)
 plt.setp(ax_B.get_xticklabels(), visible=False)
 
-# ax_B1 = fig.add_subplot(G2[0,0])
-# ax_B1.set_title(r'1 $\longrightarrow$ 2', fontsize=fs, pad=10)
-# ax_B2 = fig.add_subplot(G2[0,1])
-# plt.setp(ax_B2.get_yticklabels(), visible=False)
-# ax_B2.set_title(r'2 $\longrightarrow$ 3', fontsize=fs, pad=10)
 
 # %% Load control case and define variabilties tested
 

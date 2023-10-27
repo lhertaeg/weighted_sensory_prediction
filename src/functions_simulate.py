@@ -22,7 +22,7 @@ dtype = np.float32
 def stimuli_moments_from_uniform(n_trials, num_values_per_trial, min_mean, max_mean, m_sd, n_sd, out_trial_means=False, natural_numbers=False):
     
     mean_stimuli = np.random.uniform(min_mean, max_mean, size=n_trials)
-    sd_stimuli = np.maximum(mean_stimuli * m_sd + n_sd, 0) ######### in case n_sd is negative !!!
+    sd_stimuli = np.maximum(mean_stimuli * m_sd + n_sd, 0)
     
     if natural_numbers:
         mean_stimuli = np.round(mean_stimuli)
@@ -188,7 +188,7 @@ def simulate_spatial_example(mfn_flag, mean_stimulus, spatial_std, file_for_data
 
 
 
-def simulate_slope_vs_variances(mfn_flag, min_mean, max_mean_arr, m_sd, n_sd_arr, trial_duration = np.int32(5000), seed = np.int32(186), n_trials = np.int32(100),
+def simulate_slope_vs_variances(mfn_flag, min_mean, max_mean_arr, m_sd, n_sd_arr, trial_duration = np.int32(5000), seed = np.int32(186), n_trials = np.int32(200),
                                 num_values_per_trial = np.int32(10), num_trial_ss = np.int32(30), natural_numbers=False, file_for_data = None):
     
     ### load default parameters
@@ -253,8 +253,8 @@ def simulate_slope_vs_variances(mfn_flag, min_mean, max_mean_arr, m_sd, n_sd_arr
 
 
 
-def simulate_slope_vs_trial_duration(mfn_flag, min_mean, max_mean, m_sd, n_sd, trial_durations, seed = np.int32(186), n_trials = np.int32(100),
-                  num_values_per_trial = np.int32(10), num_trial_ss = np.int32(30), natural_numbers=False, file_for_data = None):
+def simulate_slope_vs_trial_duration(mfn_flag, min_mean, max_mean, m_sd, n_sd, trial_durations, seed = np.int32(186), n_trials = np.int32(200),
+                  num_values_per_trial = np.int32(10), num_trial_ss = np.int32(50), natural_numbers=False, file_for_data = None):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -447,7 +447,7 @@ def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, fil
     return ret
          
 
-def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = np.int32(186), n_trials = np.int32(100), 
+def simulate_weighting_example(mfn_flag, min_mean, max_mean, m_sd, n_sd, seed = np.int32(186), n_trials = np.int32(200), 
                                trial_duration = np.int32(5000), num_values_per_trial = np.int32(10), natural_numbers=False,
                                file_for_data = None):
     
@@ -566,73 +566,6 @@ def simulate_weighting_exploration(mfn_flag, variability_within, variability_acr
       
     return ret    
 
-
-def simulate_activity_neurons(mfn_flag, variability_within, variability_across, mean_trials, m_sd, seeds,
-                                    last_n = np.int32(30), n_trials = np.int32(100), trial_duration = np.int32(5000), 
-                                    num_values_per_trial = np.int32(10), file_for_data = None):
-    
-    ### load default parameters
-    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
-    
-    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
-     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
-     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
-    
-    ### initialise
-    activity_interneurons_lower = np.zeros((len(variability_within),len(variability_across), len(seeds), 4), dtype=dtype)
-    activity_interneurons_higher = np.zeros((len(variability_within),len(variability_across), len(seeds), 4), dtype=dtype)
-    activity_pe_neurons_lower = np.zeros((len(variability_within),len(variability_across), len(seeds), 2), dtype=dtype)
-    activity_pe_neurons_higher = np.zeros((len(variability_within),len(variability_across), len(seeds), 2), dtype=dtype)
-
-    ### exploration (run model for different input statistics)
-    for k, seed in enumerate(seeds):
-        
-        print('Seed:', seed)
-    
-        for col, std_mean in enumerate(variability_across):
-            
-            print('- Variability across trials:', std_mean)
-            
-            for row, n_sd in enumerate(variability_within):
-                
-                ## display progress
-                print('-- Variability within trial:', n_sd)
-        
-                ## define stimuli
-                np.random.seed(seed)
-                n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
-        
-                stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
-                                                       dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
-                stimuli = np.repeat(stimuli, n_repeats_per_stim)
-    
-                ## run model
-                [m_neuron_lower, v_neuron_lower, m_neuron_higher, 
-                 v_neuron_higher, alpha, beta, weighted_output,
-                 rates_pe_lower, rates_pe_higher,
-                 rates_int_lower, rates_int_higher] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
-                                                                              v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
-                                                                              tc_var_pred, tau_pe, fixed_input, stimuli, 
-                                                                              VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
-                                                                              v_PE_to_V = v_PE_to_V, record_pe_activity = True,
-                                                                              record_interneuron_activity=True)   
-              
-                activity_interneurons_lower[row, col, k, :] = np.mean(rates_int_lower[-last_n * trial_duration:,:],0)
-                activity_interneurons_higher[row, col, k,  :] = np.mean(rates_int_higher[-last_n * trial_duration:,:],0)
-                activity_pe_neurons_lower[row, col, k, :] = np.mean(rates_pe_lower[-last_n * trial_duration:,:],0)
-                activity_pe_neurons_higher[row, col, k,  :] = np.mean(rates_pe_higher[-last_n * trial_duration:,:],0)
-                                                                             
-    
-    ### save data for later
-    with open(file_for_data,'wb') as f:
-        pickle.dump([variability_within, variability_across, activity_pe_neurons_lower, activity_pe_neurons_higher,
-                     activity_interneurons_lower, activity_interneurons_higher],f) 
-        
-    ### return results       
-    return [variability_within, variability_across, activity_pe_neurons_lower, activity_pe_neurons_higher, 
-            activity_interneurons_lower, activity_interneurons_higher]       
-      
-     
         
 def simulate_dynamic_weighting_eg(mfn_flag, min_mean_before, max_mean_before, m_sd_before, n_sd_before, 
                                   min_mean_after, max_mean_after, m_sd_after, n_sd_after, seed = np.int32(186),
@@ -801,10 +734,9 @@ def simulate_impact_para(mfn_flag, variability_within, variability_across, mean_
     return [stimuli, n, gain_w_PE_to_P, gain_v_PE_to_P, add_input, id_cells_modulated, weight]
 
 
-
-def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials = dtype(5), m_sd = dtype(0), 
-                      last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000), 
-                      num_values_per_trial = np.int32(10), file_for_data = None, mult_input = dtype(1)):
+def simulate_neuromod_pert(mfn_flag, pert_strength, std_mean, n_sd, column, xp, xs, xv, mean_trials = dtype(5), m_sd = dtype(0), 
+                           last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000), 
+                           num_values_per_trial = np.int32(10), file_for_data = None):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -821,77 +753,61 @@ def simulate_neuromod(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials 
                                             dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
     stimuli = np.repeat(stimuli, n_repeats_per_stim)
     
-    ### run model without perturbation
-    print('Without neuromodulation\n')
-    [_, _, _, _, alpha, _, _] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
-                                                        v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
-                                                        tc_var_pred, tau_pe, fixed_input, stimuli, 
-                                                        VS = VS, VV = VV, w_PE_to_V = w_PE_to_V, 
-                                                        v_PE_to_V = v_PE_to_V)
-    
-    alpha_before_pert = np.mean(alpha[(n_trials - last_n) * trial_duration:])
-    
     ### initialise
-    nums = np.size(xp,0)
-    alpha_after_pert = np.zeros((nums, nums), dtype=dtype)
+    nums = len(pert_strength)
+    alpha_after_pert = np.zeros(nums, dtype=dtype)
 
     ### run model for different fractions of INs activated
-    print('With neuromodulation:\n')
-    
-    for i in range(nums):
-        for j in range(nums):
+    for i, pert_strg in enumerate(pert_strength):
         
-            if ~np.isnan(xv[i,j]):
-                ## display progress
-                print('-- xp:', xp[i,j], 'xs:', xs[i,j], 'xv:', xv[i,j], 'r:', xp[i,j]**2 + xs[i,j]**2 + xv[i,j]**2)
-                
-                ## add perturbation XXXX
-                perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
-                perturbation[(n_trials * trial_duration)//2:, 4:6] = xp[i,j] * mult_input
-                perturbation[(n_trials * trial_duration)//2:, 6] = xs[i,j] * mult_input
-                perturbation[(n_trials * trial_duration)//2:, 7] = xv[i,j] * mult_input
-                fixed_input_plus_perturbation = fixed_input + perturbation
-                    
-                if column==1:
-                    fixed_input_lower = fixed_input_plus_perturbation
-                    fixed_input_higher = fixed_input
-                elif column==2:
-                    fixed_input_lower = fixed_input
-                    fixed_input_higher = fixed_input_plus_perturbation
-                elif column==0:
-                    fixed_input_lower = fixed_input_plus_perturbation
-                    fixed_input_higher = fixed_input_plus_perturbation
+        ## display progress
+        print('-- perturbation strength:', pert_strg)
         
-                ## run model
-                [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
-                  alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
-                                                                          v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
-                                                                          tc_var_pred, tau_pe, None, stimuli, VS = VS,
-                                                                          VV = VV, w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V, 
-                                                                          fixed_input_lower = fixed_input_lower,
-                                                                          fixed_input_higher = fixed_input_higher)
+        ## add perturbation
+        perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
+        perturbation[(n_trials * trial_duration)//2:, 4:6] = xp * pert_strg
+        perturbation[(n_trials * trial_duration)//2:, 6] = xs * pert_strg
+        perturbation[(n_trials * trial_duration)//2:, 7] = xv * pert_strg
+        fixed_input_plus_perturbation = fixed_input + perturbation
+            
+        if column==1:
+            fixed_input_lower = fixed_input_plus_perturbation
+            fixed_input_higher = fixed_input
+        elif column==2:
+            fixed_input_lower = fixed_input
+            fixed_input_higher = fixed_input_plus_perturbation
+        elif column==0:
+            fixed_input_lower = fixed_input_plus_perturbation
+            fixed_input_higher = fixed_input_plus_perturbation
+
+        ## run model
+        [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+          alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                  v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                  tc_var_pred, tau_pe, None, stimuli, VS = VS,
+                                                                  VV = VV, w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V, 
+                                                                  fixed_input_lower = fixed_input_lower,
+                                                                  fixed_input_higher = fixed_input_higher)
+            
+            
+        ### comppute steady state
+        alpha_after_pert[i] = np.mean(alpha[-last_n * trial_duration:])
                 
-                
-                ### comppute steady state
-                alpha_after_pert[i, j] = np.mean(alpha[-last_n * trial_duration:])
-                
-            else:
-                
-                alpha_after_pert[i, j] = np.nan
         
     ### save data for later
     if file_for_data is not None:
         
         with open(file_for_data,'wb') as f:
-            pickle.dump([xp, xs, xv, alpha_before_pert, alpha_after_pert],f) 
+            pickle.dump([xp, xs, xv, pert_strength, alpha_after_pert],f) 
             
-    return [xp, xs, xv, alpha_before_pert, alpha_after_pert]
+    return [xp, xs, xv, pert_strg, alpha_after_pert]
 
+    
 
 def simulate_neuromod_combos(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_trials = dtype(5), m_sd = dtype(0), 
                              last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), 
                              trial_duration = np.int32(5000), num_values_per_trial = np.int32(10), 
-                             file_for_data = None, mult_input = dtype(1)):
+                             file_for_data = None, mult_input = dtype(0.5)):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -930,7 +846,7 @@ def simulate_neuromod_combos(mfn_flag, std_mean, n_sd, column, xp, xs, xv, mean_
         ## display progress
         print('-- xp:', xp[i], 'xs:', xs[i], 'xv:', xv[i])
         
-        ## add perturbation XXXX
+        ## add perturbation
         perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
         perturbation[(n_trials * trial_duration)//2:, 4:6] = xp[i] * mult_input
         perturbation[(n_trials * trial_duration)//2:, 6] = xs[i] * mult_input
@@ -1006,7 +922,7 @@ def simulate_moment_estimation_upon_changes_PE(mfn_flag, std_mean, n_sd, column,
             ## display progress
             print('-- Perturbation strength:', pert_stength[i])
             
-            ## add perturbation XXXX
+            ## add perturbation
             perturbation = np.zeros((n_trials * trial_duration,8), dtype=dtype)                          
             perturbation[(n_trials * trial_duration)//2:, cell_id] = pert_stength[i]
             fixed_input_plus_perturbation = fixed_input + perturbation
@@ -1046,8 +962,8 @@ def simulate_moment_estimation_upon_changes_PE(mfn_flag, std_mean, n_sd, column,
     return [pert_stength, m_act_lower, v_act_lower, v_act_higher]
 
 
-def simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, m_sd, n_sd, id_cell = None, pert_stength = dtype(1),
-                                                  seed = np.int32(186), n_trials = np.int32(100), trial_duration = np.int32(5000),
+def simulate_neuromod_effect_on_neuron_properties(mfn_flag, min_mean, max_mean, m_sd, n_sd, id_cell = None, pert_stength = dtype(0.5),
+                                                  seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000),
                                                   num_values_per_trial = np.int32(10), file_for_data = None, plot_data=False):
     
     ### load default parameters

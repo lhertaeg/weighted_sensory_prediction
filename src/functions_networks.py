@@ -10,7 +10,6 @@ Created on Mon Jan  9 09:31:58 2023
 
 import numpy as np
 import os
-from numba import njit
 
 dtype = np.float32
 
@@ -257,7 +256,6 @@ def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_
     
 ## functions for population network/s
 
-#@njit(cache=True)
 def drdt(tau_inv_E, tau_inv_I, tau_inv_var, wEP, wED, wDS, wDE, wPE, wPP, wPS, wPV, wSE, wSP, wSS, wSV, wVE, wVP, wVS, wVV,
          wEM, wDM, wPM, wSM, wVM, wME, wVarE, rE, rD, rP, rS, rV, r_mem, r_var, StimSoma_E, StimSoma_P, StimSoma_S, StimSoma_V, StimDend): 
     
@@ -367,7 +365,7 @@ def run_population_net(NeuPar, NetPar, StimPar, RatePar, dt, folder: str, fln: s
     wVarE = NetPar.wVarE
     
     ## Stimulation protocol & Inputs
-    stimuli = StimPar.stimuli # iter(StimPar.stimuli)
+    stimuli = StimPar.stimuli
     neurons_visual = StimPar.neurons_visual
     inp_ext_soma = StimPar.inp_ext_soma
     inp_ext_dend = StimPar.inp_ext_dend 

@@ -10,18 +10,97 @@ Created on Mon Jan  9 09:04:01 2023
 
 import pickle
 import numpy as np
-import seaborn as sns
-import pandas as pd
 import matplotlib.pyplot as plt
 
 from src.default_parameters import Neurons, Activity_Zero, Network, Stimulation
-from src.functions_save import load_network_para
 from src.functions_networks import run_population_net
 
 from src.plot_data import plot_gain_factors, plot_deviation_in_population_net, plot_M_and_V_for_population_example
 
 dtype = np.float32
 
+
+# %% find mistake
+
+run_cell = False
+
+if run_cell:
+    
+
+    # get data
+    with open('../results/data/population/data_population_network_parameters.pickle','rb') as f:
+        [neurons_visual, inp_ext_soma, inp_ext_dend, weight_name, Dict_w, Dict_t] = pickle.load(f)
+    
+    with open('../results/data/population/data_population_network_para4corr_gain.pickle','rb') as f:
+        [_, _, gain_factors_nPE_5, gain_factors_pPE_5, nPE_true, pPE_true] = pickle.load(f)
+    
+    seed = 1
+    
+    # conditions to be tested
+    p_conn = 1
+            
+    # parametrisation neurons, network and rates
+    NeuPar = Neurons()
+    RatePar = Activity_Zero(NeuPar)
+    
+    NetPar = Network(NeuPar, Dict_w, Dict_t, weight_name, neurons_visual, gain_factors_nPE = gain_factors_nPE_5, 
+                     gain_factors_pPE = gain_factors_pPE_5, nPE_true = nPE_true, pPE_true = pPE_true, p_conn=p_conn)
+
+    StimPar = Stimulation(5, 2, inp_ext_soma, inp_ext_dend, neurons_visual, seed=seed)
+                
+    # run network
+    run_population_net(NeuPar, NetPar, StimPar, RatePar, 0.1, folder='population', fln='test')
+    
+    # load simulation data
+    PathData = '../results/data/population'
+    arr = np.loadtxt(PathData + '/Data_PopulationNetwork_test.dat',delimiter=' ')
+    t, R = arr[:,0], arr[:, 1:]
+    
+    ind_break = np.cumsum(NeuPar.NCells,dtype=np.int32)
+    ind_break = np.concatenate([ind_break, np.array([340,341])])
+    
+    rE, rP, rS, rV, rD, r_mem, r_var = np.split(R, ind_break, axis=1)
+    
+    avg_start = len(r_mem)//2
+    print(np.mean(r_mem[-avg_start:]))
+    print(np.mean(r_var[-avg_start:]))
+
+
+    # conditions to be tested
+    sd = 0
+        
+    # parametrisation neurons, network and rates
+    NeuPar = Neurons()
+    RatePar = Activity_Zero(NeuPar)
+    
+    NetPar = Network(NeuPar, Dict_w, Dict_t, weight_name, neurons_visual, gain_factors_nPE = gain_factors_nPE_5, 
+             gain_factors_pPE = gain_factors_pPE_5, nPE_true = nPE_true, pPE_true = pPE_true, mean=1, std=sd)
+    
+    StimPar = Stimulation(5, 2, inp_ext_soma, inp_ext_dend, neurons_visual, seed=seed) 
+                
+    # run network
+    run_population_net(NeuPar, NetPar, StimPar, RatePar, 0.1, folder='population', fln='test')
+    
+    # load simulation data
+    PathData = '../results/data/population'
+    arr = np.loadtxt(PathData + '/Data_PopulationNetwork_test.dat',delimiter=' ')
+    t, R = arr[:,0], arr[:, 1:]
+    
+    ind_break = np.cumsum(NeuPar.NCells,dtype=np.int32)
+    ind_break = np.concatenate([ind_break, np.array([340,341])])
+    
+    rE, rP, rS, rV, rD, r_mem, r_var = np.split(R, ind_break, axis=1)
+    
+    avg_start = len(r_mem)//2
+    print(np.mean(r_mem[-avg_start:]))
+    print(np.mean(r_var[-avg_start:]))
+
+        
+      
+        
+     
+        
+        
 
 # %% Find nPE and pPE neurons and plot gain factors
 
@@ -131,10 +210,8 @@ if run_cell:
 
 # %% Sparsity 
 
-# continue here
-
 run_cell = True
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -146,12 +223,12 @@ if run_cell:
         # get data
         with open('../results/data/population/data_population_network_parameters.pickle','rb') as f:
             [neurons_visual, inp_ext_soma, inp_ext_dend, weight_name, Dict_w, Dict_t] = pickle.load(f)
-        
+            
         with open('../results/data/population/data_population_network_para4corr_gain.pickle','rb') as f:
             [_, _, gain_factors_nPE_5, gain_factors_pPE_5, nPE_true, pPE_true] = pickle.load(f)
         
         # conditions to be tested
-        p_conns = np.linspace(0.7, 1, 7)
+        p_conns = np.linspace(0.4, 1, 7)
         num_seeds = 10
         
         # initialise arrays
@@ -171,7 +248,7 @@ if run_cell:
                                  gain_factors_pPE = gain_factors_pPE_5, nPE_true = nPE_true, pPE_true = pPE_true, p_conn=p_conn)
             
                 StimPar = Stimulation(5, 2, inp_ext_soma, inp_ext_dend, neurons_visual, seed=seed)
-                            
+                
                 # run network
                 run_population_net(NeuPar, NetPar, StimPar, RatePar, 0.1, folder='population', fln='test')
                 
@@ -189,8 +266,8 @@ if run_cell:
                 M_steady_state[cond_num,seed] = np.mean(r_mem[-avg_start:])
                 V_steady_state[cond_num,seed] = np.mean(r_var[-avg_start:])
                 
-                print(np.mean(r_mem[-avg_start:]))
-                print(np.mean(r_var[-avg_start:]))
+               # print(np.mean(r_mem[-avg_start:]))
+               # print(np.mean(r_var[-avg_start:]))
         
         # save data
         with open(file_data,'wb') as f:

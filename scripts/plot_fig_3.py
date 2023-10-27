@@ -13,12 +13,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
-import seaborn as sns
-
-from matplotlib.collections import LineCollection
 
 from src.plot_data import plot_weighting_limit_case_example, plot_fraction_sensory_heatmap, plot_weight_over_trial
-from src.plot_data import plot_neuron_activity_lower_higher, plot_standalone_colorbar, plot_illustration_input_cond
+from src.plot_data import plot_illustration_input_cond
 
 # %% Universal parameters
 

@@ -11,11 +11,15 @@ Created on Mon Jan  9 09:04:01 2023
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 import os.path
 
-from src.functions_simulate import simulate_moment_estimation_upon_changes_PE, simulate_neuromod_effect_on_neuron_properties
-from src.functions_simulate import simulate_neuromod_combos, simulate_neuromod_pert
-from src.plot_data import plot_neuromod_impact_inter, plot_changes_upon_input2PE_neurons_new, plot_influence_interneurons_baseline_or_gain
+from src.functions_simulate import simulate_neuromod, simulate_moment_estimation_upon_changes_PE, simulate_neuromod_effect_on_neuron_properties
+from src.functions_simulate import simulate_neuromod_combos
+from src.plot_data import plot_heatmap_neuromod, plot_combination_activation_INs, plot_neuromod_per_net, plot_points_of_interest_neuromod, plot_bar_neuromod
+from src.plot_data import plot_illustration_changes_upon_baseline_PE, plot_illustration_changes_upon_gain_PE, plot_changes_upon_input2PE_neurons, plot_bar_neuromod_stacked
+from src.plot_data import plot_neurmod_results, plot_neuromod_impact_inter, plot_changes_upon_input2PE_neurons_new, plot_influence_interneurons_baseline_or_gain
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -23,65 +27,9 @@ warnings.filterwarnings("ignore")
 dtype = np.float32
 
 
-# %% Neuromodulator targeting one IN (with various strengths)
-
-run_cell = True
-plot_only = True
-column = 0 
-
-xp, xs, xv = 0, 0.5, 0.5
-
-if run_cell:
-    
-    ### filename for data
-    file_for_data = '../results/data/neuromod/data_neuromod_' + str(xp) + '_' + str(xs) + '_' + str(xv) + '.pickle'
-    
-    ### define perturbations tested
-    pert_strength = np.linspace(0,0.5,6)
-    
-    ### main loop
-    if not plot_only:
-        
-        alpha = np.zeros((len(pert_strength), 3, 2))
-    
-        for k, mfn_flag in enumerate(['10', '01', '11']):
-            
-            for std_mean in [0, 1]: # uncertainty of environement [0, 1]
-                
-                n_std = 1 - std_mean # uncertainty of stimulus [1, 0]
-                print('MFN: ', mfn_flag, ', Input case', std_mean)
-                
-                [_, _, _, _, alpha_after_pert] = simulate_neuromod_pert(mfn_flag, pert_strength, std_mean, n_std, column, 
-                                                                        xp, xs, xv, file_for_data = 'Test')
-                
-                alpha[:,k,std_mean] = alpha_after_pert
-                    
-                
-        ### save data
-        with open(file_for_data,'wb') as f:
-            pickle.dump([xp, xs, xv, pert_strength, alpha],f) 
-        
-    else:
-        
-        ### load data
-        with open(file_for_data,'rb') as f:
-            [xp, xs, xv, pert_strength, alpha] = pickle.load(f)
-            
-
-    ### plot data    
-    #plot_changes_upon_input2PE_neurons_new()
-    plt.figure()
-    plt.plot(pert_strength, alpha[:,:,0])
-    plt.ylim([0,1])
-    
-    plt.figure()
-    plt.plot(pert_strength, alpha[:,:,1])
-    plt.ylim([0,1])
-        
-    
 # %% Activate fractions of IN neurons in lower/higher PE circuit or both for a specified input statistics
 
-run_cell = False
+run_cell = True
 
 if run_cell:
     
@@ -89,12 +37,12 @@ if run_cell:
     nums = 11
     
     # run through all combinations
-    for mfn_flag in ['10', '01', '11']: # choose mean-field network to simulate
+    for mfn_flag in ['11']: # choose mean-field network to simulate
         
         print('MFN code: ', mfn_flag)
         print(' ')
     
-        for column in range(3): # 0: both, 1: lower level PE circuit, 2: higher level PE circuit
+        for column in range(2,-1,-1): # 0: both, 1: lower level PE circuit, 2: higher level PE circuit
 
             for std_mean in [0, 1]: # uncertainty of environement [0, 1]
                 
@@ -137,9 +85,9 @@ run_cell = False
 
 if run_cell:
     
-    column = 1
-    std_mean = 1
-    n_std = 0
+    column = 0
+    std_mean = 0
+    n_std = 1
     
     plot_neuromod_impact_inter(column, std_mean, n_std, s=30)
 
@@ -178,7 +126,11 @@ if run_cell:
             [pert_strength, m_act_lower, v_act_lower, v_act_higher] = pickle.load(f)
 
     ### plot data    
-    plot_changes_upon_input2PE_neurons_new()
+    f, axs = plt.subplots(1, 2, sharex=True, tight_layout=True)
+
+    for i in range(2):
+
+        plot_changes_upon_input2PE_neurons_new()
 
     
 # %% Test gain and BL of nPE and pPE neurons
