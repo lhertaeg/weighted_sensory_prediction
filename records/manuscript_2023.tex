@@ -1,5 +1,5 @@
-\documentclass[10pt,a4paper,draft]{article}
-%\documentclass[10pt,a4paper]{article}
+%\documentclass[10pt,a4paper,draft]{article}
+\documentclass[10pt,a4paper]{article}
 
 %\usepackage[top=3cm, bottom=0cm, left=3.5cm,right=2cm]{geometry}
 \usepackage[top=1in, left=1in ,right=1in, bottom=1in, footskip=0in, marginparwidth=0in]{geometry}
@@ -80,7 +80,7 @@
 % title goes here:
 \begin{flushleft}
 {\Large
-\textbf\newline{Weighting sensory inputs and predictions with prediction-error neurons}
+\textbf\newline{Integrating feedforward and feedback inputs with prediction-error neurons}
 }
 \newline
 % authors go here:
@@ -103,7 +103,8 @@ Claudia Clopath\textsuperscript{3}
 %\linenumbers
 
 \begin{abstract}
-blahhh blahhh blah
+At any moment, our brains receive a stream of feedforward sensory stimuli arising from the world we interact with. Simultaneously, neural circuits are shaped by feedback signals carrying predictions about the same feedforward inputs our brains are bombarded with. Those feedforward and feedback inputs often do not perfectly match. Thus, our brains have the challenging task of integrating these conflicting information according to their reliabilities. However, how neural circuits keep track of both the sensory and prediction uncertainties is not well understood. Here, we propose a network model whose core is hierarchical prediction-error circuits. We show that our network can estimate the variance of the sensory stimuli and the uncertainty in the prediction using the activity of negative and positive prediction-error neurons. In line with previous hypotheses, we demonstrate that neural circuits rely strongly on the feedback predictions at the beginning of a new stimulus, and if the environment is stable and the sensory cues are noisy. Furthermore, we investigate the causes of a pathological weighting of feedforward and feedback inputs. In our network, the uncertainty estimation, and, hence, how much we rely on predictions, can be biased by perturbing the intricate interplay of different inhibitory interneurons. Finally, we demonstrate the link to biased perception and unravel how the different types of uncertainty contribute to the contraction bias. 
+%Hence, our work suggests a neural circuit level mechanism underlying the brain's astonishing ability to integrate feedforward and feedback signals.
 \end{abstract}
 
 \section*{Introduction}
@@ -122,8 +123,8 @@ Here, we show that the unique response patterns of nPE and pPE neurons may provi
 \begin{figure}[t!]
 	\centering
     \includegraphics{../results/figures/final/Fig_1}
-\caption{\footnotesize{\bf Neural network model to flexibly integrate sensory information and predictions.\newline} 
-{\bf (A)} Example illustration of context-dependent integration of information. Left: When walking down a staircase that is clearly visible, the brain might rely solely on external sensory information. Middle: When walking down the same stairs in the absence of visual information, the brain might rely on predictions formed by previous experience. Right: When climbing down an unexplored mountain in foggy conditions, the brain might need to integrate sensory information and predictions at the same time.
+\caption{\footnotesize{\bf Neural network model to track both the uncertainty of sensory inputs and predictions.\newline} 
+{\bf (A)} Example illustration for context-dependent integration of information. Left: When walking down an unfamiliar staircase that is visible, the brain might rely solely on external sensory information. Middle: When walking down the same stairs without visual information, the brain might rely on predictions formed by previous experience. Right: When climbing down an unexplored mountain in foggy conditions, the brain might need to integrate sensory information and predictions simultaneously.
 {\bf (B)} Illustration of a prediction-error (PE) circuit with both negative and positive PE (nPE/pPE) neurons that receive inhibition from three different inhibitory interneuron types: parvalbumin-expressing (PV), somatostatin-expressing (SOM), and vasoactive intestinal peptide-expressing (VIP) interneurons. Local excitatory connections are not shown for clarity.
 {\bf (C)} Illustration of network model that estimates the mean and variance of the external sensory stimuli. The core of this network model is the PE circuit shown in (B). The lower-level V neuron encodes the variance, while the lower-level M neuron encodes the mean of the sensory input.
 {\bf (D)} Same as in (C) but the feedforward input is the activity of the lower-level M neuron.
@@ -144,12 +145,12 @@ We hypothesise that the distinct response patterns of negative and positive pred
 	\centering
 	%\makebox[\textwidth][c]{\includegraphics{../results/figures/final/Fig_2}}
     \includegraphics[width=1\linewidth]{../results/figures/final/Fig_2}
-\caption{\footnotesize{\bf Prediction-error neurons provide the basis for estimating mean and variance of sensory stimuli.\newline} 
-{\bf (A)} Illustration of the inputs with which the network shown in \ref{fig:Fig_1}C is stimulated. Network is exposed to a sequence of constant stimuli drawn from a uniform distribution. Stimulus duration is XXX.
+\caption{\footnotesize{\bf Prediction-error neurons as the basis for estimating mean and variance of sensory stimuli.\newline} 
+{\bf (A)} Illustration of the inputs with which the network (Fig. \ref{fig:Fig_1}C) is stimulated. Network is exposed to a sequence of constant stimuli drawn from a uniform distribution.
 {\bf (B)} PE neuron activity hardly changes with stimulus strength (left) but strongly increases with stimulus variability (right).
-{\bf (C)} Interneuron activity strongly changes with stimulus strength (left) but hardly changes with stimulus variability (right) .
-{\bf (D)} M neuron correctly encodes the mean of the sensory stimuli. Left: Illustration of the input synapses onto the M neuron. Middle: Activity of the M neuron over time for a uniform distribution with mean XXX and standard deviation XXX. Right: Normalised mean-squared error (MSE) between the running average and the M neuron activity for different parametrizations of the stimulus distribution.
-{\bf (E)} V neuron correctly encodes the variance of the sensory stimuli. Left: Illustration of the input synapses onto the V neuron. Middle: Activity of the V neuron over time for a uniform distribution with mean XXX and standard deviation XXX. Right: Normalised mean-squared error (MSE) between the instantaneous variance and the V neuron activity for different parametrizations of the stimulus distribution.
+{\bf (C)} Interneuron activity strongly changes with stimulus strength (left) but hardly changes with stimulus variability (right).
+{\bf (D)} M neuron correctly encodes the mean of the sensory stimuli. Left: Illustration of the input synapses onto the M neuron. Middle: Activity of the M neuron over time for one example distribution (black start in right panel). Right: Normalised absolute difference between the averaged mean and the activity of the M neuron in the steady state for different parametrizations of the stimulus distribution.
+{\bf (E)} V neuron correctly encodes the variance of the sensory stimuli. Left: Illustration of the input synapses onto the V neuron. Middle: Activity of the V neuron over time for one example distribution (black start in right panel). Right: Normalised absolute difference between the averaged variance and the activity of the V neuron in the steady state for different parametrizations of the stimulus distribution.
 }
 \label{fig:Fig_2}
 \end{figure}
@@ -166,7 +167,7 @@ XXX coming soon: Paragraph on network beyond mean-field XXX
 In summary, nPE and pPE neurons can be the basis to estimate the mean and the variance of sensory stimuli that vary over time.
 
 
-\subsection*{Estimating variances of sensory inputs and predictions requires a hierarchy of PE circuits}
+\subsection*{Estimating the uncertainty of both the sensory input and the prediction requires a hierarchy of PE circuits}
 %
 Following the ideas of Bayesian multisensory integration (XXX), the weighting of sensory stimuli and predictions thereof would require knowledge of their variances. As we have shown in the previous section, the variance of the sensory stimulus can be estimated using PE neurons. We hypothesise that the same principles apply to computing the variance of the prediction. Hence, we augment the network with a \textit{higher} PE circuit that receives output synapses from the M neuron of the \textit{lower} PE circuit (Fig. \ref{fig:Fig_1}D). Both subnetworks are modeled the same, except that the M neuron in the higher PE circuit evolves more slowly than the one in the lower PE circuit. 
 %
@@ -174,13 +175,13 @@ Following the ideas of Bayesian multisensory integration (XXX), the weighting of
 	\centering
 	%\makebox[\textwidth][c]{\includegraphics{../results/figures/final/Fig_3}}
     \includegraphics[width=1\linewidth]{../results/figures/final/Fig_3}
-\caption{\footnotesize{\bf Estimating variances of sensory inputs and predictions with hierarchical PE circuits.\newline} 
-{\bf (A)} Illustration of the stimulation protocol. Network is exposed to a sequence of stimuli (one stimulus per trial). To account for stimulus variability, each stimulus is represented by xxx stimulus values drawn from a normal distribution with mean $\mu_\mathrm{stim}$ and $\sigma_\mathrm{stim}^2$. To account for the volatility of the environment, in each trial the stimulus mean $\mu_\mathrm{stim}$ is drawn from a uniform distribution (denoted trial variability). Trial duration = xxx. 
-{\bf (B)} Neuron activity increases with both stimulus and trial variability. Neurons in the lower PE circuit increase more strongly with stimulus variability. Neurons in the higher PE circuit increase more strongly with trial variability.
-{\bf (C)} Limit case example in which the stimulus variability is low but the trial variability is high. Left: Illustration of the stimulation protocol. Middle: Weighted output follows closely the sensory stimuli. Right: Sensory weight (function of the variances, see text) close to 1, indicating that the network ignores the prediction. Input statistics: XXX.
-{\bf (D)} Limit case example in which the stimulus variability is high but the trial variability is low. Left: Illustration of the stimulation protocol. Middle: Weighted output pushed towards the mean of the sensory stimuli. Right: Sensory weight close to zero, indicating that the network ignores the sensory stimuli. Input statistics: XXX.
-{\bf (E)} Predictions are weighted more strongly when the stimulus variability is larger than the trial variability.
-{\bf (F)} Predictions are weighted more strongly at the beginning of a new trial and quickly changing stimuli.
+\caption{\footnotesize{\bf Estimating the uncertainty of both the sensory input and the prediction.\newline} 
+{\bf (A)} Illustration of the stimulation protocol. The network is exposed to a sequence of stimuli (one stimulus per trial). To account for stimulus variability, each stimulus is represented by $10$ stimulus values drawn from a normal distribution. To account for the volatility of the environment, in each trial, the stimulus mean is drawn from a uniform distribution (denoted trial variability). 
+{\bf (B)} Illustration of how the weighted output is calculated. The sensory weight $\alpha$ lies between zero (system relies perfectly on prediction) and one (system relies solely on the sensory input).
+{\bf (C)} Limit case example in which the stimulus variability is zero but the trial variability is high. Left: Illustration of the stimulation protocol. Middle: Weighted output follows closely the sensory stimuli. Right: Sensory weight (function of the variances, see B) close to 1, indicating that the network ignores the prediction. Input statistics shown in E.
+{\bf (D)} Limit case example in which the stimulus variability is high but the trial variability is zero. Left: Illustration of the stimulation protocol. Middle: Weighted output pushed towards the mean of the sensory stimuli. Right: Sensory weight close to zero, indicating that the network ignores the sensory stimuli. Input statistics shown in E.
+{\bf (E)} Sensory weight for different input statistics. Predictions are weighted more strongly when the stimulus variability is larger than the trial variability.
+{\bf (F)} Sensory weight throughout a trial for two different trial durations. Predictions are weighted more strongly at the beginning of a new trial. 
 }
 \label{fig:Fig_3}
 \end{figure}
@@ -206,15 +207,14 @@ The brain's flexibility and adaptability are not least because a plethora of neu
 %
 \begin{figure}[t!]
 	\centering
-	\makebox[\textwidth][c]{\includegraphics{../results/figures/final/Fig_4}}
+	\makebox[\textwidth][c]{\includegraphics{../results/figures/final/Fig_4.pdf}}
     %\includegraphics{../results/figures/final/Fig_4} % [width=1\linewidth]
 \caption{\footnotesize{\bf Neuromodulator-based shifts in the weighting of sensory inputs and predictions.
 \newline} 
-{\bf (A)} Neuromodulators acting on the three interneurons may shift the weighting of sensory inputs and predictions. The changes depend on the type/s of interneurons targeted by the additional excitatory input emulating a neuromodulator (additional input = XXX). Considered are two limit cases (upper row: more sensory-driven before modulation, lower row: more prediction-driven before modulation). The combination of interneurons targeted is illustrated below. The results are shown for three different PE circuits, specified in the main text. 
-{\bf (B)} Illustration showing how the sensory weight depends on changes in both the stimulus and trial variability.
-{\bf (C)} The M and V neuron activities depend on the PE neuron activities. Hence, perturbing the nPE and pPE neurons must change the estimation of mean and variance. While stimulating the lower PE neurons affects both the lower and higher mean and variance estimation, stimulating the higher PE neurons only affects the V and M neurons in the same subnetwork.
-{\bf (D)} Illustration of the mechanisms underlying the biased estimation of mean and variance when PE neurons are perturbed. Both changes in the baseline (left) and gain (right) of PE neurons can contribute to the changes observed in (C). Illustration based on toy model described in Methods.
-{\bf (E)} Modulated interneurons change the weighting by changing the overall baseline and the overall gain of PE neurons (sum of changes in nPE and pPE neurons). Whether and how a neuromodulator changes the sensory weight, hence, depends on the interneuron targeted and the effect this interneuron has on baseline and gain of the PE neurons, which in turn does depend on the network it is embedded in.
+{\bf (A)} Neuromodulators acting on the interneurons can shift the weighting of sensory inputs and predictions. The changes depend on the type of interneuron targeted and the modulation strength (here simulated through an additional excitatory input). Considered are two limit cases (upper row: more sensory-driven before modulation, lower row: more prediction-driven before modulation). The results are shown for three different PE circuits (denotes by different markers).
+{\bf (B)} When SOM and VIP neurons are equally modulated, the sensory weight remains unaffected. 
+{\bf (C)} The V neurons' activities depend on the PE neurons. Hence, perturbing the nPE and pPE neurons changes the uncertainty estimation. While stimulating the lower PE neurons affects both the lower and higher-order V neurons (right), stimulating the higher-order PE neurons only affects the V neuron in the same subnetwork (left).
+{\bf (D)} The V neuron activity, and hence the sensory weight, changes as a result of the modulated PE neuron activity. The PE neuron activity, on the other hand, changes as a result of the interneurons being modulated. The interneurons change the baseline (left) and the gain (right) of the PE neurons. Whether an interneuron increases or decreases the estimated variance depends on both factors.
 }
 \label{fig:Fig_4}
 \end{figure}
@@ -263,38 +263,76 @@ So far, we assumed that the stimulus variance is independent of the trial mean. 
 
 In summary, the weighted integration of sensory inputs and predictions can be interpreted as a neural manifestation of the contraction bias. Both stimulus and trial variability contribute to the contraction bias but the underlying mechanisms differ. 
 
-% Enough? This section seems rather short! Should we do more, like making predictions about what would happen with the bias if neuromodulators activate INs? Like going back?
-
 
 \section*{Discussion}
 
-We solved the brain.
+% XXX At the end: Read my „Todo“ in folder „read_weighting“: IMPORTANT XXX
+%
+% Inspiration and motivation for our work and summary of hypothesis
+Our work has been driven by the puzzling question of how the brain integrates top-down feedback predictions with the sensory feedforward bottom-up inputs it constantly receives during behavior. This task may be particularly challenging when the prediction and the sensory information differ \ref{han2023behavior}. Conflicting information may be caused by noise in the sensory feedforward inputs or by changes in the environment that could not be predicted. A prominent hypothesis is that how much we rely on our predictions and new sensory evidence is determined by an intricate balance between both, based on how reliable they are \ref[see e.g.][]{yon2021precision}. 
 
-% summary of principal question, hypothesis and our findings
+This idea is consistent with Bayesian theories on the optimal integration of multiple sensory cues (aka multisensory integration). \ref{XX ernst and banks 2002} showed that to estimate the height of a bar humans combine visual and haptic information in a fashion that minimizes the variance of the final estimate. XXX name other examples in human and other species XXX. These behavioral studies were accompanied by neural recordings showing that XX
 
-% multisensory integration --> general idea that this can be applied to S and P ... Firth? link to psychiatric disorders
+% Summary of findings and predictions/implications from our model
 
-% evidence for the model (PE neurons, connectivity PE --> M, predictions or P neurons exist, P neurons may hold the mean, time constants change along hierarchy)
+While multisensory integration is concerned with the weighting of sensory cues coming from different modalities, it is conceivable that the same ideas hold for top-down predictions and bottom-up sensory inputs that are combined in cortical circuits \ref{yon2021precision}. Indeed, there is evidence that the brain can choose to rely more on top-down or bottom-up signals \ref{pakan2018impact, han2023behavior}. Following the same ideas from Bayesian multisensory integration, the brain must hence have mechanisms to track both the reliability of the sensory signals and the predictions thereof \ref{yon2021precision}.  XXX We suggested that xxx Here summarise your contributions XXX
 
-% alternative implementations (P in weights ... => plasticity), also we dont implement weighting explicitely -- has been shown that divisive inhibiton can be done with INs (look in the one theoretical paper on neural implemnetation of Kalman filter)
+XXX put this in here somewhere XXX
+In our model, we assume a hierarchy of PE circuits that are feed-forwardly connected through the lower-order M neuron whose activity encodes the mean of the sensory bottom-up inputs. This local prediction is fed back to the lower-order circuit and at the same time feed-forwarded to the higher-order subnetwork. With this architecture in place, we show that we rely more strongly on our internal signals when the perceived sensory cues are noisier than the predictions, either because the environment is stable but highly noisy or because the environment changes quickly. This implies that revising our inner model of the world, that is, learning from PEs, should be suppressed if the sensory noise is high or the environment switches rapidly \ref{herzfeld2014memory}. Moreover, our work suggests that when experimental trials are short, a neural network can better represent the external world by relying on predictions. Hence, studying neural signatures of predictions in the brain might require experiments that involve sufficiently short trials.
 
-% Prediction update not weighted by uncertainty, discuss evidence fo that
+Furthermore, we show that the weighting of sensory inputs and predictions can be biased through neuromodulators, as has been suggested before \ref{XXX}. In our model, those modulatory signals act through interneurons \ref{cardin2019functional} whose activities increase in the presence of neuromodulators. When PV neuron activity increases, the network weighs predictions stronger than without modulation. In contrast, when VIP neuron activity increases, the network underestimates the uncertainty of the prediction in a sensory-driven regime and underestimates the uncertainty of the sensory input in a prediction-driven regime. Hence, the system leans toward weighting sensory inputs and predictions more equally. Increasing SOM neuron activity is comparable to modulating VIP neurons. However, the equalising effect is less robust and seems to depend on the network specifics (Fig. \ref{XX}A). Interestingly, when SOM and VIP neuron activity is modulated to the same degree, the weighting remains unaffected, suggesting that the individual contributions cancel (Fig. \ref{XX}B). We show that these findings can be best explained by changes in the baseline and gain of PE neurons as a result of the modulation of interneuron activity (Fig. \ref{XXX}D). These results can be tested experimentally by optogenetically or pharmacologically stimulating specific interneuron types.  
 
-% neuromodulators, does it fit the current literature Lawson etc.? How is it different from expected and unexpected uncertainty ..., and then give more details on local vs. global neuromodulators
+Finally, we illustrate that the weighted integration of feedforward and feedback inputs can be interpreted as a neural manifestation of the contraction bias. We show that the bias is strongly driven by the variance of the sensory cues and the predictions, as well as the trial duration. In our model, if the stimulus variance is zero (perfect sensory-driven network regime), the neural contraction bias is independent of the trial variability. In that case, the bias reflects the slow transition from the last stimulus to the new one, and, hence, would diminish if the trial is sufficiently long. On the other hand, if the trial variance is zero (perfect prediction-driven network regime), the neural contraction bias is independent of the stimulus variability and a function of the trial duration. However, we note that in our model, we only consider the neural representation of the stimulus and do not account for other sources of noise, like execution noise, that surely impacts the contraction bias observed in behavioral studies \ref{XXX}.
 
-% selectivity? One-dimensional system (wahrscheinlich nicht)
+% Inspiration for the model & assumption (evidence for that) 
 
-% link to Kalman filter and maybe Bayes surprise factor
+In our model, we assumed that there are dedicated neurons that encode the variance of the feedforward sensory inputs and the prediction. This assumption is consistent with the idea that neurons explicitly encode in their activity the parameters (for instance, mean or variance) of a probability distribution (O’Neill \& Schultz, 2010, XXX). However, how variances of signals are represented in the brain is still not comprehensively understood and alternative ideas have been put forward. For instance, it is conceivable that the variance is encoded in a population of neurons, each differently tuned to a specific parameter (Knill \& Pouget, 2004; Ma et al., 2006, 2008). The neurons' activities represent how close the sensory input is to the preferred (predicted) input of each neuron. 
 
-----
-% Katha feedback: predictions, postdictions, experiments vorschlagen, limitations, grosserer kontext, abgrenzung zu reward prediction error
+% —> check out: There exist a number of theoretical models that address the potential neural representation of uncertainty (Deneve, 2008; Hinton and Sejnowski, 1983; Hoyer and Hyvarinen, 2003; Ma et al., 2006; Zemel et al., 1998) … in Dekleva 2016 XXXXX
 
-% ################
+There has been evidence that indeed (population of) neurons can encode (un-)certainty. Neurons in the pulvinar (Komura et al., 2013), the parietal cortex (Kiani and Shadlen, 2009) or the frontal cortex (Kepecs et al., 2008, Middlebrooks and Sommer, 2012) encode the uncertainty of perceptual decisions \ref{masset2020behavior}. In addition, it has been shown that neurons in the orbitofrontal cortex of rats signal confidence in decisions \ref{masset2020behavior}. Moreover, neural correlates of (expected) uncertainty have been found in regions of the prefrontal cortex 43 \ref{soltani2019adaptive} , the rat orbitofrontal cortex [52,53\ref{soltani2019adaptive}] or the dorsal striatum in monkeys78 \ref{soltani2019adaptive}. Interestingly, the accuracy of memory recalls is represented (?) in single neurons of the human parietal and temporal lobes (Rutishauser et al., 2015, 2018) … in \ref{masset2020behavior}.
 
-% At the end, or in between talk about changes in PE neurons directly that you have currently in Fig. 3 SX ... I copy the part of the last paragraph here as inspiration :
-% For some psychiatric disorders, it has been shown that the weighting of sensory inputs and predictions thereof is impaired (XXX), leading to an overweighting of one of these signals. Moreover, it has been hypothesised that factors like stress or cognitive load may also influence the processing of feedforward and feedback inputs (XXX). ... Another factor that may contribute to a distorted weighting is the baseline activity of PE neurons that was set to zero in our model, in line with very low spontaneous firing rates of excitatory neurons in rodent primary sensory areas (XXX). Increasing this baseline activity for the nPE neuron (Fig. SXXX), pPE neuron (Fig. SXXX) or both pushes the network to weight sensory stimuli and predictions more equally. We speculate that an increase of baseline activity may be a natural result of an increased cognitive load or stress. 
+In our model, we assume a hierarchy of predictions that are locally computed in memory neurons. These memory neurons are consistent with the idea of internal representation neurons hypothesised in predictive processing theories \ref{bastos2012canonical, keller2018predictive}. While it has been hypothesised that these internal representation neurons might be found in deeper L5 neurons \ref{bastos2012canonical, heindorf2022reduction}, there is also evidence that a group of excitatory L2/3 neurons integrates over negative and positive prediction errors \ref{o2022prediction}.
 
-% mention Pakan paper
+The core hypothesis of our model is the presence of sensory PE neurons. Those neurons have been found in different cortical areas in various species \ref{eliades2008neural, keller2009neural, ayaz2019layer, audette2021temporally}. Moreover, while first only hypothesized theoretically \ref{rao1999predictive}, the presence of two types of PE neurons, the negative and positive PE neurons, has been confirmed in a number of recent studies \ref{keller2012sensorimotor, attinger2017visuomotor, jordan2020opposing, audette2021temporally, Zmarz2016XXX?necessary}. In our model, the nPE neuron inhibits the memory neuron while the pPE neuron excites it, in line with \ref{keller2018predictive}. The weights from those PE neurons onto the M neuron are larger for the lower- than the higher PE circuit, so that the lower-order M neuron evolves faster than the higher-order counterpart. This assumption is consistent with the observation that time constants increase along the cortical hierarchy (XXX see refs in Siegle 2021 Allen).
+
+However, if the relation of the paces at which the M neurons evolve is strongly modulated, the network either shows a bias towards the sensory cues or the prediction (Figs. \ref{XXX}). It has been hypothesized that symptoms in psychiatric diseases may be a result of an erroneous uncertainty estimation \ref{yon2021precision}. For instance, hallucinations may be the result of an underestimation of the expectation uncertainty or an overestimation of the sensory uncertainty. Conversely, a fixation on a stable environment even when the sensory cues indicate a switch in the environment, may be the consequence of an overestimation of the expectation uncertainty or an underestimation of the sensory uncertainty \ref{yon2021precision}.
+
+% Neuromodulation
+
+A popular hypothesis is that neuromodulators shape the weighting of sensory inputs and predictions thereof \ref{yon2021precision}. Theoretical work by \ref{You and Dayan} suggests that acetylcholine (ACh) correlates with expected uncertainty, while noradrenaline (NA) correlates with unexpected uncertainty. Expected uncertainty is usually considered to be related to known cue-outcome unreliabilities. In contrast, unexpected uncertainty relates to the changes in the environment that produce large PEs outside the expected range of uncertainties \ref{You and Dayan}. While in our network the stimulus and trail variability can only be loosely interpreted as 'expected' and 'unexpected' uncertainty, we want to XXX broader context and highlight differences XXX
+
+% XXX —> the unexpected uncertainty in my case (trial variability) is not unexpected time-wise only direction-wise. One could change that in a SI figure or one later main figure but not sure how much sense that makes (discuss with Katha and CC)
+
+It is assumed that NA increases in more volatile environments and enhances bottom-up processes [20,21 in \ref{lawson2021computational}, yon2021precision]. In line with this idea, NA blockade impairs cognitive flexibility [24,25\ref{lawson2021computational}]. In recent work by \ref{lawson2021computational}, it has been shown that humans receiving propranolol (blocking NA) rely more strongly on their expectations and are slower to update these predictions despite new sensory evidence \ref{yon2021precision}. A major target for noradrenergic inputs is SOM neurons whose activity increases in the presence of NA (reviewed in Urban-Ciecko 2016: Fanselow, 2008; Urban-Ciecko 2015; Chen 2015; Xiang 1998; reviewed in Hattori 2017: Paspalas 1999; reviewed in Swanson in Maffei 2019: Kawaguchi and Shindou, 1998). In our model, activating SOM neurons globally does not enhance bottom-up input. In a volatile environment, that is, a sensory-driven regime, the system takes into account predictions slightly more than without SOM modulation. However, increasing SOM activity only in the lower-order circuit shows a slight enhancement of the sensory weight (Fig. \ref{XXX}).
+
+Similarly to NA, ACh has also been shown to enhance bottom-up, feedforward inputs (Gil et al., 1997; Hasselmo et al., 1996; Hsieh et al., 2000; Kimura et al., 1999; Kobayashi, 2000, reviewed in Yu and Dayan 2005 or Marshall 2016). For instance, subjects relied more strongly on prior beliefs when given cholinergic receptor antagonists (reviewed in Bruckner 2022: Marshall 2016). A major target for cholinergic input are VIP neurons whose activity increases in the presence of ACh (reviewed in Wester 2014; reviewed in Hattori 2017: Fu 2016, Kuchibhotla 2017, Nelson 2016; reviewed in Swanson in Maffei 2019: Paul et al., 2017). In our model, activating VIP neurons globally only enhances bottom-up input in stable environments for noisy stimuli. However, increasing VIP activity only in the higher-order circuit does generally enhance sensory bottom-up inputs (Fig. \ref{XXX}).
+
+Neuromodulatory systems have been suggested to gate plasticity \ref{XXX}. In a recent study by \ref{jordan2023locus}, locus coeruleus (LC) axon activity is shown to correlate with the magnitude of unsigned visuomotor prediction errors. The authors hypothesize that LC output modulates the learning rate at which the internal model evolves \ref{jordan2023locus}. In our model, we do not consider precision-weighted PEs (but see \ref{KathaXXX}). Hence, a sensible extension to our work would be to adjust the weights from PE neurons onto the M neurons by a function of the stimulus and prediction uncertainty, respectively. This would allow us to compare our results more closely to work showing that ACh and NA can adjust the rate of incorporating new sensory evidence when environments change (\ref{XXX}).
+
+%—> XXX man sollte vielleicht noch sagen, dass auch PE neurons von neuromod direct beeinflusst sein können (es gab da zwei Beispiele, die weiter unten sind und die du hier aus Versehen gelo2scht hattest). —> Zum einen können diese auch zu biases beitragen, zum anderen konnten sie aber auch Effekt durch IN kompensieren.
+
+% —> XXX should we add in one SI precision-weighted PE to compare with Neuromodulation results? (Discuss with Katha and CC). If so, how to choose the weighting?
+% —> XXX From one trial to the next (so basically environment switch), should we check how fast the update happens when neuromods are applied to compare it to data? (Discuss with Katha and CC), —> should we also show or at least mention in discussion that by changing PE activity the prediction/mean can also be wrong? How is that actually checked in experiments or how do we know that somebody relies on prediction if the prediction might be wrong 
+
+% Limitations, Alternations and future steps
+
+As for any computational model, we brush over a number of biological details in order to keep the model simple and interpretable. However, those details, while beyond the scope of this study, may be well investigated in future work. For instance, evidence suggests that prediction-errors itself are precision-weighted \ref{yon2021precision}. xx Kelly Diederen\ref{yon2021precision} xxx show that neural signatures of reward-prediction errors are augmented when the outcome is reliable and attenuated when the outcome is uncertain. XXX Katha’s work XXX
+
+Furthermore, while we provide a neuronal circuit model for estimating the mean and the variance of both sensory signals and predictions, we do not model the weighting of inputs explicitly. A respective neural circuit model would require divisive inhibition. XXX (look in paper for neural implementation of Kalman filter) xxx have shown how this can be done with inhibitory interneurons. 
+
+Our model suggests one potential neuronal circuit mechanism for the estimation of sensory inputs and predictions. However, in the light of evidence showing that the integration of feedforward and feedback inputs is species- and modality-dependent, it is conceivable that a plethora of neural mechanisms are used in neural circuits. For multisensory integration, \ref{wong2023computational} showed that in Drosophila larva the chosen cue-combination strategy varies depending on the type of sensory information available. Also, humans put typically more weight on visual than auditory cues ((Battaglia et al., 2003; Burr \& Alais, 2004). … in \ref{o2012can}), but trust vestibular information more than visual information about head direction (Butler et al., 2010 \ref{o2012can}), a finding also observed for monkeys (Angelaki et al., 2009 \ref{o2012can}). Moreover, Summerfield et al. (2011) \ref{o2012can} showed that humans diverge from an optimal Bayesian strategy in very volatile environments and act according to their experience in the last trial. Moreover, it has been suggested that the brain may use different strategies to combine signals depending on the task demands \ref{o2012can}. While these behavioral results cannot speak to the underlying circuit mechanisms, it is conceivable that neural implementations for the integration of feedforward and feedback inputs may also vary.
+
+% Relation to other work that came before and closing remarks
+
+A number of normative models have been proposed for state estimation and prediction under uncertainty \ref{soltani2019adaptive}, ranging from the classical Kalman filter to more recent models like \textit{Bayes Factor Surprise} \ref{liakoni2021learning}. For instance, Bayes factor surprise formularizes the trade-off between integrating new observations in an existing belief system and resetting this belief system with the new evidence. The surprise factor captures how much an animal’s current belief deviates from the new observation. 
+
+In more recent years, normative model have been squared with biological constraints. For instance, in a paper by \ref{kutschireiter2023bayesian}, uncertainty could be integrated into a ring attractor model encoding head direction. This \textit{Bayesian ring attractor} model encodes uncertainty in the amplitude of the network activity and matches the performance of a circular Kalman filter when the recurrent connections are tuned appropriately. 
+
+XXX Come back to your model XXX highlight the nice thing about it and then find some concluding remarks
+
+% XXXX PLEASE LOOK AT MILIIDGE 2023 that you reviewed!!!
+
 
 \section*{Models and methods}
 %
@@ -370,7 +408,7 @@ All simulations were performed in customized Python code written by LH. Source c
 %We are grateful to Vezha Boboeva, Douglas Feitosa Tom\'e, J\'ulia Gallinaro and Klara Kaleb for helpful comments on earlier versions of this manuscript, and we want to thank all members of the Clopath lab for discussion and support. This work was supported by BBSRC BB/N013956/1, BB/N019008/1, Wellcome Trust 200790/Z/16/Z, Simons Foundation 564408 and EPSRC EP/R035806/1.
 
 \bibliographystyle{naturemag} %{plainnat}
-\bibliography{../References_Mismatch}
+\bibliography{References_HertaegWilmesClopath_2023}
 
 
 
@@ -883,10 +921,10 @@ Moreover, the toy model also reveals that if $T\rightarrow \infty$, the slope $m
 
 \begin{figure}[!h]
 	\centering
-    \includegraphics[scale=1]{../results/figures/final/Fig_2_S1}% [width=1\linewidth]
-\caption{\footnotesize{\bf Estimation of mean and variance for different stimulus distributions.\newline}  
-Top: The mean-squared error (MSE) between the running average and the activity of the M neuron decreases to a near-zero level for all stimulus distributions tested. 
-Bottom: The MSE between the instantaneous variance and the V neuron decreases to a low level with minor differences between the distributions tested. Zoom-in shows the last half of the trial. Mean of the stimulus distribution = XXX, Variance of the stimulus distribution = XXX.
+    \includegraphics{../results/figures/final/Fig_2_S1.pdf}% [width=1\linewidth]
+\caption{\footnotesize{\bf Estimating mean and variance of different stimulus distributions.\newline}  
+Top: The normalised absolute difference between the averaged mean and the activity of the M neuron decreases to a near-zero level for all stimulus distributions tested. 
+Bottom: The normalised absolute difference between the averaged variance and the activity of the V neuron decreases with small differences between the distributions tested. Parametrisation of the uniform distribution as in Fig. \ref{fig:Fig_2}. 
 }
 \label{fig:Fig_2_S1}
 \end{figure}
@@ -894,10 +932,33 @@ Bottom: The MSE between the instantaneous variance and the V neuron decreases to
 
 \begin{figure}[!h]
 	\centering
+    \includegraphics{../results/figures/final/Fig_2_S2.pdf}% [width=1\linewidth]
+\caption{\footnotesize{\bf Estimating mean and variance of sensory stimuli in a rate-based population network.\newline}  
+{\bf (A)} Illustration of the rate-based population network and the stimuli over time.
+{\bf (B)} M and V neuron activities over time for one example parameterisation.
+{\bf (C)} The normalised absolute difference between the averaged mean and the activity of the M neuron (dark green) or between the averaged variance and the activity of the V neuron (brown) for uncorrelated deviations, that is, increasing SD of $\gamma$ (left), correlated deviations, that is, increasing mean of $\gamma$ (middle), and the network sparsity.
+}
+\label{fig:Fig_2_S2}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+    \includegraphics[width=1\linewidth]{../results/figures/final/Fig_2_S3.pdf}% [width=1\linewidth]
+\caption{\footnotesize{\bf Estimating mean and variance of spatial stimuli.\newline}  
+{\bf (A)} Illustration of a network estimating the mean and variance of a stimulus that varies across space. To simulate selectivity, the network comprises $1000$ identical, uncoupled mean-field networks each receiving a different input value drawn from a uniform distribution. 
+{\bf (B)} Activity of M neuron (top) and V neuron (bottom) for 2 stimuli. The second stimulus does either differ in the mean (orange) or the variance (yellow) from the first stimulus (indicated in C).
+{\bf (C)} The normalised absolute difference between the averaged mean and the activity of the M neuron (dark green, top) or between the averaged variance and the activity of the V neuron (brown, bottom) for a range of different stimulus statistics. The examples from B are shown with colored arrows and markers.
+}
+\label{fig:Fig_2_S3}
+\end{figure}
+
+
+\begin{figure}[!h]
+	\centering
     \includegraphics{../results/figures/final/Fig_3_S1}% [width=1\linewidth]
 \caption{\footnotesize{\bf Dynamic variance estimation allows flexible adaptation to changes in the stimulus statistics and environment. \newline}  
-{\bf (A)} Sensory weight for different input statistics (same as in Fig. \ref{fig:Fig_3}E). Numbers denote specific example states. Arrows denote the transitions between those states.
-{\bf (B)} The sensory weight over time is shown for all transitions in (A). The switch to a new input statistics occurs at trial 60. Parameters are taken from Fig. \ref{fig:Fig_3}.
+{\bf (A)} Sensory weight for different input statistics. Numbers denote specific example statistics. Arrows denote the transitions between those statistics.
+{\bf (B)} The sensory weight over time is shown for all transitions in (A). For the sake of clarity, we only show the trials 40 -60. The switch to new input statistics occurs at trial 50. Parameters are listed in the Supporting Information.
 }
 \label{fig:Fig_3_S1}
 \end{figure}
@@ -906,8 +967,8 @@ Bottom: The MSE between the instantaneous variance and the V neuron decreases to
 \begin{figure}[!h]
 	\centering
     \includegraphics{../results/figures/final/Fig_3_S2}% [width=1\linewidth]
-\caption{\footnotesize{\bf Perturbing the weighting of sensory inputs and predictions by altering  network properties. \newline}  
-{\bf (A)} The weights from the lower-level PE neurons to the M neuron are scaled by a factor below 1 (here, xxx) or above 1 (here, xxx), leading to a distorted weighting. If the update of the M neuron in the lower subnetwork is too slow ($\blacktriangleleft$), the prediction is overrated. If the update of the M neuron in the lower subnetwork is too fast ($\blacktriangleright$), the sensory input is overrated.
+\caption{\footnotesize{\bf Perturbing the weighting of sensory inputs and predictions by altering network properties. \newline}  
+{\bf (A)} The weights from the PE neurons to the M neuron in the lower-order subnetwork are scaled by a factor the 0.3 or 7, leading to a distorted sensory weight. If the update of the M neuron in the lower subnetwork is too slow ($\blacktriangleleft$), the prediction is overrated. If the update of the M neuron in the lower subnetwork is too fast ($\blacktriangleright$), the sensory input is overrated.
 {\bf (B)} The precise activation function for the V neurons does not have a major impact on the sensory weight. Only for inputs with high stimulus variability, the sensory stimulus is slightly overrated when the squared activation function is replaced by a linear, rectified activation function.
 }
 \label{fig:Fig_3_S2}
@@ -916,10 +977,9 @@ Bottom: The MSE between the instantaneous variance and the V neuron decreases to
 
 \begin{figure}[!h]
 	\centering
-    \includegraphics{../results/figures/final/Fig_4_S1}% [width=1\linewidth]
-\caption{\footnotesize{\bf Neuromodulators acting locally either on interneurons in the lower or higher PE circuit. \newline}  
-{\bf (A)} Sensory weight changes with neuromodulators acting on interneurons in the lower PE circuit.
-{\bf (B)} Sensory weight changes with neuromodulators acting on interneurons in the lower PE circuit. Simulation parameters, labels and colors as in Fig. \ref{fig:Fig_4}. 
+    \includegraphics{../results/figures/final/Fig_4_S1.pdf}% [width=1\linewidth]
+\caption{\footnotesize{\bf The impact of neuromodulators acting globally on groups of interneurons. \newline}  
+The sensory weight changes when groups of interneurons are targeted by a neuromodulator. Whether the sensory weight decreases or increases not also depends on the modulation strength (see Fig. \ref{fig:Fig_4}) but also on how strongly which interneuron is targeted.  As shown in Fig. \ref{fig:Fig_4}, the sensory weight is pushed toward 0.5 if the VIP neuron is stimulated. The sensory weight generally decreases when PV neurons are the main target. Considered are two limit cases (upper row: more sensory-driven before modulation, lower row: more prediction-driven before modulation). The results are shown for three mean-field networks (see \ref{fig:Fig_4}).
 }
 \label{fig:Fig_4_S1}
 \end{figure}
@@ -928,11 +988,30 @@ Bottom: The MSE between the instantaneous variance and the V neuron decreases to
 \begin{figure}[!h]
 	\centering
     \includegraphics{../results/figures/final/Fig_4_S2}% [width=1\linewidth]
-\caption{\footnotesize{\bf Perturbing the interneurons changes the baseline and gain of nPE and pPE neurons.\newline}  
-{\bf (A)} Changes in the baseline activity of nPE and pPE neurons for different interneurons targeted. 3 different mean-field networks are tested.
-{\bf (B)} Same as in (A) but for the gain of nPE and pPE neurons. Simulation parameters, labels, and colors as in Fig. \ref{fig:Fig_4}. 
+\caption{\footnotesize{\bf The impact of neuromodulators acting locally on groups of interneurons. \newline}  
+{\bf (A)} Sensory weight changes with neuromodulators acting on interneurons in the lower PE circuit.
+{\bf (B)} Sensory weight changes with neuromodulators acting on interneurons in the higher PE circuit. In general, the changes in the sensory weight is the opposite of the changes seen for neuromodulators acting on the lower-level PE neurons. Simulation parameters, labels and colors as in Fig. \ref{fig:Fig_4}. 
 }
 \label{fig:Fig_4_S2}
+\end{figure}
+
+
+\begin{figure}[!h]
+	\centering
+    \includegraphics{../results/figures/final/Fig_4_S3}% [width=1\linewidth]
+\caption{\footnotesize{\bf Biased mean and variance estimation by changing the baseline and the gain of nPE and pPE.}
+In a toy model, described in XXX, the contribution of gain and baseline to the changes in the mean and variance estimation can be revealed. XXX Equations
+}
+\label{fig:Fig_4_S3}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+    \includegraphics{../results/figures/final/Fig_4_S4}% [width=1\linewidth]
+\caption{\footnotesize{\bf The combined changes in baseline and gain of all PE neurons determine the shift in the snesory weight.\newline}  
+Whether and how a neuromodulator changes the sensory weight depends on the interneuron targeted and the effect this interneuron has on the baseline and gain of both PE neurons, which in turn does depend on the network it is embedded in. For small inputs, changes in the baseline dominate, while for large inputs, the changes in the gains dominate the shift in the sensory weight.
+}
+\label{fig:Fig_4_S4}
 \end{figure}
 
 

@@ -148,7 +148,7 @@ def plot_nPE_pPE_activity_compare(P, S, nPE, pPE, fs = 6, lw = 1, ms = 1, ax1 = 
 
 def plot_standalone_colorbar(parent_axes, fs=6):
     
-    ax_cbar = parent_axes.inset_axes((0,1.5,1,0.13))
+    ax_cbar = parent_axes.inset_axes((-0.4,0.5,1,0.1))
     cbar = mpl.colorbar.ColorbarBase(ax_cbar, orientation='horizontal', cmap=cmap_sensory_prediction)
     
     cbar.outline.set_linewidth(0.1)
@@ -588,7 +588,7 @@ def plot_deviation_in_population_net(x, num_seeds, M_steady_state, V_steady_stat
 
     ax.set_xlabel(xlabel, fontsize=fs)
     if plt_ylabel:
-        ax.set_ylabel('Normalised error (%)', fontsize=fs)
+        ax.set_ylabel('Normalised \nerror (%)', fontsize=fs)
     
     ax.tick_params(size=2.0) 
     ax.tick_params(axis='both', labelsize=fs)
@@ -819,8 +819,57 @@ def illustrate_sensory_weight_variance(ax = None, fs=6):
     cbar.ax.tick_params(labelsize=fs)
     cbar.ax.tick_params(size=2.0)
     cbar.ax.yaxis.label.set_size(fs)
-                
+               
+    
+def plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, figsize=(2,2.5), fs=6, lw=1, s=15, show_ylabel=True, show_xlabel = True,
+                            flg_plot_xlabel=True, flg_plot_bars = True, ax1 = None, ax2=None, highlight=True):
+    
+        if ax1 is None:
+            f, (ax1, ax2) = plt.subplots(2,1, tight_layout=True, figsize=figsize, sharey=True, sharex=True)
+           
+        markers = ['o','s','d']
+        
+        ### load data
+        file_for_data = '../results/data/neuromod/data_neuromod_' + str(xp) + '_' + str(xs) + '_' + str(xv) + '.pickle'
+        with open(file_for_data,'rb') as f:
+            [xp, xs, xv, pert_strength, alpha] = pickle.load(f) 
+        
+        # plot
+        for i, mfn_flag in enumerate(['10','01','11']): 
+            
+            ax2.axhline(alpha[0,i,0], color=cmap_sensory_prediction(alpha[0,i,0]), ls=':', zorder=0)
+            ax1.axhline(alpha[0,i,1], color=cmap_sensory_prediction(alpha[0,i,1]), ls=':', zorder=0)
+            
+            ax2.scatter(pert_strength, alpha[:,i,0], marker=markers[i], c=alpha[:,i,0], cmap=cmap_sensory_prediction, 
+                        vmin=0, vmax=1, s=s)
+            
+            ax1.scatter(pert_strength, alpha[:,i,1], marker=markers[i], c=alpha[:,i,1], cmap=cmap_sensory_prediction, 
+                        vmin=0, vmax=1, s=s)
+            
 
+            
+            if show_ylabel:
+                ax1.set_ylabel('Sensory weight', fontsize=fs)
+                ax2.set_ylabel('Sensory weight', fontsize=fs)
+                
+            ax1.set_xticklabels([])
+            if show_xlabel:
+                ax2.set_xlabel('Perturbation (1/s)', fontsize=fs)
+            ax1.set_ylim([0,1])
+            ax2.set_ylim([0,1])
+            
+            ax1.tick_params(size=2.0) 
+            ax1.tick_params(axis='both', labelsize=fs)
+            ax1.locator_params(nbins=2, axis='both')
+            
+            ax2.tick_params(size=2.0) 
+            ax2.tick_params(axis='both', labelsize=fs)
+            ax2.locator_params(nbins=2, axis='both')
+             
+            sns.despine(ax=ax1)
+            sns.despine(ax=ax2)
+            
+            
 def plot_neuromod_impact_inter(column, std_mean, n_std, figsize=(12,3), fs=6, lw=1, s=50, flg_plot_xlabel=True, 
                                flg_plot_bars = True, ax1 = None, ax2=None, ax3=None, highlight=True):
     
@@ -1004,6 +1053,7 @@ def plot_changes_upon_input2PE_neurons_new(std_mean = 1, n_std = 1, mfn_flag = '
     
     ax1.set_ylabel('V neuron (lower)', fontsize=fs, labelpad=10)
     ax2.set_ylabel('V neuron (higher)', fontsize=fs)
+    ax1.set_xlabel('Perturbation (1/s)', fontsize=fs)
     ax2.set_xlabel('Perturbation (1/s)', fontsize=fs)
     
     sns.despine(ax=ax1)
