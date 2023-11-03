@@ -1,8 +1,233 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{10}
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{\texttt{#1}}\fi
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 \providecommand{\bibinfo}[2]{#2}
 \providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{yon2021precision}
+\bibinfo{author}{Yon, D.} \& \bibinfo{author}{Frith, C.~D.}
+\newblock \bibinfo{title}{Precision and the bayesian brain}.
+\newblock \emph{\bibinfo{journal}{Current Biology}}
+  \textbf{\bibinfo{volume}{31}}, \bibinfo{pages}{R1026--R1032}
+  (\bibinfo{year}{2021}).
+
+\bibitem{rao1999predictive}
+\bibinfo{author}{Rao, R.~P.} \& \bibinfo{author}{Ballard, D.~H.}
+\newblock \bibinfo{title}{Predictive coding in the visual cortex: a functional
+  interpretation of some extra-classical receptive-field effects}.
+\newblock \emph{\bibinfo{journal}{Nature neuroscience}}
+  \textbf{\bibinfo{volume}{2}}, \bibinfo{pages}{79} (\bibinfo{year}{1999}).
+
+\bibitem{keller2018predictive}
+\bibinfo{author}{Keller, G.~B.} \& \bibinfo{author}{Mrsic-Flogel, T.~D.}
+\newblock \bibinfo{title}{Predictive processing: A canonical cortical
+  computation}.
+\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{100}},
+  \bibinfo{pages}{424--435} (\bibinfo{year}{2018}).
+
+\bibitem{keller2012sensorimotor}
+\bibinfo{author}{Keller, G.~B.}, \bibinfo{author}{Bonhoeffer, T.} \&
+  \bibinfo{author}{H{\"u}bener, M.}
+\newblock \bibinfo{title}{Sensorimotor mismatch signals in primary visual
+  cortex of the behaving mouse}.
+\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{74}},
+  \bibinfo{pages}{809--815} (\bibinfo{year}{2012}).
+
+\bibitem{attinger2017visuomotor}
+\bibinfo{author}{Attinger, A.}, \bibinfo{author}{Wang, B.} \&
+  \bibinfo{author}{Keller, G.~B.}
+\newblock \bibinfo{title}{Visuomotor coupling shapes the functional development
+  of mouse visual cortex}.
+\newblock \emph{\bibinfo{journal}{Cell}} \textbf{\bibinfo{volume}{169}},
+  \bibinfo{pages}{1291--1302} (\bibinfo{year}{2017}).
+
+\bibitem{jordan2020opposing}
+\bibinfo{author}{Jordan, R.} \& \bibinfo{author}{Keller, G.~B.}
+\newblock \bibinfo{title}{Opposing influence of top-down and bottom-up input on
+  excitatory layer 2/3 neurons in mouse primary visual cortex}.
+\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{108}},
+  \bibinfo{pages}{1194--1206} (\bibinfo{year}{2020}).
+
+\bibitem{audette2021temporally}
+\bibinfo{author}{Audette, N.~J.}, \bibinfo{author}{Zhou, W.} \&
+  \bibinfo{author}{Schneider, D.~M.}
+\newblock \bibinfo{title}{Temporally precise movement-based predictions in the
+  mouse auditory cortex}.
+\newblock \emph{\bibinfo{journal}{bioRxiv}} \bibinfo{pages}{2021--12}
+  (\bibinfo{year}{2021}).
+
+\bibitem{hertag2020learning}
+\bibinfo{author}{Hert{\"a}g, L.} \& \bibinfo{author}{Sprekeler, H.}
+\newblock \bibinfo{title}{Learning prediction error neurons in a canonical
+  interneuron circuit}.
+\newblock \emph{\bibinfo{journal}{Elife}} \textbf{\bibinfo{volume}{9}},
+  \bibinfo{pages}{e57541} (\bibinfo{year}{2020}).
+
+\bibitem{hertag2022prediction}
+\bibinfo{author}{Hert{\"a}g, L.} \& \bibinfo{author}{Clopath, C.}
+\newblock \bibinfo{title}{Prediction-error neurons in circuits with multiple
+  neuron types: Formation, refinement, and functional implications}.
+\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
+  Sciences}} \textbf{\bibinfo{volume}{119}}, \bibinfo{pages}{e2115699119}
+  (\bibinfo{year}{2022}).
+
+\bibitem{cardin2019functional}
+\bibinfo{author}{Cardin, J.~A.}
+\newblock \bibinfo{title}{Functional flexibility in cortical circuits}.
+\newblock \emph{\bibinfo{journal}{Current opinion in neurobiology}}
+  \textbf{\bibinfo{volume}{58}}, \bibinfo{pages}{175--180}
+  (\bibinfo{year}{2019}).
+
+\bibitem{han2023behavior}
+\bibinfo{author}{Han, S.} \& \bibinfo{author}{Helmchen, F.}
+\newblock \bibinfo{title}{Behavior-relevant top-down cross-modal predictions in
+  mouse neocortex}.
+\newblock \emph{\bibinfo{journal}{bioRxiv}} \bibinfo{pages}{2023--04}
+  (\bibinfo{year}{2023}).
+
+\bibitem{ernst2002humans}
+\bibinfo{author}{Ernst, M.~O.} \& \bibinfo{author}{Banks, M.~S.}
+\newblock \bibinfo{title}{Humans integrate visual and haptic information in a
+  statistically optimal fashion}.
+\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{415}},
+  \bibinfo{pages}{429--433} (\bibinfo{year}{2002}).
+
+\bibitem{pakan2018impact}
+\bibinfo{author}{Pakan, J.~M.}, \bibinfo{author}{Currie, S.~P.},
+  \bibinfo{author}{Fischer, L.} \& \bibinfo{author}{Rochefort, N.~L.}
+\newblock \bibinfo{title}{The impact of visual cues, reward, and motor feedback
+  on the representation of behaviorally relevant spatial locations in primary
+  visual cortex}.
+\newblock \emph{\bibinfo{journal}{Cell reports}} \textbf{\bibinfo{volume}{24}},
+  \bibinfo{pages}{2521--2528} (\bibinfo{year}{2018}).
+
+\bibitem{herzfeld2014memory}
+\bibinfo{author}{Herzfeld, D.~J.}, \bibinfo{author}{Vaswani, P.~A.},
+  \bibinfo{author}{Marko, M.~K.} \& \bibinfo{author}{Shadmehr, R.}
+\newblock \bibinfo{title}{A memory of errors in sensorimotor learning}.
+\newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{345}},
+  \bibinfo{pages}{1349--1353} (\bibinfo{year}{2014}).
+
+\bibitem{knill2004bayesian}
+\bibinfo{author}{Knill, D.~C.} \& \bibinfo{author}{Pouget, A.}
+\newblock \bibinfo{title}{The bayesian brain: the role of uncertainty in neural
+  coding and computation}.
+\newblock \emph{\bibinfo{journal}{TRENDS in Neurosciences}}
+  \textbf{\bibinfo{volume}{27}}, \bibinfo{pages}{712--719}
+  (\bibinfo{year}{2004}).
+
+\bibitem{masset2020behavior}
+\bibinfo{author}{Masset, P.}, \bibinfo{author}{Ott, T.}, \bibinfo{author}{Lak,
+  A.}, \bibinfo{author}{Hirokawa, J.} \& \bibinfo{author}{Kepecs, A.}
+\newblock \bibinfo{title}{Behavior-and modality-general representation of
+  confidence in orbitofrontal cortex}.
+\newblock \emph{\bibinfo{journal}{Cell}} \textbf{\bibinfo{volume}{182}},
+  \bibinfo{pages}{112--126} (\bibinfo{year}{2020}).
+
+\bibitem{soltani2019adaptive}
+\bibinfo{author}{Soltani, A.} \& \bibinfo{author}{Izquierdo, A.}
+\newblock \bibinfo{title}{Adaptive learning under expected and unexpected
+  uncertainty}.
+\newblock \emph{\bibinfo{journal}{Nature Reviews Neuroscience}}
+  \textbf{\bibinfo{volume}{20}}, \bibinfo{pages}{635--644}
+  (\bibinfo{year}{2019}).
+
+\bibitem{bastos2012canonical}
+\bibinfo{author}{Bastos, A.~M.} \emph{et~al.}
+\newblock \bibinfo{title}{Canonical microcircuits for predictive coding}.
+\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{76}},
+  \bibinfo{pages}{695--711} (\bibinfo{year}{2012}).
+
+\bibitem{heindorf2022reduction}
+\bibinfo{author}{Heindorf, M.} \& \bibinfo{author}{Keller, G.~B.}
+\newblock \bibinfo{title}{Reduction of layer 5 mediated long-range cortical
+  communication by antipsychotic drugs}.
+\newblock \emph{\bibinfo{journal}{bioRxiv}}  (\bibinfo{year}{2022}).
+
+\bibitem{o2022prediction}
+\bibinfo{author}{O’Toole, S.~M.}, \bibinfo{author}{Oyibo, H.~K.} \&
+  \bibinfo{author}{Keller, G.~B.}
+\newblock \bibinfo{title}{Prediction error neurons in mouse cortex are
+  molecularly targetable cell types}.
+\newblock \emph{\bibinfo{journal}{BioRxiv}} \bibinfo{pages}{2022--07}
+  (\bibinfo{year}{2022}).
+
+\bibitem{eliades2008neural}
+\bibinfo{author}{Eliades, S.~J.} \& \bibinfo{author}{Wang, X.}
+\newblock \bibinfo{title}{Neural substrates of vocalization feedback monitoring
+  in primate auditory cortex}.
+\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{453}},
+  \bibinfo{pages}{1102} (\bibinfo{year}{2008}).
+
+\bibitem{keller2009neural}
+\bibinfo{author}{Keller, G.~B.} \& \bibinfo{author}{Hahnloser, R.~H.}
+\newblock \bibinfo{title}{Neural processing of auditory feedback during vocal
+  practice in a songbird}.
+\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{457}},
+  \bibinfo{pages}{187} (\bibinfo{year}{2009}).
+
+\bibitem{ayaz2019layer}
+\bibinfo{author}{Ayaz, A.} \emph{et~al.}
+\newblock \bibinfo{title}{Layer-specific integration of locomotion and sensory
+  information in mouse barrel cortex}.
+\newblock \emph{\bibinfo{journal}{Nature communications}}
+  \textbf{\bibinfo{volume}{10}}, \bibinfo{pages}{2585} (\bibinfo{year}{2019}).
+
+\bibitem{lawson2021computational}
+\bibinfo{author}{Lawson, R.~P.}, \bibinfo{author}{Bisby, J.},
+  \bibinfo{author}{Nord, C.~L.}, \bibinfo{author}{Burgess, N.} \&
+  \bibinfo{author}{Rees, G.}
+\newblock \bibinfo{title}{The computational, pharmacological, and physiological
+  determinants of sensory learning under uncertainty}.
+\newblock \emph{\bibinfo{journal}{Current Biology}}
+  \textbf{\bibinfo{volume}{31}}, \bibinfo{pages}{163--172}
+  (\bibinfo{year}{2021}).
+
+\bibitem{jordan2023locus}
+\bibinfo{author}{Jordan, R.} \& \bibinfo{author}{Keller, G.~B.}
+\newblock \bibinfo{title}{The locus coeruleus broadcasts prediction errors
+  across the cortex to promote sensorimotor plasticity}.
+\newblock \emph{\bibinfo{journal}{Elife}} \textbf{\bibinfo{volume}{12}},
+  \bibinfo{pages}{RP85111} (\bibinfo{year}{2023}).
+
+\bibitem{wong2023computational}
+\bibinfo{author}{Wong, P.} \emph{et~al.}
+\newblock \bibinfo{title}{Computational principles of adaptive multisensory
+  combination in the drosophila larva}.
+\newblock \emph{\bibinfo{journal}{bioRxiv}} \bibinfo{pages}{2023--05}
+  (\bibinfo{year}{2023}).
+
+\bibitem{o2012can}
+\bibinfo{author}{O’Reilly, J.~X.}, \bibinfo{author}{Jbabdi, S.} \&
+  \bibinfo{author}{Behrens, T.~E.}
+\newblock \bibinfo{title}{How can a bayesian approach inform neuroscience?}
+\newblock \emph{\bibinfo{journal}{European Journal of Neuroscience}}
+  \textbf{\bibinfo{volume}{35}}, \bibinfo{pages}{1169--1179}
+  (\bibinfo{year}{2012}).
+
+\bibitem{liakoni2021learning}
+\bibinfo{author}{Liakoni, V.}, \bibinfo{author}{Modirshanechi, A.},
+  \bibinfo{author}{Gerstner, W.} \& \bibinfo{author}{Brea, J.}
+\newblock \bibinfo{title}{Learning in volatile environments with the bayes
+  factor surprise}.
+\newblock \emph{\bibinfo{journal}{Neural Computation}}
+  \textbf{\bibinfo{volume}{33}}, \bibinfo{pages}{269--340}
+  (\bibinfo{year}{2021}).
+
+\bibitem{kutschireiter2023bayesian}
+\bibinfo{author}{Kutschireiter, A.}, \bibinfo{author}{Basnak, M.~A.},
+  \bibinfo{author}{Wilson, R.~I.} \& \bibinfo{author}{Drugowitsch, J.}
+\newblock \bibinfo{title}{Bayesian inference in ring attractor networks}.
+\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
+  Sciences}} \textbf{\bibinfo{volume}{120}}, \bibinfo{pages}{e2210622120}
+  (\bibinfo{year}{2023}).
+
+\bibitem{wilson1972excitatory}
+\bibinfo{author}{Wilson, H.~R.} \& \bibinfo{author}{Cowan, J.~D.}
+\newblock \bibinfo{title}{Excitatory and inhibitory interactions in localized
+  populations of model neurons}.
+\newblock \emph{\bibinfo{journal}{Biophysical journal}}
+  \textbf{\bibinfo{volume}{12}}, \bibinfo{pages}{1--24} (\bibinfo{year}{1972}).
 
 \end{thebibliography}
