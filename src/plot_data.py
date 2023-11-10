@@ -822,7 +822,7 @@ def illustrate_sensory_weight_variance(ax = None, fs=6):
                
     
 def plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, figsize=(2,2.5), fs=6, lw=1, s=15, show_ylabel=True, show_xlabel = True,
-                            flg_plot_xlabel=True, flg_plot_bars = True, ax1 = None, ax2=None, highlight=True):
+                            flg_plot_xlabel=True, flg_plot_bars = True, ax1 = None, ax2=None, highlight=True, file_for_data = None):
     
         if ax1 is None:
             f, (ax1, ax2) = plt.subplots(2,1, tight_layout=True, figsize=figsize, sharey=True, sharex=True)
@@ -830,7 +830,9 @@ def plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, figsize=(2,2.5), fs=6
         markers = ['o','s','d']
         
         ### load data
-        file_for_data = '../results/data/neuromod/data_neuromod_' + str(xp) + '_' + str(xs) + '_' + str(xv) + '.pickle'
+        if file_for_data is None:
+            file_for_data = '../results/data/neuromod/data_neuromod_' + str(xp) + '_' + str(xs) + '_' + str(xv) + '.pickle'
+            
         with open(file_for_data,'rb') as f:
             [xp, xs, xv, pert_strength, alpha] = pickle.load(f) 
         
@@ -841,10 +843,10 @@ def plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, figsize=(2,2.5), fs=6
             ax1.axhline(alpha[0,i,1], color=cmap_sensory_prediction(alpha[0,i,1]), ls=':', zorder=0)
             
             ax2.scatter(pert_strength, alpha[:,i,0], marker=markers[i], c=alpha[:,i,0], cmap=cmap_sensory_prediction, 
-                        vmin=0, vmax=1, s=s)
+                        vmin=0, vmax=1, s=s, clip_on=False, zorder=10)
             
             ax1.scatter(pert_strength, alpha[:,i,1], marker=markers[i], c=alpha[:,i,1], cmap=cmap_sensory_prediction, 
-                        vmin=0, vmax=1, s=s)
+                        vmin=0, vmax=1, s=s, clip_on=False, zorder=10)
             
 
             

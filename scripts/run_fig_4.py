@@ -24,10 +24,10 @@ dtype = np.float32
 # %% Neuromodulator targeting one IN (with various strengths)
 
 run_cell = True
-plot_only = True
+plot_only = False
 column = 0 
 
-xp, xs, xv = 0, 0, 1
+xp, xs, xv = 1, 0, 0
 
 if run_cell:
     
@@ -35,7 +35,7 @@ if run_cell:
     file_for_data = '../results/data/neuromod/data_neuromod_' + str(xp) + '_' + str(xs) + '_' + str(xv) + '.pickle'
     
     ### define perturbations tested
-    pert_strength = np.linspace(0,0.5,6)
+    pert_strength = np.linspace(0,1,6)
     
     ### main loop
     if not plot_only:
@@ -67,7 +67,7 @@ if run_cell:
             
 
     ### plot data    
-    plot_neuromod_impact(pert_strength, alpha, xp, xs, xv)
+    plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, file_for_data=file_for_data)
                                 
     
 # %% How are the variance neurons influenced by changes in nPE and pPE neurons in the lower and higher PE circuit?
