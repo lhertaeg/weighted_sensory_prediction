@@ -1,19 +1,8 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: manuscript_2023.aux
-White space in argument---line 48 of file manuscript_2023.aux
- : \citation{ONeill
- :                  Schultz,2010,XXX}
-I'm skipping whatever remains of this command
-White space in argument---line 49 of file manuscript_2023.aux
- : \citation{knill2004bayesian,Ma
- :                                et al.,2006,2008}
-I'm skipping whatever remains of this command
-White space in argument---line 65 of file manuscript_2023.aux
- : \citation{You
- :               and Dayan}
-I'm skipping whatever remains of this command
-The style file: naturemag.bst
+The style file: plainnat.bst
 Database file #1: References_HertaegWilmesClopath_2023.bib
-Warning--I didn't find a database entry for "XXX"
-Warning--I didn't find a database entry for "Zmarz2016XXX?necessary"
-Warning--I didn't find a database entry for "KathaXXX"
-(There were 3 error messages)
+Warning--empty journal in bruckner2022understanding
+Warning--empty journal in meirhaeghe2021precise
+Warning--empty year in meirhaeghe2021precise
+Warning--empty year in meirhaeghe2021precise
+(There were 4 warnings)

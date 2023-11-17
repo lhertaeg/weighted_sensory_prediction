@@ -1,233 +1,578 @@
-\begin{thebibliography}{10}
-\expandafter\ifx\csname url\endcsname\relax
-  \def\url#1{\texttt{#1}}\fi
-\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
-\providecommand{\bibinfo}[2]{#2}
-\providecommand{\eprint}[2][]{\url{#2}}
+\begin{thebibliography}{86}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem{yon2021precision}
-\bibinfo{author}{Yon, D.} \& \bibinfo{author}{Frith, C.~D.}
-\newblock \bibinfo{title}{Precision and the bayesian brain}.
-\newblock \emph{\bibinfo{journal}{Current Biology}}
-  \textbf{\bibinfo{volume}{31}}, \bibinfo{pages}{R1026--R1032}
-  (\bibinfo{year}{2021}).
+\bibitem[Akrami et~al.(2018)Akrami, Kopec, Diamond, and
+  Brody]{akrami2018posterior}
+Athena Akrami, Charles~D Kopec, Mathew~E Diamond, and Carlos~D Brody.
+\newblock Posterior parietal cortex represents sensory history and mediates its
+  effects on behaviour.
+\newblock \emph{Nature}, 554\penalty0 (7692):\penalty0 368--372, 2018.
 
-\bibitem{rao1999predictive}
-\bibinfo{author}{Rao, R.~P.} \& \bibinfo{author}{Ballard, D.~H.}
-\newblock \bibinfo{title}{Predictive coding in the visual cortex: a functional
-  interpretation of some extra-classical receptive-field effects}.
-\newblock \emph{\bibinfo{journal}{Nature neuroscience}}
-  \textbf{\bibinfo{volume}{2}}, \bibinfo{pages}{79} (\bibinfo{year}{1999}).
+\bibitem[Alais and Burr(2004)]{alais2004ventriloquist}
+David Alais and David Burr.
+\newblock The ventriloquist effect results from near-optimal bimodal
+  integration.
+\newblock \emph{Current biology}, 14\penalty0 (3):\penalty0 257--262, 2004.
 
-\bibitem{keller2018predictive}
-\bibinfo{author}{Keller, G.~B.} \& \bibinfo{author}{Mrsic-Flogel, T.~D.}
-\newblock \bibinfo{title}{Predictive processing: A canonical cortical
-  computation}.
-\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{100}},
-  \bibinfo{pages}{424--435} (\bibinfo{year}{2018}).
+\bibitem[Ashourian and Loewenstein(2011)]{ashourian2011bayesian}
+Paymon Ashourian and Yonatan Loewenstein.
+\newblock Bayesian inference underlies the contraction bias in delayed
+  comparison tasks.
+\newblock \emph{PloS one}, 6\penalty0 (5):\penalty0 e19551, 2011.
 
-\bibitem{keller2012sensorimotor}
-\bibinfo{author}{Keller, G.~B.}, \bibinfo{author}{Bonhoeffer, T.} \&
-  \bibinfo{author}{H{\"u}bener, M.}
-\newblock \bibinfo{title}{Sensorimotor mismatch signals in primary visual
-  cortex of the behaving mouse}.
-\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{74}},
-  \bibinfo{pages}{809--815} (\bibinfo{year}{2012}).
+\bibitem[Attinger et~al.(2017)Attinger, Wang, and
+  Keller]{attinger2017visuomotor}
+Alexander Attinger, Bo~Wang, and Georg~B Keller.
+\newblock Visuomotor coupling shapes the functional development of mouse visual
+  cortex.
+\newblock \emph{Cell}, 169\penalty0 (7):\penalty0 1291--1302, 2017.
 
-\bibitem{attinger2017visuomotor}
-\bibinfo{author}{Attinger, A.}, \bibinfo{author}{Wang, B.} \&
-  \bibinfo{author}{Keller, G.~B.}
-\newblock \bibinfo{title}{Visuomotor coupling shapes the functional development
-  of mouse visual cortex}.
-\newblock \emph{\bibinfo{journal}{Cell}} \textbf{\bibinfo{volume}{169}},
-  \bibinfo{pages}{1291--1302} (\bibinfo{year}{2017}).
+\bibitem[Audette et~al.(2021)Audette, Zhou, and
+  Schneider]{audette2021temporally}
+Nicholas~J Audette, WenXi Zhou, and David~M Schneider.
+\newblock Temporally precise movement-based predictions in the mouse auditory
+  cortex.
+\newblock \emph{bioRxiv}, pages 2021--12, 2021.
 
-\bibitem{jordan2020opposing}
-\bibinfo{author}{Jordan, R.} \& \bibinfo{author}{Keller, G.~B.}
-\newblock \bibinfo{title}{Opposing influence of top-down and bottom-up input on
-  excitatory layer 2/3 neurons in mouse primary visual cortex}.
-\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{108}},
-  \bibinfo{pages}{1194--1206} (\bibinfo{year}{2020}).
+\bibitem[Avery and Krichmar(2017)]{avery2017neuromodulatory}
+Michael~C Avery and Jeffrey~L Krichmar.
+\newblock Neuromodulatory systems and their interactions: a review of models,
+  theories, and experiments.
+\newblock \emph{Frontiers in neural circuits}, 11:\penalty0 108, 2017.
 
-\bibitem{audette2021temporally}
-\bibinfo{author}{Audette, N.~J.}, \bibinfo{author}{Zhou, W.} \&
-  \bibinfo{author}{Schneider, D.~M.}
-\newblock \bibinfo{title}{Temporally precise movement-based predictions in the
-  mouse auditory cortex}.
-\newblock \emph{\bibinfo{journal}{bioRxiv}} \bibinfo{pages}{2021--12}
-  (\bibinfo{year}{2021}).
+\bibitem[Ayaz et~al.(2019)Ayaz, St{\"a}uble, Hamada, Wulf, Saleem, and
+  Helmchen]{ayaz2019layer}
+Asl{\i} Ayaz, Andreas St{\"a}uble, Morio Hamada, Marie-Angela Wulf, Aman~B
+  Saleem, and Fritjof Helmchen.
+\newblock Layer-specific integration of locomotion and sensory information in
+  mouse barrel cortex.
+\newblock \emph{Nature communications}, 10\penalty0 (1):\penalty0 2585, 2019.
 
-\bibitem{hertag2020learning}
-\bibinfo{author}{Hert{\"a}g, L.} \& \bibinfo{author}{Sprekeler, H.}
-\newblock \bibinfo{title}{Learning prediction error neurons in a canonical
-  interneuron circuit}.
-\newblock \emph{\bibinfo{journal}{Elife}} \textbf{\bibinfo{volume}{9}},
-  \bibinfo{pages}{e57541} (\bibinfo{year}{2020}).
+\bibitem[Bastos et~al.(2012)Bastos, Usrey, Adams, Mangun, Fries, and
+  Friston]{bastos2012canonical}
+Andre~M Bastos, W~Martin Usrey, Rick~A Adams, George~R Mangun, Pascal Fries,
+  and Karl~J Friston.
+\newblock Canonical microcircuits for predictive coding.
+\newblock \emph{Neuron}, 76\penalty0 (4):\penalty0 695--711, 2012.
 
-\bibitem{hertag2022prediction}
-\bibinfo{author}{Hert{\"a}g, L.} \& \bibinfo{author}{Clopath, C.}
-\newblock \bibinfo{title}{Prediction-error neurons in circuits with multiple
-  neuron types: Formation, refinement, and functional implications}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
-  Sciences}} \textbf{\bibinfo{volume}{119}}, \bibinfo{pages}{e2115699119}
-  (\bibinfo{year}{2022}).
+\bibitem[Battaglia et~al.(2003)Battaglia, Jacobs, and
+  Aslin]{battaglia2003bayesian}
+Peter~W Battaglia, Robert~A Jacobs, and Richard~N Aslin.
+\newblock Bayesian integration of visual and auditory signals for spatial
+  localization.
+\newblock \emph{Josa a}, 20\penalty0 (7):\penalty0 1391--1397, 2003.
 
-\bibitem{cardin2019functional}
-\bibinfo{author}{Cardin, J.~A.}
-\newblock \bibinfo{title}{Functional flexibility in cortical circuits}.
-\newblock \emph{\bibinfo{journal}{Current opinion in neurobiology}}
-  \textbf{\bibinfo{volume}{58}}, \bibinfo{pages}{175--180}
-  (\bibinfo{year}{2019}).
+\bibitem[Bruckner et~al.(2022)Bruckner, Heekeren, and
+  Nassar]{bruckner2022understanding}
+Rasmus Bruckner, Hauke~R Heekeren, and Matt Nassar.
+\newblock Understanding learning through uncertainty and bias.
+\newblock 2022.
 
-\bibitem{han2023behavior}
-\bibinfo{author}{Han, S.} \& \bibinfo{author}{Helmchen, F.}
-\newblock \bibinfo{title}{Behavior-relevant top-down cross-modal predictions in
-  mouse neocortex}.
-\newblock \emph{\bibinfo{journal}{bioRxiv}} \bibinfo{pages}{2023--04}
-  (\bibinfo{year}{2023}).
+\bibitem[Butler et~al.(2010)Butler, Smith, Campos, and
+  B{\"u}lthoff]{butler2010bayesian}
+John~S Butler, Stuart~T Smith, Jennifer~L Campos, and Heinrich~H B{\"u}lthoff.
+\newblock Bayesian integration of visual and vestibular signals for heading.
+\newblock \emph{Journal of vision}, 10\penalty0 (11):\penalty0 23--23, 2010.
 
-\bibitem{ernst2002humans}
-\bibinfo{author}{Ernst, M.~O.} \& \bibinfo{author}{Banks, M.~S.}
-\newblock \bibinfo{title}{Humans integrate visual and haptic information in a
-  statistically optimal fashion}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{415}},
-  \bibinfo{pages}{429--433} (\bibinfo{year}{2002}).
+\bibitem[Campagnola et~al.(2022)Campagnola, Seeman, Chartrand, Kim, Hoggarth,
+  Gamlin, Ito, Trinh, Davoudian, Radaelli, et~al.]{campagnola2022local}
+Luke Campagnola, Stephanie~C Seeman, Thomas Chartrand, Lisa Kim, Alex Hoggarth,
+  Clare Gamlin, Shinya Ito, Jessica Trinh, Pasha Davoudian, Cristina Radaelli,
+  et~al.
+\newblock Local connectivity and synaptic dynamics in mouse and human
+  neocortex.
+\newblock \emph{Science}, 375\penalty0 (6585):\penalty0 eabj5861, 2022.
 
-\bibitem{pakan2018impact}
-\bibinfo{author}{Pakan, J.~M.}, \bibinfo{author}{Currie, S.~P.},
-  \bibinfo{author}{Fischer, L.} \& \bibinfo{author}{Rochefort, N.~L.}
-\newblock \bibinfo{title}{The impact of visual cues, reward, and motor feedback
-  on the representation of behaviorally relevant spatial locations in primary
-  visual cortex}.
-\newblock \emph{\bibinfo{journal}{Cell reports}} \textbf{\bibinfo{volume}{24}},
-  \bibinfo{pages}{2521--2528} (\bibinfo{year}{2018}).
+\bibitem[Cardin(2019)]{cardin2019functional}
+Jessica~A Cardin.
+\newblock Functional flexibility in cortical circuits.
+\newblock \emph{Current opinion in neurobiology}, 58:\penalty0 175--180, 2019.
 
-\bibitem{herzfeld2014memory}
-\bibinfo{author}{Herzfeld, D.~J.}, \bibinfo{author}{Vaswani, P.~A.},
-  \bibinfo{author}{Marko, M.~K.} \& \bibinfo{author}{Shadmehr, R.}
-\newblock \bibinfo{title}{A memory of errors in sensorimotor learning}.
-\newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{345}},
-  \bibinfo{pages}{1349--1353} (\bibinfo{year}{2014}).
+\bibitem[Chaudhuri et~al.(2015)Chaudhuri, Knoblauch, Gariel, Kennedy, and
+  Wang]{chaudhuri2015large}
+Rishidev Chaudhuri, Kenneth Knoblauch, Marie-Alice Gariel, Henry Kennedy, and
+  Xiao-Jing Wang.
+\newblock A large-scale circuit mechanism for hierarchical dynamical processing
+  in the primate cortex.
+\newblock \emph{Neuron}, 88\penalty0 (2):\penalty0 419--431, 2015.
 
-\bibitem{knill2004bayesian}
-\bibinfo{author}{Knill, D.~C.} \& \bibinfo{author}{Pouget, A.}
-\newblock \bibinfo{title}{The bayesian brain: the role of uncertainty in neural
-  coding and computation}.
-\newblock \emph{\bibinfo{journal}{TRENDS in Neurosciences}}
-  \textbf{\bibinfo{volume}{27}}, \bibinfo{pages}{712--719}
-  (\bibinfo{year}{2004}).
+\bibitem[Deneve(2008)]{deneve2008bayesian}
+Sophie Deneve.
+\newblock Bayesian spiking neurons i: inference.
+\newblock \emph{Neural computation}, 20\penalty0 (1):\penalty0 91--117, 2008.
 
-\bibitem{masset2020behavior}
-\bibinfo{author}{Masset, P.}, \bibinfo{author}{Ott, T.}, \bibinfo{author}{Lak,
-  A.}, \bibinfo{author}{Hirokawa, J.} \& \bibinfo{author}{Kepecs, A.}
-\newblock \bibinfo{title}{Behavior-and modality-general representation of
-  confidence in orbitofrontal cortex}.
-\newblock \emph{\bibinfo{journal}{Cell}} \textbf{\bibinfo{volume}{182}},
-  \bibinfo{pages}{112--126} (\bibinfo{year}{2020}).
+\bibitem[Deneve and Pouget(2004)]{deneve2004bayesian}
+Sophie Deneve and Alexandre Pouget.
+\newblock Bayesian multisensory integration and cross-modal spatial links.
+\newblock \emph{Journal of Physiology-Paris}, 98\penalty0 (1-3):\penalty0
+  249--258, 2004.
 
-\bibitem{soltani2019adaptive}
-\bibinfo{author}{Soltani, A.} \& \bibinfo{author}{Izquierdo, A.}
-\newblock \bibinfo{title}{Adaptive learning under expected and unexpected
-  uncertainty}.
-\newblock \emph{\bibinfo{journal}{Nature Reviews Neuroscience}}
-  \textbf{\bibinfo{volume}{20}}, \bibinfo{pages}{635--644}
-  (\bibinfo{year}{2019}).
+\bibitem[Eliades and Wang(2008)]{eliades2008neural}
+Steven~J Eliades and Xiaoqin Wang.
+\newblock Neural substrates of vocalization feedback monitoring in primate
+  auditory cortex.
+\newblock \emph{Nature}, 453\penalty0 (7198):\penalty0 1102, 2008.
 
-\bibitem{bastos2012canonical}
-\bibinfo{author}{Bastos, A.~M.} \emph{et~al.}
-\newblock \bibinfo{title}{Canonical microcircuits for predictive coding}.
-\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{76}},
-  \bibinfo{pages}{695--711} (\bibinfo{year}{2012}).
+\bibitem[Ernst and Banks(2002)]{ernst2002humans}
+Marc~O Ernst and Martin~S Banks.
+\newblock Humans integrate visual and haptic information in a statistically
+  optimal fashion.
+\newblock \emph{Nature}, 415\penalty0 (6870):\penalty0 429--433, 2002.
 
-\bibitem{heindorf2022reduction}
-\bibinfo{author}{Heindorf, M.} \& \bibinfo{author}{Keller, G.~B.}
-\newblock \bibinfo{title}{Reduction of layer 5 mediated long-range cortical
-  communication by antipsychotic drugs}.
-\newblock \emph{\bibinfo{journal}{bioRxiv}}  (\bibinfo{year}{2022}).
+\bibitem[Fetsch et~al.(2009)Fetsch, Turner, DeAngelis, and
+  Angelaki]{fetsch2009dynamic}
+Christopher~R Fetsch, Amanda~H Turner, Gregory~C DeAngelis, and Dora~E
+  Angelaki.
+\newblock Dynamic reweighting of visual and vestibular cues during self-motion
+  perception.
+\newblock \emph{Journal of Neuroscience}, 29\penalty0 (49):\penalty0
+  15601--15612, 2009.
 
-\bibitem{o2022prediction}
-\bibinfo{author}{O’Toole, S.~M.}, \bibinfo{author}{Oyibo, H.~K.} \&
-  \bibinfo{author}{Keller, G.~B.}
-\newblock \bibinfo{title}{Prediction error neurons in mouse cortex are
-  molecularly targetable cell types}.
-\newblock \emph{\bibinfo{journal}{BioRxiv}} \bibinfo{pages}{2022--07}
-  (\bibinfo{year}{2022}).
+\bibitem[Fetsch et~al.(2012)Fetsch, Pouget, DeAngelis, and
+  Angelaki]{fetsch2012neural}
+Christopher~R Fetsch, Alexandre Pouget, Gregory~C DeAngelis, and Dora~E
+  Angelaki.
+\newblock Neural correlates of reliability-based cue weighting during
+  multisensory integration.
+\newblock \emph{Nature neuroscience}, 15\penalty0 (1):\penalty0 146--154, 2012.
 
-\bibitem{eliades2008neural}
-\bibinfo{author}{Eliades, S.~J.} \& \bibinfo{author}{Wang, X.}
-\newblock \bibinfo{title}{Neural substrates of vocalization feedback monitoring
-  in primate auditory cortex}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{453}},
-  \bibinfo{pages}{1102} (\bibinfo{year}{2008}).
+\bibitem[Friston(2008)]{friston2008hierarchical}
+Karl Friston.
+\newblock Hierarchical models in the brain.
+\newblock \emph{PLoS computational biology}, 4\penalty0 (11):\penalty0
+  e1000211, 2008.
 
-\bibitem{keller2009neural}
-\bibinfo{author}{Keller, G.~B.} \& \bibinfo{author}{Hahnloser, R.~H.}
-\newblock \bibinfo{title}{Neural processing of auditory feedback during vocal
-  practice in a songbird}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{457}},
-  \bibinfo{pages}{187} (\bibinfo{year}{2009}).
+\bibitem[Gu et~al.(2008)Gu, Angelaki, and DeAngelis]{gu2008neural}
+Yong Gu, Dora~E Angelaki, and Gregory~C DeAngelis.
+\newblock Neural correlates of multisensory cue integration in macaque mstd.
+\newblock \emph{Nature neuroscience}, 11\penalty0 (10):\penalty0 1201--1210,
+  2008.
 
-\bibitem{ayaz2019layer}
-\bibinfo{author}{Ayaz, A.} \emph{et~al.}
-\newblock \bibinfo{title}{Layer-specific integration of locomotion and sensory
-  information in mouse barrel cortex}.
-\newblock \emph{\bibinfo{journal}{Nature communications}}
-  \textbf{\bibinfo{volume}{10}}, \bibinfo{pages}{2585} (\bibinfo{year}{2019}).
+\bibitem[Han and Helmchen(2023)]{han2023behavior}
+Shuting Han and Fritjof Helmchen.
+\newblock Behavior-relevant top-down cross-modal predictions in mouse
+  neocortex.
+\newblock \emph{bioRxiv}, pages 2023--04, 2023.
 
-\bibitem{lawson2021computational}
-\bibinfo{author}{Lawson, R.~P.}, \bibinfo{author}{Bisby, J.},
-  \bibinfo{author}{Nord, C.~L.}, \bibinfo{author}{Burgess, N.} \&
-  \bibinfo{author}{Rees, G.}
-\newblock \bibinfo{title}{The computational, pharmacological, and physiological
-  determinants of sensory learning under uncertainty}.
-\newblock \emph{\bibinfo{journal}{Current Biology}}
-  \textbf{\bibinfo{volume}{31}}, \bibinfo{pages}{163--172}
-  (\bibinfo{year}{2021}).
+\bibitem[Harris and Shepherd(2015)]{harris2015neocortical}
+Kenneth~D Harris and Gordon~MG Shepherd.
+\newblock The neocortical circuit: themes and variations.
+\newblock \emph{Nature neuroscience}, 18\penalty0 (2):\penalty0 170, 2015.
 
-\bibitem{jordan2023locus}
-\bibinfo{author}{Jordan, R.} \& \bibinfo{author}{Keller, G.~B.}
-\newblock \bibinfo{title}{The locus coeruleus broadcasts prediction errors
-  across the cortex to promote sensorimotor plasticity}.
-\newblock \emph{\bibinfo{journal}{Elife}} \textbf{\bibinfo{volume}{12}},
-  \bibinfo{pages}{RP85111} (\bibinfo{year}{2023}).
+\bibitem[Hasselmo et~al.(1997)Hasselmo, Linster, Patil, Ma, and
+  Cekic]{hasselmo1997noradrenergic}
+Michael~E Hasselmo, Christiane Linster, Madhvi Patil, Daveena Ma, and Milos
+  Cekic.
+\newblock Noradrenergic suppression of synaptic transmission may influence
+  cortical signal-to-noise ratio.
+\newblock \emph{Journal of neurophysiology}, 77\penalty0 (6):\penalty0
+  3326--3339, 1997.
 
-\bibitem{wong2023computational}
-\bibinfo{author}{Wong, P.} \emph{et~al.}
-\newblock \bibinfo{title}{Computational principles of adaptive multisensory
-  combination in the drosophila larva}.
-\newblock \emph{\bibinfo{journal}{bioRxiv}} \bibinfo{pages}{2023--05}
-  (\bibinfo{year}{2023}).
+\bibitem[Hattori et~al.(2017)Hattori, Kuchibhotla, Froemke, and
+  Komiyama]{hattori2017functions}
+Ryoma Hattori, Kishore~V Kuchibhotla, Robert~C Froemke, and Takaki Komiyama.
+\newblock Functions and dysfunctions of neocortical inhibitory neuron subtypes.
+\newblock \emph{Nature neuroscience}, 20\penalty0 (9):\penalty0 1199--1208,
+  2017.
 
-\bibitem{o2012can}
-\bibinfo{author}{O’Reilly, J.~X.}, \bibinfo{author}{Jbabdi, S.} \&
-  \bibinfo{author}{Behrens, T.~E.}
-\newblock \bibinfo{title}{How can a bayesian approach inform neuroscience?}
-\newblock \emph{\bibinfo{journal}{European Journal of Neuroscience}}
-  \textbf{\bibinfo{volume}{35}}, \bibinfo{pages}{1169--1179}
-  (\bibinfo{year}{2012}).
+\bibitem[Heindorf and Keller(2022)]{heindorf2022reduction}
+Matthias Heindorf and Georg~B Keller.
+\newblock Reduction of layer 5 mediated long-range cortical communication by
+  antipsychotic drugs.
+\newblock \emph{bioRxiv}, 2022.
 
-\bibitem{liakoni2021learning}
-\bibinfo{author}{Liakoni, V.}, \bibinfo{author}{Modirshanechi, A.},
-  \bibinfo{author}{Gerstner, W.} \& \bibinfo{author}{Brea, J.}
-\newblock \bibinfo{title}{Learning in volatile environments with the bayes
-  factor surprise}.
-\newblock \emph{\bibinfo{journal}{Neural Computation}}
-  \textbf{\bibinfo{volume}{33}}, \bibinfo{pages}{269--340}
-  (\bibinfo{year}{2021}).
+\bibitem[Hert{\"a}g and Clopath(2022)]{hertag2022prediction}
+Loreen Hert{\"a}g and Claudia Clopath.
+\newblock Prediction-error neurons in circuits with multiple neuron types:
+  Formation, refinement, and functional implications.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 119\penalty0
+  (13):\penalty0 e2115699119, 2022.
 
-\bibitem{kutschireiter2023bayesian}
-\bibinfo{author}{Kutschireiter, A.}, \bibinfo{author}{Basnak, M.~A.},
-  \bibinfo{author}{Wilson, R.~I.} \& \bibinfo{author}{Drugowitsch, J.}
-\newblock \bibinfo{title}{Bayesian inference in ring attractor networks}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
-  Sciences}} \textbf{\bibinfo{volume}{120}}, \bibinfo{pages}{e2210622120}
-  (\bibinfo{year}{2023}).
+\bibitem[Hert{\"a}g and Sprekeler(2020)]{hertag2020learning}
+Loreen Hert{\"a}g and Henning Sprekeler.
+\newblock Learning prediction error neurons in a canonical interneuron circuit.
+\newblock \emph{Elife}, 9:\penalty0 e57541, 2020.
 
-\bibitem{wilson1972excitatory}
-\bibinfo{author}{Wilson, H.~R.} \& \bibinfo{author}{Cowan, J.~D.}
-\newblock \bibinfo{title}{Excitatory and inhibitory interactions in localized
-  populations of model neurons}.
-\newblock \emph{\bibinfo{journal}{Biophysical journal}}
-  \textbf{\bibinfo{volume}{12}}, \bibinfo{pages}{1--24} (\bibinfo{year}{1972}).
+\bibitem[Herzfeld et~al.(2014)Herzfeld, Vaswani, Marko, and
+  Shadmehr]{herzfeld2014memory}
+David~J Herzfeld, Pavan~A Vaswani, Mollie~K Marko, and Reza Shadmehr.
+\newblock A memory of errors in sensorimotor learning.
+\newblock \emph{Science}, 345\penalty0 (6202):\penalty0 1349--1353, 2014.
+
+\bibitem[Hollingworth(1910)]{hollingworth1910central}
+Harry~Levi Hollingworth.
+\newblock The central tendency of judgment.
+\newblock \emph{The Journal of Philosophy, Psychology and Scientific Methods},
+  7\penalty0 (17):\penalty0 461--469, 1910.
+
+\bibitem[Hoyer and Hyv{\"a}rinen(2002)]{hoyer2002interpreting}
+Patrik Hoyer and Aapo Hyv{\"a}rinen.
+\newblock Interpreting neural response variability as monte carlo sampling of
+  the posterior.
+\newblock \emph{Advances in neural information processing systems}, 15, 2002.
+
+\bibitem[Janitzky et~al.(2015)Janitzky, Lippert, Engelhorn, Tegtmeier,
+  Goldschmidt, Heinze, and Ohl]{janitzky2015optogenetic}
+Kathrin Janitzky, Michael~T Lippert, Achim Engelhorn, Jennifer Tegtmeier,
+  J{\"u}rgen Goldschmidt, Hans-Jochen Heinze, and Frank~W Ohl.
+\newblock Optogenetic silencing of locus coeruleus activity in mice impairs
+  cognitive flexibility in an attentional set-shifting task.
+\newblock \emph{Frontiers in behavioral neuroscience}, 9:\penalty0 286, 2015.
+
+\bibitem[Jazayeri and Shadlen(2010)]{jazayeri2010temporal}
+Mehrdad Jazayeri and Michael~N Shadlen.
+\newblock Temporal context calibrates interval timing.
+\newblock \emph{Nature neuroscience}, 13\penalty0 (8):\penalty0 1020--1026,
+  2010.
+
+\bibitem[Jiang et~al.(2015)Jiang, Shen, Cadwell, Berens, Sinz, Ecker, Patel,
+  and Tolias]{jiang2015principles}
+Xiaolong Jiang, Shan Shen, Cathryn~R Cadwell, Philipp Berens, Fabian Sinz,
+  Alexander~S Ecker, Saumil Patel, and Andreas~S Tolias.
+\newblock Principles of connectivity among morphologically defined cell types
+  in adult neocortex.
+\newblock \emph{Science}, 350\penalty0 (6264):\penalty0 aac9462, 2015.
+
+\bibitem[Jo and Jung(2016)]{jo2016differential}
+Suhyun Jo and Min~Whan Jung.
+\newblock Differential coding of uncertain reward in rat insular and
+  orbitofrontal cortex.
+\newblock \emph{Scientific reports}, 6\penalty0 (1):\penalty0 24085, 2016.
+
+\bibitem[Jordan and Keller(2020)]{jordan2020opposing}
+Rebecca Jordan and Georg~B Keller.
+\newblock Opposing influence of top-down and bottom-up input on excitatory
+  layer 2/3 neurons in mouse primary visual cortex.
+\newblock \emph{Neuron}, 108\penalty0 (6):\penalty0 1194--1206, 2020.
+
+\bibitem[Jordan and Keller(2023)]{jordan2023locus}
+Rebecca Jordan and Georg~B Keller.
+\newblock The locus coeruleus broadcasts prediction errors across the cortex to
+  promote sensorimotor plasticity.
+\newblock \emph{Elife}, 12:\penalty0 RP85111, 2023.
+
+\bibitem[Keller and Hahnloser(2009)]{keller2009neural}
+Georg~B Keller and Richard~HR Hahnloser.
+\newblock Neural processing of auditory feedback during vocal practice in a
+  songbird.
+\newblock \emph{Nature}, 457\penalty0 (7226):\penalty0 187, 2009.
+
+\bibitem[Keller and Mrsic-Flogel(2018)]{keller2018predictive}
+Georg~B Keller and Thomas~D Mrsic-Flogel.
+\newblock Predictive processing: A canonical cortical computation.
+\newblock \emph{Neuron}, 100\penalty0 (2):\penalty0 424--435, 2018.
+
+\bibitem[Keller et~al.(2012)Keller, Bonhoeffer, and
+  H{\"u}bener]{keller2012sensorimotor}
+Georg~B Keller, Tobias Bonhoeffer, and Mark H{\"u}bener.
+\newblock Sensorimotor mismatch signals in primary visual cortex of the
+  behaving mouse.
+\newblock \emph{Neuron}, 74\penalty0 (5):\penalty0 809--815, 2012.
+
+\bibitem[Kiani and Shadlen(2009)]{kiani2009representation}
+Roozbeh Kiani and Michael~N Shadlen.
+\newblock Representation of confidence associated with a decision by neurons in
+  the parietal cortex.
+\newblock \emph{science}, 324\penalty0 (5928):\penalty0 759--764, 2009.
+
+\bibitem[Knill and Pouget(2004)]{knill2004bayesian}
+David~C Knill and Alexandre Pouget.
+\newblock The bayesian brain: the role of uncertainty in neural coding and
+  computation.
+\newblock \emph{TRENDS in Neurosciences}, 27\penalty0 (12):\penalty0 712--719,
+  2004.
+
+\bibitem[K{\"o}rding and Wolpert(2004)]{kording2004bayesian}
+Konrad~P K{\"o}rding and Daniel~M Wolpert.
+\newblock Bayesian integration in sensorimotor learning.
+\newblock \emph{Nature}, 427\penalty0 (6971):\penalty0 244--247, 2004.
+
+\bibitem[Kutschireiter et~al.(2023)Kutschireiter, Basnak, Wilson, and
+  Drugowitsch]{kutschireiter2023bayesian}
+Anna Kutschireiter, Melanie~A Basnak, Rachel~I Wilson, and Jan Drugowitsch.
+\newblock Bayesian inference in ring attractor networks.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 120\penalty0
+  (9):\penalty0 e2210622120, 2023.
+
+\bibitem[Larkum(2013)]{larkum2013cellular}
+Matthew Larkum.
+\newblock A cellular mechanism for cortical associations: an organizing
+  principle for the cerebral cortex.
+\newblock \emph{Trends in neurosciences}, 36\penalty0 (3):\penalty0 141--151,
+  2013.
+
+\bibitem[Lawson et~al.(2021)Lawson, Bisby, Nord, Burgess, and
+  Rees]{lawson2021computational}
+Rebecca~P Lawson, James Bisby, Camilla~L Nord, Neil Burgess, and Geraint Rees.
+\newblock The computational, pharmacological, and physiological determinants of
+  sensory learning under uncertainty.
+\newblock \emph{Current Biology}, 31\penalty0 (1):\penalty0 163--172, 2021.
+
+\bibitem[Liakoni et~al.(2021)Liakoni, Modirshanechi, Gerstner, and
+  Brea]{liakoni2021learning}
+Vasiliki Liakoni, Alireza Modirshanechi, Wulfram Gerstner, and Johanni Brea.
+\newblock Learning in volatile environments with the bayes factor surprise.
+\newblock \emph{Neural Computation}, 33\penalty0 (2):\penalty0 269--340, 2021.
+
+\bibitem[Ma et~al.(2006)Ma, Beck, Latham, and Pouget]{ma2006bayesian}
+Wei~Ji Ma, Jeffrey~M Beck, Peter~E Latham, and Alexandre Pouget.
+\newblock Bayesian inference with probabilistic population codes.
+\newblock \emph{Nature neuroscience}, 9\penalty0 (11):\penalty0 1432--1438,
+  2006.
+
+\bibitem[Markram et~al.(2004)Markram, Toledo-Rodriguez, Wang, Gupta,
+  Silberberg, and Wu]{markram2004interneurons}
+Henry Markram, Maria Toledo-Rodriguez, Yun Wang, Anirudh Gupta, Gilad
+  Silberberg, and Caizhi Wu.
+\newblock Interneurons of the neocortical inhibitory system.
+\newblock \emph{Nature reviews neuroscience}, 5\penalty0 (10):\penalty0 793,
+  2004.
+
+\bibitem[Marshall et~al.(2016)Marshall, Mathys, Ruge, De~Berker, Dayan,
+  Stephan, and Bestmann]{marshall2016pharmacological}
+Louise Marshall, Christoph Mathys, Diane Ruge, Archy~O De~Berker, Peter Dayan,
+  Klaas~E Stephan, and Sven Bestmann.
+\newblock Pharmacological fingerprints of contextual uncertainty.
+\newblock \emph{PLoS Biology}, 14\penalty0 (11):\penalty0 e1002575, 2016.
+
+\bibitem[Masset et~al.(2020)Masset, Ott, Lak, Hirokawa, and
+  Kepecs]{masset2020behavior}
+Paul Masset, Torben Ott, Armin Lak, Junya Hirokawa, and Adam Kepecs.
+\newblock Behavior-and modality-general representation of confidence in
+  orbitofrontal cortex.
+\newblock \emph{Cell}, 182\penalty0 (1):\penalty0 112--126, 2020.
+
+\bibitem[Meirhaeghe et~al.()Meirhaeghe, Sohn, and
+  Jazayeri]{meirhaeghe2021precise}
+Nicolas Meirhaeghe, Hansem Sohn, and Mehrdad Jazayeri.
+\newblock A precise and adaptive neural mechanism for predictive temporal
+  processing in the frontal cortex.
+\newblock 109\penalty0 (18):\penalty0 2995--3011.e5.
+\newblock ISSN 0896-6273.
+\newblock \doi{10.1016/j.neuron.2021.08.025}.
+\newblock URL \url{https://doi.org/10.1016/j.neuron.2021.08.025}.
+\newblock Publisher: Elsevier.
+
+\bibitem[Mumford(1992)]{mumford1992computational}
+David Mumford.
+\newblock On the computational architecture of the neocortex.
+\newblock \emph{Biological cybernetics}, 66\penalty0 (3):\penalty0 241--251,
+  1992.
+
+\bibitem[Murray et~al.(2014)Murray, Bernacchia, Freedman, Romo, Wallis, Cai,
+  Padoa-Schioppa, Pasternak, Seo, Lee, et~al.]{murray2014hierarchy}
+John~D Murray, Alberto Bernacchia, David~J Freedman, Ranulfo Romo, Jonathan~D
+  Wallis, Xinying Cai, Camillo Padoa-Schioppa, Tatiana Pasternak, Hyojung Seo,
+  Daeyeol Lee, et~al.
+\newblock A hierarchy of intrinsic timescales across primate cortex.
+\newblock \emph{Nature neuroscience}, 17\penalty0 (12):\penalty0 1661--1663,
+  2014.
+
+\bibitem[Nadim and Bucher(2014)]{nadim2014neuromodulation}
+Farzan Nadim and Dirk Bucher.
+\newblock Neuromodulation of neurons and synapses.
+\newblock \emph{Current opinion in neurobiology}, 29:\penalty0 48--56, 2014.
+
+\bibitem[O'Neill and Schultz(2010)]{o2010coding}
+Martin O'Neill and Wolfram Schultz.
+\newblock Coding of reward risk by orbitofrontal neurons is mostly distinct
+  from coding of reward value.
+\newblock \emph{Neuron}, 68\penalty0 (4):\penalty0 789--800, 2010.
+
+\bibitem[O’Reilly et~al.(2012)O’Reilly, Jbabdi, and Behrens]{o2012can}
+Jill~X O’Reilly, Saad Jbabdi, and Timothy~EJ Behrens.
+\newblock How can a bayesian approach inform neuroscience?
+\newblock \emph{European Journal of Neuroscience}, 35\penalty0 (7):\penalty0
+  1169--1179, 2012.
+
+\bibitem[O’Toole et~al.(2022)O’Toole, Oyibo, and Keller]{o2022prediction}
+Sean~M O’Toole, Hassana~K Oyibo, and Georg~B Keller.
+\newblock Prediction error neurons in mouse cortex are molecularly targetable
+  cell types.
+\newblock \emph{BioRxiv}, pages 2022--07, 2022.
+
+\bibitem[Pakan et~al.(2018)Pakan, Currie, Fischer, and
+  Rochefort]{pakan2018impact}
+Janelle~MP Pakan, Stephen~P Currie, Lukas Fischer, and Nathalie~L Rochefort.
+\newblock The impact of visual cues, reward, and motor feedback on the
+  representation of behaviorally relevant spatial locations in primary visual
+  cortex.
+\newblock \emph{Cell reports}, 24\penalty0 (10):\penalty0 2521--2528, 2018.
+
+\bibitem[Pawlak et~al.(2010)Pawlak, Wickens, Kirkwood, and
+  Kerr]{pawlak2010timing}
+Verena Pawlak, Jeffery~R Wickens, Alfredo Kirkwood, and Jason~ND Kerr.
+\newblock Timing is not everything: neuromodulation opens the stdp gate.
+\newblock \emph{Frontiers in synaptic neuroscience}, 2:\penalty0 146, 2010.
+
+\bibitem[Petzschner and Glasauer(2011)]{petzschner2011iterative}
+Frederike~H Petzschner and Stefan Glasauer.
+\newblock Iterative bayesian estimation as an explanation for range and
+  regression effects: a study on human path integration.
+\newblock \emph{Journal of Neuroscience}, 31\penalty0 (47):\penalty0
+  17220--17229, 2011.
+
+\bibitem[Pfeffer et~al.(2013)Pfeffer, Xue, He, Huang, and
+  Scanziani]{pfeffer2013inhibition}
+Carsten~K Pfeffer, Mingshan Xue, Miao He, Z~Josh Huang, and Massimo Scanziani.
+\newblock Inhibition of inhibition in visual cortex: the logic of connections
+  between molecularly distinct interneurons.
+\newblock \emph{Nature neuroscience}, 16\penalty0 (8):\penalty0 1068--1076,
+  2013.
+
+\bibitem[Pouget et~al.(2013)Pouget, Beck, Ma, and
+  Latham]{pouget2013probabilistic}
+Alexandre Pouget, Jeffrey~M Beck, Wei~Ji Ma, and Peter~E Latham.
+\newblock Probabilistic brains: knowns and unknowns.
+\newblock \emph{Nature neuroscience}, 16\penalty0 (9):\penalty0 1170--1178,
+  2013.
+
+\bibitem[Rakitin et~al.(1998)Rakitin, Gibbon, Penney, Malapani, Hinton, and
+  Meck]{rakitin1998scalar}
+Brian~C Rakitin, John Gibbon, Trevor~B Penney, Chara Malapani, Sean~C Hinton,
+  and Warren~H Meck.
+\newblock Scalar expectancy theory and peak-interval timing in humans.
+\newblock \emph{Journal of Experimental Psychology: Animal Behavior Processes},
+  24\penalty0 (1):\penalty0 15, 1998.
+
+\bibitem[Rao and Ballard(1999)]{rao1999predictive}
+Rajesh~PN Rao and Dana~H Ballard.
+\newblock Predictive coding in the visual cortex: a functional interpretation
+  of some extra-classical receptive-field effects.
+\newblock \emph{Nature neuroscience}, 2\penalty0 (1):\penalty0 79, 1999.
+
+\bibitem[Ridley et~al.(1981)Ridley, Haystead, Baker, and Crow]{ridley1981new}
+RM~Ridley, TAJ Haystead, HF~Baker, and TJ~Crow.
+\newblock A new approach to the role of noradrenaline in learning:
+  problem-solving in the marmoset after $\alpha$-noradrenergic receptor
+  blockade.
+\newblock \emph{Pharmacology Biochemistry and Behavior}, 14\penalty0
+  (6):\penalty0 849--855, 1981.
+
+\bibitem[Rowland et~al.(2007)Rowland, Stanford, and Stein]{rowland2007bayesian}
+Benjamin Rowland, Terrence Stanford, and Barry Stein.
+\newblock A bayesian model unifies multisensory spatial localization with the
+  physiological properties of the superior colliculus.
+\newblock \emph{Experimental Brain Research}, 180:\penalty0 153--161, 2007.
+
+\bibitem[Rudy et~al.(2011)Rudy, Fishell, Lee, and
+  Hjerling-Leffler]{rudy2011three}
+Bernardo Rudy, Gordon Fishell, SooHyun Lee, and Jens Hjerling-Leffler.
+\newblock Three groups of interneurons account for nearly 100\% of neocortical
+  gabaergic neurons.
+\newblock \emph{Developmental neurobiology}, 71\penalty0 (1):\penalty0 45--61,
+  2011.
+
+\bibitem[Runyan et~al.(2017)Runyan, Piasini, Panzeri, and
+  Harvey]{runyan2017distinct}
+Caroline~A Runyan, Eugenio Piasini, Stefano Panzeri, and Christopher~D Harvey.
+\newblock Distinct timescales of population coding across cortex.
+\newblock \emph{Nature}, 548\penalty0 (7665):\penalty0 92--96, 2017.
+
+\bibitem[Rushworth and Behrens(2008)]{rushworth2008choice}
+Matthew~FS Rushworth and Timothy~EJ Behrens.
+\newblock Choice, uncertainty and value in prefrontal and cingulate cortex.
+\newblock \emph{Nature neuroscience}, 11\penalty0 (4):\penalty0 389--397, 2008.
+
+\bibitem[Rutishauser et~al.(2015)Rutishauser, Ye, Koroma, Tudusciuc, Ross,
+  Chung, and Mamelak]{rutishauser2015representation}
+Ueli Rutishauser, Shengxuan Ye, Matthieu Koroma, Oana Tudusciuc, Ian~B Ross,
+  Jeffrey~M Chung, and Adam~N Mamelak.
+\newblock Representation of retrieval confidence by single neurons in the human
+  medial temporal lobe.
+\newblock \emph{Nature neuroscience}, 18\penalty0 (7):\penalty0 1041--1050,
+  2015.
+
+\bibitem[Rutishauser et~al.(2018)Rutishauser, Aflalo, Rosario, Pouratian, and
+  Andersen]{rutishauser2018single}
+Ueli Rutishauser, Tyson Aflalo, Emily~R Rosario, Nader Pouratian, and Richard~A
+  Andersen.
+\newblock Single-neuron representation of memory strength and recognition
+  confidence in left human posterior parietal cortex.
+\newblock \emph{Neuron}, 97\penalty0 (1):\penalty0 209--220, 2018.
+
+\bibitem[Soltani and Izquierdo(2019)]{soltani2019adaptive}
+Alireza Soltani and Alicia Izquierdo.
+\newblock Adaptive learning under expected and unexpected uncertainty.
+\newblock \emph{Nature Reviews Neuroscience}, 20\penalty0 (10):\penalty0
+  635--644, 2019.
+
+\bibitem[Summerfield et~al.(2011)Summerfield, Behrens, and
+  Koechlin]{summerfield2011perceptual}
+Christopher Summerfield, Timothy~E Behrens, and Etienne Koechlin.
+\newblock Perceptual classification in a rapidly changing environment.
+\newblock \emph{Neuron}, 71\penalty0 (4):\penalty0 725--736, 2011.
+
+\bibitem[Swanson and Maffei(2019)]{swanson2019hiring}
+Olivia~K Swanson and Arianna Maffei.
+\newblock From hiring to firing: activation of inhibitory neurons and their
+  recruitment in behavior.
+\newblock \emph{Frontiers in molecular neuroscience}, 12:\penalty0 168, 2019.
+
+\bibitem[Tremblay et~al.(2016)Tremblay, Lee, and Rudy]{tremblay2016gabaergic}
+Robin Tremblay, Soohyun Lee, and Bernardo Rudy.
+\newblock Gabaergic interneurons in the neocortex: from cellular properties to
+  circuits.
+\newblock \emph{Neuron}, 91\penalty0 (2):\penalty0 260--292, 2016.
+
+\bibitem[Urban-Ciecko and Barth(2016)]{urban2016somatostatin}
+Joanna Urban-Ciecko and Alison~L Barth.
+\newblock Somatostatin-expressing neurons in cortical networks.
+\newblock \emph{Nature Reviews Neuroscience}, 17\penalty0 (7):\penalty0
+  401--409, 2016.
+
+\bibitem[Wallace et~al.(1998)Wallace, Meredith, and
+  Stein]{wallace1998multisensory}
+Mark~T Wallace, M~Alex Meredith, and Barry~E Stein.
+\newblock Multisensory integration in the superior colliculus of the alert cat.
+\newblock \emph{Journal of neurophysiology}, 80\penalty0 (2):\penalty0
+  1006--1010, 1998.
+
+\bibitem[Wester and McBain(2014)]{wester2014behavioral}
+Jason~C Wester and Chris~J McBain.
+\newblock Behavioral state-dependent modulation of distinct interneuron
+  subtypes and consequences for circuit function.
+\newblock \emph{Current opinion in neurobiology}, 29:\penalty0 118--125, 2014.
+
+\bibitem[White and Monosov(2016)]{white2016neurons}
+J~Kael White and Ilya~E Monosov.
+\newblock Neurons in the primate dorsal striatum signal the uncertainty of
+  object--reward associations.
+\newblock \emph{Nature communications}, 7\penalty0 (1):\penalty0 12735, 2016.
+
+\bibitem[Wilmes et~al.(2023)Wilmes, Petrovici, Sachidhanandam, and
+  Senn]{wilmes2023uncertainty}
+Katharina~A Wilmes, Mihai~A Petrovici, Shankar Sachidhanandam, and Walter Senn.
+\newblock Uncertainty-modulated prediction errors in cortical microcircuits.
+\newblock \emph{bioRxiv}, pages 2023--05, 2023.
+
+\bibitem[Wilson and Cowan(1972)]{wilson1972excitatory}
+Hugh~R Wilson and Jack~D Cowan.
+\newblock Excitatory and inhibitory interactions in localized populations of
+  model neurons.
+\newblock \emph{Biophysical journal}, 12\penalty0 (1):\penalty0 1--24, 1972.
+
+\bibitem[Wong et~al.(2023)Wong, Braun, Malagarriga, Moehlis, Moreno~Bote,
+  Pouget, and Louis]{wong2023computational}
+Philip Wong, Andreas Braun, Daniel Malagarriga, Jeff Moehlis, Ruben
+  Moreno~Bote, Alexandre Pouget, and Matthieu Louis.
+\newblock Computational principles of adaptive multisensory combination in the
+  drosophila larva.
+\newblock \emph{bioRxiv}, pages 2023--05, 2023.
+
+\bibitem[Yon and Frith(2021)]{yon2021precision}
+Daniel Yon and Chris~D Frith.
+\newblock Precision and the bayesian brain.
+\newblock \emph{Current Biology}, 31\penalty0 (17):\penalty0 R1026--R1032,
+  2021.
+
+\bibitem[Yu and Dayan(2005)]{yu2005uncertainty}
+Angela~J Yu and Peter Dayan.
+\newblock Uncertainty, neuromodulation, and attention.
+\newblock \emph{Neuron}, 46\penalty0 (4):\penalty0 681--692, 2005.
 
 \end{thebibliography}

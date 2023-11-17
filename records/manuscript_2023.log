@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  9 NOV 2023 17:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  15 NOV 2023 11:25
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -363,7 +363,6 @@ Now handling font encoding PD1 ...
 atex/00miktex/hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Option `draft' set `true' on input line 4383.
 Package hyperref Info: Hyper figures OFF on input line 4509.
 Package hyperref Info: Link nesting OFF on input line 4514.
 Package hyperref Info: Hyper index ON on input line 4517.
@@ -464,11 +463,21 @@ LaTeX Font Info:    ... okay on input line 76.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Info: Redefining \microtypecontext on input line 76.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `basictext'.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
 
-Package microtype Warning: `draft' option active.
-(microtype)                Disabling all micro-typographic extensions.
-(microtype)                This might lead to different line and page breaks.
-
+("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
+atex/microtype/mt-cmr.cfg"
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+)
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: sidecap package is loaded.
@@ -530,10 +539,6 @@ LaTeX Info: Redefining \selectfont on input line 126.
 \JustifyingParindent=\skip73
 )
 \AtBeginShipoutBox=\box32
-
-
-Package hyperref Warning: Draft mode on.
-
 Package hyperref Info: Link coloring OFF on input line 76.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
@@ -549,178 +554,102 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 76.
 LaTeX Info: Redefining \pageref on input line 76.
 LaTeX Info: Redefining \nameref on input line 76.
+ (manuscript_2023.out)
+(manuscript_2023.out)
+\@outlinefile=\write3
+\openout3 = `manuscript_2023.out'.
+
 LaTeX Font Info:    Try loading font information for U+msa on input line 88.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
+("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
+atex/microtype/mt-msa.cfg"
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
 LaTeX Font Info:    Try loading font information for U+msb on input line 88.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
+atex/microtype/mt-msb.cfg"
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [1
 
 {/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/data/pdftex/co
 nfig/pdftex.map}]
-<../results/figures/final/Fig_1.pdf, id=12, 328.37332pt x 323.44278pt>
-<../results/figures/final/Fig_2.pdf, id=13, 496.03987pt x 372.76956pt>
- [2] [3]
+<../results/figures/final/Fig_1.pdf, id=171, 328.37332pt x 323.44278pt>
+File: ../results/figures/final/Fig_1.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_1.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_1.pdf  used on input line
+ 124.
+(pdftex.def)             Requested size: 328.37251pt x 323.44199pt.
+<../results/figures/final/Fig_2.pdf, id=173, 496.03987pt x 372.76956pt>
+File: ../results/figures/final/Fig_2.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_2.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_2.pdf  used on input line
+ 146.
+(pdftex.def)             Requested size: 452.9679pt x 340.40393pt.
+ [2] [3 <../results/figures/final/Fig_1.pdf>]
+<../results/figures/final/Fig_3.pdf, id=338, 491.8545pt x 430.25513pt>
+File: ../results/figures/final/Fig_3.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_3.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_3.pdf  used on input line
+ 178.
+(pdftex.def)             Requested size: 452.9679pt x 396.23999pt.
+ [4 <../results/figures/final/Fig_2.pdf>] [5 <../results/figures/final/Fig_3.pd
+f>]
+<../results/figures/final/Fig_4.pdf, id=418, 400.91333pt x 410.54068pt>
+File: ../results/figures/final/Fig_4.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_4.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_4.pdf  used on input line
+ 209.
+(pdftex.def)             Requested size: 400.91235pt x 410.53967pt.
+ [6] [7 <../results/figures/final/Fig_4.pdf>]
+<../results/figures/final/Fig_5.pdf, id=478, 431.48387pt x 294.58084pt>
+File: ../results/figures/final/Fig_5.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_5.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_5.pdf  used on input line
+ 242.
+(pdftex.def)             Requested size: 431.48282pt x 294.58011pt.
+ [8] [9 <../results/figures/final/Fig_5.pdf>] [10] [11] [12] [13]
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: OT1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ (manuscript_2023.bbl [14]
+[15] [16] [17]) [18] (manuscript_2023.toc)
+\tf@toc=\write4
+\openout4 = `manuscript_2023.toc'.
 
-LaTeX Warning: Reference `XXX' on page 4 undefined on input line 159.
-
-
-LaTeX Warning: Reference `XXX' on page 4 undefined on input line 159.
-
-
-Package natbib Warning: Citation `LarkumXXX' on page 4 undefined on input line 
-159.
-
-
-Package natbib Warning: Citation `XXX' on page 4 undefined on input line 159.
-
-<../results/figures/final/Fig_3.pdf, id=24, 491.8545pt x 430.25513pt>
-[4] [5]
-Overfull \hbox (9.20135pt too wide) in paragraph at lines 194--195
-\OT1/cmr/m/n/10 independently. If both variances are similar, the sensory weigh
-t approaches \OT1/cmr/m/it/10 0.5\OT1/cmr/m/n/10 , reflecting equal contributio
-n|
- []
-
-
-Package natbib Warning: Citation `XXX' on page 6 undefined on input line 204.
-
-<../results/figures/final/Fig_4.pdf, id=32, 400.91333pt x 410.54068pt>
-[6] [7]
-<../results/figures/final/Fig_5.pdf, id=40, 431.48387pt x 294.58084pt>
- [8]
-Overfull \hbox (2.75505pt too wide) in paragraph at lines 261--262
-[]\OT1/cmr/m/n/10 In summary, we show that the weighted integration of sensory 
-inputs and predictions can be interpreted|
- []
-
-[9]
-
-Package natbib Warning: Citation `XXX' on page 10 undefined on input line 280.
-
-
-Package natbib Warning: Citation `XXX' on page 10 undefined on input line 282.
-
-
-Overfull \hbox (7.67178pt too wide) in paragraph at lines 282--283
-[]\OT1/cmr/m/n/10 Finally, we illustrate that the weighted integration of feedf
-orward and feedback inputs can be interpreted|
- []
-
-
-Package natbib Warning: Citation `ONeill Schultz' on page 10 undefined on input
- line 286.
-
-
-Package natbib Warning: Citation `2010' on page 10 undefined on input line 286.
-
-
-
-Package natbib Warning: Citation `XXX' on page 10 undefined on input line 286.
-
-
-Package natbib Warning: Citation `Ma et al.' on page 10 undefined on input line
- 286.
-
-
-Package natbib Warning: Citation `2006' on page 10 undefined on input line 286.
-
-
-
-Package natbib Warning: Citation `2008' on page 10 undefined on input line 286.
-
-
-[10]
-
-LaTeX Warning: Reference `rao1999predictive' on page 11 undefined on input line
- 294.
-
-
-Package natbib Warning: Citation `Zmarz2016XXX?necessary' on page 11 undefined 
-on input line 294.
-
-
-LaTeX Warning: Reference `XXX' on page 11 undefined on input line 296.
-
-
-LaTeX Warning: Reference `You and Dayan' on page 11 undefined on input line 302
-.
-
-
-Package natbib Warning: Citation `You and Dayan' on page 11 undefined on input 
-line 302.
-
-
-Overfull \hbox (4.57906pt too wide) in paragraph at lines 302--303
-\OT1/cmr/m/n/10 thereof ([]). Theoretical work by [] suggests that acetylcholin
-e (ACh) correlates with expected uncertainty,|
- []
-
-
-LaTeX Warning: Reference `XXX' on page 11 undefined on input line 306.
-
-
-LaTeX Warning: Reference `XXX' on page 11 undefined on input line 308.
-
-
-LaTeX Warning: Reference `XXX' on page 11 undefined on input line 310.
-
-
-Package natbib Warning: Citation `KathaXXX' on page 11 undefined on input line 
-310.
-
-
-LaTeX Warning: Reference `XXX' on page 11 undefined on input line 310.
-
-
-LaTeX Warning: Reference `yon2021precision' on page 11 undefined on input line 
-319.
-
-
-LaTeX Warning: Reference `yon2021precision' on page 11 undefined on input line 
-319.
-
-[11]
-Overfull \hbox (8.8374pt too wide) in paragraph at lines 327--328
-[]\OT1/cmr/m/n/10 A number of normative models have been proposed for state est
-imation and prediction under uncertainty|
- []
-
-
-Overfull \hbox (6.05951pt too wide) in paragraph at lines 341--342
-[]\OT1/cmr/m/n/10 The excitatory neurons in the PE circuit are simulated as two
- coupled point compartments, representing|
- []
-
-[12] (manuscript_2023.bbl [13] [14]) [15] (manuscript_2023.toc)
-\tf@toc=\write3
-\openout3 = `manuscript_2023.toc'.
-
- [16
+ [19
 
 ]
-Overfull \hbox (9.2271pt too wide) in paragraph at lines 464--467
-\OT1/cmr/m/n/10 connection between the presynaptic neuron $\OML/cmm/m/it/10 Y$ 
-\OT1/cmr/m/n/10 and the postsynaptic neuron $\OML/cmm/m/it/10 X$ \OT1/cmr/m/n/1
-0 ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10 ; []; []; []\OMS/
-cmsy/m/n/10 g$\OT1/cmr/m/n/10 ,|
+Overfull \hbox (1.87651pt too wide) in paragraph at lines 454--457
+\OT1/cmr/m/n/10 (-20) connection between the presynaptic neuron $\OML/cmm/m/it/
+10 Y$ \OT1/cmr/m/n/10 (-20) and the postsynaptic neuron $\OML/cmm/m/it/10 X$ \O
+T1/cmr/m/n/10 (-20) ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10
+ ; []; []; []\OMS/cmsy/m/n/10 g$\OT1/cmr/m/n/10 (-20) ,
  []
 
-[17]
-<../results/figures/final/Figure_gains.png, id=78, 255.354pt x 69.49965pt>
- [18] [19]
-Underfull \hbox (badness 10000) in paragraph at lines 614--643
+[20]
+<../results/figures/final/Figure_gains.png, id=879, 255.354pt x 69.49965pt>
+File: ../results/figures/final/Figure_gains.png Graphic file (type png)
+<use ../results/figures/final/Figure_gains.png>
+Package pdftex.def Info: ../results/figures/final/Figure_gains.png  used on inp
+ut line 531.
+(pdftex.def)             Requested size: 255.35338pt x 69.49947pt.
+ [21 <../results/figures/final/Figure_gains.png>] [22]
+Underfull \hbox (badness 10000) in paragraph at lines 604--633
 
  []
 
-[20] [21] [22]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 818.
+[23] [24] [25]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 808.
 
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
@@ -728,78 +657,129 @@ atex/base/omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 818.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 808.
 
-Overfull \hbox (15.50513pt too wide) in paragraph at lines 823--824
-\OT1/cmr/m/n/10 Hence, different neuromodulators may have the same effect on th
-e sensory weight or the same neuromodulator|
+Overfull \hbox (7.12895pt too wide) in paragraph at lines 813--814
+\OT1/cmr/m/n/10 (-20) Hence, different neuromodulators may have the same effect
+ on the sensory weight or the same neuromodulator
  []
 
-[23]
-<../results/figures/final/Fig_2_S1.pdf, id=102, 277.87172pt x 171.31543pt>
+[26]
+<../results/figures/final/Fig_2_S1.pdf, id=970, 277.87172pt x 171.31543pt>
+File: ../results/figures/final/Fig_2_S1.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_2_S1.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_2_S1.pdf  used on input l
+ine 917.
+(pdftex.def)             Requested size: 277.87103pt x 171.315pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_2_S2.pdf, id=103, 404.86034pt x 231.71579pt>
+<../results/figures/final/Fig_2_S2.pdf, id=972, 404.86034pt x 231.71579pt>
+File: ../results/figures/final/Fig_2_S2.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_2_S2.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_2_S2.pdf  used on input l
+ine 928.
+(pdftex.def)             Requested size: 404.85934pt x 231.71521pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_2_S3.pdf, id=104, 508.726pt x 200.59653pt>
+<../results/figures/final/Fig_2_S3.pdf, id=973, 508.726pt x 200.59653pt>
+File: ../results/figures/final/Fig_2_S3.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_2_S3.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_2_S3.pdf  used on input l
+ine 939.
+(pdftex.def)             Requested size: 452.9679pt x 178.60991pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S1.png, id=105, 432.53595pt x 119.84775pt>
+<../results/figures/final/Fig_3_S1.png, id=974, 432.53595pt x 119.84775pt>
+File: ../results/figures/final/Fig_3_S1.png Graphic file (type png)
+<use ../results/figures/final/Fig_3_S1.png>
+Package pdftex.def Info: ../results/figures/final/Fig_3_S1.png  used on input l
+ine 951.
+(pdftex.def)             Requested size: 432.53488pt x 119.84744pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S2.png, id=106, 245.59755pt x 149.23755pt>
+<../results/figures/final/Fig_3_S2.png, id=975, 245.59755pt x 149.23755pt>
+File: ../results/figures/final/Fig_3_S2.png Graphic file (type png)
+<use ../results/figures/final/Fig_3_S2.png>
+Package pdftex.def Info: ../results/figures/final/Fig_3_S2.png  used on input l
+ine 962.
+(pdftex.def)             Requested size: 245.59694pt x 149.23717pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S1.pdf, id=107, 380.09833pt x 408.46613pt>
+<../results/figures/final/Fig_4_S1.pdf, id=976, 380.09833pt x 408.46613pt>
+File: ../results/figures/final/Fig_4_S1.pdf Graphic file (type pdf)
+<use ../results/figures/final/Fig_4_S1.pdf>
+Package pdftex.def Info: ../results/figures/final/Fig_4_S1.pdf  used on input l
+ine 973.
+(pdftex.def)             Requested size: 380.09738pt x 408.46512pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S2.png, id=108, 354.00255pt x 370.2633pt>
+<../results/figures/final/Fig_4_S2.png, id=980, 354.00255pt x 370.2633pt>
+File: ../results/figures/final/Fig_4_S2.png Graphic file (type png)
+<use ../results/figures/final/Fig_4_S2.png>
+Package pdftex.def Info: ../results/figures/final/Fig_4_S2.png  used on input l
+ine 983.
+(pdftex.def)             Requested size: 354.00168pt x 370.26239pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S3.png, id=109, 267.1581pt x 230.17995pt>
+<../results/figures/final/Fig_4_S3.png, id=982, 267.1581pt x 230.17995pt>
+File: ../results/figures/final/Fig_4_S3.png Graphic file (type png)
+<use ../results/figures/final/Fig_4_S3.png>
+Package pdftex.def Info: ../results/figures/final/Fig_4_S3.png  used on input l
+ine 994.
+(pdftex.def)             Requested size: 267.15744pt x 230.17937pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S4.png, id=110, 163.45065pt x 119.36595pt>
+<../results/figures/final/Fig_4_S4.png, id=989, 163.45065pt x 119.36595pt>
+File: ../results/figures/final/Fig_4_S4.png Graphic file (type png)
+<use ../results/figures/final/Fig_4_S4.png>
+Package pdftex.def Info: ../results/figures/final/Fig_4_S4.png  used on input l
+ine 1003.
+(pdftex.def)             Requested size: 163.45024pt x 119.36565pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_5_S1.png, id=111, 169.71405pt x 90.21706pt>
+<../results/figures/final/Fig_5_S1.png, id=990, 169.71405pt x 90.21706pt>
+File: ../results/figures/final/Fig_5_S1.png Graphic file (type png)
+<use ../results/figures/final/Fig_5_S1.png>
+Package pdftex.def Info: ../results/figures/final/Fig_5_S1.png  used on input l
+ine 1013.
+(pdftex.def)             Requested size: 169.71364pt x 90.21681pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1031.
-[24] [25] [26] [27] [28] [29]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1031.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1021.
+[27] [28 <../results/figures/final/Fig_2_S1.pdf> <../results/figures/final/Fig_
+2_S2.pdf>] [29 <../results/figures/final/Fig_2_S3.pdf> <../results/figures/fina
+l/Fig_3_S1.png> <../results/figures/final/Fig_3_S2.png>] [30 <../results/figure
+s/final/Fig_4_S1.pdf>] [31 <../results/figures/final/Fig_4_S2.png> <../results/
+figures/final/Fig_4_S3.png>] [32 <../results/figures/final/Fig_4_S4.png> <../re
+sults/figures/final/Fig_5_S1.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1021.
  (manuscript_2023.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1031.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1031.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1021.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1021.
 
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1031.
+Package rerunfilecheck Info: File `manuscript_2023.out' has not changed.
+(rerunfilecheck)             Checksum: 1F43A099D73F523B217A0586173B84F2;1501.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1021.
  ) 
 Here is how much of TeX's memory you used:
- 10226 strings out of 494891
- 164746 string characters out of 3176446
- 313674 words of memory out of 3000000
- 13712 multiletter control sequences out of 15000+200000
- 11740 words of font info for 45 fonts, out of 3000000 for 9000
+ 10945 strings out of 494891
+ 178202 string characters out of 3176446
+ 332987 words of memory out of 3000000
+ 14008 multiletter control sequences out of 15000+200000
+ 17845 words of font info for 142 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
- 36i,15n,43p,2303b,550s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 40i,15n,43p,2303b,583s stack positions out of 5000i,500n,10000p,200000b,50000s
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/font
 s/type1/public/amsfonts/cm/cmbx10.pfb></Users/loreen.hertaeg/Library/Applicatio
 n Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Use
@@ -832,9 +812,9 @@ upport/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/
 loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pu
 blic/amsfonts/cm/cmtt10.pfb></Users/loreen.hertaeg/Library/Application Support/
 MiKTeX/texmfs/install/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on manuscript_2023.pdf (29 pages, 407011 bytes).
+Output written on manuscript_2023.pdf (32 pages, 6258167 bytes).
 PDF statistics:
- 200 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1239 PDF objects out of 1440 (max. 8388607)
+ 210 named destinations out of 1000 (max. 500000)
+ 17633 words of extra memory for PDF output out of 20736 (max. 10000000)
 
