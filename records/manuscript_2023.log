@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  15 NOV 2023 11:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  24 NOV 2023 08:19
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -582,13 +582,13 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 {/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/data/pdftex/co
 nfig/pdftex.map}]
-<../results/figures/final/Fig_1.pdf, id=171, 328.37332pt x 323.44278pt>
+<../results/figures/final/Fig_1.pdf, id=170, 328.37332pt x 323.44278pt>
 File: ../results/figures/final/Fig_1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_1.pdf  used on input line
  124.
 (pdftex.def)             Requested size: 328.37251pt x 323.44199pt.
-<../results/figures/final/Fig_2.pdf, id=173, 496.03987pt x 372.76956pt>
+<../results/figures/final/Fig_2.pdf, id=172, 496.03987pt x 372.76956pt>
 File: ../results/figures/final/Fig_2.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2.pdf  used on input line
@@ -610,7 +610,7 @@ Package pdftex.def Info: ../results/figures/final/Fig_4.pdf  used on input line
  209.
 (pdftex.def)             Requested size: 400.91235pt x 410.53967pt.
  [6] [7 <../results/figures/final/Fig_4.pdf>]
-<../results/figures/final/Fig_5.pdf, id=478, 431.48387pt x 294.58084pt>
+<../results/figures/final/Fig_5.pdf, id=479, 431.48387pt x 294.58084pt>
 File: ../results/figures/final/Fig_5.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_5.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_5.pdf  used on input line
@@ -629,7 +629,7 @@ Package microtype Info: Loading generic protrusion settings for font family
  [19
 
 ]
-Overfull \hbox (1.87651pt too wide) in paragraph at lines 454--457
+Overfull \hbox (1.87651pt too wide) in paragraph at lines 455--458
 \OT1/cmr/m/n/10 (-20) connection between the presynaptic neuron $\OML/cmm/m/it/
 10 Y$ \OT1/cmr/m/n/10 (-20) and the postsynaptic neuron $\OML/cmm/m/it/10 X$ \O
 T1/cmr/m/n/10 (-20) ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10
@@ -637,19 +637,19 @@ T1/cmr/m/n/10 (-20) ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10
  []
 
 [20]
-<../results/figures/final/Figure_gains.png, id=879, 255.354pt x 69.49965pt>
+<../results/figures/final/Figure_gains.png, id=869, 255.354pt x 69.49965pt>
 File: ../results/figures/final/Figure_gains.png Graphic file (type png)
 <use ../results/figures/final/Figure_gains.png>
 Package pdftex.def Info: ../results/figures/final/Figure_gains.png  used on inp
-ut line 531.
+ut line 532.
 (pdftex.def)             Requested size: 255.35338pt x 69.49947pt.
  [21 <../results/figures/final/Figure_gains.png>] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 604--633
+Underfull \hbox (badness 10000) in paragraph at lines 605--634
 
  []
 
 [23] [24] [25]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 808.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 809.
 
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
@@ -657,127 +657,127 @@ atex/base/omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 808.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 809.
 
-Overfull \hbox (7.12895pt too wide) in paragraph at lines 813--814
+Overfull \hbox (7.12895pt too wide) in paragraph at lines 814--815
 \OT1/cmr/m/n/10 (-20) Hence, different neuromodulators may have the same effect
  on the sensory weight or the same neuromodulator
  []
 
 [26]
-<../results/figures/final/Fig_2_S1.pdf, id=970, 277.87172pt x 171.31543pt>
+<../results/figures/final/Fig_2_S1.pdf, id=960, 277.87172pt x 171.31543pt>
 File: ../results/figures/final/Fig_2_S1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S1.pdf  used on input l
-ine 917.
+ine 918.
 (pdftex.def)             Requested size: 277.87103pt x 171.315pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_2_S2.pdf, id=972, 404.86034pt x 231.71579pt>
+<../results/figures/final/Fig_2_S2.pdf, id=962, 404.86034pt x 231.71579pt>
 File: ../results/figures/final/Fig_2_S2.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S2.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S2.pdf  used on input l
-ine 928.
+ine 929.
 (pdftex.def)             Requested size: 404.85934pt x 231.71521pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_2_S3.pdf, id=973, 508.726pt x 200.59653pt>
+<../results/figures/final/Fig_2_S3.pdf, id=963, 508.726pt x 200.59653pt>
 File: ../results/figures/final/Fig_2_S3.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S3.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S3.pdf  used on input l
-ine 939.
+ine 940.
 (pdftex.def)             Requested size: 452.9679pt x 178.60991pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S1.png, id=974, 432.53595pt x 119.84775pt>
+<../results/figures/final/Fig_3_S1.png, id=964, 432.53595pt x 119.84775pt>
 File: ../results/figures/final/Fig_3_S1.png Graphic file (type png)
 <use ../results/figures/final/Fig_3_S1.png>
 Package pdftex.def Info: ../results/figures/final/Fig_3_S1.png  used on input l
-ine 951.
+ine 952.
 (pdftex.def)             Requested size: 432.53488pt x 119.84744pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S2.png, id=975, 245.59755pt x 149.23755pt>
+<../results/figures/final/Fig_3_S2.png, id=965, 245.59755pt x 149.23755pt>
 File: ../results/figures/final/Fig_3_S2.png Graphic file (type png)
 <use ../results/figures/final/Fig_3_S2.png>
 Package pdftex.def Info: ../results/figures/final/Fig_3_S2.png  used on input l
-ine 962.
+ine 963.
 (pdftex.def)             Requested size: 245.59694pt x 149.23717pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S1.pdf, id=976, 380.09833pt x 408.46613pt>
+<../results/figures/final/Fig_4_S1.pdf, id=966, 380.09833pt x 408.46613pt>
 File: ../results/figures/final/Fig_4_S1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_4_S1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S1.pdf  used on input l
-ine 973.
+ine 974.
 (pdftex.def)             Requested size: 380.09738pt x 408.46512pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S2.png, id=980, 354.00255pt x 370.2633pt>
+<../results/figures/final/Fig_4_S2.png, id=970, 354.00255pt x 370.2633pt>
 File: ../results/figures/final/Fig_4_S2.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S2.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S2.png  used on input l
-ine 983.
+ine 984.
 (pdftex.def)             Requested size: 354.00168pt x 370.26239pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S3.png, id=982, 267.1581pt x 230.17995pt>
+<../results/figures/final/Fig_4_S3.png, id=972, 267.1581pt x 230.17995pt>
 File: ../results/figures/final/Fig_4_S3.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S3.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S3.png  used on input l
-ine 994.
+ine 995.
 (pdftex.def)             Requested size: 267.15744pt x 230.17937pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S4.png, id=989, 163.45065pt x 119.36595pt>
+<../results/figures/final/Fig_4_S4.png, id=979, 163.45065pt x 119.36595pt>
 File: ../results/figures/final/Fig_4_S4.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S4.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S4.png  used on input l
-ine 1003.
+ine 1004.
 (pdftex.def)             Requested size: 163.45024pt x 119.36565pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_5_S1.png, id=990, 169.71405pt x 90.21706pt>
+<../results/figures/final/Fig_5_S1.png, id=980, 169.71405pt x 90.21706pt>
 File: ../results/figures/final/Fig_5_S1.png Graphic file (type png)
 <use ../results/figures/final/Fig_5_S1.png>
 Package pdftex.def Info: ../results/figures/final/Fig_5_S1.png  used on input l
-ine 1013.
+ine 1014.
 (pdftex.def)             Requested size: 169.71364pt x 90.21681pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1021.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1022.
 [27] [28 <../results/figures/final/Fig_2_S1.pdf> <../results/figures/final/Fig_
 2_S2.pdf>] [29 <../results/figures/final/Fig_2_S3.pdf> <../results/figures/fina
 l/Fig_3_S1.png> <../results/figures/final/Fig_3_S2.png>] [30 <../results/figure
 s/final/Fig_4_S1.pdf>] [31 <../results/figures/final/Fig_4_S2.png> <../results/
 figures/final/Fig_4_S3.png>] [32 <../results/figures/final/Fig_4_S4.png> <../re
 sults/figures/final/Fig_5_S1.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1021.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1022.
  (manuscript_2023.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1021.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1021.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1022.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1022.
 
 Package rerunfilecheck Info: File `manuscript_2023.out' has not changed.
 (rerunfilecheck)             Checksum: 1F43A099D73F523B217A0586173B84F2;1501.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1021.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1022.
  ) 
 Here is how much of TeX's memory you used:
- 10945 strings out of 494891
- 178202 string characters out of 3176446
- 332987 words of memory out of 3000000
+ 10947 strings out of 494891
+ 178216 string characters out of 3176446
+ 333247 words of memory out of 3000000
  14008 multiletter control sequences out of 15000+200000
- 17845 words of font info for 142 fonts, out of 3000000 for 9000
+ 17897 words of font info for 143 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
  40i,15n,43p,2303b,583s stack positions out of 5000i,500n,10000p,200000b,50000s
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/font
@@ -791,30 +791,32 @@ msfonts/cm/cmex10.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX
 /texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/loreen.hertae
 g/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts
 /cm/cmmi5.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/
-install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/loreen.hertaeg/Library
-/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi8
+install/fonts/type1/public/amsfonts/cm/cmmi6.pfb></Users/loreen.hertaeg/Library
+/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi7
 .pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/f
-onts/type1/public/amsfonts/cm/cmr10.pfb></Users/loreen.hertaeg/Library/Applicat
-ion Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb></Us
+onts/type1/public/amsfonts/cm/cmmi8.pfb></Users/loreen.hertaeg/Library/Applicat
+ion Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb></Us
 ers/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type
-1/public/amsfonts/cm/cmr5.pfb></Users/loreen.hertaeg/Library/Application Suppor
-t/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr6.pfb></Users/loreen.
-hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/am
-sfonts/cm/cmr7.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/te
-xmfs/install/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/loreen.hertaeg/Lib
-rary/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/c
-mr9.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/instal
-l/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/loreen.hertaeg/Library/Appl
-ication Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
+1/public/amsfonts/cm/cmr12.pfb></Users/loreen.hertaeg/Library/Application Suppo
+rt/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr5.pfb></Users/loreen
+.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/a
+msfonts/cm/cmr6.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/t
+exmfs/install/fonts/type1/public/amsfonts/cm/cmr7.pfb></Users/loreen.hertaeg/Li
+brary/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/
+cmr8.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/insta
+ll/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/loreen.hertaeg/Library/Appli
+cation Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/
-type1/public/amsfonts/cm/cmsy7.pfb></Users/loreen.hertaeg/Library/Application S
-upport/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/
-loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pu
-blic/amsfonts/cm/cmtt10.pfb></Users/loreen.hertaeg/Library/Application Support/
-MiKTeX/texmfs/install/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on manuscript_2023.pdf (32 pages, 6258167 bytes).
+type1/public/amsfonts/cm/cmsy6.pfb></Users/loreen.hertaeg/Library/Application S
+upport/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy7.pfb></Users/l
+oreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pub
+lic/amsfonts/cm/cmti10.pfb></Users/loreen.hertaeg/Library/Application Support/M
+iKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/loreen.h
+ertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/ams
+fonts/symbols/msam10.pfb>
+Output written on manuscript_2023.pdf (32 pages, 6264799 bytes).
 PDF statistics:
- 1239 PDF objects out of 1440 (max. 8388607)
+ 1233 PDF objects out of 1440 (max. 8388607)
  210 named destinations out of 1000 (max. 500000)
  17633 words of extra memory for PDF output out of 20736 (max. 10000000)
 
