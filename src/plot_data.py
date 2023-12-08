@@ -118,6 +118,8 @@ def plot_gain_factors(gains_nPE, gains_pPE, figsize=(10,1), fs = 6):
                     ax = ax_B, cbar = False)
     g.set_facecolor('#EBEBEB')
     
+    ax_B.set_xlabel('Neurons', fontsize=fs)
+    
     ax_C.tick_params(labelsize=fs)
     ax_C.tick_params(size=2.0)
     ax_C.yaxis.label.set_size(fs)
@@ -986,63 +988,62 @@ def plot_neuromod_impact_inter(column, std_mean, n_std, figsize=(12,3), fs=6, lw
         sns.despine(ax=ax3)
 
 
-def plot_changes_upon_input2PE_neurons_new(std_mean = 1, n_std = 1, mfn_flag = '10', fs=6, lw=1, ms=4,mew=2,
-                                       alpha = 0.2, ax1 = None, ax2 = None):
+def plot_changes_upon_input2PE_neurons_new(std_mean = 1, n_std = 1, mfn_flag = '10', fs=6, lw=1, ms=3, mew=2,
+                                           alpha = 1, ax1 = None, ax2 = None):
     
     if ax1 is None:
-        f, (ax1, ax2) = plt.subplots(1, 2, sharex=True, sharey=True)
+        f, (ax1, ax2) = plt.subplots(1, 2, figsize=(2,2), sharex=True, sharey=True)
     
-    ### results lower column
-    column = 1
-    identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
+    ### rload data
+    identifier = '_column_1_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
     file_for_data = '../results/data/neuromod/data_moments_vs_PE_neurons_' + mfn_flag + identifier + '.pickle'
     
     with open(file_for_data,'rb') as f:
-        [pert_strength, m_act_lower, v_act_lower, v_act_higher] = pickle.load(f)
-        
-    ax1.plot(pert_strength, v_act_lower[:,0], color=color_v_neuron, marker=11, ls='None', lw=lw, ms=ms)
-    ax2.plot(pert_strength, v_act_higher[:,0], color=color_v_neuron, marker=11, ls='None', lw=lw, ms=ms)
+        [pert_strength, m_act_lower1, v_act_lower1, v_act_higher1] = pickle.load(f)
     
-    ax1.plot(pert_strength, v_act_lower[:,0], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
-    ax2.plot(pert_strength, v_act_higher[:,0], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
-    
-    ax1.plot(pert_strength, v_act_lower[:,1], color=color_v_neuron, marker=10, ls='None', lw=lw, ms=ms)
-    ax2.plot(pert_strength, v_act_higher[:,1], color=color_v_neuron, marker=10, ls='None', lw=lw, ms=ms)
-    
-    ax1.plot(pert_strength, v_act_lower[:,1], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
-    ax2.plot(pert_strength, v_act_higher[:,1], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
-    
-    ### results higher column
-    column = 2
-    identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
+    identifier = '_column_2_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
     file_for_data = '../results/data/neuromod/data_moments_vs_PE_neurons_' + mfn_flag + identifier + '.pickle'
     
     with open(file_for_data,'rb') as f:
-        [pert_strength, m_act_lower, v_act_lower, v_act_higher] = pickle.load(f)
-        
-    ax1.plot(pert_strength, v_act_lower[:,0], color=color_v_neuron_light, marker=11, ls='None', lw=lw, ms=ms)
-    ax2.plot(pert_strength, v_act_higher[:,0], color=color_v_neuron_light, marker=11, ls='None', lw=lw, ms=ms)
-
-    ax1.plot(pert_strength, v_act_lower[:,0], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
-    ax2.plot(pert_strength, v_act_higher[:,0], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
+        [pert_strength, m_act_lower2, v_act_lower2, v_act_higher2] = pickle.load(f)
     
-    ax1.plot(pert_strength, v_act_lower[:,1], color=color_v_neuron_light, marker=10, ls='None', lw=lw, ms=ms)
-    ax2.plot(pert_strength, v_act_higher[:,1], color=color_v_neuron_light, marker=10, ls='None', lw=lw, ms=ms)
+    
+    # PE and V in same subnetwork
+    ax1.plot(pert_strength, v_act_lower1[:,0], color=color_v_neuron, marker=11, ls='None', lw=lw, ms=ms)
+    ax1.plot(pert_strength, v_act_lower1[:,0], color=color_v_neuron, lw=lw, ms=ms, zorder=0, alpha=alpha)
+    ax1.plot(pert_strength, v_act_lower1[:,1], color=color_v_neuron, lw=lw, ms=ms, zorder=0, alpha=alpha)
+    ax1.plot(pert_strength, v_act_lower1[:,1], color=color_v_neuron, marker=10, ls='None', lw=lw, ms=ms)
+    
+    ax1.plot(pert_strength, v_act_higher2[:,0], color=color_v_neuron_light, marker=11, ls='None', lw=lw, ms=ms)
+    ax1.plot(pert_strength, v_act_higher2[:,0], color=color_v_neuron_light, lw=lw, ms=ms, zorder=0, alpha=alpha)
+    ax1.plot(pert_strength, v_act_higher2[:,1], color=color_v_neuron_light, marker=10, ls='None', lw=lw, ms=ms)
+    ax1.plot(pert_strength, v_act_higher2[:,1], color=color_v_neuron_light, lw=lw, ms=ms, zorder=0, alpha=alpha)
+    
+    
+    ### PE and V in different subnetworks  
+    ax2.plot(pert_strength, v_act_lower2[:,0], color=color_v_neuron_light, marker=11, ls='None', lw=lw, ms=ms)
+    ax2.plot(pert_strength, v_act_lower2[:,0], color=color_v_neuron, lw=lw, ms=ms, zorder=0, alpha=alpha)
+    ax2.plot(pert_strength, v_act_lower2[:,1], color=color_v_neuron_light, marker=10, ls='None', lw=lw, ms=ms)
+    ax2.plot(pert_strength, v_act_lower2[:,1], color=color_v_neuron, lw=lw, ms=ms, zorder=0, alpha=alpha)
+    
+    ax2.plot(pert_strength, v_act_higher1[:,0], color=color_v_neuron, marker=11, ls='None', lw=lw, ms=ms)
+    ax2.plot(pert_strength, v_act_higher1[:,0], color=color_v_neuron_light, lw=lw, ms=ms, zorder=0, alpha=alpha)
+    ax2.plot(pert_strength, v_act_higher1[:,1], color=color_v_neuron, marker=10, ls='None', lw=lw, ms=ms)
+    ax2.plot(pert_strength, v_act_higher1[:,1], color=color_v_neuron_light, lw=lw, ms=ms, zorder=0, alpha=alpha)
 
-    ax1.plot(pert_strength, v_act_lower[:,1], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
-    ax2.plot(pert_strength, v_act_higher[:,1], color='k', lw=lw, ms=ms, zorder=0, alpha=alpha)
     
     # make legends
-    ax1.plot(np.nan, np.nan, color='k', ls="None", marker=10, label='pPE', ms=ms)
-    ax1.plot(np.nan, np.nan, color='k', ls="None", marker=11, label='nPE', ms=ms)
+    ax1.plot(np.nan, np.nan, color='k', ls="None", marker=10, label='pPE targeted', ms=ms)
+    ax1.plot(np.nan, np.nan, color='k', ls="None", marker=11, label='nPE targeted', ms=ms)
     ax1.legend(loc=0, frameon=False, fontsize=fs, handletextpad=0.2)
     
-    ax2.plot(np.nan, np.nan, ls="None", marker='_', label='Lower PE', ms=6, 
+    ax2.plot(np.nan, np.nan, ls="None", marker='_', label='Lower circuit', ms=6, 
              color=color_v_neuron, markeredgewidth=mew)
-    ax2.plot(np.nan, np.nan, ls="None", marker='_', label='Higher PE', ms=6, 
+    ax2.plot(np.nan, np.nan, ls="None", marker='_', label='Higher circuit', ms=6, 
              color=color_v_neuron_light, markeredgewidth=mew)
     ax2.legend(loc=0, frameon=False, fontsize=fs, handletextpad=0.2)
 
+    # polish plot
     ax1.tick_params(size=2.0) 
     ax1.tick_params(axis='both', labelsize=fs)
     ax1.yaxis.set_major_locator(plt.MaxNLocator(3))
@@ -1053,10 +1054,12 @@ def plot_changes_upon_input2PE_neurons_new(std_mean = 1, n_std = 1, mfn_flag = '
     ax2.yaxis.set_major_locator(plt.MaxNLocator(3))
     ax2.xaxis.set_major_locator(plt.MaxNLocator(3))
     
-    ax1.set_ylabel('V neuron (lower)', fontsize=fs, labelpad=10)
-    ax2.set_ylabel('V neuron (higher)', fontsize=fs)
-    ax1.set_xlabel('Perturbation (1/s)', fontsize=fs)
-    ax2.set_xlabel('Perturbation (1/s)', fontsize=fs)
+    ax1.set_ylabel('V neuron', fontsize=fs, labelpad=10)
+    ax2.set_ylabel('V neuron', fontsize=fs)
+    ax1.set_xlabel('Perturbation of PE (1/s)', fontsize=fs)
+    ax2.set_xlabel('Perturbation of PE (1/s)', fontsize=fs)
+    
+    ax2.set_ylim([0.5,1.2])
     
     sns.despine(ax=ax1)
     sns.despine(ax=ax2)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  15 NOV 2023 11:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  7 DEC 2023 10:48
 entering extended mode
 **./diff_paper.tex
 (diff_paper.tex
@@ -432,31 +432,31 @@ Package: settobox 2016/05/16 v1.5 Assign box dimensions to length registers (HO
 \DIFdelgraphicsbox=\box34
 \DIFdelgraphicswidth=\skip61
 \DIFdelgraphicsheight=\skip62
-LaTeX Info: Redefining \DIFaddbegin on input line 137.
-LaTeX Info: Redefining \DIFaddend on input line 138.
-LaTeX Info: Redefining \DIFdelbegin on input line 139.
-LaTeX Info: Redefining \DIFdelend on input line 140.
-LaTeX Info: Redefining \DIFaddbeginFL on input line 145.
-LaTeX Info: Redefining \DIFaddendFL on input line 146.
-LaTeX Info: Redefining \DIFdelbeginFL on input line 147.
-LaTeX Info: Redefining \DIFdelendFL on input line 148.
+LaTeX Info: Redefining \DIFaddbegin on input line 130.
+LaTeX Info: Redefining \DIFaddend on input line 131.
+LaTeX Info: Redefining \DIFdelbegin on input line 132.
+LaTeX Info: Redefining \DIFdelend on input line 133.
+LaTeX Info: Redefining \DIFaddbeginFL on input line 138.
+LaTeX Info: Redefining \DIFaddendFL on input line 139.
+LaTeX Info: Redefining \DIFdelbeginFL on input line 140.
+LaTeX Info: Redefining \DIFdelendFL on input line 141.
  (diff_paper.aux)
 \openout1 = `diff_paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 151.
-LaTeX Font Info:    ... okay on input line 151.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 151.
-LaTeX Font Info:    ... okay on input line 151.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 151.
-LaTeX Font Info:    ... okay on input line 151.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 151.
-LaTeX Font Info:    ... okay on input line 151.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 151.
-LaTeX Font Info:    ... okay on input line 151.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 151.
-LaTeX Font Info:    ... okay on input line 151.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 151.
-LaTeX Font Info:    ... okay on input line 151.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -492,7 +492,7 @@ LaTeX Font Info:    ... okay on input line 151.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 151.
+LaTeX Info: Redefining \microtypecontext on input line 144.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -569,7 +569,7 @@ LaTeX Info: Redefining \selectfont on input line 126.
 \JustifyingParindent=\skip76
 )
 \AtBeginShipoutBox=\box36
-Package hyperref Info: Link coloring OFF on input line 151.
+Package hyperref Info: Link coloring OFF on input line 144.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/hyperref/nameref.sty"
@@ -581,14 +581,14 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count133
 )
-LaTeX Info: Redefining \ref on input line 151.
-LaTeX Info: Redefining \pageref on input line 151.
-LaTeX Info: Redefining \nameref on input line 151.
+LaTeX Info: Redefining \ref on input line 144.
+LaTeX Info: Redefining \pageref on input line 144.
+LaTeX Info: Redefining \nameref on input line 144.
  (diff_paper.out) (diff_paper.out)
 \@outlinefile=\write3
 \openout3 = `diff_paper.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 179.
+LaTeX Font Info:    Try loading font information for U+msa on input line 156.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsa.fd"
@@ -598,7 +598,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 atex/microtype/mt-msa.cfg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 179.
+LaTeX Font Info:    Try loading font information for U+msb on input line 156.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/amsfonts/umsb.fd"
@@ -607,418 +607,219 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/microtype/mt-msb.cfg"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-Overfull \hbox (47.47296pt too wide) in paragraph at lines 207--214
-\OT1/cmr/m/n/10 (-20) prominent example of this hypothesis is Bayesian multisen
-sory integration []|   [][][]|   []
- []
-
-
-Overfull \hbox (227.68295pt too wide) in paragraph at lines 207--214
-|   []
- []
-
-
-Overfull \hbox (108.45262pt too wide) in paragraph at lines 215--224
-\OT1/cmr/m/n/10 (-20) neurons, termed PE neurons []|   [][][]|   []
- []
-
-
-Overfull \hbox (63.76585pt too wide) in paragraph at lines 215--224
-\OT1/cmr/m/n/10 (-20) negative or positive PEs []|   [][][]|   []
- []
-
-[1
+) [1
 
 {/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/data/pdftex/co
 nfig/pdftex.map}]
-Overfull \hbox (106.39104pt too wide) in paragraph at lines 225--232
-[][]|   []
- []
-
-
-Overfull \hbox (43.3053pt too wide) in paragraph at lines 225--232
-\OT1/cmr/m/n/10 (-20) inhibition that is the basis for nPE and pPE neurons []| 
-  [][][]|   []
- []
-
-
-Overfull \hbox (413.66933pt too wide) in paragraph at lines 225--232
-\OT1/cmr/m/n/10 (-20) manifestation of the contraction bias []|   [][][]|   []
- []
-
-<../results/figures/final/Fig_1.pdf, id=170, 328.37332pt x 323.44278pt>
+<../results/figures/final/Fig_1.pdf, id=171, 341.80952pt x 325.84296pt>
 File: ../results/figures/final/Fig_1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_1.pdf  used on input line
- 237.
-(pdftex.def)             Requested size: 328.37251pt x 323.44199pt.
-<../results/figures/final/Fig_2.pdf, id=172, 496.03987pt x 372.76956pt>
+ 192.
+(pdftex.def)             Requested size: 341.80869pt x 325.84215pt.
+<../results/figures/final/Fig_2.pdf, id=173, 496.03987pt x 372.76956pt>
 File: ../results/figures/final/Fig_2.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2.pdf  used on input line
- 261.
+ 214.
 (pdftex.def)             Requested size: 452.9679pt x 340.40393pt.
-[2]
-Overfull \hbox (101.21419pt too wide) in paragraph at lines 280--291
-[]|   []   |   []   |   []   [][]|   []   |   []   |   []   []\OT1/cmr/m/n/10 (
--20) this core circuit []|   []   |   []   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (107.97444pt too wide) in paragraph at lines 280--291
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []
- []
-
-[3 <../results/figures/final/Fig_1.pdf>] [4 <../results/figures/final/Fig_2.pdf
->]
-<../results/figures/final/Fig_3.pdf, id=357, 491.8545pt x 430.25513pt>
+ [2] [3 <../results/figures/final/Fig_1.pdf>] [4 <../results/figures/final/Fig_
+2.pdf>]
+<../results/figures/final/Fig_3.pdf, id=354, 491.8545pt x 430.25513pt>
 File: ../results/figures/final/Fig_3.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_3.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_3.pdf  used on input line
- 311.
+ 246.
 (pdftex.def)             Requested size: 452.9679pt x 396.23999pt.
-
-Overfull \hbox (44.60376pt too wide) in paragraph at lines 329--332
-|   []   |   []   |   []   |   []   |   []   |   []   [][]|   []   |   []   |  
- []   |   []   |   []   |   []   |   []
- []
-
-[5] [6 <../results/figures/final/Fig_3.pdf>]
-<../results/figures/final/Fig_4.pdf, id=424, 400.91333pt x 410.54068pt>
+ [5]
+<../results/figures/final/Fig_4.pdf, id=397, 402.09047pt x 408.34518pt>
 File: ../results/figures/final/Fig_4.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_4.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_4.pdf  used on input line
- 362.
-(pdftex.def)             Requested size: 400.91235pt x 410.53967pt.
-
-Overfull \hbox (184.86784pt too wide) in paragraph at lines 351--377
-\OT1/cmr/m/n/10 (-20) prominent target of neuromodulatory inputs is inhibitory 
-neurons []|   []   |   []   |   [][][]|   []
- []
-
-
-Overfull \hbox (75.16757pt too wide) in paragraph at lines 351--377
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   [][]|  
- []
- []
-
-
-Overfull \hbox (8.8385pt too wide) in paragraph at lines 386--387
-[]|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [
-]   |   []   |   []   |   []   |   []   |   []   |   []   |   []
- []
-
-[7] [8 <../results/figures/final/Fig_4.pdf>]
-Overfull \hbox (8.62593pt too wide) in paragraph at lines 395--396
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (2.04182pt too wide) in paragraph at lines 411--411
-[][][]|   []   [][]|   []   |   []   []\OT1/cmr/bx/n/12 contraction bias []|   
-[]   |   []   |   []   |   []   [][]|   []   []the []|   []   |   []
- []
-
-<../results/figures/final/Fig_5.pdf, id=491, 431.48387pt x 294.58084pt>
+ 278.
+(pdftex.def)             Requested size: 402.08948pt x 408.34418pt.
+ [6 <../results/figures/final/Fig_3.pdf>] [7 <../results/figures/final/Fig_4.pd
+f>]
+<../results/figures/final/Fig_5.pdf, id=471, 431.48387pt x 294.58084pt>
 File: ../results/figures/final/Fig_5.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_5.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_5.pdf  used on input line
- 421.
+ 311.
 (pdftex.def)             Requested size: 431.48282pt x 294.58011pt.
-
-Overfull \hbox (586.83495pt too wide) in paragraph at lines 413--438
-[]|   []   [][]|   []   []\OT1/cmr/m/it/10 (-20) the mean \OT1/cmr/m/n/10 (-20)
- has been reported in different species and modalities []|   [][][]|   []
- []
-
-[9] [10 <../results/figures/final/Fig_5.pdf>]
-Overfull \hbox (54.80757pt too wide) in paragraph at lines 464--465
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (238.48845pt too wide) in paragraph at lines 473--474
-|   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (88.80754pt too wide) in paragraph at lines 484--485
+ [8] [9 <../results/figures/final/Fig_5.pdf>]
+Overfull \hbox (88.80754pt too wide) in paragraph at lines 353--354
 |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
   |   []   |   []   |   []   |   []   |   []   |   []
  []
 
 
-Overfull \hbox (0.49586pt too wide) in paragraph at lines 484--485
+Overfull \hbox (0.49586pt too wide) in paragraph at lines 353--354
 |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
   |   []   |   []   |   []   |   []   |   []   |   []
  []
 
-[11]
-Overfull \hbox (7.67178pt too wide) in paragraph at lines 499--500
-[]|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [
-]   |   []   |   []   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (23.50186pt too wide) in paragraph at lines 510--511
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []
- []
-
-
-Overfull \hbox (61.64082pt too wide) in paragraph at lines 527--528
-[]|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [
-]   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (43.50206pt too wide) in paragraph at lines 527--528
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (113.69646pt too wide) in paragraph at lines 536--537
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []
- []
-
-
-Overfull \hbox (167.33548pt too wide) in paragraph at lines 549--550
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []
- []
-
-[12]
-Overfull \hbox (12.47409pt too wide) in paragraph at lines 556--557
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []
- []
-
-
-Overfull \hbox (10.73445pt too wide) in paragraph at lines 565--569
-|   []   |   []   |   []   [][]|   []   |   [][][]|   []   |   []   |   []   | 
-  []   |   []   |   []   [][]|   []   |   [][][]|   []
- []
-
-
-Overfull \hbox (7.62932pt too wide) in paragraph at lines 581--582
-|   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (194.9744pt too wide) in paragraph at lines 595--596
-[]|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [
-]   |   []   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (40.72409pt too wide) in paragraph at lines 595--596
-|   []   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (26.7982pt too wide) in paragraph at lines 611--612
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []
- []
-
-[13]
-Overfull \hbox (12.86308pt too wide) in paragraph at lines 613--626
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []
- []
-
-[14] [15]
+[10] [11] [12] [13]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- (diff_paper.bbl [16] [17] [18] [19]) [20] (diff_paper.toc)
+ (diff_paper.bbl [14] [15] [16] [17] [18]) [19]
+(diff_paper.toc)
 \tf@toc=\write4
 \openout4 = `diff_paper.toc'.
 
- [21
+ [20
 
 ]
-Overfull \hbox (7.8371pt too wide) in paragraph at lines 868--872
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []
+Overfull \hbox (1.87651pt too wide) in paragraph at lines 566--569
+\OT1/cmr/m/n/10 (-20) connection between the presynaptic neuron $\OML/cmm/m/it/
+10 Y$ \OT1/cmr/m/n/10 (-20) and the postsynaptic neuron $\OML/cmm/m/it/10 X$ \O
+T1/cmr/m/n/10 (-20) ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10
+ ; []; []; []\OMS/cmsy/m/n/10 g$\OT1/cmr/m/n/10 (-20) ,
  []
 
-[22]
-<../results/figures/final/Figure_gains.png, id=894, 255.354pt x 69.49965pt>
+[21]
+<../results/figures/final/Figure_gains.png, id=896, 255.354pt x 79.2561pt>
 File: ../results/figures/final/Figure_gains.png Graphic file (type png)
 <use ../results/figures/final/Figure_gains.png>
 Package pdftex.def Info: ../results/figures/final/Figure_gains.png  used on inp
-ut line 963.
-(pdftex.def)             Requested size: 255.35338pt x 69.49947pt.
+ut line 647.
+(pdftex.def)             Requested size: 255.35338pt x 79.2559pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[23] [24 <../results/figures/final/Figure_gains.png>]
-Overfull \hbox (19.24666pt too wide) in paragraph at lines 1035--1039
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []   |   []
- []
 
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1054--1088
+[22] [23 <../results/figures/final/Figure_gains.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 723--752
 
  []
 
+[24] [25] [26] [27]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 927.
 
-Overfull \hbox (13.28494pt too wide) in paragraph at lines 1054--1088
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []
- []
-
-[25] [26] [27] [28]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 1586
-.
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
 atex/base/omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1586.
-
-
-Overfull \hbox (15.8607pt too wide) in paragraph at lines 1592--1593
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []   |   []   |   []   |   []
- []
-
-[29]
-<../results/figures/final/Fig_2_S1.pdf, id=991, 277.87172pt x 171.31543pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 927.
+ [28]
+<../results/figures/final/Fig_2_S1.pdf, id=996, 277.87172pt x 171.31543pt>
 File: ../results/figures/final/Fig_2_S1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S1.pdf  used on input l
-ine 1701.
+ine 1038.
 (pdftex.def)             Requested size: 277.87103pt x 171.315pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<../results/figures/final/Fig_2_S2.pdf, id=993, 404.86034pt x 231.71579pt>
+<../results/figures/final/Fig_2_S2.pdf, id=998, 404.86034pt x 231.71579pt>
 File: ../results/figures/final/Fig_2_S2.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S2.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S2.pdf  used on input l
-ine 1712.
+ine 1049.
 (pdftex.def)             Requested size: 404.85934pt x 231.71521pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_2_S3.pdf, id=994, 508.726pt x 200.59653pt>
+<../results/figures/final/Fig_2_S3.pdf, id=999, 508.726pt x 200.59653pt>
 File: ../results/figures/final/Fig_2_S3.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S3.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S3.pdf  used on input l
-ine 1723.
+ine 1060.
 (pdftex.def)             Requested size: 452.9679pt x 178.60991pt.
-
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 1723--1728
- [][][] 
- []
-
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S1.png, id=995, 432.53595pt x 119.84775pt>
+<../results/figures/final/Fig_3_S1.png, id=1000, 432.53595pt x 119.84775pt>
 File: ../results/figures/final/Fig_3_S1.png Graphic file (type png)
 <use ../results/figures/final/Fig_3_S1.png>
 Package pdftex.def Info: ../results/figures/final/Fig_3_S1.png  used on input l
-ine 1735.
+ine 1072.
 (pdftex.def)             Requested size: 432.53488pt x 119.84744pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_3_S2.png, id=996, 245.59755pt x 149.23755pt>
+<../results/figures/final/Fig_3_S2.png, id=1001, 245.59755pt x 149.23755pt>
 File: ../results/figures/final/Fig_3_S2.png Graphic file (type png)
 <use ../results/figures/final/Fig_3_S2.png>
 Package pdftex.def Info: ../results/figures/final/Fig_3_S2.png  used on input l
-ine 1746.
+ine 1083.
 (pdftex.def)             Requested size: 245.59694pt x 149.23717pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S1.pdf, id=997, 380.09833pt x 408.46613pt>
+<../results/figures/final/Fig_4_S1.pdf, id=1002, 372.57535pt x 398.06398pt>
 File: ../results/figures/final/Fig_4_S1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_4_S1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S1.pdf  used on input l
-ine 1757.
-(pdftex.def)             Requested size: 380.09738pt x 408.46512pt.
+ine 1094.
+(pdftex.def)             Requested size: 372.57443pt x 398.063pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S2.png, id=1001, 354.00255pt x 370.2633pt>
+<../results/figures/final/Fig_4_S2.png, id=1006, 354.00255pt x 370.2633pt>
 File: ../results/figures/final/Fig_4_S2.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S2.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S2.png  used on input l
-ine 1767.
+ine 1104.
 (pdftex.def)             Requested size: 354.00168pt x 370.26239pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S3.png, id=1003, 267.1581pt x 230.17995pt>
+<../results/figures/final/Fig_4_S3.png, id=1008, 267.1581pt x 230.17995pt>
 File: ../results/figures/final/Fig_4_S3.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S3.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S3.png  used on input l
-ine 1778.
+ine 1115.
 (pdftex.def)             Requested size: 267.15744pt x 230.17937pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_4_S4.png, id=1010, 163.45065pt x 119.36595pt>
+<../results/figures/final/Fig_4_S4.png, id=1015, 163.45065pt x 119.36595pt>
 File: ../results/figures/final/Fig_4_S4.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S4.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S4.png  used on input l
-ine 1787.
+ine 1124.
 (pdftex.def)             Requested size: 163.45024pt x 119.36565pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../results/figures/final/Fig_5_S1.png, id=1011, 169.71405pt x 90.21706pt>
+<../results/figures/final/Fig_5_S1.png, id=1016, 169.71405pt x 90.21706pt>
 File: ../results/figures/final/Fig_5_S1.png Graphic file (type png)
 <use ../results/figures/final/Fig_5_S1.png>
 Package pdftex.def Info: ../results/figures/final/Fig_5_S1.png  used on input l
-ine 1797.
+ine 1136.
 (pdftex.def)             Requested size: 169.71364pt x 90.21681pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1806.
-[30] [31 <../results/figures/final/Fig_2_S1.pdf> <../results/figures/final/Fig_
-2_S2.pdf>] [32 <../results/figures/final/Fig_2_S3.pdf> <../results/figures/fina
-l/Fig_3_S1.png> <../results/figures/final/Fig_3_S2.png>] [33 <../results/figure
-s/final/Fig_4_S1.pdf>] [34 <../results/figures/final/Fig_4_S2.png>] [35 <../res
-ults/figures/final/Fig_4_S3.png> <../results/figures/final/Fig_4_S4.png> <../re
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1144.
+[29 <../results/figures/final/Fig_2_S1.pdf>] [30 <../results/figures/final/Fig_
+2_S2.pdf> <../results/figures/final/Fig_2_S3.pdf>] [31 <../results/figures/fina
+l/Fig_3_S1.png> <../results/figures/final/Fig_3_S2.png>] [32 <../results/figure
+s/final/Fig_4_S1.pdf>] [33 <../results/figures/final/Fig_4_S2.png> <../results/
+figures/final/Fig_4_S3.png>] [34 <../results/figures/final/Fig_4_S4.png> <../re
 sults/figures/final/Fig_5_S1.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1806.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1144.
  (diff_paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1806.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1806.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1144.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1144.
 
 Package rerunfilecheck Info: File `diff_paper.out' has not changed.
 (rerunfilecheck)             Checksum: 1F43A099D73F523B217A0586173B84F2;1501.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1806.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1144.
  ) 
 Here is how much of TeX's memory you used:
- 11051 strings out of 494891
- 179779 string characters out of 3176446
- 475672 words of memory out of 3000000
- 14142 multiletter control sequences out of 15000+200000
- 16884 words of font info for 123 fonts, out of 3000000 for 9000
+ 11097 strings out of 494891
+ 180208 string characters out of 3176446
+ 351698 words of memory out of 3000000
+ 14148 multiletter control sequences out of 15000+200000
+ 18488 words of font info for 144 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
- 44i,19n,47p,5935b,583s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 40i,15n,43p,3152b,605s stack positions out of 5000i,500n,10000p,200000b,50000s
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/font
 s/type1/public/amsfonts/cm/cmbx10.pfb></Users/loreen.hertaeg/Library/Applicatio
 n Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Use
@@ -1030,32 +831,36 @@ msfonts/cm/cmex10.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX
 /texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/loreen.hertae
 g/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts
 /cm/cmmi5.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/
-install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/loreen.hertaeg/Library
-/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi8
+install/fonts/type1/public/amsfonts/cm/cmmi6.pfb></Users/loreen.hertaeg/Library
+/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi7
 .pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/f
-onts/type1/public/amsfonts/cm/cmr10.pfb></Users/loreen.hertaeg/Library/Applicat
-ion Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb></Us
+onts/type1/public/amsfonts/cm/cmmi8.pfb></Users/loreen.hertaeg/Library/Applicat
+ion Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb></Us
 ers/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type
-1/public/amsfonts/cm/cmr5.pfb></Users/loreen.hertaeg/Library/Application Suppor
-t/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr6.pfb></Users/loreen.
-hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/am
-sfonts/cm/cmr7.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/te
-xmfs/install/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/loreen.hertaeg/Lib
-rary/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/c
-mr9.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/instal
-l/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/loreen.hertaeg/Library/Appl
-ication Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
+1/public/amsfonts/cm/cmr12.pfb></Users/loreen.hertaeg/Library/Application Suppo
+rt/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr5.pfb></Users/loreen
+.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/a
+msfonts/cm/cmr6.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/t
+exmfs/install/fonts/type1/public/amsfonts/cm/cmr7.pfb></Users/loreen.hertaeg/Li
+brary/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/
+cmr8.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/insta
+ll/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/loreen.hertaeg/Library/Appli
+cation Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 </Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/
-type1/public/amsfonts/cm/cmsy7.pfb></Users/loreen.hertaeg/Library/Application S
-upport/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/
-loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pu
-blic/amsfonts/cm/cmtt10.pfb></Users/loreen.hertaeg/Library/Application Support/
-MiKTeX/texmfs/install/fonts/type1/public/amsfonts/latxfont/lasy6.pfb></Users/lo
-reen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/publ
-ic/amsfonts/symbols/msam10.pfb>
-Output written on diff_paper.pdf (35 pages, 6403009 bytes).
+type1/public/amsfonts/cm/cmsy6.pfb></Users/loreen.hertaeg/Library/Application S
+upport/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy7.pfb></Users/l
+oreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pub
+lic/amsfonts/cm/cmsy8.pfb></Users/loreen.hertaeg/Library/Application Support/Mi
+KTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/loreen.he
+rtaeg/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsf
+onts/cm/cmti8.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/tex
+mfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/loreen.hertaeg/Li
+brary/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/lat
+xfont/lasy6.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmf
+s/install/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on diff_paper.pdf (34 pages, 6331489 bytes).
 PDF statistics:
- 1261 PDF objects out of 1440 (max. 8388607)
- 214 named destinations out of 1000 (max. 500000)
- 17633 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 1278 PDF objects out of 1440 (max. 8388607)
+ 213 named destinations out of 1000 (max. 500000)
+ 19681 words of extra memory for PDF output out of 20736 (max. 10000000)
 

@@ -94,17 +94,11 @@ if run_cell:
     avg_start = len(r_mem)//2
     print(np.mean(r_mem[-avg_start:]))
     print(np.mean(r_var[-avg_start:]))
-
-        
-      
-        
-     
-        
         
 
 # %% Find nPE and pPE neurons and plot gain factors
 
-run_cell = False
+run_cell = True
 plot_only = True
 
 if run_cell:
@@ -210,7 +204,7 @@ if run_cell:
 
 # %% Sparsity 
 
-run_cell = True
+run_cell = False
 plot_only = False
 
 if run_cell:

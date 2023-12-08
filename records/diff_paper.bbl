@@ -1,4 +1,4 @@
-\begin{thebibliography}{86}
+\begin{thebibliography}{87}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -145,6 +145,13 @@ Karl Friston.
 \newblock Hierarchical models in the brain.
 \newblock \emph{PLoS computational biology}, 4\penalty0 (11):\penalty0
   e1000211, 2008.
+
+\bibitem[Granier et~al.(2023)Granier, Petrovici, Senn, and
+  Wilmes]{granier2023precision}
+Arno Granier, Mihai~A Petrovici, Walter Senn, and Katharina~A Wilmes.
+\newblock Precision estimation and second-order prediction errors in cortical
+  circuits.
+\newblock \emph{arXiv preprint arXiv:2309.16046}, 2023.
 
 \bibitem[Gu et~al.(2008)Gu, Angelaki, and DeAngelis]{gu2008neural}
 Yong Gu, Dora~E Angelaki, and Gregory~C DeAngelis.

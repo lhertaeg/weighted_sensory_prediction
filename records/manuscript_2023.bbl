@@ -1,4 +1,4 @@
-\begin{thebibliography}{86}
+\begin{thebibliography}{85}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -146,6 +146,13 @@ Karl Friston.
 \newblock \emph{PLoS computational biology}, 4\penalty0 (11):\penalty0
   e1000211, 2008.
 
+\bibitem[Granier et~al.(2023)Granier, Petrovici, Senn, and
+  Wilmes]{granier2023precision}
+Arno Granier, Mihai~A Petrovici, Walter Senn, and Katharina~A Wilmes.
+\newblock Precision estimation and second-order prediction errors in cortical
+  circuits.
+\newblock \emph{arXiv preprint arXiv:2309.16046}, 2023.
+
 \bibitem[Gu et~al.(2008)Gu, Angelaki, and DeAngelis]{gu2008neural}
 Yong Gu, Dora~E Angelaki, and Gregory~C DeAngelis.
 \newblock Neural correlates of multisensory cue integration in macaque mstd.
@@ -196,12 +203,6 @@ Loreen Hert{\"a}g and Claudia Clopath.
 Loreen Hert{\"a}g and Henning Sprekeler.
 \newblock Learning prediction error neurons in a canonical interneuron circuit.
 \newblock \emph{Elife}, 9:\penalty0 e57541, 2020.
-
-\bibitem[Herzfeld et~al.(2014)Herzfeld, Vaswani, Marko, and
-  Shadmehr]{herzfeld2014memory}
-David~J Herzfeld, Pavan~A Vaswani, Mollie~K Marko, and Reza Shadmehr.
-\newblock A memory of errors in sensorimotor learning.
-\newblock \emph{Science}, 345\penalty0 (6202):\penalty0 1349--1353, 2014.
 
 \bibitem[Hollingworth(1910)]{hollingworth1910central}
 Harry~Levi Hollingworth.
@@ -394,14 +395,6 @@ Sean~M O’Toole, Hassana~K Oyibo, and Georg~B Keller.
 \newblock Prediction error neurons in mouse cortex are molecularly targetable
   cell types.
 \newblock \emph{BioRxiv}, pages 2022--07, 2022.
-
-\bibitem[Pakan et~al.(2018)Pakan, Currie, Fischer, and
-  Rochefort]{pakan2018impact}
-Janelle~MP Pakan, Stephen~P Currie, Lukas Fischer, and Nathalie~L Rochefort.
-\newblock The impact of visual cues, reward, and motor feedback on the
-  representation of behaviorally relevant spatial locations in primary visual
-  cortex.
-\newblock \emph{Cell reports}, 24\penalty0 (10):\penalty0 2521--2528, 2018.
 
 \bibitem[Pawlak et~al.(2010)Pawlak, Wickens, Kirkwood, and
   Kerr]{pawlak2010timing}

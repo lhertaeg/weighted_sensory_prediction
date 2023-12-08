@@ -23,7 +23,7 @@ dtype = np.float32
 
 # %% Neuromodulator targeting one IN (with various strengths)
 
-run_cell = True
+run_cell = False
 plot_only = False
 column = 0 
 
@@ -72,7 +72,7 @@ if run_cell:
     
 # %% How are the variance neurons influenced by changes in nPE and pPE neurons in the lower and higher PE circuit?
 
-run_cell = False
+run_cell = True
 plot_only = True
 
 if run_cell:
