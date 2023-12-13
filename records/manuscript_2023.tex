@@ -148,8 +148,8 @@ We hypothesize that the distinct response patterns of negative and positive pred
 {\bf (A)} Illustration of the inputs with which the network (Fig. \ref{fig:Fig_1}C) is stimulated. Network is exposed to a sequence of constant stimuli drawn from a uniform distribution. The gray shaded boxes symbolize different values from the distribution.
 {\bf (B)} PE neuron activity hardly changes with stimulus strength (left) but strongly increases with stimulus variability (right).
 {\bf (C)} Interneuron activity strongly changes with stimulus strength (left) but hardly changes with stimulus variability (right).
-{\bf (D)} M neuron correctly encodes the mean of the sensory stimuli. Left: Illustration of the input synapses onto the M neuron. Middle: Activity of the M neuron over time for one example distribution (black start in right panel). Right: Normalised absolute difference between the averaged mean and the activity of the M neuron in the steady state for different parametrizations of the stimulus distribution.
-{\bf (E)} V neuron correctly encodes the variance of the sensory stimuli. Left: Illustration of the input synapses onto the V neuron. Middle: Activity of the V neuron over time for one example distribution (black start in right panel). Right: Normalised absolute difference between the averaged variance and the activity of the V neuron in the steady state for different parametrizations of the stimulus distribution.
+{\bf (D)} M neuron correctly encodes the mean of the sensory stimuli. Left: Illustration of the input synapses onto the M neuron. Middle: Activity of the M neuron over time for one example distribution (black star in right panel). Right: Normalised absolute difference between the averaged mean and the activity of the M neuron in the steady state for different parametrizations of the stimulus distribution.
+{\bf (E)} V neuron correctly encodes the variance of the sensory stimuli. Left: Illustration of the input synapses onto the V neuron. Middle: Activity of the V neuron over time for one example distribution (black star in right panel). Right: Normalised absolute difference between the averaged variance and the activity of the V neuron in the steady state for different parametrizations of the stimulus distribution.
 }
 \label{fig:Fig_2}
 \end{figure}
@@ -163,7 +163,7 @@ To show that this network can indeed represent the mean and the variance in the 
 
 We verified our results in a heterogeneous network in which a population of neurons belongs to each neuron type of the PE circuit, and the synaptic connection strengths from each PE neuron onto the M and V neuron are different (see Methods, Fig. \ref{fig:Fig_2_S2}A). As before, the network can correctly estimate the mean and the variance of the sensory stimuli (Fig. \ref{fig:Fig_2_S2}B). Furthermore, we show that the errors with which the M and V neurons encode the stimulus statistics are independent of uncorrelated modulations of those connection strengths (Fig. \ref{fig:Fig_2_S2}C) and the sparsity of the network (Fig. \ref{fig:Fig_2_S2}E). When all connection strengths are collectively shifted to higher values, the error increases for the variance neuron, while it remains unaffected for the memory neuron. 
 
-While our mean-field network was designed to track the mean and the variance of stimuli that vary in time, we reasoned that the same principles apply to stimuli that vary across space. To show that, we simulated a population network that consists of unconnected replicates of the mean-field network described above (Fig. \ref{fig:Fig_2_S3}A). Each mean-field network receives a short, constant input from a different part of the receptive field. If the connection strengths from the PE neurons to the M and V neurons are adjusted accordingly (see Methods), the network correctly estimates the stimulus average and spatial uncertainty. (Fig. \ref{fig:Fig_2_S3}B-C).
+While our mean-field network was designed to track the mean and the variance of stimuli that vary in time, we reasoned that the same principles apply to stimuli that vary across space. To show that, we simulated a population network that consists of unconnected replicates of the mean-field network described above (Fig. \ref{fig:Fig_2_S3}A). Each mean-field network receives a short, constant input from a different part of the receptive field. If the connection strengths from the PE neurons to the M and V neurons are adjusted accordingly (see Methods), the network correctly estimates the stimulus average and spatial uncertainty (Fig. \ref{fig:Fig_2_S3}B-C).
 
 In summary, nPE and pPE neurons can serve as a basis to estimate the mean and the variance of sensory stimuli which vary over time and space.
 
@@ -188,9 +188,10 @@ Following the ideas of Bayesian multisensory integration, the weighting of senso
 \end{figure}
 %
 
-To test the network's ability to estimate the variances correctly, we stimulated the network with a sequence of inputs whose mean can vary from trial to trial. More precisely, in each trial, the network is given a stimulus that is composed of $N_\mathrm{in}$ constant values, each drawn from a normal distribution and presented for $N_\mathrm{step}$ consecutive time steps. The variance of this distribution represents the stimulus noise. To account for potential changes in the environment, we draw the stimulus mean from a uniform distribution (Fig. \ref{fig:Fig_3}A). Hence, the inputs change on two different time scales, where the stimulus variability has a faster time scale than the trial-to-trial variability.
+To test the network's ability to estimate the variances correctly, we stimulated the network with a sequence of inputs whose mean can vary from trial to trial. More precisely, in each trial, the network is given a stimulus that is composed of $N_\mathrm{in}$ constant values, each drawn from a normal distribution and presented for $N_\mathrm{step}$ consecutive time steps. The variance of this distribution represents the stimulus noise. To account for potential changes in the environment, we draw the stimulus mean from a uniform distribution (Fig. \ref{fig:Fig_3}A). Hence, the inputs change on two different time scales.
+%, where the stimulus variability has a faster time scale than the trial-to-trial variability.
 
-Following the formalism of multisensory integration \citep[see, e.g.][]{pouget2013probabilistic}, we assume that the network's output is a weighted sum of the feedforward sensory input and the feedback prediction. The weights assigned to each input stream are functions of the uncertainties, that is, the activities of the V neurons. The sensory weight captures how much the network relies on the sensory input (Fig. \ref{fig:Fig_2}B). To test our network, we first consider two limit cases. In the first limit case, we show a low-variance stimulus that differs in each trial (low stimulus uncertainty, high trial-to-trial uncertainty, see Fig. \ref{fig:Fig_3}C, left). According to the theory, the network should follow the sensory inputs closely and ignore the predictions. When we arithmetically calculate the weighted output (Fig. \ref{fig:Fig_3}C, middle) and the sensory weight (Fig. \ref{fig:Fig_3}C, right), the network indeed shows a clear preference for the sensory input. In the second limit case, we show a high-variance stimulus the mean of which does not change from trial to trial (high stimulus uncertainty, low trial-to-trial uncertainty, see Fig. \ref{fig:Fig_3}D, left). According to the theory, the network should downscale the sensory feedforward input and weight the prediction more strongly. Indeed, the weighted output of the network shows a clear tendency to the mean of the stimuli (Fig. \ref{fig:Fig_3}D, middle), also reflected in the low sensory weight (Fig. \ref{fig:Fig_3}D, right). 
+Following the formalism of multisensory integration \citep[see, e.g.][]{pouget2013probabilistic}, we assume that the network's output is a weighted sum of the feedforward sensory input and the feedback prediction. The weights assigned to each input stream are functions of the uncertainties, that is, the activities of the V neurons. The sensory weight captures how much the network relies on the sensory input (Fig. \ref{fig:Fig_2}B). To test our network, we first consider two limit cases. In the first limit case, we show a low-variance stimulus that differs in each trial (low stimulus uncertainty, high trial-to-trial uncertainty, see Fig. \ref{fig:Fig_3}C, left). According to the theory, the network should follow the sensory inputs closely and ignore the predictions. When we arithmetically calculate the weighted output (Fig. \ref{fig:Fig_3}C, middle) and the sensory weight (Fig. \ref{fig:Fig_3}C, right), the network indeed shows a clear preference for the sensory input. In the second limit case, we show a high-variance stimulus, the mean of which does not change from trial to trial (high stimulus uncertainty, low trial-to-trial uncertainty, see Fig. \ref{fig:Fig_3}D, left). According to the theory, the network should downscale the sensory feedforward input and weight the prediction more strongly. Indeed, the weighted output of the network shows a clear tendency to the mean of the stimuli (Fig. \ref{fig:Fig_3}D, middle), also reflected in the low sensory weight (Fig. \ref{fig:Fig_3}D, right). 
 
 To validate the network responses fully, we systematically varied the trial and stimulus variability independently. If both variances are similar, the sensory weight approaches \textit{0.5}, reflecting equal contribution of the sensory input and the prediction to the weighted output. Only if both variances are zero, the network represents the sensory input perfectly. In line with the limit case examples above, if the stimulus variance is larger than the trial variance, the network weights the prediction more strongly than the sensory input (Fig. \ref{fig:Fig_3}E). Because the network dynamically estimates the sensory and prediction uncertainty, the sensory weight changes when the input statistics shifts (Fig. \ref{fig:Fig_3_S1}). 
 
@@ -255,7 +256,9 @@ We first investigated whether the network's output can be interpreted as a neuro
 
 What are the underlying network factors that contribute to the neuronal contraction bias in the network? We have seen that how much the prediction is taken into account is determined by both the lower and higher-level V neurons encoding the variance of the stimulus and the prediction. Hence, the bias must be similarly influenced by these factors. When we increase the stimulus uncertainty, the bias increases (Fig. \ref{fig:Fig_5}B). In contrast, when we increase the trial-to-trial uncertainty, the bias decreases (Fig. \ref{fig:Fig_5}B). 
 
-To further disentangle the different sources of the bias, we first simulated a network without stimulus uncertainty (variance set to zero) for two trial-to-trail variances (volatility of the environment). In this case, the emerging contraction bias is independent of the volatility of the environment (Fig. \ref{fig:Fig_5}C). We show mathematically that the bias results from the network output not yet reaching its new steady state within the trial duration (see Methods). In other words, the bias is the difference between the weighted output at the end of the trial and its steady state (the shown stimulus). How fast the new steady state is reached depends only on the time constants in the network and not the trial-to-trial variability. We next resume the limit case in which the same, high-variance stimulus is shown in every trial. In this case, the contraction bias is also largely independent of the stimulus variance (Fig. \ref{fig:Fig_5}D). Our mathematical analysis reveals that the bias is well described by the difference between the prediction, that is, mean stimulus over the history of all stimuli shown, and the current stimulus, weighted by a function of the trial duration. The analysis of both limit cases suggests that the bias also depends on the trial duration. To confirm this, we extended the trial duration for either limit case. As expected from the analysis, the bias decreases steadily in the simulations (Fig. \ref{fig:Fig_5}E). We, therefore, predict that the contraction bias can be reduced for sufficiently long trials. 
+To further disentangle the different sources of the bias, we first simulated a network without stimulus uncertainty (variance set to zero) for two trial-to-trail variances (volatility of the environment). In this case, the emerging contraction bias is independent of the volatility of the environment (Fig. \ref{fig:Fig_5}C). We show mathematically that the bias results from the network output not yet reaching its new steady state within the trial duration (see Methods). In other words, the bias is the difference between the weighted output at the end of the trial and its steady state (the shown stimulus). How fast the new steady state is reached depends only on the time constants in the network and not the trial-to-trial variability. We next resume the limit case in which the stimulus uncertainty is high while the trial-to-trial uncertainty is zero. In this case, the contraction bias is also largely independent of the stimulus variance (Fig. \ref{fig:Fig_5}D). Our mathematical analysis reveals that the bias is well described by the difference between the prediction, that is, mean stimulus over the history of all stimuli shown, and the current stimulus, weighted by a function of the trial duration. 
+
+The analysis of both limit cases suggests that the bias also depends on the trial duration. To confirm this, we extended the trial duration for either limit case. As expected from the analysis, the bias decreases steadily in the simulations (Fig. \ref{fig:Fig_5}E). We, therefore, predict that the contraction bias can be reduced for sufficiently long trials. 
 
 So far, we assumed that the stimulus variance is independent of the stimulus mean. A consequence of this choice is that the bias on either end of the input distribution is largely the same (but with reversed signs). However, behavioral data \citep[see, e.g.][]{rakitin1998scalar} shows that the bias increases for stimuli drawn from the upper end of the distribution, a phenomenon usually attributed to \textit{scalar variability}. To capture this in the model, we assume that the stimulus standard deviation linearly increases with the stimulus mean. In these simulations, as expected, the bias increases for a stimulus distribution shifted to higher trial means (Fig. \ref{fig:Fig_5_S1}).
 
@@ -833,31 +836,31 @@ P = P_\mathrm{0} \cdot \mathrm{e}^{-t/\tau_M} +  s \cdot \left( 1 -   \mathrm{e}
 with $P_0$ describing the initial value at time $t=0$. Let us further assume that within a trial with trial duration $T$, the stimulus value changes $n$ times ($T = n\cdot \Delta t$).  The prediction during the presentation of the $n$th stimulus value can be expressed as
 %
 \begin{align}
-P_\mathrm{n} = P_\mathrm{0} \cdot \mathrm{e}^{-\Delta t/\tau_M}  + \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} s_i \cdot \mathrm{e}^{-(n-i)\cdot \Delta t/ \tau_M}
+P_\mathrm{n} = P_\mathrm{0} \cdot \mathrm{e}^{-\Delta t/\tau_M}  + \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} s_i \cdot \mathrm{e}^{-(n-i)\cdot \Delta t/ \tau_M}.
 \end{align}
 %
 To obtain an estimate for the prediction at the end of a trial, $P_\mathrm{n}$ must be averaged over the stimulus distribution, $\langle P_\mathrm{n} \rangle_s$. For the sake of simplicity, let us assume the stimulus values are drawn from a uniform distribution $U\left( s - \frac{\sigma_\mathrm{S}}{12}, s + \frac{\sigma_\mathrm{S}}{12} \right)$. Moreover, we assume that the initial state, $P_0$, at the beginning of a new trial is drawn from a uniform distribution $U\left( \mu - \frac{\sigma_\mathrm{P}}{12}, \mu + \frac{\sigma_\mathrm{P}}{12} \right)$. With these assumptions, $\langle P_\mathrm{n} \rangle_s$ is given by
 %
 \begin{align}
-\langle P_\mathrm{n} \rangle_s = \mathrm{e}^{-\Delta t/\tau_M}  \int\limits_{\mu - \frac{\sigma_\mathrm{P}}{12}}^{\mu + \frac{\sigma_\mathrm{P}}{12}} P_\mathrm{0} \ f(P_\mathrm{0})\ dP_0+ \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} \mathrm{e}^{-(n-i)\cdot \Delta t/ \tau_M} \int\limits_{s - \frac{\sigma_\mathrm{S}}{12}}^{s + \frac{\sigma_\mathrm{S}}{12}} x\ f(x)\ dx
+\langle P_\mathrm{n} \rangle_s = \mathrm{e}^{-\Delta t/\tau_M}  \int\limits_{\mu - \frac{\sigma_\mathrm{P}}{12}}^{\mu + \frac{\sigma_\mathrm{P}}{12}} P_\mathrm{0} \ f(P_\mathrm{0})\ dP_0+ \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} \mathrm{e}^{-(n-i)\cdot \Delta t/ \tau_M} \int\limits_{s - \frac{\sigma_\mathrm{S}}{12}}^{s + \frac{\sigma_\mathrm{S}}{12}} x\ f(x)\ dx.
 \end{align}
 %
 Solving the integrals yield
 %
 \begin{align}
-\langle P_\mathrm{n} \rangle_s = \mu \cdot \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} \mathrm{e}^{-(n-i)\cdot \Delta t/ \tau_M} \cdot s
+\langle P_\mathrm{n} \rangle_s = \mu \cdot \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-\Delta t/\tau_M} \right) \sum_{i=1}^{n} \mathrm{e}^{-(n-i)\cdot \Delta t/ \tau_M} \cdot s.
 \end{align}
 %
 Making use of the geometric series, the expression simplifies to
 %
 \begin{align*}
-\langle P_\mathrm{n} \rangle_s =  \mu \cdot \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-T/\tau_M} \right) \cdot s
+\langle P_\mathrm{n} \rangle_s =  \mu \cdot \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-T/\tau_M} \right) \cdot s.
 \end{align*}
 %
 Inserting the expression in the equation for the weighted output yields
 %
 \begin{align*}
- r_\mathrm{out} = \left[ \alpha_\mathrm{S}\  \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-T/\tau_M} \right)\right] \cdot s + \left( 1 -\alpha_\mathrm{S} \right)\ \mathrm{e}^{-T/\tau_M}\ \mu
+ r_\mathrm{out} = \left[ \alpha_\mathrm{S}\  \mathrm{e}^{-T/\tau_M} + \left( 1 -   \mathrm{e}^{-T/\tau_M} \right)\right] \cdot s + \left( 1 -\alpha_\mathrm{S} \right)\ \mathrm{e}^{-T/\tau_M}\ \mu.
 \end{align*}
 %
 Hence, the bias in our toy model can be expressed by
@@ -927,8 +930,8 @@ Bottom: The normalised absolute difference between the averaged variance and the
 \begin{figure}[!h]
 	\centering
     \includegraphics{../results/figures/final/Fig_2_S2.pdf}% [width=1\linewidth]
-\caption{\footnotesize{\bf Estimating mean and variance of sensory stimuli in a rate-based population network.\newline}  
-{\bf (A)} Illustration of the rate-based population network and the stimuli over time. The weights from the PE neurons onto the M or V neuron are scaled by a factor $\gamma$ drawn from a normal distribution $N(\mu_\mathrm{\gamma}, \sigma_\mathrm{\gamma})$.
+\caption{\footnotesize{\bf Estimating mean and variance of sensory stimuli in a rate-based multi-cell population network.\newline}  
+{\bf (A)} Illustration of the rate-based multi-cell population network and the stimuli over time. The weights from the PE neurons onto the M or V neuron are scaled by a factor $\gamma$ drawn from a normal distribution $N(\mu_\mathrm{\gamma}, \sigma_\mathrm{\gamma})$.
 {\bf (B)} M and V neuron activities over time for one example parameterisation.
 {\bf (C)} The normalised absolute difference between the averaged mean and the activity of the M neuron (dark green) or between the averaged variance and the activity of the V neuron (brown) for uncorrelated deviations, that is, increasing $\sigma_\mathrm{\gamma}$ (left), correlated deviations, that is, increasing $\mu_\mathrm{\gamma}$ (middle), and the network sparsity. To speed up simulations, we chose $\lambda^\mathrm{lower}=5\cdot 10^{-2}$.
 }
@@ -951,7 +954,7 @@ Bottom: The normalised absolute difference between the averaged variance and the
 	\centering
     \includegraphics{../results/figures/final/Fig_3_S1}% [width=1\linewidth]
 \caption{\footnotesize{\bf Dynamic variance estimation allows flexible adaptation to changes in the stimulus statistics and environment. \newline}  
-{\bf (A)} Sensory weight for different input statistics. Numbers denote specific example statistics. Arrows denote the transitions between those statistics.
+{\bf (A)} Illustration of the sensory weight for different input statistics. Numbers denote specific examples. Arrows denote the transitions between those statistics.
 {\bf (B)} The sensory weight over time is shown for all transitions in (A). For the sake of clarity, we only show the trials 40-60. The switch to new input statistics occurs at trial 50. Parameters are listed in the Supporting Information.
 }
 \label{fig:Fig_3_S1}
@@ -962,7 +965,7 @@ Bottom: The normalised absolute difference between the averaged variance and the
 	\centering
     \includegraphics{../results/figures/final/Fig_3_S2}% [width=1\linewidth]
 \caption{\footnotesize{\bf Perturbing the weighting of sensory inputs and predictions by altering network properties. \newline}  
-{\bf (A)} The weights from the PE neurons to the M neuron in the lower-order subnetwork are scaled by a factor the 0.3 or 7, leading to a distorted sensory weight. If the update of the M neuron in the lower subnetwork is too slow ($\blacktriangleleft$), the prediction is overrated. If the update of the M neuron in the lower subnetwork is too fast ($\blacktriangleright$), the sensory input is overrated.
+{\bf (A)} The weights from the PE neurons to the M neuron in the lower-order subnetwork are scaled by a factor 0.3 or 7, leading to a distorted sensory weight. If the update of the M neuron in the lower subnetwork is too slow ($\blacktriangleleft$), the prediction is overrated. If the update of the M neuron in the lower subnetwork is too fast ($\blacktriangleright$), the sensory input is overrated.
 {\bf (B)} The precise activation function for the V neurons does not have a major impact on the sensory weight. Only for inputs with high stimulus variability, the sensory stimulus is slightly overrated when the quadratic activation function is replaced by a linear, rectified activation function.
 }
 \label{fig:Fig_3_S2}
@@ -973,7 +976,7 @@ Bottom: The normalised absolute difference between the averaged variance and the
 	\centering
     \includegraphics{../results/figures/final/Fig_4_S1.pdf}% [width=1\linewidth]
 \caption{\footnotesize{\bf The impact of neuromodulators acting globally on groups of interneurons. \newline}  
-The sensory weight changes when groups of interneurons are targeted by a neuromodulator. Whether the sensory weight decreases or increases not also depends on the modulation strength (see Fig. \ref{fig:Fig_4}) but also on how strongly which interneuron is targeted.  As shown in Fig. \ref{fig:Fig_4}, the sensory weight is pushed toward 0.5 if the VIP neuron is stimulated. The sensory weight generally decreases when PV neurons are the main target. Considered are two limit cases (upper row: more sensory-driven before modulation, lower row: more prediction-driven before modulation). The results are shown for three mean-field networks (see \ref{fig:Fig_4}).
+The sensory weight changes when groups of interneurons are targeted by a neuromodulator. Whether the sensory weight decreases or increases not also depends on the modulation strength (see Fig. \ref{fig:Fig_4}) but also on how strongly which interneuron is targeted.  As shown in Fig. \ref{fig:Fig_4}, the sensory weight is pushed toward 0.5 if the VIP neuron is stimulated. The sensory weight generally decreases when PV neurons are the main target. Considered are two limit cases (upper row: more sensory-driven before modulation, lower row: more prediction-driven before modulation). The results are shown for three mean-field networks (see Fig. \ref{fig:Fig_4}).
 }
 \label{fig:Fig_4_S1}
 \end{figure}
@@ -994,7 +997,7 @@ The sensory weight changes when groups of interneurons are targeted by a neuromo
 	\centering
     \includegraphics{../results/figures/final/Fig_4_S3}% [width=1\linewidth]
 \caption{\footnotesize{\bf Biased mean and variance estimation by changing the baseline and the gain of nPE and pPE.}
-In a toy model, described in sections \ref{sec:gain_impact} and \ref{sec:impact_baseline}, the contribution of gain and baseline to the changes in the mean and variance estimation are summarized. The results are based on the Eqs. (\ref{eq:prediction_gain}), (\ref{eq:variance_gain}), (\ref{eq:condition_baseline_mean_1}) and  (\ref{eq:condition_baseline_variance_2}).
+In a toy model, described in sections \ref{sec:gain_impact} and \ref{sec:impact_baseline}, the contribution of gain and baseline to the changes in the mean and variance estimation are summarized. The results shown are based on the Eqs. (\ref{eq:prediction_gain}), (\ref{eq:variance_gain}), (\ref{eq:condition_baseline_mean_1}) and  (\ref{eq:condition_baseline_variance_2}).
 }
 \label{fig:Fig_4_S3}
 \end{figure}
@@ -1003,7 +1006,7 @@ In a toy model, described in sections \ref{sec:gain_impact} and \ref{sec:impact_
 	\centering
     \includegraphics{../results/figures/final/Fig_4_S4}% [width=1\linewidth]
 \caption{\footnotesize{\bf The combined changes in baseline and gain of all PE neurons determine the shift in the sensory weight.\newline}  
-Whether and how a neuromodulator changes the sensory weight depends on the interneuron targeted and the effect this interneuron has on the baseline and gain of both PE neurons, which in turn does depend on the network it is embedded in. For small inputs, changes in the baseline dominate, while for large inputs, the changes in the gains dominate the shift in the sensory weight.
+Whether and how a neuromodulator changes the sensory weight depends on the interneuron targeted and the effect this interneuron has on the baseline and gain of both PE neurons, which in turn does depend on the network it is embedded in. For small inputs, changes in the baseline dominate, while for large inputs, the changes in the gains dominate the shift in the sensory weight. Gray lines denote different mean inputs, illustrating that the same interneuron can decrease or increase the variance depending on the input regime.
 }
 \label{fig:Fig_4_S4}
 \end{figure}

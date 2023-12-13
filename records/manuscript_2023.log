@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  7 DEC 2023 10:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730) (preloaded format=pdflatex 2018.8.3)  13 DEC 2023 09:57
 entering extended mode
 **./manuscript_2023.tex
 (manuscript_2023.tex
@@ -607,14 +607,14 @@ f>]
 File: ../results/figures/final/Fig_4.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_4.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_4.pdf  used on input line
- 209.
+ 210.
 (pdftex.def)             Requested size: 402.08948pt x 408.34418pt.
  [6] [7 <../results/figures/final/Fig_4.pdf>]
 <../results/figures/final/Fig_5.pdf, id=470, 431.48387pt x 294.58084pt>
 File: ../results/figures/final/Fig_5.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_5.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_5.pdf  used on input line
- 242.
+ 243.
 (pdftex.def)             Requested size: 431.48282pt x 294.58011pt.
  [8] [9 <../results/figures/final/Fig_5.pdf>] [10] [11] [12] [13]
 Package microtype Info: Loading generic protrusion settings for font family
@@ -629,7 +629,7 @@ Package microtype Info: Loading generic protrusion settings for font family
  [19
 
 ]
-Overfull \hbox (1.87651pt too wide) in paragraph at lines 459--462
+Overfull \hbox (1.87651pt too wide) in paragraph at lines 462--465
 \OT1/cmr/m/n/10 (-20) connection between the presynaptic neuron $\OML/cmm/m/it/
 10 Y$ \OT1/cmr/m/n/10 (-20) and the postsynaptic neuron $\OML/cmm/m/it/10 X$ \O
 T1/cmr/m/n/10 (-20) ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10
@@ -641,15 +641,15 @@ T1/cmr/m/n/10 (-20) ($\OML/cmm/m/it/10 X \OMS/cmsy/m/n/10 2 f[]\OML/cmm/m/it/10
 File: ../results/figures/final/Figure_gains.png Graphic file (type png)
 <use ../results/figures/final/Figure_gains.png>
 Package pdftex.def Info: ../results/figures/final/Figure_gains.png  used on inp
-ut line 536.
+ut line 539.
 (pdftex.def)             Requested size: 255.35338pt x 79.2559pt.
  [21 <../results/figures/final/Figure_gains.png>] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 607--636
+Underfull \hbox (badness 10000) in paragraph at lines 610--639
 
  []
 
 [23] [24] [25]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 811.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 814.
 
 
 ("/Users/loreen.hertaeg/Library/Application Support/MiKTeX/texmfs/install/tex/l
@@ -657,13 +657,13 @@ atex/base/omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 811.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 814.
  [26]
 <../results/figures/final/Fig_2_S1.pdf, id=959, 277.87172pt x 171.31543pt>
 File: ../results/figures/final/Fig_2_S1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S1.pdf  used on input l
-ine 918.
+ine 921.
 (pdftex.def)             Requested size: 277.87103pt x 171.315pt.
 
 
@@ -673,7 +673,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_2_S2.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S2.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S2.pdf  used on input l
-ine 929.
+ine 932.
 (pdftex.def)             Requested size: 404.85934pt x 231.71521pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -682,7 +682,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_2_S3.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_2_S3.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_2_S3.pdf  used on input l
-ine 940.
+ine 943.
 (pdftex.def)             Requested size: 452.9679pt x 178.60991pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -691,7 +691,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_3_S1.png Graphic file (type png)
 <use ../results/figures/final/Fig_3_S1.png>
 Package pdftex.def Info: ../results/figures/final/Fig_3_S1.png  used on input l
-ine 952.
+ine 955.
 (pdftex.def)             Requested size: 432.53488pt x 119.84744pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -700,7 +700,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_3_S2.png Graphic file (type png)
 <use ../results/figures/final/Fig_3_S2.png>
 Package pdftex.def Info: ../results/figures/final/Fig_3_S2.png  used on input l
-ine 963.
+ine 966.
 (pdftex.def)             Requested size: 245.59694pt x 149.23717pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -709,7 +709,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_4_S1.pdf Graphic file (type pdf)
 <use ../results/figures/final/Fig_4_S1.pdf>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S1.pdf  used on input l
-ine 974.
+ine 977.
 (pdftex.def)             Requested size: 372.57443pt x 398.063pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -718,7 +718,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_4_S2.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S2.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S2.png  used on input l
-ine 984.
+ine 987.
 (pdftex.def)             Requested size: 354.00168pt x 370.26239pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -727,7 +727,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_4_S3.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S3.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S3.png  used on input l
-ine 995.
+ine 998.
 (pdftex.def)             Requested size: 267.15744pt x 230.17937pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -736,7 +736,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_4_S4.png Graphic file (type png)
 <use ../results/figures/final/Fig_4_S4.png>
 Package pdftex.def Info: ../results/figures/final/Fig_4_S4.png  used on input l
-ine 1004.
+ine 1007.
 (pdftex.def)             Requested size: 163.45024pt x 119.36565pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -745,31 +745,31 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../results/figures/final/Fig_5_S1.png Graphic file (type png)
 <use ../results/figures/final/Fig_5_S1.png>
 Package pdftex.def Info: ../results/figures/final/Fig_5_S1.png  used on input l
-ine 1014.
+ine 1017.
 (pdftex.def)             Requested size: 169.71364pt x 90.21681pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1022.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1025.
 [27] [28 <../results/figures/final/Fig_2_S1.pdf> <../results/figures/final/Fig_
 2_S2.pdf>] [29 <../results/figures/final/Fig_2_S3.pdf> <../results/figures/fina
 l/Fig_3_S1.png> <../results/figures/final/Fig_3_S2.png>] [30 <../results/figure
 s/final/Fig_4_S1.pdf>] [31 <../results/figures/final/Fig_4_S2.png> <../results/
 figures/final/Fig_4_S3.png>] [32 <../results/figures/final/Fig_4_S4.png> <../re
 sults/figures/final/Fig_5_S1.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1022.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1025.
  (manuscript_2023.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1022.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1022.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1025.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1025.
 
 Package rerunfilecheck Info: File `manuscript_2023.out' has not changed.
 (rerunfilecheck)             Checksum: 1F43A099D73F523B217A0586173B84F2;1501.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1022.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1025.
  ) 
 Here is how much of TeX's memory you used:
  10955 strings out of 494891
- 178245 string characters out of 3176446
- 336682 words of memory out of 3000000
+ 178243 string characters out of 3176446
+ 336838 words of memory out of 3000000
  14008 multiletter control sequences out of 15000+200000
  18691 words of font info for 148 fonts, out of 3000000 for 9000
  2 hyphenation exceptions out of 8191
@@ -811,7 +811,7 @@ onts/cm/cmti8.pfb></Users/loreen.hertaeg/Library/Application Support/MiKTeX/tex
 mfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/loreen.hertaeg/Li
 brary/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/sym
 bols/msam10.pfb>
-Output written on manuscript_2023.pdf (32 pages, 6295295 bytes).
+Output written on manuscript_2023.pdf (32 pages, 6295419 bytes).
 PDF statistics:
  1242 PDF objects out of 1440 (max. 8388607)
  209 named destinations out of 1000 (max. 500000)

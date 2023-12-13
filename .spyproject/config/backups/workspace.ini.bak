@@ -8,4 +8,5 @@ recent_files = ['scripts/run_fig_4.py', 'scripts/plot_fig_4.py', 'src/plot_data.
 
 [main]
 version = 0.2.0
+recent_files = ['src/plot_data.py', 'scripts/plot_fig_4.py']
 
