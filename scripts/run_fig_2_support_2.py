@@ -20,7 +20,7 @@ from src.plot_data import plot_gain_factors, plot_deviation_in_population_net, p
 dtype = np.float32
 
 
-# %% find mistake
+# %% check 
 
 run_cell = False
 
@@ -204,7 +204,7 @@ if run_cell:
 
 # %% Sparsity 
 
-run_cell = False
+run_cell = True
 plot_only = False
 
 if run_cell:

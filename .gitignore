@@ -1,4 +1,8 @@
 *.egg-info
-data
+records
 docs
 archive
+results/figures/Archive
+results/sim_data
+scripts/archive
+src/archive

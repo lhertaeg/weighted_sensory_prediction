@@ -370,7 +370,7 @@ The activities of the lower and higher V neuron evolve according to a leaky inte
 \tau_\mathrm{V}^\mathrm{high} \cdot \dot{r}_\mathrm{V}^\mathrm{high} =& - r_\mathrm{V}^\mathrm{high} + \left( \underline{w}_\mathrm{V \leftarrow PE} \cdot \underline{r}_\mathrm{PE}^\mathrm{high}\right)^2 = - r_\mathrm{V}^\mathrm{high} + \left( w_\mathrm{V \leftarrow pPE} \cdot r_\mathrm{pPE}^\mathrm{high}\ + w_\mathrm{V \leftarrow nPE} \cdot r_\mathrm{nPE}^\mathrm{high}\right)^2.
 \end{align} 
 %
-All values for neuron and network parameters, details on the model equations for the mean-field and the population network, as well as supporting analyses can be found in the supplementary material.
+All values for neuron and network parameters, details on the model equations for the mean-field and the multi-cell population network, as well as supporting analyses can be found in the supplementary material.
 
 \subsection*{Weighting of sensory inputs and predictions}
 %
@@ -501,7 +501,7 @@ How strongly either the sensory input or the prediction thereof contributes to t
 %
 \subsubsection{Connections between neurons of the PE circuit}
 %
-The connectivity between neurons of the PE circuit, both for the mean-field and the population network, were taken from \citep{hertag2022prediction}. We considered three mean-field networks (see Table \ref{tab:wXM}) that differed in terms of the inputs (feedforward vs. feedback) onto the SOM and VIP neurons, and, hence, in their connectivity that established an E/I balance in the excitatory neurons.
+The connectivity between neurons of the PE circuit, both for the mean-field and the multi-cell population network, were taken from \citep{hertag2022prediction}. We considered three mean-field networks (see Table \ref{tab:wXM}) that differed in terms of the inputs (feedforward vs. feedback) onto the SOM and VIP neurons, and, hence, in their connectivity that established an E/I balance in the excitatory neurons.
 
 \subsubsection{Connections between the PE circuit and the M neuron}
 %
@@ -514,7 +514,7 @@ w_\mathrm{M\leftarrow pE}\  &=\ \frac{\lambda^\mathrm{loc}}{g_\mathrm{pPE} \cdot
 %
 where $\lambda^\mathrm{loc}$ denotes a weight for the lower or higher-order PE circuit, $\mathrm{loc}\in\lbrace\mathrm{lower}, \mathrm{higher}\rbrace$. In the lower PE circuit,  $\lambda^\mathrm{lower}=3\cdot 10^{-3}$ for the mean-field model in Fig. \ref{fig:Fig_2} and $\lambda^\mathrm{lower}=4.5\cdot 10^{-2}$ for Figs. \ref{fig:Fig_3}-\ref{fig:Fig_5}. In the higher PE circuit, $\lambda^\mathrm{higher} = 7\cdot 10^{-4}$.
 
-For the mean-field networks ($ N_\mathrm{nPE} = N_\mathrm{pPE} = 1 $), the gain factors $g_\mathrm{nPE}$ and $g_\mathrm{pPE}$ are given in Table~\ref{tab:gain_factors_MFN}. For the population network, the gain factors for all PE neurons are shown in Fig. \ref{fig:Fig_gains}. 
+For the mean-field networks ($ N_\mathrm{nPE} = N_\mathrm{pPE} = 1 $), the gain factors $g_\mathrm{nPE}$ and $g_\mathrm{pPE}$ are given in Table~\ref{tab:gain_factors_MFN}. For the multi-cell population network, the gain factors for all PE neurons are shown in Fig. \ref{fig:Fig_gains}. 
 %
 \begin{table}[h!]
 \centering
@@ -544,7 +544,7 @@ pPE & 1 & 1.7 & 2.5 \\
 %
 %
 
-The memory neuron \textit{M} connects to the post-synaptic neurons \textit{X} in the PE circuit with the connection strength $w_\mathrm{X\leftarrow M} = 1$, if a connection exists, $w_\mathrm{X\leftarrow M} = 0$ otherwise. In all mean-field networks and the population network, the dendrites of nPE and pPE neurons and one of the two (populations of) PV neurons receive connections from the memory neuron. Furthermore, we assume that the \textit{M} neuron does not excite the soma of PCs. Whether the SOM or VIP neurons are the target of the feedback projections depend on the specific mean-field network (see Table \ref{tab:wXM}). In the multi-cell population model, 30\% of the SOM neurons and 70\% of the VIP neurons receive input from the memory neuron.
+The memory neuron \textit{M} connects to the post-synaptic neurons \textit{X} in the PE circuit with the connection strength $w_\mathrm{X\leftarrow M} = 1$, if a connection exists, $w_\mathrm{X\leftarrow M} = 0$ otherwise. In all mean-field networks and the multi-cell population network, the dendrites of nPE and pPE neurons and one of the two (populations of) PV neurons receive connections from the memory neuron. Furthermore, we assume that the \textit{M} neuron does not excite the soma of PCs. Whether the SOM or VIP neurons are the target of the feedback projections depend on the specific mean-field network (see Table \ref{tab:wXM}). In the multi-cell population model, 30\% of the SOM neurons and 70\% of the VIP neurons receive input from the memory neuron.
 %
 \begin{table}[h!]
 \centering
@@ -596,9 +596,9 @@ Each neuron (type) receives an overall input $I_i$,
 I_i = I_i^{BL} + w_i \cdot I_{i}^{FF}
 \end{align*}
 %
-where $I_{i}^{FF}$ denotes a feedforward input and $I_i^{BL}$ represents an external background input that ensures reasonable baseline firing rates in the absence of sensory inputs and predictions thereof. In the case of the mean-field network, these inputs were set such that the baseline firing rates are $r_\mathrm{pE}=r_\mathrm{pD}=r_\mathrm{nE}=r_\mathrm{nD}=0\, s^{-1}$ and $r_\mathrm{P} = r_\mathrm{S}=r_\mathrm{V}=4\, s^{-1}$. In the case of the population network, we set the external inputs of all neuron types to $5\, s^{-1}$, while the background inputs to the dendrites were computed such that the dendrites are inactive during baseline.
+where $I_{i}^{FF}$ denotes a feedforward input and $I_i^{BL}$ represents an external background input that ensures reasonable baseline firing rates in the absence of sensory inputs and predictions thereof. In the case of the mean-field network, these inputs were set such that the baseline firing rates are $r_\mathrm{pE}=r_\mathrm{pD}=r_\mathrm{nE}=r_\mathrm{nD}=0\, s^{-1}$ and $r_\mathrm{P} = r_\mathrm{S}=r_\mathrm{V}=4\, s^{-1}$. In the case of the multi-cell population network, we set the external inputs of all neuron types to $5\, s^{-1}$, while the background inputs to the dendrites were computed such that the dendrites are inactive during baseline.
 
-The feedforward input is either the direct sensory input $s$ for the lower PE circuit, or the activity of the M neuron, $r_\mathrm{M}$, for the higher PE circuit. In general, for the three mean-field networks tested, we chose $w_i = 1 - w_\mathrm{X\leftarrow M}$  (see Table \ref{tab:wXM}). In the population network, 70\% of the SOM neurons and 30\% of the VIP neurons receive the feedforward input.
+The feedforward input is either the direct sensory input $s$ for the lower PE circuit, or the activity of the M neuron, $r_\mathrm{M}$, for the higher PE circuit. In general, for the three mean-field networks tested, we chose $w_i = 1 - w_\mathrm{X\leftarrow M}$  (see Table \ref{tab:wXM}). In the multi-cell population network, 70\% of the SOM neurons and 30\% of the VIP neurons receive the feedforward input.
 
 
 \subsection{Simulations}
