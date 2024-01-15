@@ -1,6 +1,6 @@
 # Knowing what you don’t know: Estimating the uncertainty of feedforward and feedback inputs with prediction-error circuits
 
-This repository provides the source code to reproduce the figures and analyses from the paper [Knowing what you don’t know: Estimating the uncertainty of feedforward and feedback inputs with prediction-error circuits]([https://link-url-here.org](https://www.biorxiv.org/content/10.1101/2023.12.13.571410v1)).
+This repository provides the source code to reproduce the figures and analyses from the paper [Knowing what you don’t know: Estimating the uncertainty of feedforward and feedback inputs with prediction-error circuits](https://www.biorxiv.org/content/10.1101/2023.12.13.571410v1).
 
 ## Requirements
 
