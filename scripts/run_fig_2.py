@@ -51,7 +51,7 @@ if run_cell:
 # %% Systematically run network for different parameterisations of uniform distribution
 # record error between running estimate and m- or v-neuron output
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell: 

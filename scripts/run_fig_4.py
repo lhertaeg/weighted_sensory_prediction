@@ -92,7 +92,6 @@ if run_cell:
     ### get data
     if not plot_only: # simulate respective network
 
-        nums = 11
         pert_strength = np.linspace(-1,1,9)
 
         [pert_strength, m_act_lower, v_act_lower, v_act_higher] = simulate_moment_estimation_upon_changes_PE(mfn_flag, std_mean, n_std, column, pert_strength, 

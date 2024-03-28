@@ -10,6 +10,7 @@ Created on Mon Jan  9 09:31:58 2023
 
 import numpy as np
 import pickle
+from scipy import signal
 import matplotlib.pyplot as plt
 
 from src.default_parameters import default_para_mfn
@@ -86,6 +87,115 @@ def random_uniform_from_moments(mean, sd, num):
     rnd = dtype(np.random.uniform(a, b, size = num))
         
     return rnd
+
+
+
+def simulate_example_pe_circuit_cntns(mfn_flag, mean_stimuli, std_stimuli, file_for_data, add_input = None,
+                                      seed = 186, trial_duration = np.int32(100000), save_PE = False,
+                                      num_values_per_trial = np.int32(200), hann_window = 25):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag)
+    
+    ### add additional input to simulate e.g. elevated baseline or neuromodulators
+    if add_input is not None:
+        fixed_input += add_input
+    
+    ### create stimuli
+    np.random.seed(seed)
+    repeats_per_value = trial_duration//num_values_per_trial
+
+    stim = random_uniform_from_moments(mean_stimuli, std_stimuli, num_values_per_trial)   
+    stim = np.repeat(stim, repeats_per_value)
+    
+    win = signal.windows.hann(hann_window)
+    stimuli = signal.convolve(stim, win, mode='same') / sum(win)
+    
+    ### compute variances and predictions
+    
+    ## run model
+    prediction, variance, PE = run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, 
+                                              fixed_input, stimuli, VS=VS, VV=VV, w_PE_to_V = w_PE_to_V)
+
+    ### save data for later
+    if save_PE:
+        with open(file_for_data,'wb') as f:
+            pickle.dump([mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance, PE],f)
+    else:
+        with open(file_for_data,'wb') as f:
+            pickle.dump([mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance],f)
+    
+    ret = (mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance,)  
+    
+    if save_PE:
+        ret += (PE,)
+    
+    return ret
+
+
+
+def simulate_effect_baseline(mfn_flag, std_mean, n_sd, column, pert_stength, cell_id, mean_trials = dtype(5), m_sd = dtype(0), 
+                             last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000), 
+                             num_values_per_trial = np.int32(10), file_for_data = None):
+    
+    ### load default parameters
+    VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
+    
+    [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
+     v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
+     tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag, one_column=False)
+    
+    ### define stimuli
+    np.random.seed(seed)
+    n_repeats_per_stim = dtype(trial_duration/num_values_per_trial)
+
+    stimuli = stimuli_moments_from_uniform(n_trials, num_values_per_trial, dtype(mean_trials - np.sqrt(3)*std_mean), 
+                                            dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
+    stimuli = np.repeat(stimuli, n_repeats_per_stim)
+    
+    ### initialise
+    nums = len(pert_stength)
+    sensory_weights = np.zeros(nums)
+
+    ### run model for input onto PE neuron     
+    for i in range(nums):
+            
+        ## display progress
+        print('-- Baseline (Inp strength):', pert_stength[i])
+        
+        ## add perturbation
+        perturbation = np.zeros((n_trials * trial_duration, 8), dtype=dtype)                          
+        perturbation[(n_trials * trial_duration)//2:, cell_id] = pert_stength[i]
+        fixed_input_plus_perturbation = fixed_input + perturbation
+            
+        if column==1:
+            fixed_input_lower = fixed_input_plus_perturbation
+            fixed_input_higher = fixed_input
+        elif column==2:
+            fixed_input_lower = fixed_input
+            fixed_input_higher = fixed_input_plus_perturbation
+        elif column==0:
+            fixed_input_lower = fixed_input_plus_perturbation
+            fixed_input_higher = fixed_input_plus_perturbation
+
+        ## run model
+        [m_neuron_lower, v_neuron_lower, m_neuron_higher, v_neuron_higher, 
+         alpha, beta, weighted_output] = run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, 
+                                                                 v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
+                                                                 tc_var_pred, tau_pe, None, stimuli, VS = VS,
+                                                                 VV = VV, w_PE_to_V = w_PE_to_V, v_PE_to_V = v_PE_to_V, 
+                                                                 fixed_input_lower = fixed_input_lower,
+                                                                 fixed_input_higher = fixed_input_higher)
+    
+        
+        ### compute steady state
+        sensory_weights[i] = np.mean(alpha[-last_n * trial_duration:])
+        
+    return sensory_weights
 
 
 
@@ -305,8 +415,8 @@ def simulate_slope_vs_trial_duration(mfn_flag, min_mean, max_mean, m_sd, n_sd, t
 
 
 
-def simulate_example_pe_circuit(mfn_flag, mean_stimuli, std_stimuli, file_for_data, 
-                                seed = 186, trial_duration = np.int32(100000), 
+def simulate_example_pe_circuit(mfn_flag, mean_stimuli, std_stimuli, file_for_data, add_input = None,
+                                seed = 186, trial_duration = np.int32(100000), save_PE = False,
                                 num_values_per_trial = np.int32(200), dist_type = 'uniform', pa=0.8):
     
     ### load default parameters
@@ -315,6 +425,10 @@ def simulate_example_pe_circuit(mfn_flag, mean_stimuli, std_stimuli, file_for_da
     [w_PE_to_P, w_P_to_PE, w_PE_to_PE, w_PE_to_V, 
      v_PE_to_P, v_P_to_PE, v_PE_to_PE, v_PE_to_V, 
      tc_var_per_stim, tc_var_pred, tau_pe, fixed_input] = default_para_mfn(mfn_flag)
+    
+    ### add additional input to simulate e.g. elevated baseline or neuromodulators
+    if add_input is not None:
+        fixed_input += add_input
     
     ### create stimuli
     np.random.seed(seed)
@@ -338,15 +452,23 @@ def simulate_example_pe_circuit(mfn_flag, mean_stimuli, std_stimuli, file_for_da
     ### compute variances and predictions
     
     ## run model
-    prediction, variance, _ = run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, 
+    prediction, variance, PE = run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, 
                                               fixed_input, stimuli, VS=VS, VV=VV, w_PE_to_V = w_PE_to_V)
 
     ### save data for later
-    with open(file_for_data,'wb') as f:
-        pickle.dump([mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance],f)    
-        
-    return [mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance]
-
+    if save_PE:
+        with open(file_for_data,'wb') as f:
+            pickle.dump([mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance, PE],f)
+    else:
+        with open(file_for_data,'wb') as f:
+            pickle.dump([mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance],f)
+    
+    ret = (mean_stimuli, std_stimuli, trial_duration, num_values_per_trial, stimuli, prediction, variance,)  
+    
+    if save_PE:
+        ret += (PE,)
+    
+    return ret
 
 
 def simulate_pe_uniform_para_sweep(mfn_flag, means_tested, variances_tested, file_for_data, 

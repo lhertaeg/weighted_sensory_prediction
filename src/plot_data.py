@@ -56,7 +56,7 @@ color_mean_prediction = '#70A9A1'
 
 cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_prediction', 
                                                             colors=[color_m_neuron,'#D6D6D6',
-                                                                    color_running_average_stimuli]) # fefee3
+                                                            color_running_average_stimuli]) # fefee3
 
 # %% plot functions
 
