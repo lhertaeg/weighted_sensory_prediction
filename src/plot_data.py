@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import pickle
+from scipy import signal
 
 from matplotlib.legend_handler import HandlerTuple
 import matplotlib.gridspec as gridspec
@@ -124,6 +125,212 @@ def plot_gain_factors(gains_nPE, gains_pPE, figsize=(10,1), fs = 6):
     ax_C.tick_params(size=2.0)
     ax_C.yaxis.label.set_size(fs)
     
+    
+def plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alpha_l, ylabel1 = 'Activity (1/s)', 
+                    ylabel2 = 'Sensory weight', xlabel1 = 'Time (fraction of stimulus duration)', xlabel2 = 'Time (XXX)', 
+                    title1 = None, title2 = None, title3 = None, fs = 6, lw=1, axs=None):
+
+    if axs is None:
+        _, axs = plt.subplots(1,3)    
+        
+    color_s = '#4059AD'
+    color_l = '#DB5461'
+
+    num_time_steps = len(m_neuron_s)
+    time_steps = np.arange(num_time_steps)/num_time_steps
+
+    axs[0].plot(time_steps, m_neuron_s, color=color_s, lw=lw)
+    axs[0].plot(time_steps, m_neuron_l, color=color_l, lw=lw)
+    axs[0].set_ylabel(ylabel1, fontsize=fs)
+    axs[0].set_xlabel(xlabel1, fontsize=fs, horizontalalignment='center', position=(1,0))# loc = 'left')
+    if title1 is not None:
+        axs[0].set_title(title1, fontsize=fs)
+    
+    axs[1].plot(time_steps, v_neuron_s, color=color_s, lw=lw)
+    axs[1].plot(time_steps, v_neuron_l, color=color_l, lw=lw)
+    #axs[1].set_xlabel(xlabel1, fontsize=fs)
+    if title2 is not None:
+        axs[1].set_title(title2, fontsize=fs)
+    
+    axs[2].plot(alpha_s, color=color_s, lw=lw)
+    axs[2].plot(alpha_l, color=color_l, lw=lw)
+    axs[2].set_ylabel(ylabel2, fontsize=fs)
+    axs[2].set_xlabel(xlabel2, fontsize=fs)
+    if title3 is not None:
+        axs[2].set_title(title3, fontsize=fs)
+    
+    for i in range(3):
+        axs[i].tick_params(size=2.0) 
+        axs[i].tick_params(axis='both', labelsize=fs)
+        axs[i].locator_params(nbins=3, axis='both') 
+        sns.despine(ax=axs[i])
+    
+    
+def plot_example_stimuli_smoothed(hann_windows, fs = 6, ax = None):
+    
+    if ax is None:
+        _, ax = plt.subplots(1,1)
+    
+    stim = random_uniform_from_moments(5, 2, 10)   
+    stim = np.repeat(stim, 500)
+    
+    colors = ['#FFA91F', '#188FA7']
+    
+    for i, hann_window in enumerate(hann_windows):
+        win = signal.windows.hann(hann_window)
+        stimuli = signal.convolve(stim, win, mode='same') / sum(win)
+        ax.plot(stimuli, label=str(hann_window), color=colors[i], lw=1)
+        
+    l = ax.legend(loc=0, fontsize=fs, frameon=False, handlelength=1, title='Hann window', ncol=2)  
+    l.get_title().set_fontsize(fs)
+    
+    ax.set_xlabel('Time (# simulation steps)', fontsize=fs)
+    ax.set_ylabel('Stimulus', fontsize=fs)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.locator_params(nbins=3, axis='both') 
+    sns.despine(ax=ax)
+        
+    
+def plot_dev_cntns(hann_windows, dev_mean, dev_variance, ymin = -5.2, ylabel = 'Normalised error (%)', fs = 6, ax = None):
+    
+    if ax is None:
+        _, ax = plt.subplots(1,1)
+        
+    colors = ['#FFA91F', '#188FA7']    
+    
+    ax.plot(hann_windows, dev_mean* 100, color=color_m_neuron, marker='.', lw=1, ms=3, label='M neuron')
+    ax.plot(hann_windows, dev_variance * 100, color=color_v_neuron, marker='.', lw=1, ms=3, label='V neuron')
+    ax.plot(25, ymin, marker='^', color=colors[0], ms=3, clip_on=False)
+    ax.plot(500, ymin, marker='^', color=colors[1], ms=3, clip_on=False)
+        
+    ax.set_xlabel('Smoothing window', fontsize=fs)
+    ax.set_ylabel(ylabel, fontsize=fs)
+    ax.legend(loc=0, frameon=False, fontsize=fs)
+    
+    ax.tick_params(size=2.0) 
+    ax.tick_params(axis='both', labelsize=fs)
+    ax.locator_params(nbins=3, axis='both') 
+    sns.despine(ax=ax)
+    
+
+def plot_impact_baseline(input_to_increase_baseline, fs = 6, axs = None):
+    
+    if axs is None:
+        _, axs = plt.subplots(3,3)
+    
+    file_for_data = '../results/data/moments/data_influence_of_baseline.pickle'
+    
+    with open(file_for_data,'rb') as f:
+        [M_nPE, M_pPE, M_both, V_nPE, V_pPE, V_both, BL_nPE, BL_pPE, BL_both] = pickle.load(f) 
+    
+    axs[0,0].plot(input_to_increase_baseline, M_nPE, color=color_m_neuron) # BL_nPE
+    axs[0,1].plot(input_to_increase_baseline, M_pPE, color=color_m_neuron) # BL_pPE
+    axs[0,2].plot(input_to_increase_baseline, M_both, color=color_m_neuron) # BL_both
+     
+    axs[1,0].plot(input_to_increase_baseline, V_nPE, color=color_v_neuron)
+    axs[1,1].plot(input_to_increase_baseline, V_pPE, color=color_v_neuron)
+    axs[1,2].plot(input_to_increase_baseline, V_both, color=color_v_neuron)
+    
+    
+    std_means = [0, 1, 1]
+    n_stds = [1, 0, 1]
+    ls = ['--', ':', '-']
+    
+    for i in range(3):
+        
+        std_mean = std_means[i]  
+        n_std = n_stds[i]  
+    
+        file_for_data = '../results/data/moments/data_influence_of_baseline_full_' + str(std_mean) + '_' + str(n_std) + '.pickle'
+        with open(file_for_data,'rb') as f:
+                    [baselines, sensory_weights_nPE, sensory_weights_pPE, sensory_weights_both] = pickle.load(f)
+        
+        axs[2,0].plot(input_to_increase_baseline, sensory_weights_nPE, color='k', ls=ls[i])
+        axs[2,1].plot(input_to_increase_baseline, sensory_weights_pPE, color='k', ls=ls[i])
+        axs[2,2].plot(input_to_increase_baseline, sensory_weights_both, color='k', ls=ls[i])
+        
+    for i in range(3):
+        for j in range(3):
+            axs[i,j].tick_params(size=2.0) 
+            axs[j,i].tick_params(axis='both', labelsize=fs)
+            axs[j,i].locator_params(nbins=3, axis='both') 
+            sns.despine(ax=axs[i,j])
+    
+    axs[0,0].set_title('nPE neuron', fontsize=fs)
+    axs[0,1].set_title('pPE neuron', fontsize=fs)
+    axs[0,2].set_title('Both PE neurons', fontsize=fs)
+       
+    axs[0,0].set_ylabel('M rate (1/s)', fontsize=fs)
+    axs[1,0].set_ylabel('V rate (1/s)', fontsize=fs)
+    axs[2,0].set_ylabel('Sensory weight', fontsize=fs)
+    
+    axs[2,1].set_xlabel('Input to increase baseline in PE neuron/s (1/s)', fontsize=fs)
+        
+
+    
+def illustrate_PE_establish_M(m_neuron, PE, stimuli, trial_duration, num_values_per_trial, xlim1, xlim2, fs = 6, axs=None):
+    
+    if axs is None:
+        _, axs = plt.subplots(3,2, sharey='row')
+        
+    trials = np.arange(len(stimuli))#/trial_duration   
+        
+    axs[0,0].plot(trials, stimuli, marker='|', ls='None', color=color_stimuli_background)
+    axs[0,1].plot(trials, stimuli, marker='|', ls='None', color=color_stimuli_background)
+    axs[0,0].plot(trials, m_neuron, color=color_prediction)
+    axs[0,1].plot(trials, m_neuron, color=color_prediction)
+    
+    axs[1,0].plot(trials, PE[:,0], color=Col_Rate_nE)
+    axs[1,1].plot(trials, PE[:,0], color=Col_Rate_nE)
+    
+    axs[2,0].plot(trials, PE[:,1], color=Col_Rate_pE)
+    axs[2,1].plot(trials, PE[:,1], color=Col_Rate_pE)
+    
+    duration = np.int32(trial_duration//num_values_per_trial)
+    
+    color_below = '#BBDADD' #'#C8E2E4'
+    color_above = '#FCECD9' #'#FAE3C6'
+    
+    for i in range(num_values_per_trial):
+        if stimuli[i*duration]<=m_neuron[i*duration]:
+            for j in range(3):
+                axs[j,0].axvspan(i*duration,(i+1)*duration-1, color=color_below, alpha=0.2)
+                axs[j,1].axvspan(i*duration,(i+1)*duration-1, color=color_below, alpha=0.2)
+        else:
+            for j in range(3):
+                axs[j,0].axvspan(i*duration,(i+1)*duration-1, color=color_above, alpha=0.2)
+                axs[j,1].axvspan(i*duration,(i+1)*duration-1, color=color_above, alpha=0.2)
+    
+    for j in range(3):
+        sns.despine(ax=axs[j,0])
+        axs[j,0].set_xlim(xlim1)
+        axs[j,0].tick_params(size=2.0) 
+        axs[j,0].tick_params(axis='both', labelsize=fs)
+        axs[j,0].locator_params(nbins=3, axis='y')  
+        axs[j,0].set_xticks([xlim1[0], sum(xlim1)//2, xlim1[1]]) 
+        if j==2:
+            axs[j,0].set_xticklabels([xlim1[0], sum(xlim1)//2, xlim1[1]]/trial_duration) 
+    for j in range(3):
+        sns.despine(ax=axs[j,1])
+        axs[j,1].set_xlim(xlim2)
+        axs[j,1].tick_params(size=2.0) 
+        axs[j,1].tick_params(axis='both', labelsize=fs)
+        axs[j,1].locator_params(nbins=3, axis='y') 
+        axs[j,1].set_xticks([xlim2[0], sum(xlim2)//2, xlim2[1]])
+        if j==2:
+            axs[j,1].set_xticklabels([xlim2[0], sum(xlim2)//2, xlim2[1]]/trial_duration) 
+            
+    axs[0,0].set_ylabel('M rate (1/s)', fontsize=fs)
+    axs[1,0].set_ylabel('nPE rate (1/s)', fontsize=fs)
+    axs[2,0].set_ylabel('pPE rate (1/s)', fontsize=fs)
+    
+    axs[2,0].set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
+    axs[2,1].set_xlabel('Time (fraction of stimulus duration)', fontsize=fs)
+    
+    axs[0,0].set_title('Early', fontsize=fs)
+    axs[0,1].set_title('Late', fontsize=fs)
     
 
 def plot_nPE_pPE_activity_compare(P, S, nPE, pPE, fs = 6, lw = 1, ms = 1, ax1 = None):

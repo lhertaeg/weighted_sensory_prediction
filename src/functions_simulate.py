@@ -140,7 +140,7 @@ def simulate_example_pe_circuit_cntns(mfn_flag, mean_stimuli, std_stimuli, file_
 
 def simulate_effect_baseline(mfn_flag, std_mean, n_sd, column, pert_stength, cell_id, mean_trials = dtype(5), m_sd = dtype(0), 
                              last_n = np.int32(50), seed = np.int32(186), n_trials = np.int32(200), trial_duration = np.int32(5000), 
-                             num_values_per_trial = np.int32(10), file_for_data = None):
+                             num_values_per_trial = np.int32(10), record_last_alpha = False, file_for_data = None):
     
     ### load default parameters
     VS, VV = int(mfn_flag[0]), int(mfn_flag[1])
@@ -195,7 +195,12 @@ def simulate_effect_baseline(mfn_flag, std_mean, n_sd, column, pert_stength, cel
         ### compute steady state
         sensory_weights[i] = np.mean(alpha[-last_n * trial_duration:])
         
-    return sensory_weights
+    ret = (sensory_weights,)  
+    
+    if record_last_alpha:
+        ret += (alpha,)
+    
+    return ret
 
 
 
