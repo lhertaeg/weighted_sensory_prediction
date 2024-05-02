@@ -182,7 +182,7 @@ def run_mfn_circuit(w_PE_to_P, w_P_to_PE, w_PE_to_PE, tc_var_per_stim, tau_pe, f
 
 def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_PE, v_PE_to_PE, tc_var_per_stim, 
                             tc_var_pred, tau_pe, fixed_input, stimuli, VS = 1, VV = 0, dt = dtype(1), n = 2, 
-                            w_PE_to_V = dtype([1,1]), v_PE_to_V  = dtype([1,1]), record_pe_activity = False,
+                            w_PE_to_V = dtype([1,1]), v_PE_to_V  = dtype([1,1]), record_pe_activity = False, w_lower2higher = 1, 
                             fixed_input_lower = None, fixed_input_higher = None, record_interneuron_activity = False):
     
     ### neuron and network parameters
@@ -226,7 +226,8 @@ def run_mfn_circuit_coupled(w_PE_to_P, w_P_to_PE, w_PE_to_PE, v_PE_to_P, v_P_to_
         
         
         ## run higher PE circuit
-        feedforward_input_higher = fixed_input_higher[id_stim,:] + m_neuron_lower[id_stim-1] * neurons_feedforward
+        # feedforward_input_higher = fixed_input_higher[id_stim,:] + m_neuron_lower[id_stim-1] * neurons_feedforward 
+        feedforward_input_higher = fixed_input_higher[id_stim,:] + m_neuron_lower[id_stim-1] * neurons_feedforward  * w_lower2higher
         
         [rates_higher[id_stim,:], m_neuron_higher[id_stim], 
          v_neuron_higher[id_stim]] = rate_dynamics_mfn(tau_E, tau_I, tc_var_pred, v_PE_to_V, v_PE_to_P,

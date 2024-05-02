@@ -50,8 +50,11 @@ ax_B1 = fig.add_subplot(G[0,1])
 ax_B2 = fig.add_subplot(G[1,1])
 ax_B3 = fig.add_subplot(G[2,1])
 
-ax_A_legend = fig.add_subplot(G[0,-1])
-ax_A_legend.axis('off')
+ax_legend_M = fig.add_subplot(G[0,-1])
+ax_legend_M.axis('off')
+
+ax_legend_V = fig.add_subplot(G[2,-1])
+ax_legend_V.axis('off')
 
 # %%  How is the variance influenced by BL of nPE and pPE in lower and higher PE circuit?    
  
@@ -60,7 +63,8 @@ plot_illustration_changes_upon_baseline_PE(BL = np.linspace(0,3,7), ax1 = ax_A1,
 # %%  How is the variance influenced by gain of nPE and pPE in lower and higher PE circuit?    
  
 plot_illustration_changes_upon_gain_PE(gains=np.linspace(0.5,1.5,7), ax1 = ax_B1, ax2 = ax_B2, ax3 = ax_B3)
-plot_legend_illustrations(ax_A_legend)
+plot_legend_illustrations(ax_legend_M, plot_M = True)
+plot_legend_illustrations(ax_legend_V, plot_M = False)
 
 # %% save figure
 

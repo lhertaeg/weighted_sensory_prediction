@@ -227,7 +227,7 @@ else:
     
     # Illustrate input condition for D
 
-    std_stims = np.array([2, 3])
+    std_stims = np.array([0.5, 1])
     mean_trails = np.array([15, 15])
     std_trails = np.array([0.01, 0.01])
     slopes = np.array([weighted_output_1[0], weighted_output_2[0]])

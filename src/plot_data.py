@@ -126,9 +126,9 @@ def plot_gain_factors(gains_nPE, gains_pPE, figsize=(10,1), fs = 6):
     ax_C.yaxis.label.set_size(fs)
     
     
-def plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alpha_l, ylabel1 = 'Activity (1/s)', 
-                    ylabel2 = 'Sensory weight', xlabel1 = 'Time (fraction of stimulus duration)', xlabel2 = 'Time (XXX)', 
-                    title1 = None, title2 = None, title3 = None, fs = 6, lw=1, axs=None):
+def plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alpha_l, ylabel1 = 'Activity (1/s)', mean = 5, 
+                    variance = 4, trial_duration = 5000, ylabel2 = 'Sensory weight', xlabel1 = 'Time (fraction of stimulus duration)', 
+                    xlabel2 = 'Time (number of trials)', xlim3=[100,150], title1 = None, title2 = None, title3 = None, fs = 6, lw=1, axs=None):
 
     if axs is None:
         _, axs = plt.subplots(1,3)    
@@ -136,28 +136,33 @@ def plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alp
     color_s = '#4059AD'
     color_l = '#DB5461'
 
-    num_time_steps = len(m_neuron_s)
-    time_steps = np.arange(num_time_steps)/num_time_steps
+    # num_time_steps = len(m_neuron_s)
+    time_steps = np.arange(len(m_neuron_s))/100000
 
     axs[0].plot(time_steps, m_neuron_s, color=color_s, lw=lw)
     axs[0].plot(time_steps, m_neuron_l, color=color_l, lw=lw)
     axs[0].set_ylabel(ylabel1, fontsize=fs)
+    axs[0].axhline(mean, color='k', lw=lw, ls=':', zorder=0)
     axs[0].set_xlabel(xlabel1, fontsize=fs, horizontalalignment='center', position=(1,0))# loc = 'left')
     if title1 is not None:
         axs[0].set_title(title1, fontsize=fs)
     
     axs[1].plot(time_steps, v_neuron_s, color=color_s, lw=lw)
     axs[1].plot(time_steps, v_neuron_l, color=color_l, lw=lw)
+    axs[1].axhline(variance, color='k', lw=lw, ls=':', zorder=0)
     #axs[1].set_xlabel(xlabel1, fontsize=fs)
     if title2 is not None:
         axs[1].set_title(title2, fontsize=fs)
     
-    axs[2].plot(alpha_s, color=color_s, lw=lw)
-    axs[2].plot(alpha_l, color=color_l, lw=lw)
+    x = np.arange(0,len(alpha_l))/trial_duration
+    axs[2].plot(x, alpha_s, color=color_s, lw=lw)
+    axs[2].plot(x, alpha_l, color=color_l, lw=lw)
     axs[2].set_ylabel(ylabel2, fontsize=fs)
     axs[2].set_xlabel(xlabel2, fontsize=fs)
     if title3 is not None:
         axs[2].set_title(title3, fontsize=fs)
+    if xlim3 is not None:
+        axs[2].set_xlim(xlim3)
     
     for i in range(3):
         axs[i].tick_params(size=2.0) 
@@ -171,17 +176,19 @@ def plot_example_stimuli_smoothed(hann_windows, fs = 6, ax = None):
     if ax is None:
         _, ax = plt.subplots(1,1)
     
+    np.random.seed(186)
     stim = random_uniform_from_moments(5, 2, 10)   
     stim = np.repeat(stim, 500)
     
-    colors = ['#FFA91F', '#188FA7']
+    colors = ['#FFA91F', '#542344']
     
     for i, hann_window in enumerate(hann_windows):
         win = signal.windows.hann(hann_window)
         stimuli = signal.convolve(stim, win, mode='same') / sum(win)
         ax.plot(stimuli, label=str(hann_window), color=colors[i], lw=1)
         
-    l = ax.legend(loc=0, fontsize=fs, frameon=False, handlelength=1, title='Hann window', ncol=2)  
+    l = ax.legend(loc=3, fontsize=fs, frameon=False, handlelength=1, title='Hann window', ncol=2, 
+                  columnspacing=1, bbox_to_anchor=(0.07, 0.))  
     l.get_title().set_fontsize(fs)
     
     ax.set_xlabel('Time (# simulation steps)', fontsize=fs)
@@ -193,17 +200,17 @@ def plot_example_stimuli_smoothed(hann_windows, fs = 6, ax = None):
     sns.despine(ax=ax)
         
     
-def plot_dev_cntns(hann_windows, dev_mean, dev_variance, ymin = -5.2, ylabel = 'Normalised error (%)', fs = 6, ax = None):
+def plot_dev_cntns(hann_windows, dev_mean, dev_variance, ymax = 5.2, ylabel = 'Absolute \nnorm. error (%)', fs = 6, ax = None):
     
     if ax is None:
         _, ax = plt.subplots(1,1)
         
-    colors = ['#FFA91F', '#188FA7']    
+    colors = ['#FFA91F', '#542344']    
     
-    ax.plot(hann_windows, dev_mean* 100, color=color_m_neuron, marker='.', lw=1, ms=3, label='M neuron')
-    ax.plot(hann_windows, dev_variance * 100, color=color_v_neuron, marker='.', lw=1, ms=3, label='V neuron')
-    ax.plot(25, ymin, marker='^', color=colors[0], ms=3, clip_on=False)
-    ax.plot(500, ymin, marker='^', color=colors[1], ms=3, clip_on=False)
+    ax.plot(hann_windows, abs(dev_mean) * 100, color=color_m_neuron, marker='.', lw=1, ms=3, label='M neuron')
+    ax.plot(hann_windows, abs(dev_variance) * 100, color=color_v_neuron, marker='.', lw=1, ms=3, label='V neuron')
+    ax.plot(25, 0.1, marker='s', color=colors[0], ms=3, clip_on=False)
+    ax.plot(500, 0.1, marker='s', color=colors[1], ms=3, clip_on=False)
         
     ax.set_xlabel('Smoothing window', fontsize=fs)
     ax.set_ylabel(ylabel, fontsize=fs)
@@ -376,12 +383,12 @@ def plot_illustration_neuromod_results(ax = None, fs=6):
         ax1 = ax
         
     ax1.set_xticks([]), ax1.set_yticks([])
-    ax1.patch.set_facecolor('#EFF6FB')
+    ax1.patch.set_facecolor('#F5F4F5')  #EFF6FB
     sns.despine(ax=ax1, top=True, right=True, left=True, bottom=True)    
     
-    ax_3 = ax1.inset_axes((0.5,0,0.5,0.3)) 
-    ax_2 = ax1.inset_axes((0.5,0.35,0.5,0.3))
-    ax_1 = ax1.inset_axes((0.5,0.7,0.5,0.3))
+    ax_3 = ax1.inset_axes((0.6,0,0.4,0.25)) 
+    ax_2 = ax1.inset_axes((0.6,0.35,0.4,0.25))
+    ax_1 = ax1.inset_axes((0.6,0.7,0.4,0.25))
     
     color_before = '#3D4451'#
     color_after = '#808A9F' 
@@ -403,7 +410,7 @@ def plot_illustration_neuromod_results(ax = None, fs=6):
     sns.despine(ax=ax_1)
     
     ax_1.legend(loc=1, fontsize=fs, frameon=False, handlelength=1, ncol=1, bbox_to_anchor=(1.,1.2))
-    ax_1.patch.set_facecolor('#EFF6FB')
+    ax_1.patch.set_facecolor('#F5F4F5')
     
     before = np.array([0.8, 0.2])
     after = np.array([0.78, 0.22])
@@ -417,7 +424,7 @@ def plot_illustration_neuromod_results(ax = None, fs=6):
     ax_2.tick_params(size=2.0) 
     ax_2.tick_params(axis='both', labelsize=fs)
     ax_2.set_ylabel('Sensory weight', fontsize=fs)
-    ax_2.patch.set_facecolor('#EFF6FB')
+    ax_2.patch.set_facecolor('#F5F4F5')
     sns.despine(ax=ax_2)
     
     before = np.array([0.8, 0.2])
@@ -429,10 +436,11 @@ def plot_illustration_neuromod_results(ax = None, fs=6):
     ax_3.set_xlim([X[0] - 1.5*dx, X[1] + 3*dx])
     ax_3.set_yticks([0.5])
     ax_3.set_xticks([1 + dx/2, 2 + dx/2])
-    ax_3.set_xticklabels(['Sens. \ndriven \n(before)', 'Pred. \ndriven \n(before)'], fontsize=fs)
+    ax_3.set_xticklabels(['Sens. \ndriven', 'Pred. \ndriven'], fontsize=fs)
+    #ax_3.set_xticklabels(['Sens. \ndriven \n(before)', 'Pred. \ndriven \n(before)'], fontsize=fs)
     ax_3.tick_params(size=2.0) 
     ax_3.tick_params(axis='both', labelsize=fs)
-    ax_3.patch.set_facecolor('#EFF6FB')
+    ax_3.patch.set_facecolor('#F5F4F5')
     sns.despine(ax=ax_3)
 
 
@@ -829,18 +837,50 @@ def plot_M_and_V_for_population_example(t, r_mem, r_var, mean=5, var=4, ax=None,
     sns.despine(ax=ax)
 
 
-def plot_legend_illustrations(ax, fs=6, mew=2):
+def plot_legend_illustrations(ax, fs=6, mew=2, plot_M = True):
     
-    p1, = ax.plot(np.nan, np.nan, marker=10, color='k', ms=4, ls='None')
-    p2, = ax.plot(np.nan, np.nan, marker=11, color='k', ms=4, ls='None')
-    p3, = ax.plot(np.nan, np.nan, marker='_', color=color_m_neuron, ms=6, ls='None', markeredgewidth=mew)
-    p4, = ax.plot(np.nan, np.nan, marker='_', color=color_v_neuron, ms=6, ls='None', markeredgewidth=mew)
-    p5, = ax.plot(np.nan, np.nan, marker='_', color=color_m_neuron_light, ms=6, ls='None', markeredgewidth=mew)
-    p6, = ax.plot(np.nan, np.nan, marker='_', color=color_v_neuron_light, ms=6, ls='None', markeredgewidth=mew)
     
-    ax.legend([p1, p2, (p3, p4), (p5, p6)], ['pPE neuron targeted', 'nPE neuron targeted', 'in lower PE circuit', 'in higher PE circuit'],
-              handler_map={tuple: HandlerTuple(ndivide=None)}, loc=6, fontsize=fs, frameon=False, 
-              bbox_to_anchor=(-0.1, 0.5), ncol=1)
+    if plot_M:
+        
+        p1, = ax.plot(np.nan, np.nan, marker=10, color=color_m_neuron, ms=4, ls='None')
+        p2, = ax.plot(np.nan, np.nan, marker=10, color=color_m_neuron_light, ms=4, ls='None')
+        p3, = ax.plot(np.nan, np.nan, marker=11, color=color_m_neuron, ms=4, ls='None')
+        p4, = ax.plot(np.nan, np.nan, marker=11, color=color_m_neuron_light, ms=4, ls='None')
+        
+        ax.legend([p1, p2, p3, p4], ['pPE neuron targeted\nin lower PE circuit', 'pPE neuron targeted\nin higher PE circuit', 
+                                     'nPE neuron targeted\nin lower PE circuit', 'nPE neuron targeted\nin higher PE circuit'],
+                  handler_map={tuple: HandlerTuple(ndivide=None)}, loc=6, fontsize=fs, frameon=False, 
+                  bbox_to_anchor=(-0.1, 0.5), ncol=1)
+        
+    else:
+        
+        p1, = ax.plot(np.nan, np.nan, marker=10, color=color_v_neuron, ms=4, ls='None')
+        p2, = ax.plot(np.nan, np.nan, marker=10, color=color_v_neuron_light, ms=4, ls='None')
+        p3, = ax.plot(np.nan, np.nan, marker=11, color=color_v_neuron, ms=4, ls='None')
+        p4, = ax.plot(np.nan, np.nan, marker=11, color=color_v_neuron_light, ms=4, ls='None')
+        
+        ax.legend([p1, p2, p3, p4], ['pPE neuron targeted\nin lower PE circuit', 'pPE neuron targeted\nin higher PE circuit', 
+                                     'nPE neuron targeted\nin lower PE circuit', 'nPE neuron targeted\nin higher PE circuit'],
+                  handler_map={tuple: HandlerTuple(ndivide=None)}, loc=6, fontsize=fs, frameon=False, 
+                  bbox_to_anchor=(-0.1, 0.5), ncol=1)
+        
+    # p4, = ax.plot(np.nan, np.nan, marker='_', color=color_m_neuron, ms=6, ls='None', markeredgewidth=mew)
+    # p5, = ax.plot(np.nan, np.nan, marker='_', color=color_v_neuron, ms=6, ls='None', markeredgewidth=mew)
+    # p6, = ax.plot(np.nan, np.nan, marker='_', color=color_m_neuron_light, ms=6, ls='None', markeredgewidth=mew)
+    # p7, = ax.plot(np.nan, np.nan, marker='_', color=color_v_neuron_light, ms=6, ls='None', markeredgewidth=mew)
+    
+    # p1, = ax.plot(np.nan, np.nan, marker=10, color='k', ms=4, ls='None')
+    # p2, = ax.plot(np.nan, np.nan, marker=11, color='k', ms=4, ls='None')
+    # p3, = ax.plot(np.nan, np.nan, marker='_', color=color_m_neuron, ms=6, ls='None', markeredgewidth=mew)
+    # p4, = ax.plot(np.nan, np.nan, marker='_', color=color_v_neuron, ms=6, ls='None', markeredgewidth=mew)
+    # p5, = ax.plot(np.nan, np.nan, marker='_', color=color_m_neuron_light, ms=6, ls='None', markeredgewidth=mew)
+    # p6, = ax.plot(np.nan, np.nan, marker='_', color=color_v_neuron_light, ms=6, ls='None', markeredgewidth=mew)
+    
+    # ax.legend([p1, p2, (p3, p4), (p5, p6)], ['pPE neuron targeted', 'nPE neuron targeted', 'in lower PE circuit', 'in higher PE circuit'],
+    #           handler_map={tuple: HandlerTuple(ndivide=None)}, loc=6, fontsize=fs, frameon=False, 
+    #           bbox_to_anchor=(-0.1, 0.5), ncol=1)
+    
+    
 
 
 def plot_influence_interneurons_baseline_or_gain(plot_baseline=True, plot_annotation=True, ax=None, fs=6, s=10, lw=1):
@@ -1030,169 +1070,170 @@ def illustrate_sensory_weight_variance(ax = None, fs=6):
     cbar.ax.yaxis.label.set_size(fs)
                
     
-def plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, figsize=(2,2.5), fs=6, lw=1, s=15, show_ylabel=True, show_xlabel = True,
-                            flg_plot_xlabel=True, flg_plot_bars = True, ax1 = None, ax2=None, highlight=True, file_for_data = None):
+def plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, figsize=(2,2.5), fs=6, lw=1, ms=3, show_ylabel=False, 
+                         show_xlabel = False, ax1 = None, ax2=None, highlight=True):
     
         if ax1 is None:
-            f, (ax1, ax2) = plt.subplots(2,1, tight_layout=True, figsize=figsize, sharey=True, sharex=True)
+            f, (ax1, ax2) = plt.subplots(2,3, tight_layout=True, figsize=figsize, sharey=True, sharex=True)
            
         markers = ['o','s','d']
         
         ### load data
-        if file_for_data is None:
-            file_for_data = '../results/data/neuromod/data_neuromod_' + str(xp) + '_' + str(xs) + '_' + str(xv) + '.pickle'
+        # if file_for_data is None:
+        #     file_for_data = '../results/data/neuromod/data_neuromod_' + str(xp) + '_' + str(xs) + '_' + str(xv) + '.pickle'
             
-        with open(file_for_data,'rb') as f:
-            [xp, xs, xv, pert_strength, alpha] = pickle.load(f) 
+        # with open(file_for_data,'rb') as f:
+        #     [xp, xs, xv, pert_strength, alpha] = pickle.load(f) 
         
         # plot
+        
+        if ((xp==1) & (xs==0) & (xv==0)):
+            color = Col_Rate_PVv
+            ls = '-'
+            label = 'PV'
+        elif ((xp==0) & (xs==1) & (xv==0)):
+            color = Col_Rate_SOM
+            ls = '-'
+            label = 'SOM'
+        elif ((xp==0) & (xs==0) & (xv==1)):
+            color = Col_Rate_VIP 
+            ls = '-'
+            label = 'VIP'
+        else:
+            color='#BA8F95' #'#DD9787'
+            ls = '--'
+            label = 'SOM & VIP'
+        
         for i, mfn_flag in enumerate(['10','01','11']): 
             
-            ax2.axhline(alpha[0,i,0], color=cmap_sensory_prediction(alpha[0,i,0]), ls=':', zorder=0)
-            ax1.axhline(alpha[0,i,1], color=cmap_sensory_prediction(alpha[0,i,1]), ls=':', zorder=0)
+            ax2[i].plot(pert_strength, alpha[:,i,0], color=color, lw=lw, ls=ls, marker=markers[i], ms=ms, clip_on=False, zorder=10)
+            ax1[i].plot(pert_strength, alpha[:,i,1], color=color, lw=lw, ls=ls, marker=markers[i], ms=ms, clip_on=False, zorder=10)
+            ax2[i].plot(np.nan, np.nan, color=color, ls=ls, lw=lw, label=label)
             
-            ax2.scatter(pert_strength, alpha[:,i,0], marker=markers[i], c=alpha[:,i,0], cmap=cmap_sensory_prediction, 
-                        vmin=0, vmax=1, s=s, clip_on=False, zorder=10)
+            ax1[i].set_ylim([0,1])
+            ax2[i].set_ylim([0,1])
             
-            ax1.scatter(pert_strength, alpha[:,i,1], marker=markers[i], c=alpha[:,i,1], cmap=cmap_sensory_prediction, 
-                        vmin=0, vmax=1, s=s, clip_on=False, zorder=10)
+            ax1[i].tick_params(size=2.0) 
+            ax1[i].tick_params(axis='both', labelsize=fs)
+            ax1[i].locator_params(nbins=2, axis='both')
             
-
-            
-            if show_ylabel:
-                ax1.set_ylabel('Sensory weight', fontsize=fs)
-                ax2.set_ylabel('Sensory weight', fontsize=fs)
-                
-            ax1.set_xticklabels([])
-            if show_xlabel:
-                ax2.set_xlabel('Perturbation (1/s)', fontsize=fs)
-            ax1.set_ylim([0,1])
-            ax2.set_ylim([0,1])
-            
-            ax1.tick_params(size=2.0) 
-            ax1.tick_params(axis='both', labelsize=fs)
-            ax1.locator_params(nbins=2, axis='both')
-            
-            ax2.tick_params(size=2.0) 
-            ax2.tick_params(axis='both', labelsize=fs)
-            ax2.locator_params(nbins=2, axis='both')
+            ax2[i].tick_params(size=2.0) 
+            ax2[i].tick_params(axis='both', labelsize=fs)
+            ax2[i].locator_params(nbins=2, axis='both')
              
-            sns.despine(ax=ax1)
-            sns.despine(ax=ax2)
+            sns.despine(ax=ax1[i])
+            sns.despine(ax=ax2[i])
+        
+        if show_ylabel: 
+            ax1[0].set_ylabel('Sensory weight', fontsize=fs)
+            ax2[0].set_ylabel('Sensory weight', fontsize=fs)
+            
+        if show_xlabel:
+            ax2[1].set_xlabel('Perturbation (1/s)', fontsize=fs)
             
             
-def plot_neuromod_impact_inter(column, std_mean, n_std, figsize=(12,3), fs=6, lw=1, s=50, flg_plot_xlabel=True, 
-                               flg_plot_bars = True, ax1 = None, ax2=None, ax3=None, highlight=True):
+def plot_neuromod_impact_inter(column, std_mean, n_std, figsize=(12,3), fs=6, lw=1, ms=3, flg_plot_xlabel=True, 
+                               flg_plot_bars = True, axs = None, highlight=True):
     
-    if ax1 is None:
-        f, (ax1, ax2, ax3) = plt.subplots(1,3, tight_layout=True, figsize=figsize, sharey=True)
+    if axs is None:
+        f, axs = plt.subplots(3, 3, tight_layout=True, figsize=figsize, sharey=True)
        
-    markers = ['o','s','d']
+    #markers = ['o','s','d']
+    markers = ['.','.','.']
+    
     identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
     
-    # plot
+    if column==0:
+        color='#ADB1AA'#'#989C94'
+        label = 'both'
+    elif column==1:
+        color ='#D98324'
+        label='lower circuit'
+    elif column==2:
+        color='#724E91'
+        label = 'higher circuit'
+    
+    # plot data
     for i, mfn_flag in enumerate(['10','01','11']): 
         
         # SOM - VIP
         file_for_data = '../results/data/neuromod/data_weighting_neuromod_SOM-VIP_' + mfn_flag + identifier + '.pickle'
         with open(file_for_data,'rb') as f:
             [xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f) 
-    
-        ax1.axhline(alpha_before_pert, ls='-', color=cmap_sensory_prediction(alpha_before_pert), zorder=0, lw=lw)
+
+        axs[i,0].plot(xv, alpha_after_pert, color=color, marker=markers[i], ms=ms, lw=lw, zorder=10, clip_on=False)
         
-        if highlight:
-            ax1.axvspan(-0.04,0.04, color='#EFF6FB', alpha=0.2, zorder=0)
-            ax1.axvspan(0.96,1.04, color='#EFF6FB', alpha=0.2, zorder=0)
-            ax1.axvspan(0.45,0.55, color='#EFF6FB', alpha=0.2, zorder=0)
-        
-        ax1.scatter(xv, alpha_after_pert, marker=markers[i], c=alpha_after_pert, cmap=cmap_sensory_prediction, 
-                    vmin=0, vmax=1, s=s) #ec='k'
-        
-        if flg_plot_bars:
-            ax1.annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
-                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_VIP)) #'#525252'
-            
-            ax1.annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
-                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_SOM)) 
-        
-            ax1.text(0, -0.6, 'SOM', fontsize=fs, transform=ax1.transAxes, horizontalalignment='left', color=Col_Rate_SOM)
-            ax1.text(1, -0.2, 'VIP', fontsize=fs, transform=ax1.transAxes, horizontalalignment='right', color=Col_Rate_VIP)
-        
-        ax1.set_xticks([])
-        ax1.set_ylabel('Sensory weight', fontsize=fs)
-        ax1.set_ylim([0,1])
+        axs[i,0].set_ylim([0,1])
+        axs[i,0].set_xticks([])
+        axs[i,0].tick_params(size=2.0) 
+        axs[i,0].tick_params(axis='both', labelsize=fs)
+        axs[i,0].locator_params(nbins=2, axis='y')
         
         # VIP - PV
         file_for_data = '../results/data/neuromod/data_weighting_neuromod_VIP-PV_' + mfn_flag + identifier + '.pickle'
         with open(file_for_data,'rb') as f:
             [xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f) 
-    
-        ax2.axhline(alpha_before_pert, ls='-', color=cmap_sensory_prediction(alpha_before_pert), zorder=0, lw=lw)
-        
-        if highlight:
-            ax2.axvspan(-0.04,0.04, color='#EFF6FB', alpha=0.2, zorder=0)
-            ax2.axvspan(0.55,1.04, color='#EFF6FB', alpha=0.2, zorder=0)
-        
-        ax2.scatter(xp, alpha_after_pert, marker=markers[i], c=alpha_after_pert, cmap=cmap_sensory_prediction, 
-                    vmin=0, vmax=1, s=s) #ec='k',
-        
-        if flg_plot_bars:
-            ax2.annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
-                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_PVv))
-            
-            ax2.annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
-                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_VIP)) 
-        
-            ax2.text(0, -0.6, 'VIP', fontsize=fs, transform=ax2.transAxes, horizontalalignment='left', color=Col_Rate_VIP)
-            ax2.text(1, -0.2, 'PV', fontsize=fs, transform=ax2.transAxes, horizontalalignment='right', color=Col_Rate_PVv)
-        
-        ax2.set_xticks([])
-        if flg_plot_xlabel:
-            ax2.set_xlabel('Fraction of interneurons activated', fontsize=fs)
-        ax2.set_ylim([0,1])
+
+        axs[i,1].plot(xp, alpha_after_pert, color=color, marker=markers[i], ms=ms, lw=lw, zorder=10, clip_on=False)
+        axs[i,1].set_ylim([0,1])
+        axs[i,1].set_xticks([])
+        axs[i,1].tick_params(size=2.0) 
+        axs[i,1].tick_params(axis='both', labelsize=fs)
+        axs[i,1].locator_params(nbins=2, axis='y')
         
         # PV - SOM
         file_for_data = '../results/data/neuromod/data_weighting_neuromod_PV-SOM_' + mfn_flag + identifier + '.pickle'
         with open(file_for_data,'rb') as f:
-            [xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f) 
-    
-        ax3.axhline(alpha_before_pert, ls='-', color=cmap_sensory_prediction(alpha_before_pert), zorder=0, lw=lw)
-        
-        if highlight:
-            ax3.axvspan(-0.04,0.45, color='#EFF6FB', alpha=0.2, zorder=0)
-            ax3.axvspan(0.96,1.04, color='#EFF6FB', alpha=0.2, zorder=0)
-        
-        ax3.scatter(xs, alpha_after_pert, marker=markers[i], c=alpha_after_pert, cmap=cmap_sensory_prediction, 
-                    vmin=0, vmax=1, s=s) # ec='k', 
-        
-        if flg_plot_bars:
-            ax3.annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
-                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_SOM))
+            [xp, xs, xv, alpha_before_pert, alpha_after_pert] = pickle.load(f)
             
-            ax3.annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
-                     arrowprops=dict(arrowstyle="wedge", color=Col_Rate_PVv)) 
+        axs[i,2].plot(xs, alpha_after_pert, color=color, marker=markers[i], ms=ms, lw=lw, zorder=10, clip_on=False)
+        axs[i,2].set_ylim([0,1])
+        axs[i,2].set_xticks([])
+        axs[i,2].tick_params(size=2.0) 
+        axs[i,2].tick_params(axis='both', labelsize=fs)
+        axs[i,2].locator_params(nbins=2, axis='y')
         
-            ax3.text(0, -0.6, 'PV', fontsize=fs, transform=ax3.transAxes, horizontalalignment='left', color=Col_Rate_PVv)
-            ax3.text(1, -0.2, 'SOM', fontsize=fs, transform=ax3.transAxes, horizontalalignment='right', color=Col_Rate_SOM)
+        sns.despine(ax=axs[i,0])
+        sns.despine(ax=axs[i,1], top=True, left=True, right=True)
+        sns.despine(ax=axs[i,2], top=True, left=True, right=True)
+    
+    # legend
+    axs[0,0].plot(np.nan, np.nan, color=color, lw=lw, label=label)
         
-        ax3.set_xticks([])
-        ax3.set_ylim([0,1])
+    # plot wedges
+    axs[2,0].annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
+                      arrowprops=dict(arrowstyle="wedge", color=Col_Rate_VIP)) #'#525252'
+    
+    axs[2,0].annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
+                      arrowprops=dict(arrowstyle="wedge", color=Col_Rate_SOM))
+    
+    axs[2,1].annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
+                      arrowprops=dict(arrowstyle="wedge", color=Col_Rate_PVv))
         
-        ax1.tick_params(size=2.0) 
-        ax1.tick_params(axis='both', labelsize=fs)
-        ax1.locator_params(nbins=2, axis='y')
-        
-        ax2.tick_params(size=2.0) 
-        ax2.tick_params(axis='both', labelsize=fs)
-        ax2.locator_params(nbins=2, axis='y')
-        
-        ax3.tick_params(size=2.0) 
-        ax3.tick_params(axis='both', labelsize=fs)
-        ax3.locator_params(nbins=2, axis='y')
-        
-        sns.despine(ax=ax1)
-        sns.despine(ax=ax2)
-        sns.despine(ax=ax3)
+    axs[2,1].annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
+                      arrowprops=dict(arrowstyle="wedge", color=Col_Rate_VIP))     
+    
+    axs[2,2].annotate('', xy=(0, -0.3), xycoords='axes fraction', xytext=(1, -0.3), 
+                      arrowprops=dict(arrowstyle="wedge", color=Col_Rate_SOM))
+            
+    axs[2,2].annotate('', xy=(1, -0.4), xycoords='axes fraction', xytext=(0, -0.4), 
+                      arrowprops=dict(arrowstyle="wedge", color=Col_Rate_PVv)) 
+
+    axs[2,0].text(0, -0.6, 'SOM', fontsize=fs, transform=axs[2,0].transAxes, horizontalalignment='left', color=Col_Rate_SOM)
+    axs[2,0].text(1, -0.2, 'VIP', fontsize=fs, transform=axs[2,0].transAxes, horizontalalignment='right', color=Col_Rate_VIP)
+    axs[2,1].text(0, -0.6, 'VIP', fontsize=fs, transform=axs[2,1].transAxes, horizontalalignment='left', color=Col_Rate_VIP)
+    axs[2,1].text(1, -0.2, 'PV', fontsize=fs, transform=axs[2,1].transAxes, horizontalalignment='right', color=Col_Rate_PVv)
+    axs[2,2].text(0, -0.6, 'PV', fontsize=fs, transform=axs[2,2].transAxes, horizontalalignment='left', color=Col_Rate_PVv)
+    axs[2,2].text(1, -0.2, 'SOM', fontsize=fs, transform=axs[2,2].transAxes, horizontalalignment='right', color=Col_Rate_SOM)
+    
+    axs[1,0].set_ylabel('Sensory weight', fontsize=fs)
+    
+    for row in range(3):
+        for col in range(1,3):
+            axs[row, col].tick_params(axis='y', colors='white')
+    
+    # ax2.set_xlabel('Fraction of interneurons activated', fontsize=fs)   
+    
 
 
 def plot_changes_upon_input2PE_neurons_new(std_mean = 1, n_std = 1, mfn_flag = '10', fs=6, lw=1, ms=3, mew=2,

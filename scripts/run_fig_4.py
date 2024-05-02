@@ -67,7 +67,7 @@ if run_cell:
             
 
     ### plot data    
-    plot_neuromod_impact(pert_strength, alpha, xp, xs, xv, file_for_data=file_for_data)
+    plot_neuromod_impact(pert_strength, alpha, xp, xs, xv)
                                 
     
 # %% How are the variance neurons influenced by changes in nPE and pPE neurons in the lower and higher PE circuit?

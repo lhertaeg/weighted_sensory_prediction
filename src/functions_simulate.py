@@ -157,6 +157,7 @@ def simulate_effect_baseline(mfn_flag, std_mean, n_sd, column, pert_stength, cel
                                             dtype(mean_trials + np.sqrt(3)*std_mean), dtype(m_sd), dtype(n_sd))
     stimuli = np.repeat(stimuli, n_repeats_per_stim)
     
+    
     ### initialise
     nums = len(pert_stength)
     sensory_weights = np.zeros(nums)
