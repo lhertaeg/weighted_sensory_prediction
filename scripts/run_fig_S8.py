@@ -18,7 +18,7 @@ dtype = np.float32
 
 # %% Test several input statistcis
 
-run_cell = True
+run_cell = False
 plot_only = True
 
 if run_cell:
@@ -153,7 +153,7 @@ if run_cell:
     mfn_flag = '10' # valid options are '10', '01', '11
     
     ### filename for data
-    file_for_data = '../results/data/moments/data_example_spatial_mfn_' + mfn_flag + '.pickle'
+    file_for_data = '../results/sim_data/moments/data_example_spatial_mfn_' + mfn_flag + '.pickle'
     
     ### get data
     if not plot_only: # simulate respective network

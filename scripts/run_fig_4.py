@@ -70,46 +70,10 @@ if run_cell:
     plot_neuromod_impact(pert_strength, alpha, xp, xs, xv)
                                 
     
-# %% How are the variance neurons influenced by changes in nPE and pPE neurons in the lower and higher PE circuit?
-
-run_cell = True
-plot_only = True
-
-if run_cell:
-
-    ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
-
-    ### define target area and stimulus statistics
-    column = 2      # 1: lower level PE circuit, 2: higher level PE circuit
-    std_mean = 1   
-    n_std = 1       
-
-    ### filename for data
-    identifier = '_column_' + str(column) + '_acrossvar_' + str(std_mean) + '_withinvar_' + str(n_std)
-    file_for_data = '../results/data/neuromod/data_moments_vs_PE_neurons_' + mfn_flag + identifier + '.pickle'
-
-    ### get data
-    if not plot_only: # simulate respective network
-
-        pert_strength = np.linspace(-1,1,9)
-
-        [pert_strength, m_act_lower, v_act_lower, v_act_higher] = simulate_moment_estimation_upon_changes_PE(mfn_flag, std_mean, n_std, column, pert_strength, 
-                                                                                                            file_for_data = file_for_data)
-
-    else:
-
-        with open(file_for_data,'rb') as f:
-            [pert_strength, m_act_lower, v_act_lower, v_act_higher] = pickle.load(f)
-
-    ### plot data    
-    plot_changes_upon_input2PE_neurons_new()
-
-    
 # %% Test gain and BL of nPE and pPE neurons
 
-run_cell = False
-plot_only = True
+run_cell = True
+plot_only = False
 
 if run_cell:
     
