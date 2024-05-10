@@ -23,7 +23,7 @@ dtype = np.float32
 # %% Testing different distributions
     
 run_cell = True
-plot_only = True
+plot_only = False
 
 if run_cell:
     

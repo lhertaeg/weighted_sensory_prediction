@@ -11,7 +11,8 @@ Created on Mon Jan  9 09:04:01 2023
 import numpy as np
 import pickle
 
-from src.functions_simulate import simulate_dynamic_weighting_eg, plot_transitions_examples
+from src.functions_simulate import simulate_dynamic_weighting_eg
+from src.plot_data import plot_transitions_examples
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -24,7 +25,7 @@ dtype = np.float32
 # 5,5,0,0 --> 5,5,0,3 --> 0,10,0,3 --> 0,10,0,0 --> 5,5,0,0
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -64,4 +65,3 @@ if run_cell:
     ### plot data    
     plot_transitions_examples(n_trials, trial_duration, stimuli, alpha, beta, weighted_output, 
                               time_plot=0, ylim=[-15,20], figsize=(4,3), xlim=[40,60], plot_only_weights=True)
-

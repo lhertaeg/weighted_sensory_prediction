@@ -98,8 +98,8 @@ if run_cell:
 
 # %% Find nPE and pPE neurons and plot gain factors
 
-run_cell = True
-plot_only = True
+run_cell = False
+plot_only = False
 
 if run_cell:
     
@@ -204,7 +204,7 @@ if run_cell:
 
 # %% Sparsity 
 
-run_cell = True
+run_cell = False
 plot_only = False
 
 if run_cell:
@@ -280,7 +280,7 @@ if run_cell:
 # %% Correlated deviations  
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -352,7 +352,7 @@ if run_cell:
 # %% Uncorrelated deviations  
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     

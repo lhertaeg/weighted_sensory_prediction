@@ -22,8 +22,8 @@ dtype = np.float32
 
 # %% Illustrate activity of nPE and pPE neurons
 
-run_cell = False
-plot_only = True
+run_cell = True
+plot_only = False
 
 if run_cell:
     
@@ -59,8 +59,8 @@ if run_cell:
     
 # %% run example to show how nPE and pPE establishes M robustly
 
-run_cell = False
-plot_only = True
+run_cell = True
+plot_only = False
 
 if run_cell:
     

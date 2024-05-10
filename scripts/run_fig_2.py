@@ -22,7 +22,7 @@ dtype = np.float32
 
 # %% Example: estimating mean and variance through PE neuron activity
 
-run_cell = False
+run_cell = True
 plot_only = False
 
 if run_cell:
@@ -52,7 +52,7 @@ if run_cell:
 # record error between running estimate and m- or v-neuron output
 
 run_cell = True
-plot_only = True
+plot_only = False
 
 if run_cell: 
     

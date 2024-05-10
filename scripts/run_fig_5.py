@@ -19,7 +19,7 @@ dtype = np.float32
 # %% Slope as a function of variances
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -66,7 +66,7 @@ if run_cell:
 # %% Increasing input SD decreases slope - examples
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -118,7 +118,7 @@ if run_cell:
 # %% Slope as a function of trial duration
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -168,7 +168,7 @@ if run_cell:
 # %% Even without trial variability, contraction bias occurs - examples
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -220,7 +220,7 @@ if run_cell:
 # %% Even without input SD, contraction bias occurs - examples
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     

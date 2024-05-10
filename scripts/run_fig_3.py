@@ -23,7 +23,7 @@ dtype = np.float32
 # %% Two limit cases for weighting
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -69,7 +69,7 @@ if run_cell:
 # %% Systematic exploration - record sensory weight
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -106,7 +106,7 @@ if run_cell:
 # %% Impact of trial duration
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     

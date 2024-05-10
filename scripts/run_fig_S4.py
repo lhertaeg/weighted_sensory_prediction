@@ -19,8 +19,8 @@ dtype = np.float32
 
 # %% Run network for filtered (smoothed) continuous input
 
-run_cell = False
-plot_only = True
+run_cell = True
+plot_only = False
 
 if run_cell:
     

@@ -19,7 +19,7 @@ dtype = np.float32
 # %% Test several input statistcis
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -70,10 +70,35 @@ if run_cell:
                            x_examples = x_examples, y_examples = y_examples, markers_examples = markers_examples)
 
 
+# %% Spatial instead of temporal noise - example
+
+run_cell = False
+plot_only = False
+
+if run_cell:
+    
+    ### choose mean-field network to simulate
+    mfn_flag = '10' # valid options are '10', '01', '11
+    
+    ### filename for data
+    file_for_data = '../results/data/moments/data_example_spatial_mfn_' + mfn_flag + '.pickle'
+    
+    ### get data
+    if not plot_only: # simulate respective network
+        
+        [mean_stimulus, spatial_std, spatial_noise, 
+         num_time_steps, m_neuron, v_neuron, rates_final] = simulate_spatial_example(mfn_flag, dtype(4), dtype(2), file_for_data)
+    
+    else: # load results from previous simulation
+
+        with open(file_for_data,'rb') as f:
+            [mean_stimulus, spatial_std, spatial_noise, num_time_steps, m_neuron, v_neuron, rates_final] = pickle.load(f)
+
+
 # %% Transition to new mean
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -109,7 +134,7 @@ if run_cell:
 # %% Transition to new noise level
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
     
@@ -140,29 +165,3 @@ if run_cell:
 
     plot_examples_spatial_M(num_time_steps, m_neuron_before, m_neuron, 4, 4, labels=['Before','After'])
     plot_examples_spatial_V(num_time_steps, v_neuron_before, v_neuron, 4, 6, labels=['Before','After'])
-
-
-# %% Spatial instead of temporal noise - example
-
-run_cell = False
-plot_only = True
-
-if run_cell:
-    
-    ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
-    
-    ### filename for data
-    file_for_data = '../results/sim_data/moments/data_example_spatial_mfn_' + mfn_flag + '.pickle'
-    
-    ### get data
-    if not plot_only: # simulate respective network
-        
-        [mean_stimulus, spatial_std, spatial_noise, 
-         num_time_steps, m_neuron, v_neuron, rates_final] = simulate_spatial_example(mfn_flag, dtype(4), dtype(2), file_for_data)
-    
-    else: # load results from previous simulation
-
-        with open(file_for_data,'rb') as f:
-            [mean_stimulus, spatial_std, spatial_noise, num_time_steps, m_neuron, v_neuron, rates_final] = pickle.load(f)
-

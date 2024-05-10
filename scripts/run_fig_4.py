@@ -72,7 +72,7 @@ if run_cell:
     
 # %% Test gain and BL of nPE and pPE neurons
 
-run_cell = True
+run_cell = False
 plot_only = False
 
 if run_cell:

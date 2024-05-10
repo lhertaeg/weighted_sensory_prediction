@@ -23,7 +23,7 @@ dtype = np.float32
 # %% Simulate control case for number of input statistics 
 
 run_cell = True
-load_only = True
+load_only = False
 do_plot = False
 
 # define parameters used throughout the file
@@ -62,7 +62,7 @@ if run_cell:
 # %% Impact of activation function
 
 run_cell = False
-plot_only = True
+plot_only = False
 
 if run_cell:
 
@@ -92,7 +92,7 @@ if run_cell:
     
 # %% Impact of connectivity parameters (weight from PE neurons to M neuron in lower PE circuit)
     
-run_cell = True
+run_cell = False
 plot_only = False
 
 if run_cell:
