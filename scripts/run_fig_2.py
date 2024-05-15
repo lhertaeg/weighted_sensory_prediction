@@ -28,7 +28,7 @@ plot_only = False
 if run_cell:
     
     ### choose mean-field network to simulate
-    mfn_flag = '10' # valid options are '10', '01', '11
+    mfn_flag = '11' # valid options are '10', '01', '11
     
     ### filename for data
     file_for_data = '../results/data/moments/data_example_mfn_' + mfn_flag + '.pickle'
@@ -46,12 +46,12 @@ if run_cell:
     ### plot single panels
     plot_example_mean(stimuli, trial_duration, m_neuron, figsize=(5,3), fs=7, lw=1.2)
     plot_example_variance(stimuli, trial_duration, v_neuron, figsize=(5,3), fs=7, lw=1.2)
-
-
+    
+    
 # %% Systematically run network for different parameterisations of uniform distribution
 # record error between running estimate and m- or v-neuron output
 
-run_cell = True
+run_cell = False
 plot_only = False
 
 if run_cell: 

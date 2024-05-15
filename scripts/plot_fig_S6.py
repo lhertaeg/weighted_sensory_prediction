@@ -83,17 +83,19 @@ plt.setp(ax_D3.get_xticklabels(), visible=False)
 
 # %% Robustness
 
+folder = '../results/data/moments/'
+
 ## tau_V
-file_for_data = '../results/data/moments/data_change_tauV.pickle'
+file_for_data = folder + 'data_change_tauV.pickle'
 with open(file_for_data,'rb') as f:
         [paras, stimuli_1, trial_duration_1, n_trials, trial_duration_2, stimuli_2, alpha_s, alpha_l,
          m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l] = pickle.load(f)
         
 plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alpha_l, xlabel1 = ' ', xlabel2 = ' ', 
-                title1 = 'M neuron', title2 = 'V neuron', ylabel1=' ', ylabel2=' ', axs=ax_A)   
+                title1 = 'Lower-level M neuron', title2 = 'Lower-level V neuron', title3 = 'Sensory weight of full network', ylabel1=' ', ylabel2=' ', axs=ax_A)   
 
 ## wPE2P
-file_for_data = '../results/data/moments/data_change_wPE2P.pickle'
+file_for_data = folder + 'data_change_wPE2P.pickle'
 with open(file_for_data,'rb') as f:
         [paras, stimuli_1, trial_duration_1, n_trials, trial_duration_2, stimuli_2, alpha_s, alpha_l,
          m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l] = pickle.load(f)
@@ -102,7 +104,7 @@ plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alpha_l
                 ylabel1=' ', ylabel2=' ', axs=ax_B) 
 
 ## wP2PE
-file_for_data = '../results/data/moments/data_change_wP2PE.pickle'
+file_for_data = folder + 'data_change_wP2PE.pickle'
 with open(file_for_data,'rb') as f:
         [paras, stimuli_1, trial_duration_1, n_trials, trial_duration_2, stimuli_2, alpha_s, alpha_l,
          m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l] = pickle.load(f)
@@ -110,7 +112,7 @@ with open(file_for_data,'rb') as f:
 plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alpha_l, xlabel1 = ' ', xlabel2 = ' ', axs=ax_C)     
 
 ## wPE2V
-file_for_data = '../results/data/moments/data_change_wPE2V.pickle'
+file_for_data = folder + 'data_change_wPE2V.pickle'
 with open(file_for_data,'rb') as f:
         [paras, stimuli_1, trial_duration_1, n_trials, trial_duration_2, stimuli_2, alpha_s, alpha_l,
          m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l] = pickle.load(f)
@@ -119,7 +121,7 @@ plot_robustness(m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l, alpha_s, alpha_l
                 ylabel1=' ', ylabel2=' ', axs=ax_D)
 
 ## top-down
-file_for_data = '../results/data/moments/data_add_top_down.pickle'
+file_for_data = folder + 'data_add_top_down.pickle'
 with open(file_for_data,'rb') as f:
         [paras, alpha_s, alpha_l, m_neuron_s, m_neuron_l, v_neuron_s, v_neuron_l] = pickle.load(f)
         
