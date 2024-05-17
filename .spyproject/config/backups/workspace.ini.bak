@@ -8,4 +8,5 @@ recent_files = ['src/plot_data.py', 'src/functions_networks.py', 'src/functions_
 
 [main]
 version = 0.2.0
+recent_files = ['scripts/plot_fig_S6.py', 'src/plot_data.py']
 
