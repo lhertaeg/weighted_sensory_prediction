@@ -235,10 +235,26 @@ def plot_impact_baseline(input_to_increase_baseline, fs = 6, axs = None):
     axs[0,0].plot(input_to_increase_baseline, M_nPE, color=color_m_neuron) # BL_nPE
     axs[0,1].plot(input_to_increase_baseline, M_pPE, color=color_m_neuron) # BL_pPE
     axs[0,2].plot(input_to_increase_baseline, M_both, color=color_m_neuron) # BL_both
+    
+    axs[0,0].axhline(5, color=[0.7,0.7,0.7], ls=(0,(5,6)), zorder=0)
+    axs[0,1].axhline(5, color=[0.7,0.7,0.7], ls=(0,(5,6)), zorder=0)
+    axs[0,2].axhline(5, color=[0.7,0.7,0.7], ls=(0,(5,6)), zorder=0)
+    
+    axs[0,0].set_ylim(bottom=4)
+    axs[0,1].set_ylim(bottom=4)
+    axs[0,2].set_ylim(bottom=4)
      
     axs[1,0].plot(input_to_increase_baseline, V_nPE, color=color_v_neuron)
     axs[1,1].plot(input_to_increase_baseline, V_pPE, color=color_v_neuron)
     axs[1,2].plot(input_to_increase_baseline, V_both, color=color_v_neuron)
+    
+    axs[1,0].axhline(4, color=[0.7,0.7,0.7], ls=(0,(5,6)), zorder=0)
+    axs[1,1].axhline(4, color=[0.7,0.7,0.7], ls=(0,(5,6)), zorder=0)
+    axs[1,2].axhline(4, color=[0.7,0.7,0.7], ls=(0,(5,6)), zorder=0)
+    
+    axs[1,0].set_ylim(bottom=3)
+    axs[1,1].set_ylim(bottom=3)
+    axs[1,2].set_ylim(bottom=3)
     
     
     std_means = [0, 1, 1]

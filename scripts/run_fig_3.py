@@ -68,8 +68,8 @@ if run_cell:
     
 # %% Systematic exploration - record sensory weight
 
-run_cell = False
-plot_only = False
+run_cell = True
+plot_only = True
 
 if run_cell:
     
@@ -102,6 +102,14 @@ if run_cell:
                                 xlabel='variability across trial', 
                                 ylabel='variability within trial')
     
+    
+    
+    # alpha_best = np.zeros((6,6))
+    # for col, std_mean in enumerate(variability_across):
+        
+    #     for row, n_sd in enumerate(variability_within):
+            
+    #         alpha_best[row, col] = 1/(1 + n_sd**2/std_mean**2)
 
 # %% Impact of trial duration
 
