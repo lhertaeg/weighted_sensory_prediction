@@ -61,6 +61,57 @@ cmap_sensory_prediction = LinearSegmentedColormap.from_list(name='cmap_sensory_p
 
 # %% plot functions
 
+def plot_output_different_weightings(n_trials, trial_duration, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
+             v_neuron_higher, weighted_output, variance_threshold=1, define_similar_threshold=1, fs = 6, lw=1, 
+             xmins = [20,45,70], xmaxs = [30,55,80], axs=None):
+    
+        
+    if axs is None:
+        _, axs = plt.subplots(3, 3, sharey=True, sharex='col')
+        
+    time = np.arange(len(stimuli))/trial_duration
+
+    
+    for m in range(3):
+        
+        for n in range(3):
+            
+            ## define the approach/approximation
+            if n==0:
+                estimate = weighted_output
+            elif n==1:
+                estimate = 1*(v_neuron_lower<variance_threshold)*m_neuron_lower + (1-(v_neuron_lower<variance_threshold))*stimuli
+            elif n==2:
+                estimate = 1*(abs(m_neuron_lower - m_neuron_higher)<define_similar_threshold)*m_neuron_lower + (1-(abs(m_neuron_lower - m_neuron_higher)<define_similar_threshold))*stimuli
+        
+            ## plot the trials (shading)
+            for i in range(n_trials//2):
+                    axs[n,m].axvspan(2*i, (2*i+1), color='#F5F4F5')
+            
+            ## plot the stimuli and the weighted output
+            axs[n,m].plot(time, stimuli, color=color_stimuli_background, lw=lw, marker='|', ls="None")
+            axs[n,m].plot(time[time<=50], stimuli[time<=50], color='k', alpha=0.4, ls='--', lw=lw)
+            axs[n,m].plot(time[time>50], 5*np.ones_like(stimuli[time>50]), color='k', alpha=0.4, ls='--', lw=lw)
+            axs[n,m].plot(time, estimate, color=color_weighted_output, lw=lw)
+            axs[n,m].set_xlim([xmins[m],xmaxs[m]])
+    
+            if m==0:
+                sns.despine(ax = axs[n,m])
+                axs[n,m].tick_params(size=2.0) 
+                axs[n,m].tick_params(axis='both', labelsize=fs)
+                axs[n,m].locator_params(nbins=3, axis='both')
+            else:
+                sns.despine(ax = axs[n,m], left=True)
+                axs[n,m].yaxis.set_visible(False)
+                axs[n,m].tick_params(size=2.0) 
+                axs[n,m].tick_params(axis='both', labelsize=fs)
+                axs[n,m].locator_params(nbins=3, axis='both')
+                
+    axs[2,1].set_xlabel('Time (number of trials)', fontsize=fs)
+    axs[1,0].set_ylabel('Output (1/s)', fontsize=fs)
+    
+    
+
 def normal_dist(x , mean , sd):
     prob_density = np.exp(-0.5*((x-mean)/sd)**2) / (np.sqrt(2 * np.pi)*sd)
     return prob_density

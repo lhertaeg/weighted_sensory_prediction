@@ -25,7 +25,7 @@ inch = 2.54
 
 # %% Define files and paths
 
-figure_name = 'Fig_1_S2.png'
+figure_name = 'Fig_S2.png'
 figPath = '../results/figures/final/'
 
 if not os.path.exists(figPath):

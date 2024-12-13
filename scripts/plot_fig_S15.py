@@ -8,23 +8,23 @@ Created on Mon Jan  9 09:04:01 2023
 
 # %% import
 
-import pickle
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
+import numpy as np
 
-from src.plot_data import plot_example_contraction_bias, plot_std_vs_mean
+from src.plot_data import plot_neuromod_impact_inter, plot_illustration_neuromod_results
+
 
 # %% Universal parameters
 
 fs = 6
 inch = 2.54
-dtype = np.float32
+
 
 # %% Define files and paths
 
-figure_name = 'Fig_5_S1.png'
+figure_name = 'Fig_S15.png'
 figPath = '../results/figures/final/'
 
 if not os.path.exists(figPath):
@@ -33,48 +33,42 @@ if not os.path.exists(figPath):
 
 # %% Define figure structure
 
-figsize=(6/inch,2.5/inch)
+figsize=(12/inch,10/inch)
 fig = plt.figure(figsize=figsize)
 
-G = gridspec.GridSpec(1, 2, figure=fig, wspace=1, width_ratios=[1,2])#, hspace=0.6)
-ax_A = fig.add_subplot(G[0,0])
-ax_B = fig.add_subplot(G[0,1])
+G = gridspec.GridSpec(1, 3, figure=fig, wspace=0.1)
+A = gridspec.GridSpecFromSubplotSpec(3, 1, subplot_spec=G[0,0])
+B = gridspec.GridSpecFromSubplotSpec(3, 1, subplot_spec=G[0,1])
+C = gridspec.GridSpecFromSubplotSpec(3, 1, subplot_spec=G[0,2])
 
+ax_A1 = fig.add_subplot(A[0,0])
+ax_A2 = fig.add_subplot(A[1,0])
+ax_A3 = fig.add_subplot(A[2,0])
 
-# %% Scalar variability introduces stronger contraction bias for higher values
+ax_B1 = fig.add_subplot(B[0,0], sharey=ax_A1)
+ax_B2 = fig.add_subplot(B[1,0], sharey=ax_A2)
+ax_B3 = fig.add_subplot(B[2,0], sharey=ax_A3)
 
-# data_files
-min_mean_1, max_mean_1 = dtype(15), dtype(25)
-min_mean_2, max_mean_2 = dtype(25), dtype(35)
-m_std, n_std = dtype(1), dtype(-14)
-    
-file_for_data_1 = '../results/data/behavior/data_contraction_bias_trial_mean_range_' + str(max_mean_1 - min_mean_1) + '_max_mean_' + str(max_mean_1) + '.pickle'
-file_for_data_2 = '../results/data/behavior/data_contraction_bias_trial_mean_range_' + str(max_mean_2 - min_mean_2) + '_max_mean_' + str(max_mean_2) + '.pickle'
+ax_C1 = fig.add_subplot(C[0,0], sharey=ax_A1)
+ax_C2 = fig.add_subplot(C[1,0], sharey=ax_A2)
+ax_C3 = fig.add_subplot(C[2,0], sharey=ax_A3)
 
-if (not os.path.exists(file_for_data_1) or not os.path.exists(file_for_data_2)):
-    print('Data does not exist yet. Please run corresponding file.')
-else:
+plt.setp(ax_B1.get_yticklabels(), visible=False)
+plt.setp(ax_B2.get_yticklabels(), visible=False)
+plt.setp(ax_B3.get_yticklabels(), visible=False)
+plt.setp(ax_C1.get_yticklabels(), visible=False)
+plt.setp(ax_C2.get_yticklabels(), visible=False)
+plt.setp(ax_C3.get_yticklabels(), visible=False)
+
+axs = np.array([[ax_A1, ax_B1, ax_C1], [ax_A2, ax_B2, ax_C2], [ax_A3, ax_B3, ax_C3]])
+
+# %% Neuromodulators acting on interneurons for 2 limit cases
     
-    # load data
-    with open(file_for_data_1,'rb') as f:
-        [n_trials, _, _, stimuli_1, _, _, _, _, a1, _, weighted_output_1, trial_means_1] = pickle.load(f)
-        
-    with open(file_for_data_2,'rb') as f:
-        [n_trials, _, _, stimuli_2, _, _, _, _, a2, _, weighted_output_2, trial_means_2] = pickle.load(f)
-        
-    # plot data
-    weighted_output = np.vstack((weighted_output_2, weighted_output_1))
-    stimuli = np.vstack((stimuli_2, stimuli_1))
-    min_means = np.array([min_mean_2, min_mean_1])
-    max_means = np.array([max_mean_2, max_mean_1])
-    m_std = np.array([m_std, m_std])
-    n_std = np.array([n_std, n_std])
-    
-    plot_std_vs_mean(min_means, max_means, m_std, n_std, ax=ax_A)
-    plot_example_contraction_bias(weighted_output, stimuli, n_trials, num_trial_ss=np.int32(30), ms=2, fs=6,
-                                  min_means=min_means, max_means=max_means, m_std=m_std, n_std=n_std, 
-                                  figsize=(5,2.8), ax = ax_B) 
-    
+plot_neuromod_impact_inter(1, 1, 0, axs=axs)#, flg_plot_xlabel=False, flg_plot_bars=False)
+plot_neuromod_impact_inter(2, 1, 0, axs=axs)
+plot_neuromod_impact_inter(0, 1, 0, axs=axs)
+
+axs[0,0].legend(loc=0, frameon=False, handlelength=1, fontsize=fs)
 
 # %% save figure
 

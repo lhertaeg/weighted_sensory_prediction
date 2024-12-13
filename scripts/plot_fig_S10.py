@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan  9 09:04:01 2023
+Created on Thu Dec 12 14:10:23 2024
 
 @author: loreen.hertaeg
 """
@@ -9,12 +9,13 @@ Created on Mon Jan  9 09:04:01 2023
 # %% import
 
 import pickle
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os.path
+import numpy as np
 
-from src.plot_data import plot_impact_para
+from src.plot_data import plot_output_different_weightings
+
 
 # %% Universal parameters
 
@@ -24,7 +25,7 @@ inch = 2.54
 
 # %% Define files and paths
 
-figure_name = 'Fig_3_S2.png'
+figure_name = 'Fig_S10.png'
 figPath = '../results/figures/final/'
 
 if not os.path.exists(figPath):
@@ -33,73 +34,50 @@ if not os.path.exists(figPath):
 
 # %% Define figure structure
 
-figsize=(9/inch,3/inch)
+figsize=(12/inch,10/inch)
 fig = plt.figure(figsize=figsize)
 
-G = gridspec.GridSpec(1, 2, figure=fig, wspace=0.4)
+G = gridspec.GridSpec(3, 1, figure=fig, wspace=0.1)
+A = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G[0,0])
+B = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G[1,0])
+C = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=G[2,0])
 
-ax_A = fig.add_subplot(G[0,0])
-ax_A.text(-0.3, 1.35, 'A', transform=ax_A.transAxes, fontsize=fs+1)
-plt.setp(ax_A.get_xticklabels(), visible=False)
+ax_A1 = fig.add_subplot(A[0,0])
+ax_A1.text(-0.4, 1., 'A', transform=ax_A1.transAxes, fontsize=fs+1)
+ax_A2 = fig.add_subplot(A[0,1])
+ax_A3 = fig.add_subplot(A[0,2])
 
-ax_B = fig.add_subplot(G[0,1])
-ax_B.text(-0.2, 1.35, 'B', transform=ax_B.transAxes, fontsize=fs+1)
-plt.setp(ax_B.get_xticklabels(), visible=False)
+ax_B1 = fig.add_subplot(B[0,0], sharey=ax_A1)
+ax_B1.text(-0.4, 1., 'B', transform=ax_B1.transAxes, fontsize=fs+1)
+ax_B2 = fig.add_subplot(B[0,1], sharey=ax_A2, sharex=ax_A2)
+ax_B3 = fig.add_subplot(B[0,2], sharey=ax_A3, sharex=ax_A3)
 
+ax_C1 = fig.add_subplot(C[0,0], sharey=ax_A1)
+ax_C1.text(-0.4, 1., 'C', transform=ax_C1.transAxes, fontsize=fs+1)
+ax_C2 = fig.add_subplot(C[0,1], sharey=ax_A2, sharex=ax_A2)
+ax_C3 = fig.add_subplot(C[0,2], sharey=ax_A3, sharex=ax_A3)
 
-# %% Load control case and define variabilties tested
+plt.setp(ax_A1.get_xticklabels(), visible=False)
+plt.setp(ax_A2.get_xticklabels(), visible=False)
+plt.setp(ax_A3.get_xticklabels(), visible=False)
+plt.setp(ax_B1.get_xticklabels(), visible=False)
+plt.setp(ax_B2.get_xticklabels(), visible=False)
+plt.setp(ax_B3.get_xticklabels(), visible=False)
 
-variability_within = np.array([0, 0.75, 1.5, 2.25, 3])
-variability_across = np.array([3, 2.25, 1.5, 0.75, 0])
+axs = np.array([[ax_A1, ax_A2, ax_A3], [ax_B1, ax_B2, ax_B3], [ax_C1, ax_C2, ax_C3]])
 
-file_for_data = '../results/data/weighting/data_weighting_control.pickle'
+# %%  Run example in which the network faces a sudden transition to a state with high sensory noise 
+# compare different approaches
 
-if not os.path.exists(file_for_data):
-    print('Data does not exist yet. Please run corresponding file.')
-else:
-    
-    # load data
-    with open(file_for_data,'rb') as f:
-        [stimuli, n_ctrl, gain_w_PE_to_P_ctrl, gain_v_PE_to_P_ctrl, 
-         add_input_ctrl, id_cells_modulated_ctrl, weight_ctrl] = pickle.load(f)
+file_for_data = '../results/data/weighting/data_transition_10_01000_5503_compare.pickle'
 
-# %% Impact of update speed
+with open(file_for_data,'rb') as f:
+    [n_trials, trial_duration, _, stimuli, m_neuron_lower, v_neuron_lower, 
+     m_neuron_higher, v_neuron_higher, alpha, beta, weighted_output] = pickle.load(f)
 
-# data files
-file_for_data = '../results/data/weighting/data_weighting_connectivity_lower.pickle'
+plot_output_different_weightings(n_trials, trial_duration, stimuli, m_neuron_lower, v_neuron_lower, m_neuron_higher, 
+                                 v_neuron_higher, weighted_output, axs=axs)
 
-if not os.path.exists(file_for_data):
-    print('Data does not exist yet. Please run corresponding file.')
-else:
-    
-    # load data
-    with open(file_for_data,'rb') as f:
-        [gains_lower, weights_mod_con_lower] = pickle.load(f)
-        
-    # plot data
-    label_text = ['1', '< 1', '> 1']
-    weights_modulated = np.vstack((weights_mod_con_lower[:,0], weights_mod_con_lower[:,-1]))
-    plot_impact_para(variability_across, weight_ctrl, weights_modulated, para_range_tested=[gains_lower[0], gains_lower[-1]], 
-                     legend_title = r'w$_\mathrm{PE\rightarrow M, lower}$' + ' scaled by', label_text=label_text, ms=3, ax=ax_A)
-
-# %% Impact of activation function
-
-# data files
-file_for_data = '../results/data/weighting/data_weighting_activation_function.pickle'
-
-if not os.path.exists(file_for_data):
-    print('Data does not exist yet. Please run corresponding file.')
-else:
-    
-    # load data
-    with open(file_for_data,'rb') as f:
-            [_, _, _, _, _, _, weight_act] = pickle.load(f)
-        
-    
-    # plot data
-    label_text = [r'f(x) = x$^2$', 'f(x) = x']
-    plot_impact_para(variability_across, weight_ctrl, weight_act, plot_ylabel=False, ms=3, 
-                     legend_title = 'Impact of activation function', label_text=label_text, ax=ax_B)
 
 # %% save figure
 
