@@ -108,7 +108,7 @@ def plot_output_different_weightings(n_trials, trial_duration, stimuli, m_neuron
                 axs[n,m].locator_params(nbins=3, axis='both')
                 
     axs[2,1].set_xlabel('Time (number of trials)', fontsize=fs)
-    axs[1,0].set_ylabel('Output (1/s)', fontsize=fs)
+    axs[1,0].set_ylabel(r'Output, $r_\mathrm{out}$ (1/s)', fontsize=fs)
     
     
 
